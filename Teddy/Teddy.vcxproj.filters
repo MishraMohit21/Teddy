@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\OpenGL">
+      <UniqueIdentifier>{1E7D2C1D-8A08-9AE1-9319-1DD6FF23F6E1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Teddy">
+      <UniqueIdentifier>{7F23280E-EB37-50BF-B4B9-F31E208D4CF0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Teddy\Events">
+      <UniqueIdentifier>{830A6191-6F6D-F035-18F3-28EC0435BCB8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Teddy\ImGui">
+      <UniqueIdentifier>{E9FBA2E5-55B1-1BDB-DEA5-15B24A5A12DF}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h">
+      <Filter>Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy.h" />
+    <ClInclude Include="src\Teddy\Application.h">
+      <Filter>Teddy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Core.h">
+      <Filter>Teddy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\EntryPoint.h">
+      <Filter>Teddy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Events\ApplicationEvent.h">
+      <Filter>Teddy\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Events\Event.h">
+      <Filter>Teddy\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Events\KeyEvent.h">
+      <Filter>Teddy\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Events\MouseEvent.h">
+      <Filter>Teddy\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\ImGui\ImGuiLayer.h">
+      <Filter>Teddy\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Input.h">
+      <Filter>Teddy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\KeyCodes.h">
+      <Filter>Teddy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Layer.h">
+      <Filter>Teddy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\LayerStack.h">
+      <Filter>Teddy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Log.h">
+      <Filter>Teddy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\MouseButtonCodes.h">
+      <Filter>Teddy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Window.h">
+      <Filter>Teddy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tdpch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
+      <Filter>Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Application.cpp">
+      <Filter>Teddy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\ImGui\ImGuiLayer.cpp">
+      <Filter>Teddy\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Layer.cpp">
+      <Filter>Teddy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\LayerStack.cpp">
+      <Filter>Teddy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Log.cpp">
+      <Filter>Teddy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tdpch.cpp" />
+  </ItemGroup>
+</Project>
