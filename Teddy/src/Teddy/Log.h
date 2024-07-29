@@ -6,7 +6,7 @@
 
 namespace Teddy {
 
-	class Teddy_API Log
+	class TEDDY_API Log
 	{
 	public:
 		static void Init();

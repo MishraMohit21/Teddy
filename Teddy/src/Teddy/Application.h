@@ -9,7 +9,7 @@
 
 namespace Teddy {
 
-	class Teddy_API Application
+	class TEDDY_API Application
 	{
 	public:
 		Application();

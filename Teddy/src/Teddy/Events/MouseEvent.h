@@ -4,7 +4,7 @@
 
 namespace Teddy {
 
-	class Teddy_API MouseMovedEvent : public Event
+	class TEDDY_API MouseMovedEvent : public Event
 	{
 	public:
 		MouseMovedEvent(float x, float y)
@@ -26,7 +26,7 @@ namespace Teddy {
 		float m_MouseX, m_MouseY;
 	};
 
-	class Teddy_API MouseScrolledEvent : public Event
+	class TEDDY_API MouseScrolledEvent : public Event
 	{
 	public:
 		MouseScrolledEvent(float xOffset, float yOffset)
@@ -48,7 +48,7 @@ namespace Teddy {
 		float m_XOffset, m_YOffset;
 	};
 
-	class Teddy_API MouseButtonEvent : public Event
+	class TEDDY_API MouseButtonEvent : public Event
 	{
 	public:
 		inline int GetMouseButton() const { return m_Button; }
@@ -61,7 +61,7 @@ namespace Teddy {
 		int m_Button;
 	};
 
-	class Teddy_API MouseButtonPressedEvent : public MouseButtonEvent
+	class TEDDY_API MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
 		MouseButtonPressedEvent(int button)
@@ -77,7 +77,7 @@ namespace Teddy {
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
 
-	class Teddy_API MouseButtonReleasedEvent : public MouseButtonEvent
+	class TEDDY_API MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
 		MouseButtonReleasedEvent(int button)

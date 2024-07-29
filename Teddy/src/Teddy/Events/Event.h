@@ -35,7 +35,7 @@ namespace Teddy {
 
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
-	class Teddy_API Event
+	class TEDDY_API Event
 	{
 	public:
 		bool Handled = false;

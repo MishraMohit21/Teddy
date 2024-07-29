@@ -2,9 +2,9 @@
 
 #ifdef TD_PLATFORM_WINDOWS
 	#ifdef TD_BUILD_DLL
-		#define Teddy_API __declspec(dllexport)
+		#define TEDDY_API __declspec(dllexport)
 	#else
-		#define Teddy_API __declspec(dllimport)
+		#define TEDDY_API __declspec(dllimport)
 	#endif
 #else
 	#error Teddy only supports Windows!

@@ -1,0 +1,10 @@
+[submodule "Teddy/vendor/spdlog"]
+	path = Teddy/vendor/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "Teddy/vendor/GLFW"]
+	path = Teddy/vendor/GLFW
+	url = https://github.com/TheCherno/glfw
+[submodule "Teddy/vendor/imgui"]
+	path = Teddy/vendor/imgui
+	url = https://github.com/TheCherno/imgui
+	

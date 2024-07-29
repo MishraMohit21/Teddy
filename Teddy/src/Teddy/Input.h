@@ -4,7 +4,7 @@
 
 namespace Teddy {
 
-	class Teddy_API Input
+	class TEDDY_API Input
 	{
 	public:
 		inline static bool IsKeyPressed(int keycode) { return s_Instance->IsKeyPressedImpl(keycode); }
