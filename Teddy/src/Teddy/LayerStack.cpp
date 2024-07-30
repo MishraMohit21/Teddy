@@ -5,7 +5,7 @@ namespace Teddy {
 
 	LayerStack::LayerStack()
 	{
-		m_LayerInsert = m_Layers.begin();
+		m_LayerInsertIndex = 0;
 	}
 
 	LayerStack::~LayerStack()
@@ -16,12 +16,15 @@ namespace Teddy {
 
 	void LayerStack::PushLayer(Layer* layer)
 	{
-		m_LayerInsert = m_Layers.emplace(m_LayerInsert, layer);
+		m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, layer);
+		m_LayerInsertIndex++;
+		layer->OnAttach();
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay)
 	{
 		m_Layers.emplace_back(overlay);
+		overlay->OnAttach();
 	}
 
 	void LayerStack::PopLayer(Layer* layer)
@@ -30,7 +33,8 @@ namespace Teddy {
 		if (it != m_Layers.end())
 		{
 			m_Layers.erase(it);
-			m_LayerInsert--;
+			layer->OnDetach();
+			m_LayerInsertIndex--;
 		}
 	}
 
@@ -39,6 +43,7 @@ namespace Teddy {
 		auto it = std::find(m_Layers.begin(), m_Layers.end(), overlay);
 		if (it != m_Layers.end())
 			m_Layers.erase(it);
+		overlay->OnDetach();
 	}
 
 }

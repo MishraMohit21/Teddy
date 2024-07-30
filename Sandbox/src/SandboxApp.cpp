@@ -1,5 +1,7 @@
 #include <Teddy.h>
 
+#include <imgui/imgui.h>
+
 class ExampleLayer : public Teddy::Layer
 {
 public:
@@ -12,6 +14,15 @@ public:
 	{
 		if (Teddy::Input::IsKeyPressed(TD_KEY_TAB))
 			TD_TRACE("Tab key is pressed (poll)!");
+	}
+
+	virtual void OnImGuiRender() override
+	{
+
+		ImGui::Begin("Test");
+		ImGui::Text("Hello Test Layer");
+		ImGui::End();
+
 	}
 
 	void OnEvent(Teddy::Event& event) override
