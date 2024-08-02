@@ -1,14 +1,26 @@
 #pragma once
 
+
+
+
 #ifdef TD_PLATFORM_WINDOWS
+#if TD_DYNAMIC_LINK
 	#ifdef TD_BUILD_DLL
 		#define TEDDY_API __declspec(dllexport)
 	#else
 		#define TEDDY_API __declspec(dllimport)
 	#endif
 #else
+	#define TEDDY_API
+#endif
+#else
 	#error Teddy only supports Windows!
 #endif
+
+
+
+
+
 
 #ifdef TD_DEBUG
 	#define TD_ENABLE_ASSERTS

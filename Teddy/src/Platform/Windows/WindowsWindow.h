@@ -2,7 +2,11 @@
 
 #include "Teddy/Window.h"
 
-#include <GLFW/glfw3.h>
+#include "Teddy/Events/ApplicationEvent.h"
+#include "Teddy/Events/MouseEvent.h"
+#include "Teddy/Events/KeyEvent.h"
+
+#include <Platform/OpenGL/OpenGLContext.h>
 
 namespace Teddy {
 
@@ -28,6 +32,8 @@ namespace Teddy {
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
+
+		OpenGLContext* m_Context;
 
 		struct WindowData
 		{

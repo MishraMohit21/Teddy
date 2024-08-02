@@ -12,17 +12,9 @@ public:
 
 	void OnUpdate() override
 	{
+		OnImGuiRender();
 		if (Teddy::Input::IsKeyPressed(TD_KEY_TAB))
 			TD_TRACE("Tab key is pressed (poll)!");
-	}
-
-	virtual void OnImGuiRender() override
-	{
-
-		ImGui::Begin("Test");
-		ImGui::Text("Hello Test Layer");
-		ImGui::End();
-
 	}
 
 	void OnEvent(Teddy::Event& event) override
@@ -36,6 +28,14 @@ public:
 		}
 	}
 
+	virtual void OnImGuiRender() override
+	{
+
+		//ImGui::Begin("Test");
+		//ImGui::Text("Hello World");
+		//ImGui::End();
+	}
+
 };
 
 class Sandbox : public Teddy::Application
@@ -44,7 +44,7 @@ public:
 	Sandbox()
 	{
 		PushLayer(new ExampleLayer());
-		PushOverlay(new Teddy::ImGuiLayer());
+		
 	}
 
 	~Sandbox()
