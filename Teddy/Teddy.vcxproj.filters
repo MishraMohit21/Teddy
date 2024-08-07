@@ -73,6 +73,10 @@
     <ClInclude Include="src\tdpch.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Teddy\Renderer\GraphicContext.h" />
+    <ClInclude Include="src\Teddy\Renderer\Shader.h" />
+    <ClInclude Include="src\Teddy\Renderer\Buffer.h" />
+    <ClInclude Include="src\Teddy\Renderer\Rendrer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
@@ -101,5 +105,9 @@
       <Filter>Teddy\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Teddy\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Teddy\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Teddy\Renderer\Rendrer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRenderer.cpp" />
   </ItemGroup>
 </Project>

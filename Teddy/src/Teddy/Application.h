@@ -7,6 +7,8 @@
 #include "Teddy/ImGui/ImGuiLayer.h"
 #include "Teddy/Events/Event.h"
 #include "Teddy/Events/ApplicationEvent.h"
+#include "Teddy/Renderer/Shader.h"
+#include "Teddy/Renderer/Buffer.h"
 
 namespace Teddy {
 
@@ -35,7 +37,10 @@ namespace Teddy {
 		LayerStack m_LayerStack;
 		ImGuiLayer* m_ImGuiLayer;
 
-		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		std::shared_ptr<Shader> m_Shader;
+		std::shared_ptr<VertexBuffer> m_VertexBuffer;
+		std::shared_ptr<IndexBuffer> m_IndexBuffer;
+		unsigned int m_VertexArray;
 	private:
 		static Application* s_Instance;
 	};
