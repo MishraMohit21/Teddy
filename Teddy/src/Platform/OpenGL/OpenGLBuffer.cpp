@@ -1,5 +1,5 @@
 #include "tdpch.h"
-#include "OpenGLRenderer.h"
+#include "OpenGLBuffer.h"
 #include "glad/glad.h"
 
 namespace Teddy

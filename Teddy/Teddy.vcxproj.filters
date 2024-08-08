@@ -76,7 +76,7 @@
     <ClInclude Include="src\Teddy\Renderer\Shader.h" />
     <ClInclude Include="src\Teddy\Renderer\Buffer.h" />
     <ClInclude Include="src\Teddy\Renderer\Rendrer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLRenderer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
@@ -108,6 +108,6 @@
     <ClCompile Include="src\Teddy\Renderer\Shader.cpp" />
     <ClCompile Include="src\Teddy\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Teddy\Renderer\Rendrer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLRenderer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
   </ItemGroup>
 </Project>

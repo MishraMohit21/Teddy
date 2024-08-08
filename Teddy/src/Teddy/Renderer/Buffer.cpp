@@ -1,7 +1,7 @@
 #include "tdpch.h"
 #include "Buffer.h"
 #include "Rendrer.h"
-#include "Platform/OpenGL/OpenGLRenderer.h"
+#include "Platform/OpenGL/OpenGLBuffer.h"
 
 namespace Teddy
 {
