@@ -77,6 +77,11 @@
     <ClInclude Include="src\Teddy\Renderer\Buffer.h" />
     <ClInclude Include="src\Teddy\Renderer\Rendrer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
+    <ClInclude Include="src\Teddy\Renderer\VertexArray.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
+    <ClInclude Include="src\Teddy\Renderer\RendererAPI.h" />
+    <ClInclude Include="src\Teddy\Renderer\RendererCommand.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
@@ -109,5 +114,10 @@
     <ClCompile Include="src\Teddy\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Teddy\Renderer\Rendrer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
+    <ClCompile Include="src\Teddy\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
+    <ClCompile Include="src\Teddy\Renderer\RendererAPI.cpp" />
+    <ClCompile Include="src\Teddy\Renderer\RendererCommand.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
   </ItemGroup>
 </Project>

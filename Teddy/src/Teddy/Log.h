@@ -25,11 +25,11 @@ namespace Teddy {
 #define TD_CORE_INFO(...)     ::Teddy::Log::GetCoreLogger()->info(__VA_ARGS__)
 #define TD_CORE_WARN(...)     ::Teddy::Log::GetCoreLogger()->warn(__VA_ARGS__)
 #define TD_CORE_ERROR(...)    ::Teddy::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define TD_CORE_FATAL(...)    ::Teddy::Log::GetCoreLogger()->fatal(__VA_ARGS__)
+#define TD_CORE_CRITICAL(...)    ::Teddy::Log::GetCoreLogger()->fatal(__VA_ARGS__)
 
 // Client log macros
 #define TD_TRACE(...)	      ::Teddy::Log::GetClientLogger()->trace(__VA_ARGS__)
 #define TD_INFO(...)	      ::Teddy::Log::GetClientLogger()->info(__VA_ARGS__)
 #define TD_WARN(...)	      ::Teddy::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define TD_ERROR(...)	      ::Teddy::Log::GetClientLogger()->error(__VA_ARGS__)
-#define TD_FATAL(...)	      ::Teddy::Log::GetClientLogger()->fatal(__VA_ARGS__)
+#define TD_CRITICAL(...)	      ::Teddy::Log::GetClientLogger()->fatal(__VA_ARGS__)
