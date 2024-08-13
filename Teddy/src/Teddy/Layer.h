@@ -2,6 +2,7 @@
 
 #include "Teddy/Core.h"
 #include "Teddy/Events/Event.h"
+#include "Teddy/Core/Timestep.h"
 
 namespace Teddy {
 
@@ -13,7 +14,7 @@ namespace Teddy {
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep ts) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 

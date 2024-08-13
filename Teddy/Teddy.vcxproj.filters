@@ -82,6 +82,8 @@
     <ClInclude Include="src\Teddy\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Teddy\Renderer\RendererCommand.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\Teddy\Renderer\Camera.h" />
+    <ClInclude Include="src\Teddy\Core\Timestep.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
@@ -119,5 +121,6 @@
     <ClCompile Include="src\Teddy\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Teddy\Renderer\RendererCommand.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\Teddy\Renderer\Camera.cpp" />
   </ItemGroup>
 </Project>

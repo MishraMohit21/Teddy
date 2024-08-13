@@ -7,9 +7,7 @@
 #include "Teddy/ImGui/ImGuiLayer.h"
 #include "Teddy/Events/Event.h"
 #include "Teddy/Events/ApplicationEvent.h"
-#include "Teddy/Renderer/Shader.h"
-#include "Teddy/Renderer/Buffer.h"
-#include "Teddy/Renderer/VertexArray.h"
+
 
 namespace Teddy {
 
@@ -32,16 +30,14 @@ namespace Teddy {
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 
+
+	private:
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+		float LastFrameTime = 0.0f;
 
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
-
-		std::shared_ptr<Shader> m_BlueShader;
-		std::shared_ptr<VertexArray> m_SquareVA;
 	private:
 		static Application* s_Instance;
 	};

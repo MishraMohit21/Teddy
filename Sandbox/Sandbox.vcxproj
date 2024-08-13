@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>TD_PLATFORM_WINDOWS;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;TD_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\dev\Teddy\Teddy\vendor;..\Teddy\src;C:\dev\Teddy\Teddy\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\dev\Teddy\Teddy\vendor;..\Teddy\src;C:\dev\Teddy\Teddy\vendor\spdlog\include;%(AdditionalIncludeDirectories);../Teddy/vecdor/glm;C:\dev\Teddy\Teddy\vendor\glm</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -96,7 +96,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>TD_PLATFORM_WINDOWS;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;TD_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Teddy\vendor\spdlog\include;..\Teddy\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Teddy\vendor\spdlog\include;..\Teddy\src;%(AdditionalIncludeDirectories);../Teddy/vecdor/glm;C:\dev\Teddy\Teddy\vendor\glm</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -117,7 +117,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>TD_PLATFORM_WINDOWS;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;TD_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Teddy\vendor\spdlog\include;..\Teddy\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Teddy\vendor\spdlog\include;..\Teddy\src;%(AdditionalIncludeDirectories);../Teddy/vecdor/glm;C:\dev\Teddy\Teddy\vendor\glm</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
