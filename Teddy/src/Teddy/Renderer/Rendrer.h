@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Platform/OpenGL/OpenGLShader.h"
+
 #include "RendererCommand.h"
 #include "Camera.h"
 #include "Shader.h"
