@@ -1,6 +1,5 @@
 #pragma once
-
-
+#include <memory>
 
 
 #ifdef TD_PLATFORM_WINDOWS
@@ -37,3 +36,15 @@
 #define BIT(x) (1 << x)
 
 #define TD_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
+namespace Teddy
+{
+
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+
+
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+
+}

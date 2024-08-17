@@ -18,7 +18,9 @@ public:
 			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
 		};
 
-		std::shared_ptr<Teddy::VertexBuffer> vertexBuffer;
+		m_CameraPositionDefault = m_CameraPosition;
+
+		Teddy::Ref<Teddy::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(Teddy::VertexBuffer::Create(vertices, sizeof(vertices)));
 		Teddy::BufferLayout layout = {
 			{ Teddy::ShaderDataType::Float3, "a_Position" },
@@ -28,28 +30,30 @@ public:
 		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
 		uint32_t indices[3] = { 0, 1, 2 };
-		std::shared_ptr<Teddy::IndexBuffer> indexBuffer;
+		Teddy::Ref<Teddy::IndexBuffer> indexBuffer;
 		indexBuffer.reset(Teddy::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
 		m_SquareVA.reset(Teddy::VertexArray::Create());
 
-		float squareVertices[3 * 4] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f
+		float squareVertices[5 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f,	1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
-		std::shared_ptr<Teddy::VertexBuffer> squareVB;
+		Teddy::Ref<Teddy::VertexBuffer> squareVB;
 		squareVB.reset(Teddy::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 		squareVB->SetLayout({
-			{ Teddy::ShaderDataType::Float3, "a_Position" }
+			{ Teddy::ShaderDataType::Float3, "a_Position" },
+			{ Teddy::ShaderDataType::Float2, "a_TexCoord" }
+
 			});
 		m_SquareVA->AddVertexBuffer(squareVB);
 
 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		std::shared_ptr<Teddy::IndexBuffer> squareIB;
+		Teddy::Ref<Teddy::IndexBuffer> squareIB;
 		squareIB.reset(Teddy::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
@@ -123,24 +127,67 @@ public:
 		)";
 
 		m_FlatColorShader.reset(Teddy::Shader::Create(flatColorShaderVertexSrc, flatColorShaderFragmentSrc));
+
+
+		std::string textureShaderVertexSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec2 a_TexCoord;
+			
+
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+
+			out vec2 v_TexCoord;
+
+			void main()
+			{
+				v_TexCoord = a_TexCoord;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
+			}
+		)";
+
+		std::string textureShaderFragmentSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+
+			in vec2 v_TexCoord;
+			
+			
+			uniform sampler2D u_Texture;
+
+			void main()
+			{
+				color = texture(u_Texture, v_TexCoord);
+			}
+		)";
+
+		m_TextureShader.reset(Teddy::Shader::Create(textureShaderVertexSrc, textureShaderFragmentSrc));
+
+		m_Texture = Teddy::Texture2D::Create("./assests/textures/image.jpg");
+
+		std::dynamic_pointer_cast<Teddy::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<Teddy::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Teddy::Timestep ts) override
 	{
 		if (Teddy::Input::IsKeyPressed(TD_KEY_LEFT))
-			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
-		else if (Teddy::Input::IsKeyPressed(TD_KEY_RIGHT))
 			m_CameraPosition.x += m_CameraMoveSpeed * ts;
+		else if (Teddy::Input::IsKeyPressed(TD_KEY_RIGHT))
+			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
 
 		if (Teddy::Input::IsKeyPressed(TD_KEY_UP))
-			m_CameraPosition.y += m_CameraMoveSpeed * ts;
-		else if (Teddy::Input::IsKeyPressed(TD_KEY_DOWN))
 			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
+		else if (Teddy::Input::IsKeyPressed(TD_KEY_DOWN))
+			m_CameraPosition.y += m_CameraMoveSpeed * ts;
 
 		if (Teddy::Input::IsKeyPressed(TD_KEY_A))
-			m_CameraRotation += m_CameraRotationSpeed * ts;
-		if (Teddy::Input::IsKeyPressed(TD_KEY_D))
 			m_CameraRotation -= m_CameraRotationSpeed * ts;
+		if (Teddy::Input::IsKeyPressed(TD_KEY_D))
+			m_CameraRotation += m_CameraRotationSpeed * ts;
 
 		Teddy::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		Teddy::RendererCommand::Clear();
@@ -164,8 +211,11 @@ public:
 				Teddy::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
 			}
 		}
+				//Teddy::Renderer::Submit(m_Shader, m_VertexArray);
+		m_Texture->Bind();
 
-		Teddy::Renderer::Submit(m_Shader, m_VertexArray);
+		Teddy::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+
 
 		Teddy::Renderer::EndScene();
 	}
@@ -174,22 +224,38 @@ public:
 	{
 		ImGui::Begin("Settings");
 		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
+		if (ImGui::Button("Reset Rotation"))
+		{
+			m_CameraRotation = 0.0f;
+		}
+
+		if (ImGui::Button("Reset Transform"))
+		{
+			m_CameraPosition = m_CameraPositionDefault;
+		}
+
+		//ImGui::SliderFloat("Scale of Square", &scale, 0.0, 0.1f);
 		ImGui::End();
 	}
 
 	void OnEvent(Teddy::Event& event) override
 	{
 	}
-private:
-	std::shared_ptr<Teddy::Shader> m_Shader;
-	std::shared_ptr<Teddy::VertexArray> m_VertexArray;
 
-	std::shared_ptr<Teddy::Shader> m_FlatColorShader;
-	std::shared_ptr<Teddy::VertexArray> m_SquareVA;
+private:
+	Teddy::Ref<Teddy::Shader> m_Shader;
+	Teddy::Ref<Teddy::VertexArray> m_VertexArray;
+
+	Teddy::Ref <Teddy::Texture2D> m_Texture;
+	
+	Teddy::Ref<Teddy::Shader> m_FlatColorShader, m_TextureShader;
+	Teddy::Ref<Teddy::VertexArray> m_SquareVA;
 
 	Teddy::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
+	glm::vec3 m_CameraPositionDefault;
 	float m_CameraMoveSpeed = 5.0f;
+	float scale = 0.1f;
 
 	float m_CameraRotation = 0.0f;
 	float m_CameraRotationSpeed = 180.0f;
