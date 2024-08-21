@@ -141,6 +141,11 @@
       <Project>{7F23280E-EB37-50BF-B4B9-F31E208D4CF0}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="assests\Shader\flatColorShader.glsl" />
+    <None Include="assests\Shader\m_Shader.glsl" />
+    <None Include="assests\Shader\Texture.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

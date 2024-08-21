@@ -16,4 +16,9 @@
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="assests\Shader\Texture.glsl" />
+    <None Include="assests\Shader\m_Shader.glsl" />
+    <None Include="assests\Shader\flatColorShader.glsl" />
+  </ItemGroup>
 </Project>
