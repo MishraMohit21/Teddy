@@ -18,6 +18,8 @@ namespace Teddy
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
 
+		virtual const std::string GetName() override { return m_Name; }
+
 		void UploadUniformInt(const std::string& name, int value);
 
 		void UploadUniformFloat(const std::string& name, float value);

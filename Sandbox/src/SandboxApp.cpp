@@ -57,13 +57,49 @@ public:
 		squareIB.reset(Teddy::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
-		m_Shader.reset(Teddy::Shader::Create("./assests/Shader/m_Shader.glsl"));
-
-		m_FlatColorShader.reset(Teddy::Shader::Create("./assests/Shader/flatColorShader.glsl"));
-		std::dynamic_pointer_cast<Teddy::OpenGLShader>(m_FlatColorShader)->Bind();
+		m_Shader = Teddy::Shader::Create("./assests/Shader/m_Shader.glsl");
 
 
-		m_TextureShader.reset(Teddy::Shader::Create("./assests/Shader/Texture.glsl"));
+		std::string flatColorShaderVertexSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+
+			out vec3 v_Position;
+
+			void main()
+			{
+				v_Position = a_Position;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
+			}
+		)";
+
+		std::string flatColorShaderFragmentSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+
+			in vec3 v_Position;
+			
+			uniform vec3 u_Color;
+
+			void main()
+			{
+				color = vec4(u_Color, 1.0);
+			}
+		)";
+
+		m_FlatColorShader = Teddy::Shader::Create("FlatColor", flatColorShaderVertexSrc, flatColorShaderFragmentSrc);
+
+
+		//m_FlatColorShader = Teddy::Shader::Create("./assests/Shader/flatColorShader.glsl");
+		//std::dynamic_pointer_cast<Teddy::OpenGLShader>(m_FlatColorShader)->Bind();
+
+
+		m_TextureShader = Teddy::Shader::Create("./assests/Shader/Texture.glsl");
 
 		m_Texture = Teddy::Texture2D::Create("./assests/textures/Checkerboard.png");
 
