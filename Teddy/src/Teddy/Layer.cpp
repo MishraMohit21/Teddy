@@ -7,10 +7,5 @@ namespace Teddy {
 		: m_DebugName(debugName)
 	{
 	}
-
-	Layer::~Layer()
-	{
-
-	}
-
+	
 }

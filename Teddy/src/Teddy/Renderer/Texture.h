@@ -1,10 +1,10 @@
 #pragma once
 
 #include <string>
-#include <Teddy/Core.h>
 
-namespace Teddy
-{
+#include "Teddy/Core.h"
+
+namespace Teddy {
 
 	class Texture
 	{
@@ -17,7 +17,6 @@ namespace Teddy
 		virtual void Bind(uint32_t slot = 0) const = 0;
 	};
 
-	
 	class Texture2D : public Texture
 	{
 	public:

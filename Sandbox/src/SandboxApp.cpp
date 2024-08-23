@@ -1,14 +1,17 @@
 #include <Teddy.h>
-#include <Platform/OpenGL/OpenGLShader.h>
+
+#include "Platform/OpenGL/OpenGLShader.h"
+
+#include "imgui/imgui.h"
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <imgui/imgui.h>
 
 class ExampleLayer : public Teddy::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f)
+		: Layer("Example"), m_CameraController(1280.0f / 720.0f)
 	{
 		m_VertexArray.reset(Teddy::VertexArray::Create());
 
@@ -17,8 +20,6 @@ public:
 			 0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
 			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
 		};
-
-		m_CameraPositionDefault = m_CameraPosition;
 
 		Teddy::Ref<Teddy::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(Teddy::VertexBuffer::Create(vertices, sizeof(vertices)));
@@ -38,7 +39,7 @@ public:
 
 		float squareVertices[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-			 0.5f, -0.5f, 0.0f,	1.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
 			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
 			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
@@ -48,7 +49,6 @@ public:
 		squareVB->SetLayout({
 			{ Teddy::ShaderDataType::Float3, "a_Position" },
 			{ Teddy::ShaderDataType::Float2, "a_TexCoord" }
-
 			});
 		m_SquareVA->AddVertexBuffer(squareVB);
 
@@ -57,8 +57,42 @@ public:
 		squareIB.reset(Teddy::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
-		m_Shader = Teddy::Shader::Create("./assests/Shader/m_Shader.glsl");
+		std::string vertexSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec4 a_Color;
 
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+
+			out vec3 v_Position;
+			out vec4 v_Color;
+
+			void main()
+			{
+				v_Position = a_Position;
+				v_Color = a_Color;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
+			}
+		)";
+
+		std::string fragmentSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+
+			in vec3 v_Position;
+			in vec4 v_Color;
+
+			void main()
+			{
+				color = vec4(v_Position * 0.5 + 0.5, 1.0);
+				color = v_Color;
+			}
+		)";
+
+		m_Shader = Teddy::Shader::Create("VertexPosColor", vertexSrc, fragmentSrc);
 
 		std::string flatColorShaderVertexSrc = R"(
 			#version 330 core
@@ -94,54 +128,30 @@ public:
 
 		m_FlatColorShader = Teddy::Shader::Create("FlatColor", flatColorShaderVertexSrc, flatColorShaderFragmentSrc);
 
+		auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 
-		//m_FlatColorShader = Teddy::Shader::Create("./assests/Shader/flatColorShader.glsl");
-		//std::dynamic_pointer_cast<Teddy::OpenGLShader>(m_FlatColorShader)->Bind();
+		m_Texture = Teddy::Texture2D::Create("assets/textures/Checkerboard.png");
+		m_ChernoLogoTexture = Teddy::Texture2D::Create("assets/textures/ChernoLogo.png");
 
-
-		m_TextureShader = Teddy::Shader::Create("./assests/Shader/Texture.glsl");
-
-		m_Texture = Teddy::Texture2D::Create("./assests/textures/Checkerboard.png");
-
-		m_ChernoLogo = Teddy::Texture2D::Create("./assests/textures/ladka.png");
-
-		std::dynamic_pointer_cast<Teddy::OpenGLShader>(m_TextureShader)->Bind();
-		std::dynamic_pointer_cast<Teddy::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
-
-
-		
+		std::dynamic_pointer_cast<Teddy::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<Teddy::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Teddy::Timestep ts) override
 	{
-		if (Teddy::Input::IsKeyPressed(TD_KEY_LEFT))
-			m_CameraPosition.x += m_CameraMoveSpeed * ts;
-		else if (Teddy::Input::IsKeyPressed(TD_KEY_RIGHT))
-			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
+		// Update
+		m_CameraController.OnUpdate(ts);
 
-		if (Teddy::Input::IsKeyPressed(TD_KEY_UP))
-			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
-		else if (Teddy::Input::IsKeyPressed(TD_KEY_DOWN))
-			m_CameraPosition.y += m_CameraMoveSpeed * ts;
+		// Render
+		Teddy::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+		Teddy::RenderCommand::Clear();
 
-		if (Teddy::Input::IsKeyPressed(TD_KEY_A))
-			m_CameraRotation -= m_CameraRotationSpeed * ts;
-		if (Teddy::Input::IsKeyPressed(TD_KEY_D))
-			m_CameraRotation += m_CameraRotationSpeed * ts;
-
-		Teddy::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-		Teddy::RendererCommand::Clear();
-
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
-
-		Teddy::Renderer::BeginScene(m_Camera);
+		Teddy::Renderer::BeginScene(m_CameraController.GetCamera());
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
-
+		std::dynamic_pointer_cast<Teddy::OpenGLShader>(m_FlatColorShader)->Bind();
 		std::dynamic_pointer_cast<Teddy::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_Color", m_SquareColor);
-
 
 		for (int y = 0; y < 20; y++)
 		{
@@ -153,19 +163,15 @@ public:
 			}
 		}
 
+		auto textureShader = m_ShaderLibrary.Get("Texture");
 
-		Teddy::Renderer::Submit(m_Shader, m_VertexArray, glm::translate(glm::mat4(1.0f), glm::vec3(-0.5f, -0.5f, 0.0f)));
-
-		// Jo bhi  texture bind ho rakha hoga woh render hoga
 		m_Texture->Bind();
-		Teddy::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.1f)) * glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, -0.5f, 0.0f)));
-		
+		Teddy::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		m_ChernoLogoTexture->Bind();
+		Teddy::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
-
-		m_ChernoLogo->Bind(); 
-		Teddy::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.1f)) * glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, -0.5f, 0.0f)));
-
-
+		// Triangle
+		// Teddy::Renderer::Submit(m_Shader, m_VertexArray);
 
 		Teddy::Renderer::EndScene();
 	}
@@ -174,42 +180,24 @@ public:
 	{
 		ImGui::Begin("Settings");
 		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
-		if (ImGui::Button("Reset Rotation"))
-		{
-			m_CameraRotation = 0.0f;
-		}
-
-		if (ImGui::Button("Reset Transform"))
-		{
-			m_CameraPosition = m_CameraPositionDefault;
-		}
-
-		//ImGui::SliderFloat("Scale of Square", &scale, 0.0, 0.1f);
 		ImGui::End();
 	}
 
-	void OnEvent(Teddy::Event& event) override
+	void OnEvent(Teddy::Event& e) override
 	{
+		m_CameraController.OnEvent(e);
 	}
-
 private:
+	Teddy::ShaderLibrary m_ShaderLibrary;
 	Teddy::Ref<Teddy::Shader> m_Shader;
 	Teddy::Ref<Teddy::VertexArray> m_VertexArray;
 
-	Teddy::Ref <Teddy::Texture2D> m_Texture, m_ChernoLogo;
-	
-	Teddy::Ref<Teddy::Shader> m_FlatColorShader, m_TextureShader;
+	Teddy::Ref<Teddy::Shader> m_FlatColorShader;
 	Teddy::Ref<Teddy::VertexArray> m_SquareVA;
 
-	Teddy::OrthographicCamera m_Camera;
-	glm::vec3 m_CameraPosition;
-	glm::vec3 m_CameraPositionDefault;
-	float m_CameraMoveSpeed = 5.0f;
-	float scale = 0.1f;
+	Teddy::Ref<Teddy::Texture2D> m_Texture, m_ChernoLogoTexture;
 
-	float m_CameraRotation = 0.0f;
-	float m_CameraRotationSpeed = 180.0f;
-
+	Teddy::OrthographicCameraController m_CameraController;
 	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
 };
 

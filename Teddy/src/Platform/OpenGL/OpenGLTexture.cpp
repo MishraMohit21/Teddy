@@ -1,12 +1,13 @@
-#include <tdpch.h>
+#include "tdpch.h"
 #include "OpenGLTexture.h"
 
-#include <stb_image.h>
+#include "stb_image.h"
+
 #include <glad/glad.h>
 
-namespace Teddy
-{
-	OpneGLTexture2D::OpneGLTexture2D(const std::string path) 
+namespace Teddy {
+
+	OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
 		: m_Path(path)
 	{
 		int width, height, channels;
@@ -15,37 +16,38 @@ namespace Teddy
 		TD_CORE_ASSERT(data, "Failed to load image!");
 		m_Width = width;
 		m_Height = height;
-		
-		GLenum internalFormat, dataFormat;
-		if (channels == 3)
-		{
-			internalFormat = GL_RGB8;
-			dataFormat = GL_RGB;
-		}
-		else if (channels == 4)
+
+		GLenum internalFormat = 0, dataFormat = 0;
+		if (channels == 4)
 		{
 			internalFormat = GL_RGBA8;
 			dataFormat = GL_RGBA;
 		}
+		else if (channels == 3)
+		{
+			internalFormat = GL_RGB8;
+			dataFormat = GL_RGB;
+		}
+
+		TD_CORE_ASSERT(internalFormat & dataFormat, "Format not supported!");
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
 		glTextureStorage2D(m_RendererID, 1, internalFormat, m_Width, m_Height);
 
-		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, dataFormat, GL_UNSIGNED_BYTE, data);
 
 		stbi_image_free(data);
-
 	}
 
-	OpneGLTexture2D::~OpneGLTexture2D()
+	OpenGLTexture2D::~OpenGLTexture2D()
 	{
 		glDeleteTextures(1, &m_RendererID);
 	}
-	
-	void OpneGLTexture2D::Bind(uint32_t slot) const
+
+	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
 		glBindTextureUnit(slot, m_RendererID);
 	}

@@ -7,7 +7,7 @@
 
 namespace Teddy {
 
-	class TEDDY_API LayerStack
+	class  LayerStack
 	{
 	public:
 		LayerStack();

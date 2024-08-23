@@ -1,16 +1,16 @@
 #pragma once
 
 #include "Teddy/Core.h"
-#include "Teddy/Events/Event.h"
 #include "Teddy/Core/Timestep.h"
+#include "Teddy/Events/Event.h"
 
 namespace Teddy {
 
-	class TEDDY_API Layer
+	class  Layer
 	{
 	public:
 		Layer(const std::string& name = "Layer");
-		virtual ~Layer();
+		virtual ~Layer() = default;
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}

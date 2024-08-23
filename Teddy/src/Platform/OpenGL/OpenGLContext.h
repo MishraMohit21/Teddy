@@ -1,22 +1,20 @@
 #pragma once
 
-#include <Teddy/Renderer/GraphicContext.h>
+#include "Teddy/Renderer/GraphicsContext.h"
 
 struct GLFWwindow;
 
-namespace Teddy
-{
+namespace Teddy {
 
-	class OpenGLContext : public GraphicContext
+	class OpenGLContext : public GraphicsContext
 	{
 	public:
 		OpenGLContext(GLFWwindow* windowHandle);
 
-		virtual void init() override;
-		virtual void swapbuffer() override;
-
+		virtual void Init() override;
+		virtual void SwapBuffers() override;
 	private:
-		GLFWwindow* m_windowHandle;
+		GLFWwindow* m_WindowHandle;
 	};
 
 }

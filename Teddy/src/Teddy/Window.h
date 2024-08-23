@@ -22,12 +22,12 @@ namespace Teddy {
 	};
 
 	// Interface representing a desktop system based Window
-	class TEDDY_API Window
+	class  Window
 	{
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;
 
-		virtual ~Window() {}
+		virtual ~Window() = default;
 
 		virtual void OnUpdate() = 0;
 

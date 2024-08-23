@@ -4,7 +4,7 @@
 
 namespace Teddy {
 
-	class TEDDY_API WindowResizeEvent : public Event
+	class  WindowResizeEvent : public Event
 	{
 	public:
 		WindowResizeEvent(unsigned int width, unsigned int height)
@@ -26,7 +26,7 @@ namespace Teddy {
 		unsigned int m_Width, m_Height;
 	};
 
-	class TEDDY_API WindowCloseEvent : public Event
+	class  WindowCloseEvent : public Event
 	{
 	public:
 		WindowCloseEvent() {}
@@ -35,7 +35,7 @@ namespace Teddy {
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class TEDDY_API AppTickEvent : public Event
+	class  AppTickEvent : public Event
 	{
 	public:
 		AppTickEvent() {}
@@ -44,7 +44,7 @@ namespace Teddy {
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class TEDDY_API AppUpdateEvent : public Event
+	class  AppUpdateEvent : public Event
 	{
 	public:
 		AppUpdateEvent() {}
@@ -53,7 +53,7 @@ namespace Teddy {
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class TEDDY_API AppRenderEvent : public Event
+	class  AppRenderEvent : public Event
 	{
 	public:
 		AppRenderEvent() {}

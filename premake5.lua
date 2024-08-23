@@ -8,6 +8,11 @@ workspace "Teddy"
 		"Release",
 		"Dist"
 	}
+	
+	flags
+	{
+		"MultiProcessorCompile"
+	}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
@@ -16,10 +21,15 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Teddy/vendor/GLFW/include"
 IncludeDir["Glad"] = "Teddy/vendor/Glad/include"
 IncludeDir["ImGui"] = "Teddy/vendor/imgui"
+IncludeDir["glm"] = "Teddy/vendor/glm"
+IncludeDir["stb_image"] = "Teddy/vendor/stb_image"
 
-include "Teddy/vendor/GLFW"
-include "Teddy/vendor/Glad"
-include "Teddy/vendor/imgui"
+group "Dependencies"
+	include "Teddy/vendor/GLFW"
+	include "Teddy/vendor/Glad"
+	include "Teddy/vendor/imgui"
+
+group ""
 
 project "Teddy"
 	location "Teddy"
@@ -37,7 +47,11 @@ project "Teddy"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
 
 	defines
@@ -51,7 +65,9 @@ project "Teddy"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
 	}
 
 	links 
@@ -63,7 +79,6 @@ project "Teddy"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		defines
@@ -71,11 +86,6 @@ project "Teddy"
 			"TD_PLATFORM_WINDOWS",
 			"TD_BUILD_DLL",
 			"GLFW_INCLUDE_NONE"
-		}
-
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
 		}
 
 	filter "configurations:Debug"
@@ -89,11 +99,11 @@ project "Teddy"
 		optimize "on"
 
 	filter "configurations:Dist"
-	defines "TD_DIST"
-	runtime "Release"
-	optimize "on"
-	
-	project "Sandbox"
+		defines "TD_DIST"
+		runtime "Release"
+		optimize "on"
+
+project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
@@ -112,7 +122,9 @@ project "Teddy"
 	includedirs
 	{
 		"Teddy/vendor/spdlog/include",
-		"Teddy/src"
+		"Teddy/src",
+		"Teddy/vendor",
+		"%{IncludeDir.glm}"
 	}
 
 	links

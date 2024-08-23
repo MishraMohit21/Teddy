@@ -4,14 +4,17 @@
 
 #include "Window.h"
 #include "Teddy/LayerStack.h"
-#include "Teddy/ImGui/ImGuiLayer.h"
+
 #include "Teddy/Events/Event.h"
 #include "Teddy/Events/ApplicationEvent.h"
 
+#include "Teddy/Core/Timestep.h"
+
+#include "Teddy/ImGui/ImGuiLayer.h"
 
 namespace Teddy {
 
-	class TEDDY_API Application
+	class Application
 	{
 	public:
 		Application();
@@ -29,19 +32,15 @@ namespace Teddy {
 		inline static Application& Get() { return *s_Instance; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
-
-
 	private:
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
-		float LastFrameTime = 0.0f;
-
+		float m_LastFrameTime = 0.0f;
 	private:
 		static Application* s_Instance;
 	};
-
 
 	// To be defined in CLIENT
 	Application* CreateApplication();

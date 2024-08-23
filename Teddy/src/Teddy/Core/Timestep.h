@@ -1,8 +1,6 @@
 #pragma once
 
-
-namespace Teddy
-{
+namespace Teddy {
 
 	class Timestep
 	{

@@ -1,8 +1,15 @@
 #include "tdpch.h"
 #include "Application.h"
+
 #include "Teddy/Log.h"
+
+
+#include "Teddy/Renderer/Renderer.h"
+
+
+
 #include "Input.h"
-#include "Teddy/Renderer/Rendrer.h"
+
 #include <glfw/glfw3.h>
 
 namespace Teddy {
@@ -19,13 +26,10 @@ namespace Teddy {
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 
-
 		Renderer::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
-
-		
 	}
 
 	void Application::PushLayer(Layer* layer)
@@ -55,10 +59,9 @@ namespace Teddy {
 	{
 		while (m_Running)
 		{
-
 			float time = (float)glfwGetTime();
-			Timestep timestep = time - LastFrameTime;
-			LastFrameTime = time;
+			Timestep timestep = time - m_LastFrameTime;
+			m_LastFrameTime = time;
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate(timestep);
@@ -77,6 +80,5 @@ namespace Teddy {
 		m_Running = false;
 		return true;
 	}
-
 
 }

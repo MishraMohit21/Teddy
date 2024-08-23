@@ -1,12 +1,9 @@
 #pragma once
 
 #include "Teddy/Window.h"
+#include "Teddy/Renderer/GraphicsContext.h"
 
-#include "Teddy/Events/ApplicationEvent.h"
-#include "Teddy/Events/MouseEvent.h"
-#include "Teddy/Events/KeyEvent.h"
-
-#include <Platform/OpenGL/OpenGLContext.h>
+#include <GLFW/glfw3.h>
 
 namespace Teddy {
 
@@ -32,8 +29,7 @@ namespace Teddy {
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
-
-		OpenGLContext* m_Context;
+		GraphicsContext* m_Context;
 
 		struct WindowData
 		{

@@ -1,20 +1,21 @@
 #include "tdpch.h"
 #include "OpenGLContext.h"
 
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
- 
-namespace Teddy
-{
-	OpenGLContext::OpenGLContext(GLFWwindow* windowHandle) 
-		: m_windowHandle(windowHandle)
-	{
-		TD_CORE_ASSERT(windowHandle , "WindowHandle in null or not defined");
-	}
-	void OpenGLContext::init()
-	{
+#include <glad/glad.h>
+#include <GL/GL.h>
 
-		glfwMakeContextCurrent(m_windowHandle);
+namespace Teddy {
+
+	OpenGLContext::OpenGLContext(GLFWwindow* windowHandle)
+		: m_WindowHandle(windowHandle)
+	{
+		TD_CORE_ASSERT(windowHandle, "Window handle is null!")
+	}
+
+	void OpenGLContext::Init()
+	{
+		glfwMakeContextCurrent(m_WindowHandle);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		TD_CORE_ASSERT(status, "Failed to initialize Glad!");
 
@@ -24,8 +25,10 @@ namespace Teddy
 		TD_CORE_INFO("  Version: {0}", glGetString(GL_VERSION));
 
 	}
-	void OpenGLContext::swapbuffer()
+
+	void OpenGLContext::SwapBuffers()
 	{
-		glfwSwapBuffers(m_windowHandle);
+		glfwSwapBuffers(m_WindowHandle);
 	}
+
 }

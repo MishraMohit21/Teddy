@@ -1,7 +1,11 @@
 #include "tdpch.h"
 #include "WindowsWindow.h"
 
-#include <GLFW/glfw3.h>
+#include "Teddy/Events/ApplicationEvent.h"
+#include "Teddy/Events/MouseEvent.h"
+#include "Teddy/Events/KeyEvent.h"
+
+#include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Teddy {
 	
@@ -45,13 +49,12 @@ namespace Teddy {
 		}
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		
+
 		m_Context = new OpenGLContext(m_Window);
-		m_Context->init();
+		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
-		SetVSync(false);
-		//SetVSync(true);
+		SetVSync(true);
 
 		// Set GLFW callbacks
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
@@ -152,7 +155,7 @@ namespace Teddy {
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		m_Context->swapbuffer();
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)

@@ -1,25 +1,20 @@
 #pragma once
-#include <memory>
 
+#include <memory>
 
 #ifdef TD_PLATFORM_WINDOWS
 #if TD_DYNAMIC_LINK
 	#ifdef TD_BUILD_DLL
-		#define TEDDY_API __declspec(dllexport)
+		#define  __declspec(dllexport)
 	#else
-		#define TEDDY_API __declspec(dllimport)
+		#define  __declspec(dllimport)
 	#endif
 #else
-	#define TEDDY_API
+    #define Teddy_API
 #endif
 #else
 	#error Teddy only supports Windows!
 #endif
-
-
-
-
-
 
 #ifdef TD_DEBUG
 	#define TD_ENABLE_ASSERTS
@@ -37,12 +32,10 @@
 
 #define TD_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
-namespace Teddy
-{
+namespace Teddy {
 
 	template<typename T>
 	using Scope = std::unique_ptr<T>;
-
 
 	template<typename T>
 	using Ref = std::shared_ptr<T>;
