@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Teddy/Input.h"
+#include "Teddy/Core/Input.h"
 
 namespace Teddy {
 

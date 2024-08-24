@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Teddy/Window.h"
+#include "Teddy/Core/Window.h"
 #include "Teddy/Renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>
@@ -29,7 +29,7 @@ namespace Teddy {
 		virtual void Shutdown();
 	private:
 		GLFWwindow* m_Window;
-		GraphicsContext* m_Context;
+		Scope<GraphicsContext> m_Context;
 
 		struct WindowData
 		{

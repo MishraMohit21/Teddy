@@ -2,7 +2,7 @@
 
 #include "tdpch.h"
 
-#include "Teddy/Core.h"
+#include "Teddy/Core/Core.h"
 #include "Teddy/Events/Event.h"
 
 namespace Teddy {

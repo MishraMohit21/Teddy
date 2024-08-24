@@ -3,7 +3,7 @@
 #include "Core.h"
 
 #include "Window.h"
-#include "Teddy/LayerStack.h"
+#include "Teddy/Core/LayerStack.h"
 
 #include "Teddy/Events/Event.h"
 #include "Teddy/Events/ApplicationEvent.h"

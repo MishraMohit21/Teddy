@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Teddy/Layer.h"
+#include "Teddy/Core/Layer.h"
 
 #include "Teddy/Events/ApplicationEvent.h"
 #include "Teddy/Events/KeyEvent.h"

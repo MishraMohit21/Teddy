@@ -1,7 +1,7 @@
 #include "tdpch.h"
 #include "Application.h"
 
-#include "Teddy/Log.h"
+#include "Teddy/Core/Log.h"
 
 
 #include "Teddy/Renderer/Renderer.h"

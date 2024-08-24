@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Teddy/Core.h"
+#include "Teddy/Core/Core.h"
 #include "Teddy/Core/Timestep.h"
 #include "Teddy/Events/Event.h"
 

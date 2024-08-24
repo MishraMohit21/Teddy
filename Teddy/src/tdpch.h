@@ -13,7 +13,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "Teddy/Log.h"
+#include "Teddy/Core/Log.h"
 
 #ifdef TD_PLATFORM_WINDOWS
 	#include <Windows.h>
