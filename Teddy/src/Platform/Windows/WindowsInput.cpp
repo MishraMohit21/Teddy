@@ -6,7 +6,7 @@
 
 namespace Teddy {
 
-	Scope<Input> Input::s_Instance = CreateScope<WindowsInput> ();
+	Input* Input::s_Instance = new WindowsInput();
 
 	bool WindowsInput::IsKeyPressedImpl(int keycode)
 	{

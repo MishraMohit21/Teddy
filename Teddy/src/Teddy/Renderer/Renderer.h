@@ -11,7 +11,6 @@ namespace Teddy {
 	{
 	public:
 		static void Init();
-		static void OnWindowResize(uint32_t width, uint32_t height);
 
 		static void BeginScene(OrthographicCamera& camera);
 		static void EndScene();
@@ -25,7 +24,7 @@ namespace Teddy {
 			glm::mat4 ViewProjectionMatrix;
 		};
 
-		static Scope<SceneData> s_SceneData;
+		static SceneData* s_SceneData;
 	};
 
 

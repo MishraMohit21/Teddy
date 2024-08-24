@@ -128,7 +128,7 @@ namespace Teddy {
 			glAttachShader(program, shader);
 			glShaderIDs[glShaderIDIndex++] = shader;
 		}
-
+		
 		m_RendererID = program;
 
 		// Link our program
@@ -148,7 +148,7 @@ namespace Teddy {
 
 			// We don't need the program anymore.
 			glDeleteProgram(program);
-
+			
 			for (auto id : glShaderIDs)
 				glDeleteShader(id);
 
@@ -158,12 +158,9 @@ namespace Teddy {
 		}
 
 		for (auto id : glShaderIDs)
-		{
-			glDetachShader(program, id); \
-			glDeleteShader(id);
-
-		}
+			glDetachShader(program, id);
 	}
+
 	void OpenGLShader::Bind() const
 	{
 		glUseProgram(m_RendererID);

@@ -5,6 +5,6 @@
 
 namespace Teddy {
 
-	Scope<RendererAPI> RenderCommand::s_RendererAPI = CreateScope<OpenGLRendererAPI> ();
+	RendererAPI* RenderCommand::s_RendererAPI = new OpenGLRendererAPI;
 
 }

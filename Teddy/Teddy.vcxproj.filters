@@ -82,16 +82,37 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Core\Application.h">
-      <Filter>src\Teddy</Filter>
+      <Filter>src\Teddy\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Core\Core.h">
-      <Filter>src\Teddy</Filter>
+      <Filter>src\Teddy\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Core\EntryPoint.h">
+      <Filter>src\Teddy\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Core\Input.h">
+      <Filter>src\Teddy\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Core\KeyCodes.h">
+      <Filter>src\Teddy\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Core\Layer.h">
+      <Filter>src\Teddy\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Core\LayerStack.h">
+      <Filter>src\Teddy\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Core\Log.h">
+      <Filter>src\Teddy\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Core\MouseButtonCodes.h">
+      <Filter>src\Teddy\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Core\Timestep.h">
       <Filter>src\Teddy\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Teddy\Core\EntryPoint.h">
-      <Filter>src\Teddy</Filter>
+    <ClInclude Include="src\Teddy\Core\Window.h">
+      <Filter>src\Teddy\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Events\ApplicationEvent.h">
       <Filter>src\Teddy\Events</Filter>
@@ -107,24 +128,6 @@
     </ClInclude>
     <ClInclude Include="src\Teddy\ImGui\ImGuiLayer.h">
       <Filter>src\Teddy\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Teddy\Core\Input.h">
-      <Filter>src\Teddy</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Teddy\Core\KeyCodes.h">
-      <Filter>src\Teddy</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Teddy\Core\Layer.h">
-      <Filter>src\Teddy</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Teddy\Core\LayerStack.h">
-      <Filter>src\Teddy</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Teddy\Core\Log.h">
-      <Filter>src\Teddy</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Teddy\Core\MouseButtonCodes.h">
-      <Filter>src\Teddy</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\OrthographicCameraController.h">
       <Filter>src\Teddy</Filter>
@@ -155,9 +158,6 @@
     </ClInclude>
     <ClInclude Include="src\Teddy\Renderer\VertexArray.h">
       <Filter>src\Teddy\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Teddy\Core\Window.h">
-      <Filter>src\Teddy</Filter>
     </ClInclude>
     <ClInclude Include="src\tdpch.h">
       <Filter>src</Filter>
@@ -1278,22 +1278,22 @@
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\Teddy\Core\Application.cpp">
-      <Filter>src\Teddy</Filter>
+      <Filter>src\Teddy\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Core\Layer.cpp">
+      <Filter>src\Teddy\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Core\LayerStack.cpp">
+      <Filter>src\Teddy\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Core\Log.cpp">
+      <Filter>src\Teddy\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Teddy\ImGui\ImGuiBuild.cpp">
       <Filter>src\Teddy\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\Teddy\ImGui\ImGuiLayer.cpp">
       <Filter>src\Teddy\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Teddy\Core\Layer.cpp">
-      <Filter>src\Teddy</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Teddy\Core\LayerStack.cpp">
-      <Filter>src\Teddy</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Teddy\Core\Log.cpp">
-      <Filter>src\Teddy</Filter>
     </ClCompile>
     <ClCompile Include="src\Teddy\OrthographicCameraController.cpp">
       <Filter>src\Teddy</Filter>

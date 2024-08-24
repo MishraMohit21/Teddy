@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Core.h"
+#include "Teddy/Core/Core.h"
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h"
 
 namespace Teddy {
 
-	class  Log
+	class Teddy_API Log
 	{
 	public:
 		static void Init();

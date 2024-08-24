@@ -8,7 +8,7 @@
 
 namespace Teddy {
 
-	class  ImGuiLayer : public Layer
+	class Teddy_API ImGuiLayer : public Layer
 	{
 	public:
 		ImGuiLayer();

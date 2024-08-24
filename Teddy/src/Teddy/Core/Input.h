@@ -4,7 +4,7 @@
 
 namespace Teddy {
 
-	class  Input
+	class Teddy_API Input
 	{
 	protected:
 		Input() = default;
@@ -26,7 +26,7 @@ namespace Teddy {
 		virtual float GetMouseXImpl() = 0;
 		virtual float GetMouseYImpl() = 0;
 	private:
-		static Scope<Input> s_Instance;
+		static Input* s_Instance;
 	};
 
 }

@@ -4,7 +4,7 @@
 
 namespace Teddy {
 
-	class  KeyEvent : public Event
+	class Teddy_API KeyEvent : public Event
 	{
 	public:
 		inline int GetKeyCode() const { return m_KeyCode; }
@@ -17,7 +17,7 @@ namespace Teddy {
 		int m_KeyCode;
 	};
 
-	class  KeyPressedEvent : public KeyEvent
+	class Teddy_API KeyPressedEvent : public KeyEvent
 	{
 	public:
 		KeyPressedEvent(int keycode, int repeatCount)
@@ -37,7 +37,7 @@ namespace Teddy {
 		int m_RepeatCount;
 	};
 
-	class  KeyReleasedEvent : public KeyEvent
+	class Teddy_API KeyReleasedEvent : public KeyEvent
 	{
 	public:
 		KeyReleasedEvent(int keycode)
@@ -53,7 +53,7 @@ namespace Teddy {
 		EVENT_CLASS_TYPE(KeyReleased)
 	};
 
-	class  KeyTypedEvent : public KeyEvent
+	class Teddy_API KeyTypedEvent : public KeyEvent
 	{
 	public:
 		KeyTypedEvent(int keycode)

@@ -6,7 +6,7 @@
 
 namespace Teddy {
 
-	class  Layer
+	class Teddy_API Layer
 	{
 	public:
 		Layer(const std::string& name = "Layer");

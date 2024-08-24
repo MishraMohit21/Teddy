@@ -42,21 +42,21 @@ namespace Teddy {
 		Add(name, shader);
 	}
 
-	Ref<Shader> ShaderLibrary::Load(const std::string& filepath)
+	Teddy::Ref<Teddy::Shader> ShaderLibrary::Load(const std::string& filepath)
 	{
 		auto shader = Shader::Create(filepath);
 		Add(shader);
 		return shader;
 	}
 
-	Ref<Shader> ShaderLibrary::Load(const std::string& name, const std::string& filepath)
+	Teddy::Ref<Teddy::Shader> ShaderLibrary::Load(const std::string& name, const std::string& filepath)
 	{
 		auto shader = Shader::Create(filepath);
 		Add(name, shader);
 		return shader;
 	}
 
-	Ref<Shader> ShaderLibrary::Get(const std::string& name)
+	Teddy::Ref<Teddy::Shader> ShaderLibrary::Get(const std::string& name)
 	{
 		TD_CORE_ASSERT(Exists(name), "Shader not found!");
 		return m_Shaders[name];

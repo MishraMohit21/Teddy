@@ -76,8 +76,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>tdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;TD_BUILD_DLL;GLFW_INCLUDE_NONE;TD_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\src;$(SolutionDir)$(ProjectName)\vendor\GLFW\include;$(SolutionDir)$(ProjectName)\vendor\Glad\include;$(SolutionDir)$(ProjectName)\vendor\imgui;$(SolutionDir)$(ProjectName)\vendor\glm;$(SolutionDir)$(ProjectName)\vendor\stb_image;$(SolutionDir)$(ProjectName)\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;TD_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\src;$(SolutionDir)$(ProjectName)\vendor\spdlog\include;$(SolutionDir)$(ProjectName)\vendor\GLFW\include;$(SolutionDir)$(ProjectName)\vendor\Glad\include;$(SolutionDir)$(ProjectName)\vendor\imgui;$(SolutionDir)$(ProjectName)\vendor\glm;$(SolutionDir)$(ProjectName)\vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -99,8 +99,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>tdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;TD_BUILD_DLL;GLFW_INCLUDE_NONE;TD_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\src;$(SolutionDir)$(ProjectName)\vendor\GLFW\include;$(SolutionDir)$(ProjectName)\vendor\Glad\include;$(SolutionDir)$(ProjectName)\vendor\imgui;$(SolutionDir)$(ProjectName)\vendor\glm;$(SolutionDir)$(ProjectName)\vendor\stb_image;$(SolutionDir)$(ProjectName)\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;TD_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\src;$(SolutionDir)$(ProjectName)\vendor\spdlog\include;$(SolutionDir)$(ProjectName)\vendor\GLFW\include;$(SolutionDir)$(ProjectName)\vendor\Glad\include;$(SolutionDir)$(ProjectName)\vendor\imgui;$(SolutionDir)$(ProjectName)\vendor\glm;$(SolutionDir)$(ProjectName)\vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -125,8 +125,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>tdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;TD_BUILD_DLL;GLFW_INCLUDE_NONE;TD_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\src;$(SolutionDir)$(ProjectName)\vendor\GLFW\include;$(SolutionDir)$(ProjectName)\vendor\Glad\include;$(SolutionDir)$(ProjectName)\vendor\imgui;$(SolutionDir)$(ProjectName)\vendor\glm;$(SolutionDir)$(ProjectName)\vendor\stb_image;$(SolutionDir)$(ProjectName)\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;TD_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\src;$(SolutionDir)$(ProjectName)\vendor\spdlog\include;$(SolutionDir)$(ProjectName)\vendor\GLFW\include;$(SolutionDir)$(ProjectName)\vendor\Glad\include;$(SolutionDir)$(ProjectName)\vendor\imgui;$(SolutionDir)$(ProjectName)\vendor\glm;$(SolutionDir)$(ProjectName)\vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -158,19 +158,20 @@
     <ClInclude Include="src\Teddy.h" />
     <ClInclude Include="src\Teddy\Core\Application.h" />
     <ClInclude Include="src\Teddy\Core\Core.h" />
-    <ClInclude Include="src\Teddy\Core\Timestep.h" />
     <ClInclude Include="src\Teddy\Core\EntryPoint.h" />
-    <ClInclude Include="src\Teddy\Events\ApplicationEvent.h" />
-    <ClInclude Include="src\Teddy\Events\Event.h" />
-    <ClInclude Include="src\Teddy\Events\KeyEvent.h" />
-    <ClInclude Include="src\Teddy\Events\MouseEvent.h" />
-    <ClInclude Include="src\Teddy\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Teddy\Core\Input.h" />
     <ClInclude Include="src\Teddy\Core\KeyCodes.h" />
     <ClInclude Include="src\Teddy\Core\Layer.h" />
     <ClInclude Include="src\Teddy\Core\LayerStack.h" />
     <ClInclude Include="src\Teddy\Core\Log.h" />
     <ClInclude Include="src\Teddy\Core\MouseButtonCodes.h" />
+    <ClInclude Include="src\Teddy\Core\Timestep.h" />
+    <ClInclude Include="src\Teddy\Core\Window.h" />
+    <ClInclude Include="src\Teddy\Events\ApplicationEvent.h" />
+    <ClInclude Include="src\Teddy\Events\Event.h" />
+    <ClInclude Include="src\Teddy\Events\KeyEvent.h" />
+    <ClInclude Include="src\Teddy\Events\MouseEvent.h" />
+    <ClInclude Include="src\Teddy\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Teddy\OrthographicCameraController.h" />
     <ClInclude Include="src\Teddy\Renderer\Buffer.h" />
     <ClInclude Include="src\Teddy\Renderer\GraphicsContext.h" />
@@ -181,7 +182,6 @@
     <ClInclude Include="src\Teddy\Renderer\Shader.h" />
     <ClInclude Include="src\Teddy\Renderer\Texture.h" />
     <ClInclude Include="src\Teddy\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Teddy\Core\Window.h" />
     <ClInclude Include="src\tdpch.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
@@ -557,11 +557,11 @@
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Teddy\Core\Application.cpp" />
-    <ClCompile Include="src\Teddy\ImGui\ImGuiBuild.cpp" />
-    <ClCompile Include="src\Teddy\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Teddy\Core\Layer.cpp" />
     <ClCompile Include="src\Teddy\Core\LayerStack.cpp" />
     <ClCompile Include="src\Teddy\Core\Log.cpp" />
+    <ClCompile Include="src\Teddy\ImGui\ImGuiBuild.cpp" />
+    <ClCompile Include="src\Teddy\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Teddy\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Teddy\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Teddy\Renderer\OrthographicCamera.cpp" />

@@ -5,12 +5,11 @@
 #include "Teddy/Core/Application.h"
 #include "Teddy/Core/Layer.h"
 #include "Teddy/Core/Log.h"
-
-#include "Teddy/Core/Timestep.h"
-
 #include "Teddy/Core/Input.h"
 #include "Teddy/Core/KeyCodes.h"
 #include "Teddy/Core/MouseButtonCodes.h"
+#include "Teddy/Core/Timestep.h"
+
 #include "Teddy/OrthographicCameraController.h"
 
 #include "Teddy/ImGui/ImGuiLayer.h"
@@ -28,5 +27,5 @@
 // -----------------------------------
 
 // ---Entry Point---------------------
-#include "Teddy/Core/EntryPoint.h"
+//#include "Teddy/EntryPoint.h"
 // -----------------------------------
