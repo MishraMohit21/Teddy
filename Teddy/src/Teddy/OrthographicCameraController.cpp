@@ -14,14 +14,14 @@ namespace Teddy {
 	void OrthographicCameraController::OnUpdate(Timestep ts)
 	{
 		if (Input::IsKeyPressed(TD_KEY_A))
-			m_CameraPosition.x -= m_CameraTranslationSpeed * ts;
-		else if (Input::IsKeyPressed(TD_KEY_D))
 			m_CameraPosition.x += m_CameraTranslationSpeed * ts;
+		else if (Input::IsKeyPressed(TD_KEY_D))
+			m_CameraPosition.x -= m_CameraTranslationSpeed * ts;
 
 		if (Input::IsKeyPressed(TD_KEY_W))
-			m_CameraPosition.y += m_CameraTranslationSpeed * ts;
-		else if (Input::IsKeyPressed(TD_KEY_S))
 			m_CameraPosition.y -= m_CameraTranslationSpeed * ts;
+		else if (Input::IsKeyPressed(TD_KEY_S))
+			m_CameraPosition.y += m_CameraTranslationSpeed * ts;
 
 		if (m_Rotation)
 		{
