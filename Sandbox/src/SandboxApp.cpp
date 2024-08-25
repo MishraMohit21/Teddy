@@ -136,7 +136,7 @@ public:
 		auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 
 		m_Texture = Teddy::Texture2D::Create("assets/textures/Checkerboard.png");
-		m_ChernoLogoTexture = Teddy::Texture2D::Create("assets/textures/ChernoLogo.png");
+		m_ChernoLogoTexture = Teddy::Texture2D::Create("assets/textures/gq.png");
 
 		std::dynamic_pointer_cast<Teddy::OpenGLShader>(textureShader)->Bind();
 		std::dynamic_pointer_cast<Teddy::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
@@ -211,8 +211,8 @@ class Sandbox : public Teddy::Application
 public:
 	Sandbox()
 	{
-		// PushLayer(new ExampleLayer());
 		PushLayer(new Sandbox2D());
+		 //PushLayer(new ExampleLayer());
 	}
 
 	~Sandbox()
