@@ -19,6 +19,9 @@
     <Filter Include="src\Teddy\Core">
       <UniqueIdentifier>{EEEB742E-DAB9-6834-C34D-D95AAFBA4499}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Teddy\Debug">
+      <UniqueIdentifier>{CCC41EFD-3850-8CC1-4161-0FB6AD6BE8C1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Teddy\Events">
       <UniqueIdentifier>{FAB081A4-E6A9-A0F6-0FDC-857BFB338002}</UniqueIdentifier>
     </Filter>
@@ -114,6 +117,9 @@
     <ClInclude Include="src\Teddy\Core\Window.h">
       <Filter>src\Teddy\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Teddy\Debug\Instrumentor.h">
+      <Filter>src\Teddy\Debug</Filter>
+    </ClInclude>
     <ClInclude Include="src\Teddy\Events\ApplicationEvent.h">
       <Filter>src\Teddy\Events</Filter>
     </ClInclude>
@@ -129,9 +135,6 @@
     <ClInclude Include="src\Teddy\ImGui\ImGuiLayer.h">
       <Filter>src\Teddy\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="src\Teddy\OrthographicCameraController.h">
-      <Filter>src\Teddy</Filter>
-    </ClInclude>
     <ClInclude Include="src\Teddy\Renderer\Buffer.h">
       <Filter>src\Teddy\Renderer</Filter>
     </ClInclude>
@@ -141,10 +144,16 @@
     <ClInclude Include="src\Teddy\Renderer\OrthographicCamera.h">
       <Filter>src\Teddy\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Teddy\Renderer\OrthographicCameraController.h">
+      <Filter>src\Teddy\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Teddy\Renderer\RenderCommand.h">
       <Filter>src\Teddy\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Renderer\Renderer.h">
+      <Filter>src\Teddy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Renderer\Renderer2D.h">
       <Filter>src\Teddy\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Renderer\RendererAPI.h">
@@ -1295,19 +1304,25 @@
     <ClCompile Include="src\Teddy\ImGui\ImGuiLayer.cpp">
       <Filter>src\Teddy\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="src\Teddy\OrthographicCameraController.cpp">
-      <Filter>src\Teddy</Filter>
-    </ClCompile>
     <ClCompile Include="src\Teddy\Renderer\Buffer.cpp">
       <Filter>src\Teddy\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Teddy\Renderer\GraphicsContext.cpp">
+      <Filter>src\Teddy\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Teddy\Renderer\OrthographicCamera.cpp">
+      <Filter>src\Teddy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Renderer\OrthographicCameraController.cpp">
       <Filter>src\Teddy\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Teddy\Renderer\RenderCommand.cpp">
       <Filter>src\Teddy\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Teddy\Renderer\Renderer.cpp">
+      <Filter>src\Teddy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Renderer\Renderer2D.cpp">
       <Filter>src\Teddy\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Teddy\Renderer\RendererAPI.cpp">

@@ -8,7 +8,7 @@
 
 namespace Teddy {
 
-	class Teddy_API ImGuiLayer : public Layer
+	class ImGuiLayer : public Layer
 	{
 	public:
 		ImGuiLayer();
@@ -16,7 +16,6 @@ namespace Teddy {
 
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
-		virtual void OnImGuiRender() override;
 
 		void Begin();
 		void End();

@@ -1,6 +1,6 @@
 #pragma once
-
 #include "tdpch.h"
+
 #include "Teddy/Core/Core.h"
 
 namespace Teddy {
@@ -29,13 +29,13 @@ namespace Teddy {
 		EventCategoryMouseButton    = BIT(4)
 	};
 
-#define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::##type; }\
+#define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::type; }\
 								virtual EventType GetEventType() const override { return GetStaticType(); }\
 								virtual const char* GetName() const override { return #type; }
 
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
-	class Teddy_API Event
+	class Event
 	{
 	public:
 		bool Handled = false;

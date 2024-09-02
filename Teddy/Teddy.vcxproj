@@ -76,7 +76,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>tdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;TD_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_BUILD_DLL;GLFW_INCLUDE_NONE;TD_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\src;$(SolutionDir)$(ProjectName)\vendor\spdlog\include;$(SolutionDir)$(ProjectName)\vendor\GLFW\include;$(SolutionDir)$(ProjectName)\vendor\Glad\include;$(SolutionDir)$(ProjectName)\vendor\imgui;$(SolutionDir)$(ProjectName)\vendor\glm;$(SolutionDir)$(ProjectName)\vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -99,7 +99,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>tdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;TD_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_BUILD_DLL;GLFW_INCLUDE_NONE;TD_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\src;$(SolutionDir)$(ProjectName)\vendor\spdlog\include;$(SolutionDir)$(ProjectName)\vendor\GLFW\include;$(SolutionDir)$(ProjectName)\vendor\Glad\include;$(SolutionDir)$(ProjectName)\vendor\imgui;$(SolutionDir)$(ProjectName)\vendor\glm;$(SolutionDir)$(ProjectName)\vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -125,7 +125,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>tdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;TD_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_BUILD_DLL;GLFW_INCLUDE_NONE;TD_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\src;$(SolutionDir)$(ProjectName)\vendor\spdlog\include;$(SolutionDir)$(ProjectName)\vendor\GLFW\include;$(SolutionDir)$(ProjectName)\vendor\Glad\include;$(SolutionDir)$(ProjectName)\vendor\imgui;$(SolutionDir)$(ProjectName)\vendor\glm;$(SolutionDir)$(ProjectName)\vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -167,17 +167,19 @@
     <ClInclude Include="src\Teddy\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\Teddy\Core\Timestep.h" />
     <ClInclude Include="src\Teddy\Core\Window.h" />
+    <ClInclude Include="src\Teddy\Debug\Instrumentor.h" />
     <ClInclude Include="src\Teddy\Events\ApplicationEvent.h" />
     <ClInclude Include="src\Teddy\Events\Event.h" />
     <ClInclude Include="src\Teddy\Events\KeyEvent.h" />
     <ClInclude Include="src\Teddy\Events\MouseEvent.h" />
     <ClInclude Include="src\Teddy\ImGui\ImGuiLayer.h" />
-    <ClInclude Include="src\Teddy\OrthographicCameraController.h" />
     <ClInclude Include="src\Teddy\Renderer\Buffer.h" />
     <ClInclude Include="src\Teddy\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Teddy\Renderer\OrthographicCamera.h" />
+    <ClInclude Include="src\Teddy\Renderer\OrthographicCameraController.h" />
     <ClInclude Include="src\Teddy\Renderer\RenderCommand.h" />
     <ClInclude Include="src\Teddy\Renderer\Renderer.h" />
+    <ClInclude Include="src\Teddy\Renderer\Renderer2D.h" />
     <ClInclude Include="src\Teddy\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Teddy\Renderer\Shader.h" />
     <ClInclude Include="src\Teddy\Renderer\Texture.h" />
@@ -562,11 +564,13 @@
     <ClCompile Include="src\Teddy\Core\Log.cpp" />
     <ClCompile Include="src\Teddy\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Teddy\ImGui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\Teddy\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Teddy\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Teddy\Renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\Teddy\Renderer\OrthographicCamera.cpp" />
+    <ClCompile Include="src\Teddy\Renderer\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Teddy\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Teddy\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Teddy\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\Teddy\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Teddy\Renderer\Shader.cpp" />
     <ClCompile Include="src\Teddy\Renderer\Texture.cpp" />

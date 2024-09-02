@@ -1,9 +1,9 @@
 #include "tdpch.h"
-#include "ImGuiLayer.h"
+#include "Teddy/ImGui/ImGuiLayer.h"
 
-#include "imgui.h"
-#include "examples/imgui_impl_glfw.h"
-#include "examples/imgui_impl_opengl3.h"
+#include <imgui.h>
+#include <examples/imgui_impl_glfw.h>
+#include <examples/imgui_impl_opengl3.h>
 
 #include "Teddy/Core/Application.h"
 
@@ -20,6 +20,8 @@ namespace Teddy {
 
 	void ImGuiLayer::OnAttach()
 	{
+		TD_PROFILE_FUNCTION();
+
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -53,6 +55,8 @@ namespace Teddy {
 
 	void ImGuiLayer::OnDetach()
 	{
+		TD_PROFILE_FUNCTION();
+
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
@@ -60,6 +64,8 @@ namespace Teddy {
 	
 	void ImGuiLayer::Begin()
 	{
+		TD_PROFILE_FUNCTION();
+
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
@@ -67,6 +73,8 @@ namespace Teddy {
 
 	void ImGuiLayer::End()
 	{
+		TD_PROFILE_FUNCTION();
+
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
 		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
@@ -82,12 +90,6 @@ namespace Teddy {
 			ImGui::RenderPlatformWindowsDefault();
 			glfwMakeContextCurrent(backup_current_context);
 		}
-	}
-
-	void ImGuiLayer::OnImGuiRender()
-	{
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
 	}
 
 }

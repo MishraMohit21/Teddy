@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Event.h"
+#include "Teddy/Events/Event.h"
 
 namespace Teddy {
 
-	class Teddy_API KeyEvent : public Event
+	class KeyEvent : public Event
 	{
 	public:
 		inline int GetKeyCode() const { return m_KeyCode; }
@@ -17,7 +17,7 @@ namespace Teddy {
 		int m_KeyCode;
 	};
 
-	class Teddy_API KeyPressedEvent : public KeyEvent
+	class KeyPressedEvent : public KeyEvent
 	{
 	public:
 		KeyPressedEvent(int keycode, int repeatCount)
@@ -37,7 +37,7 @@ namespace Teddy {
 		int m_RepeatCount;
 	};
 
-	class Teddy_API KeyReleasedEvent : public KeyEvent
+	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
 		KeyReleasedEvent(int keycode)
@@ -53,7 +53,7 @@ namespace Teddy {
 		EVENT_CLASS_TYPE(KeyReleased)
 	};
 
-	class Teddy_API KeyTypedEvent : public KeyEvent
+	class KeyTypedEvent : public KeyEvent
 	{
 	public:
 		KeyTypedEvent(int keycode)

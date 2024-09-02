@@ -15,6 +15,8 @@
 
 #include "Teddy/Core/Log.h"
 
+#include "Teddy/Debug/Instrumentor.h"
+
 #ifdef TD_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif
