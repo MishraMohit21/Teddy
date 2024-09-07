@@ -40,7 +40,7 @@ void Sandbox2D::OnUpdate(Teddy::Timestep ts)
 		Teddy::Renderer2D::BeginScene(m_CameraController.GetCamera());
 		Teddy::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, m_SquareColor );
 		Teddy::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, m_SquareColor );
-		Teddy::Renderer2D::DrawRotatedQuad({ 1.5f, -0.5f }, { 0.5f, 0.5f }, 45.0, m_SquareColor);
+		Teddy::Renderer2D::DrawRotatedQuad({ 1.5f, -0.5f }, { 0.5f, 0.5f }, m_RotationAngle, m_SquareColor);
 		Teddy::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, m_CheckerboardTexture, 10.0f /*, { 0.2f, 0.3f, 0.8f, 0.3f }*/);
 		Teddy::Renderer2D::EndScene();
 	}
@@ -52,6 +52,7 @@ void Sandbox2D::OnImGuiRender()
 
 	ImGui::Begin("Settings");
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+	ImGui::SliderAngle("Rotation", &m_RotationAngle);
 	ImGui::End();
 }
 
