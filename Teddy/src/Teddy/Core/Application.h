@@ -16,7 +16,7 @@ namespace Teddy {
 	class Application
 	{
 	public:
-		Application();
+		Application(const char* name);
 		virtual ~Application();
 
 		void Run();
@@ -25,6 +25,8 @@ namespace Teddy {
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
+
+		void Close();
 
 		inline Window& GetWindow() { return *m_Window; }
 

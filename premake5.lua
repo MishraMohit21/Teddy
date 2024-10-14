@@ -154,3 +154,44 @@ project "Sandbox"
 		defines "TD_DIST"
 		runtime "Release"
 		optimize "on"
+
+
+project "TeddEditor"
+	location "TeddEditor"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+	includedirs
+	{
+		"Teddy/vendor/spdlog/include",
+		"Teddy/src",
+		"Teddy/vendor",
+		"%{IncludeDir.glm}"
+	}
+	links
+	{
+		"Teddy"
+	}
+	filter "system:windows"
+		systemversion "latest"
+		
+	filter "configurations:Debug"
+		defines "TD_DEBUG"
+		runtime "Debug"
+		symbols "on"
+	filter "configurations:Release"
+		defines "TD_RELEASE"
+		runtime "Release"
+		optimize "on"
+	filter "configurations:Dist"
+		defines "TD_DIST"
+		runtime "Release"
+		optimize "on"

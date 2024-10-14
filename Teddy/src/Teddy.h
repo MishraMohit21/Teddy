@@ -25,6 +25,8 @@
 #include "Teddy/Renderer/Buffer.h"
 #include "Teddy/Renderer/Shader.h"
 #include "Teddy/Renderer/Texture.h"
+#include "Teddy/Renderer/FrameBuffer.h"
+
 #include "Teddy/Renderer/VertexArray.h"
 
 #include "Teddy/Renderer/OrthographicCamera.h"

@@ -75,6 +75,9 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGlFrameBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
       <Filter>src\Platform\Windows</Filter>
     </ClInclude>
@@ -136,6 +139,9 @@
       <Filter>src\Teddy\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Renderer\Buffer.h">
+      <Filter>src\Teddy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Renderer\FrameBuffer.h">
       <Filter>src\Teddy\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Renderer\GraphicsContext.h">
@@ -1280,6 +1286,9 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGlFrameBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
@@ -1305,6 +1314,9 @@
       <Filter>src\Teddy\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\Teddy\Renderer\Buffer.cpp">
+      <Filter>src\Teddy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Renderer\FrameBuffer.cpp">
       <Filter>src\Teddy\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Teddy\Renderer\GraphicsContext.cpp">
@@ -1343,5 +1355,6 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="src\Teddy\Core\Window.cpp" />
   </ItemGroup>
 </Project>

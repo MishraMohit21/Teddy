@@ -202,6 +202,7 @@ class Sandbox : public Teddy::Application
 {
 public:
 	Sandbox()
+		: Application("SandBox Appplication")
 	{
 		// PushLayer(new ExampleLayer());
 		PushLayer(new Sandbox2D());
