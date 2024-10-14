@@ -17,7 +17,7 @@ int main(int argc, char** argv)
 	app->Run();
 	TD_PROFILE_END_SESSION();
 
-	TD_PROFILE_BEGIN_SESSION("Startup", "Profiles/TeddyProfile-Shutdown.json");
+	TD_PROFILE_BEGIN_SESSION("Shutdown", "Profiles/TeddyProfile-Shutdown.json");
 	delete app;
 	TD_PROFILE_END_SESSION();
 }
