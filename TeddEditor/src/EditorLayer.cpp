@@ -38,7 +38,10 @@ namespace Teddy
         TD_PROFILE_FUNCTION();
 
         // Update
-        m_CameraController.OnUpdate(ts);
+        if (m_ViewportFoc)
+        {
+            m_CameraController.OnUpdate(ts);
+        }
 
         // Render
         Renderer2D::ResetStats();
@@ -158,6 +161,12 @@ namespace Teddy
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
         ImGui::Begin("ViewPort");
+
+        m_ViewportFoc = ImGui::IsWindowFocused();
+        m_ViewportHov = ImGui::IsWindowHovered();
+
+        Application::Get().GetImGuiLayer()->BlockEvent(!m_ViewportFoc || !m_ViewportHov);
+        
 
         ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 

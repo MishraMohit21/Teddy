@@ -27,6 +27,8 @@ namespace Teddy
 		Ref<Texture2D> m_SpriteSheet;
 		Ref<FrameBuffer> m_FrameBuffer;
 
+		bool m_ViewportFoc = false, m_ViewportHov = false;
+
 		glm::vec2 m_ViewPortSize = { 0.0f, 0.0f };
 
 		float m_RotationAngle = 45.0;

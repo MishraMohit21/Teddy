@@ -19,7 +19,11 @@ namespace Teddy {
 
 		void Begin();
 		void End();
+
+		void BlockEvent(bool block) { m_blockImGuiEvent = block; }
+
 	private:
+		bool m_blockImGuiEvent = true;
 		float m_Time = 0.0f;
 	};
 
