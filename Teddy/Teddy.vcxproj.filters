@@ -1263,6 +1263,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\Teddy\Scene\Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1302,6 +1303,9 @@
       <Filter>src\Teddy\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Teddy\Core\Log.cpp">
+      <Filter>src\Teddy\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Core\Window.cpp">
       <Filter>src\Teddy\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Teddy\ImGui\ImGuiBuild.cpp">
@@ -1352,6 +1356,6 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Teddy\Core\Window.cpp" />
+    <ClCompile Include="src\Teddy\Scene\Scene.cpp" />
   </ItemGroup>
 </Project>

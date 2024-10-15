@@ -5,6 +5,9 @@
 
 namespace Teddy
 {
+
+	const uint32_t s_MaxFrameBufferSize = 8196;
+
 	OpenGlFrameBuffer::OpenGlFrameBuffer(const FrameBufferSpecification& spec)
 		: m_Specification(spec)
 	{
@@ -61,6 +64,9 @@ namespace Teddy
 
 	void OpenGlFrameBuffer::NewSize(uint32_t width, uint32_t height)
 	{
+
+		if (width < 0 || height < 0 || width > s_MaxFrameBufferSize || height > s_MaxFrameBufferSize)
+			return;
 
 		m_Specification.Width = width;
 		m_Specification.Height = height;

@@ -23,6 +23,8 @@ IncludeDir["Glad"] = "Teddy/vendor/Glad/include"
 IncludeDir["ImGui"] = "Teddy/vendor/imgui"
 IncludeDir["glm"] = "Teddy/vendor/glm"
 IncludeDir["stb_image"] = "Teddy/vendor/stb_image"
+IncludeDir["entt"] = "Teddy/vendor/entt"
+
 
 group "Dependencies"
 	include "Teddy/vendor/GLFW"
@@ -67,7 +69,8 @@ project "Teddy"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}"
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.entt}"
 	}
 
 	links 
@@ -124,7 +127,9 @@ project "Sandbox"
 		"Teddy/vendor/spdlog/include",
 		"Teddy/src",
 		"Teddy/vendor",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.entt}"
+
 	}
 
 	links
@@ -174,7 +179,8 @@ project "TeddEditor"
 		"Teddy/vendor/spdlog/include",
 		"Teddy/src",
 		"Teddy/vendor",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.entt}"
 	}
 	links
 	{
