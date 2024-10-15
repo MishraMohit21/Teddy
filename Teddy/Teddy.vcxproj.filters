@@ -1264,6 +1264,7 @@
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Scene\Scene.h" />
+    <ClInclude Include="src\Teddy\Scene\Component.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">

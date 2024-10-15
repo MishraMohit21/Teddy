@@ -18,6 +18,13 @@
 #include "Teddy/ImGui/ImGuiLayer.h"
 
 // ---Renderer------------------------
+// ---ECS---------------------
+
+#include "Teddy/Scene/Component.h"
+#include "Teddy/Scene/Scene.h"
+
+
+// ---------------------------
 #include "Teddy/Renderer/Renderer.h"
 #include "Teddy/Renderer/Renderer2D.h"
 #include "Teddy/Renderer/RenderCommand.h"
@@ -31,3 +38,4 @@
 
 #include "Teddy/Renderer/OrthographicCamera.h"
 // -----------------------------------
+

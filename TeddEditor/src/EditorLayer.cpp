@@ -25,7 +25,14 @@ namespace Teddy
         m_specs.Width = 1280.0f;
         m_FrameBuffer = FrameBuffer::Create(m_specs);
 
+        m_ActiveScene = CreateRef<Scene>();
 
+        auto square = m_ActiveScene->CreateEntity();
+
+        m_ActiveScene->getReg().emplace<TransformComponent>(square);
+        m_ActiveScene->getReg().emplace<SpriteRendererComponent>(square, glm::vec4{ 0.0f, 1.0f, 1.0f, 1.0f });
+        
+        m_SquareEntity = square;
     }
 
     void EditorLayer::OnDetach()
@@ -43,43 +50,20 @@ namespace Teddy
             m_CameraController.OnUpdate(ts);
         }
 
+
         // Render
         Renderer2D::ResetStats();
-        {
-            TD_PROFILE_SCOPE("Renderer Prep");
-            m_FrameBuffer->bind();
-            RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-            RenderCommand::Clear();
-        }
-#if 1
-        {
-            static float rotation = 0.0f;
-            rotation += ts * 100.0f;
+        m_FrameBuffer->bind();
+        RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+        RenderCommand::Clear();
+        
 
-            TD_PROFILE_SCOPE("Renderer Draw");
-            Renderer2D::BeginScene(m_CameraController.GetCamera());
-            Renderer2D::DrawRotatedQuad({ 1.0f, 0.0f }, { 0.8f, 0.8f }, glm::radians(-45.0f), m_SquareColor);
-            Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
-            Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
-            Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 20.0f, 20.0f }, m_CheckerboardTexture, 10.0f);
-            Renderer2D::DrawRotatedQuad({ -2.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, glm::radians(rotation), m_CheckerboardTexture, 20.0f);
-            Renderer2D::EndScene();
+        
+        Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-            Renderer2D::BeginScene(m_CameraController.GetCamera());
-            for (float y = -5.0f; y < 5.0f; y += 0.5f)
-            {
-                for (float x = -5.0f; x < 5.0f; x += 0.5f)
-                {
-                    glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.7f };
-                    Renderer2D::DrawQuad({ x, y }, { 0.45f, 0.45f }, color /*- glm::vec4(0.0, 0.0, 0.0, 0.5)*/);
-                }
-            }
-            Renderer2D::EndScene();
-        }
-#endif
+        m_ActiveScene->OnUpdate(ts);
 
-
-
+        Renderer2D::EndScene();
 
         m_FrameBuffer->unBind();
 
@@ -191,7 +175,9 @@ namespace Teddy
         ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
         ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
-        ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+
+        auto& squareColor = m_ActiveScene->getReg().get<SpriteRendererComponent>(m_SquareEntity).Color;
+        ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
 
 
 
