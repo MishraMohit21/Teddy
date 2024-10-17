@@ -5,14 +5,14 @@
 
 namespace Teddy
 {
-
+	class Entity;
 	class Scene
 	{
 	public:
 		Scene();
 		~Scene();
 
-		entt::entity CreateEntity();
+		Entity CreateEntity(const std::string name);
 
 		// Temprory 
 		entt::registry& getReg() { return m_Registry; }
@@ -22,6 +22,8 @@ namespace Teddy
 
 	private:
 		entt::registry m_Registry;
+
+		friend class Entity;
 	};
 
 }

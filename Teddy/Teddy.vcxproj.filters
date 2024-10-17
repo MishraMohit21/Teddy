@@ -1265,6 +1265,7 @@
     </ClInclude>
     <ClInclude Include="src\Teddy\Scene\Scene.h" />
     <ClInclude Include="src\Teddy\Scene\Component.h" />
+    <ClInclude Include="src\Teddy\Scene\Entity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1358,5 +1359,6 @@
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
     <ClCompile Include="src\Teddy\Scene\Scene.cpp" />
+    <ClCompile Include="src\Teddy\Scene\Entity.cpp" />
   </ItemGroup>
 </Project>
