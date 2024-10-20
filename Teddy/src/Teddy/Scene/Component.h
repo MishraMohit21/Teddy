@@ -1,6 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
-
+#include <Teddy/Scene/SceneCamera.h>
 namespace Teddy
 {
 
@@ -30,5 +30,18 @@ namespace Teddy
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
 		SpriteRendererComponent(const glm::vec4& color)
 			: Color(color) {}
+	};
+
+
+	struct CameraComponent
+	{
+		SceneCamera Camera;
+		bool Primary = true; // TODO: think about moving to Scene
+		bool isFixedAspectRatio = false;
+
+		CameraComponent() = default;
+		CameraComponent(const CameraComponent&) = default;
+		/*CameraComponent(const glm::mat4& projection)
+			: Camera(projection) {}*/
 	};
 }

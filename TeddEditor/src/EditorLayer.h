@@ -2,8 +2,8 @@
 
 #include "Teddy.h"
 
-namespace Teddy
-{
+namespace Teddy {
+
 	class EditorLayer : public Layer
 	{
 	public:
@@ -17,26 +17,26 @@ namespace Teddy
 		virtual void OnImGuiRender() override;
 		void OnEvent(Event& e) override;
 	private:
-		OrthographicCameraController m_CameraController;
+		Teddy::OrthographicCameraController m_CameraController;
 
 		// Temp
 		Ref<VertexArray> m_SquareVA;
 		Ref<Shader> m_FlatColorShader;
-
-		Ref<Texture2D> m_CheckerboardTexture;
-		Ref<Texture2D> m_SpriteSheet;
-		Ref<FrameBuffer> m_FrameBuffer;
+		Ref<FrameBuffer> m_Framebuffer;
 
 		Ref<Scene> m_ActiveScene;
 		Entity m_SquareEntity;
-		bool m_ViewportFoc = false, m_ViewportHov = false;
+		Entity m_CameraEntity;
+		Entity m_SecondCamera;
 
-		glm::vec2 m_ViewPortSize = { 0.0f, 0.0f };
+		bool m_PrimaryCamera = true;
 
-		float m_RotationAngle = 45.0;
+		Ref<Texture2D> m_CheckerboardTexture;
+
+		bool m_ViewportFocused = false, m_ViewportHovered = false;
+		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
+
 		glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
-
-
 	};
 
 }

@@ -3,7 +3,7 @@
 #include "Teddy/Renderer/OrthographicCamera.h"
 
 #include "Teddy/Renderer/Texture.h"
-
+#include "Teddy/Renderer/Camera.h"
 
 namespace Teddy {
 
@@ -13,6 +13,7 @@ namespace Teddy {
 		static void Init();
 		static void Shutdown();
 
+		static void BeginScene(const Camera& camera, const glm::mat4& transform );
 		static void BeginScene(const OrthographicCamera& camera);
 		static void EndScene();
 		static void Flush();
