@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Teddy/Core/Core.h"
+#include "KeyCodes.h"
+#include "MouseCode.h"
 
 namespace Teddy {
 
@@ -8,9 +10,9 @@ namespace Teddy {
 	{
 	public:
 
-		static bool IsKeyPressed(int keycode);
+		static bool IsKeyPressed(KeyCode key);
 
-		static bool IsMouseButtonPressed(int button);
+		static bool IsMouseButtonPressed(MouseCode button);
 		static std::pair<float, float> GetMousePosition();
 		static float GetMouseX();
 		static float GetMouseY();

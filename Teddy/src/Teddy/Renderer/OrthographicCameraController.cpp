@@ -15,7 +15,7 @@ namespace Teddy {
 	{
 		TD_PROFILE_FUNCTION();
 
-		if (Input::IsKeyPressed(TD_KEY_A))
+		if (Input::IsKeyPressed(KeyCode::A))
 		{
 			m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y += sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;

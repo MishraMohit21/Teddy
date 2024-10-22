@@ -1268,6 +1268,8 @@
     <ClInclude Include="src\Teddy\Scene\Entity.h" />
     <ClInclude Include="src\Teddy\Renderer\Camera.h" />
     <ClInclude Include="src\Teddy\Scene\SceneCamera.h" />
+    <ClInclude Include="src\Teddy\Scene\ScriptableEntity.h" />
+    <ClInclude Include="src\Teddy\Core\MouseCode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">

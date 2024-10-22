@@ -52,6 +52,24 @@ namespace Teddy
 	void Scene::OnUpdate(Timestep ts)
 	{
 
+
+		{
+			m_Registry.view<CppScriptComponent>().each([=](auto entity, auto& nsc) 
+			{
+				if (!nsc.Instance)
+				{
+					nsc.InstanstiateFunction();
+					nsc.Instance->m_entity = Entity{ entity, this };
+					if (nsc.OnCreateFunction)
+						nsc.OnCreateFunction(nsc.Instance);
+				}
+
+				if (nsc.OnUpdateFunction)
+					nsc.OnUpdateFunction(nsc.Instance, ts);
+			});
+		}
+
+
 		Camera* mainCamera = nullptr;
 		
 

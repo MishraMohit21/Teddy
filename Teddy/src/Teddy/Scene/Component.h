@@ -1,6 +1,9 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <Teddy/Scene/SceneCamera.h>
+#include <Teddy/Scene/ScriptableEntity.h>
+
+
 namespace Teddy
 {
 
@@ -43,5 +46,32 @@ namespace Teddy
 		CameraComponent(const CameraComponent&) = default;
 		/*CameraComponent(const glm::mat4& projection)
 			: Camera(projection) {}*/
+	};
+
+
+	struct CppScriptComponent
+	{
+		ScriptableEntity* Instance = nullptr;
+
+		std::function<void()> InstanstiateFunction;
+		std::function<void()> DestroyFunction;
+
+
+		std::function<void(ScriptableEntity*)> OnCreateFunction;
+		std::function<void(ScriptableEntity*)> OnDestroyFunction;
+		std::function<void(ScriptableEntity*, Timestep)> OnUpdateFunction;
+
+
+		template <typename T>
+		void Bind()
+		{
+			InstanstiateFunction = [&]() { Instance = new T(); };
+			DestroyFunction = [&]() { delete (T*)Instance; Instance = nullptr; };
+
+			OnCreateFunction = [](ScriptableEntity* instance) { ((T*)instance)->OnCreate(); };
+			OnDestroyFunction = [](ScriptableEntity* instance) { ((T*)instance)->OnDestroy(); };
+			OnUpdateFunction = [](ScriptableEntity* instance, Timestep ts) { ((T*)instance)->OnUpdate(ts); };
+		}
+
 	};
 }

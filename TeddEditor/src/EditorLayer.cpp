@@ -26,8 +26,8 @@ namespace Teddy {
 		m_ActiveScene = CreateRef<Scene>();
 
 		// Entity
-		auto square = m_ActiveScene->CreateEntity("Green Square");
-		square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
+		auto square = m_ActiveScene->CreateEntity("Square");
+		square.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0, 0.647, 0.0, 1.0f });
 
 		m_SquareEntity = square;
 
@@ -37,6 +37,35 @@ namespace Teddy {
 		m_SecondCamera = m_ActiveScene->CreateEntity("Clip-Space Entity");
 		auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
 		cc.Primary = false;
+
+		class CameraController : public ScriptableEntity
+		{
+		public:
+			void OnCreate()
+			{
+			}
+			void OnDestroy()
+			{
+			}
+			void OnUpdate(Timestep ts)
+			{
+				auto& transform = GetComponent<TransformComponent>().Transform;
+				float speed = 5.0f;
+				if (Input::IsKeyPressed(KeyCode::D))
+					transform[3][0] -= speed * ts;
+				if (Input::IsKeyPressed(KeyCode::A))
+					transform[3][0] += speed * ts;
+				if (Input::IsKeyPressed(KeyCode::S))
+					transform[3][1] += speed * ts;
+				if (Input::IsKeyPressed(KeyCode::W))
+					transform[3][1] -= speed * ts;
+			}
+		};
+
+
+		m_CameraEntity.AddComponent<CppScriptComponent>().Bind<CameraController>();
+
+
 	}
 
 	void EditorLayer::OnDetach()
