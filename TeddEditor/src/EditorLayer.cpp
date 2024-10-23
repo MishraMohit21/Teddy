@@ -41,8 +41,11 @@ namespace Teddy {
 		class CameraController : public ScriptableEntity
 		{
 		public:
+			
 			void OnCreate()
 			{
+				auto& transform = GetComponent<TransformComponent>().Transform;
+				transform[3][0] = rand() % 10 - 5.0f;
 			}
 			void OnDestroy()
 			{
@@ -55,15 +58,36 @@ namespace Teddy {
 					transform[3][0] -= speed * ts;
 				if (Input::IsKeyPressed(KeyCode::A))
 					transform[3][0] += speed * ts;
-				if (Input::IsKeyPressed(KeyCode::S))
+				if (Input::IsKeyPressed(KeyCode::Down))
 					transform[3][1] += speed * ts;
 				if (Input::IsKeyPressed(KeyCode::W))
 					transform[3][1] -= speed * ts;
+
+				if (m_Rotation)
+				{	
+					float rotationSpeed = 180.0f;
+					float angle = 0.0f;
+					if (Input::IsKeyPressed(KeyCode::Q))
+					{
+						angle += rotationSpeed * ts;
+					}
+					else if (Input::IsKeyPressed(KeyCode::E))
+					{
+						angle -= rotationSpeed * ts;
+					}
+
+					glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), glm::radians(angle), glm::vec3(0.0f, 0.0f, 1.0f));
+
+					transform = rotation * transform;
+				}
 			}
+		private:
+			bool m_Rotation = true;
 		};
 
 
 		m_CameraEntity.AddComponent<CppScriptComponent>().Bind<CameraController>();
+		m_SecondCamera.AddComponent<CppScriptComponent>().Bind<CameraController>();
 
 
 	}

@@ -53,24 +53,16 @@ namespace Teddy
 	{
 		ScriptableEntity* Instance = nullptr;
 
-		std::function<void()> InstanstiateFunction;
-		std::function<void()> DestroyFunction;
-
-
-		std::function<void(ScriptableEntity*)> OnCreateFunction;
-		std::function<void(ScriptableEntity*)> OnDestroyFunction;
-		std::function<void(ScriptableEntity*, Timestep)> OnUpdateFunction;
+		ScriptableEntity* (*InstantiateScript)();
+		void (*DestroyScript)(CppScriptComponent*);
 
 
 		template <typename T>
 		void Bind()
 		{
-			InstanstiateFunction = [&]() { Instance = new T(); };
-			DestroyFunction = [&]() { delete (T*)Instance; Instance = nullptr; };
+			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
+			DestroyScript = [](CppScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
 
-			OnCreateFunction = [](ScriptableEntity* instance) { ((T*)instance)->OnCreate(); };
-			OnDestroyFunction = [](ScriptableEntity* instance) { ((T*)instance)->OnDestroy(); };
-			OnUpdateFunction = [](ScriptableEntity* instance, Timestep ts) { ((T*)instance)->OnUpdate(ts); };
 		}
 
 	};
