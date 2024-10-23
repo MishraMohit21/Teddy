@@ -42,15 +42,15 @@ namespace Teddy {
 		{
 		public:
 			
-			void OnCreate()
+			virtual void OnCreate() override
 			{
 				auto& transform = GetComponent<TransformComponent>().Transform;
 				transform[3][0] = rand() % 10 - 5.0f;
 			}
-			void OnDestroy()
+			virtual void OnDestroy() override
 			{
 			}
-			void OnUpdate(Timestep ts)
+			virtual void OnUpdate(Timestep ts) override
 			{
 				auto& transform = GetComponent<TransformComponent>().Transform;
 				float speed = 5.0f;
@@ -89,6 +89,7 @@ namespace Teddy {
 		m_CameraEntity.AddComponent<CppScriptComponent>().Bind<CameraController>();
 		m_SecondCamera.AddComponent<CppScriptComponent>().Bind<CameraController>();
 
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 
 	}
 
@@ -191,6 +192,8 @@ namespace Teddy {
 
 			ImGui::EndMenuBar();
 		}
+
+		m_SceneHierarchyPanel.OnImGuiUpdate();
 
 		ImGui::Begin("Settings");
 

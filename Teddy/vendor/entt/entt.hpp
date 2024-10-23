@@ -38035,6 +38035,9 @@ public:
         return *this;
     }
 
+
+   
+
     /**
      * @brief Exchanges the contents with those of a given registry.
      * @param other Registry to exchange the content with.

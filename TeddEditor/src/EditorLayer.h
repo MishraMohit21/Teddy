@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Teddy.h"
+#include "../Panels/SceneHeirarchyPanel.h"
 
 namespace Teddy {
 
@@ -32,6 +33,8 @@ namespace Teddy {
 		bool m_PrimaryCamera = true;
 
 		Ref<Texture2D> m_CheckerboardTexture;
+
+		SceneHeirarchyPanel m_SceneHierarchyPanel;
 
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
