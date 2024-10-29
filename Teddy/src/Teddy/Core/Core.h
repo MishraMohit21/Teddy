@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+//#include <Teddy/Core/Log.h>
 
 // Platform detection using predefined macros
 #ifdef _WIN32
@@ -43,17 +44,7 @@
 	#error "Unknown platform!"
 #endif // End of platform detection
 
-#ifdef TD_DEBUG
-	#define TD_ENABLE_ASSERTS
-#endif
 
-#ifdef TD_ENABLE_ASSERTS
-	#define TD_ASSERT(x, ...) { if(!(x)) { TD_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
-	#define TD_CORE_ASSERT(x, ...) { if(!(x)) { TD_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
-#else
-	#define TD_ASSERT(x, ...)
-	#define TD_CORE_ASSERT(x, ...)
-#endif
 
 #define BIT(x) (1 << x)
 

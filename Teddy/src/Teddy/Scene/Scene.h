@@ -13,6 +13,7 @@ namespace Teddy
 		~Scene();
 
 		Entity CreateEntity(const std::string name);
+		void DestroyEntity(Entity entity);
 
 		// Temprory 
 		//entt::registry& getReg() { return m_Registry; }
@@ -21,10 +22,13 @@ namespace Teddy
 		void OnVeiwportResize(uint32_t width, uint32_t height);
 
 	private:
+		template<typename T>
+		void OnComponentAdded(Entity entity, T& component);
+	private:
 		entt::registry m_Registry;
 		uint32_t viewportWidth = 0, viewportHeight = 0 ;
 		friend class Entity;
-		friend class SceneHeirarchyPanel;
+		friend class SceneHierarchyPanel;
 	};
 
 }

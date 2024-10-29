@@ -31,10 +31,10 @@ namespace Teddy {
 
 		m_SquareEntity = square;
 
-		m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
+		m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
 		m_CameraEntity.AddComponent<CameraComponent>();
 
-		m_SecondCamera = m_ActiveScene->CreateEntity("Clip-Space Entity");
+		m_SecondCamera = m_ActiveScene->CreateEntity("Camera B");
 		auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
 		cc.Primary = false;
 
@@ -44,45 +44,25 @@ namespace Teddy {
 			
 			virtual void OnCreate() override
 			{
-				auto& transform = GetComponent<TransformComponent>().Transform;
-				transform[3][0] = rand() % 10 - 5.0f;
+				auto& tc = GetComponent<TransformComponent>();
+				tc.Translation[0] = rand() % 10 - 5.0f;
 			}
 			virtual void OnDestroy() override
 			{
 			}
 			virtual void OnUpdate(Timestep ts) override
 			{
-				auto& transform = GetComponent<TransformComponent>().Transform;
+				auto& tc = GetComponent<TransformComponent>();
 				float speed = 5.0f;
-				if (Input::IsKeyPressed(KeyCode::D))
-					transform[3][0] -= speed * ts;
-				if (Input::IsKeyPressed(KeyCode::A))
-					transform[3][0] += speed * ts;
+				if (Input::IsKeyPressed(KeyCode::Right))
+					tc.Translation[0] -= speed * ts;
+				if (Input::IsKeyPressed(KeyCode::Left))
+					tc.Translation[0] += speed * ts;
 				if (Input::IsKeyPressed(KeyCode::Down))
-					transform[3][1] += speed * ts;
-				if (Input::IsKeyPressed(KeyCode::W))
-					transform[3][1] -= speed * ts;
-
-				if (m_Rotation)
-				{	
-					float rotationSpeed = 180.0f;
-					float angle = 0.0f;
-					if (Input::IsKeyPressed(KeyCode::Q))
-					{
-						angle += rotationSpeed * ts;
-					}
-					else if (Input::IsKeyPressed(KeyCode::E))
-					{
-						angle -= rotationSpeed * ts;
-					}
-
-					glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), glm::radians(angle), glm::vec3(0.0f, 0.0f, 1.0f));
-
-					transform = rotation * transform;
-				}
+					tc.Translation[1] += speed * ts;
+				if (Input::IsKeyPressed(KeyCode::Up))
+					tc.Translation[1] -= speed * ts;
 			}
-		private:
-			bool m_Rotation = true;
 		};
 
 
@@ -193,9 +173,9 @@ namespace Teddy {
 			ImGui::EndMenuBar();
 		}
 
-		m_SceneHierarchyPanel.OnImGuiUpdate();
+		m_SceneHierarchyPanel.OnImGuiRender();
 
-		ImGui::Begin("Settings");
+		ImGui::Begin("Stats");
 
 		auto stats = Renderer2D::GetStats();
 		ImGui::Text("Renderer2D Stats:");
@@ -204,34 +184,7 @@ namespace Teddy {
 		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
-		if (m_SquareEntity)
-		{
-			ImGui::Separator();
-			auto& tag = m_SquareEntity.GetComponent<TagComponent>().Tag;
-			ImGui::Text("%s", tag.c_str());
-
-			auto& squareColor = m_SquareEntity.GetComponent<SpriteRendererComponent>().Color;
-			ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
-			ImGui::Separator();
-		}
-
-		ImGui::DragFloat3("Camera Transform",
-			glm::value_ptr(m_CameraEntity.GetComponent<TransformComponent>().Transform[3]));
-
-		if (ImGui::Checkbox("Camera A", &m_PrimaryCamera))
-		{
-			m_CameraEntity.GetComponent<CameraComponent>().Primary = m_PrimaryCamera;
-			m_SecondCamera.GetComponent<CameraComponent>().Primary = !m_PrimaryCamera;
-		}
-
-		{
-			auto& camera = m_SecondCamera.GetComponent<CameraComponent>().Camera;
-			float orthoSize = camera.GetOrthoSize();
-			if (ImGui::DragFloat("Second Camera Ortho Size", &orthoSize))
-				camera.SetOrthoSize(orthoSize);
-		}
-
-
+		
 		ImGui::End();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });

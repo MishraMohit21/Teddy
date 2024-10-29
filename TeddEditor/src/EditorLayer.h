@@ -34,7 +34,7 @@ namespace Teddy {
 
 		Ref<Texture2D> m_CheckerboardTexture;
 
-		SceneHeirarchyPanel m_SceneHierarchyPanel;
+		SceneHierarchyPanel m_SceneHierarchyPanel;
 
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };

@@ -34,3 +34,17 @@ namespace Teddy {
 #define TD_WARN(...)          ::Teddy::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define TD_ERROR(...)         ::Teddy::Log::GetClientLogger()->error(__VA_ARGS__)
 #define TD_CRITICAL(...)      ::Teddy::Log::GetClientLogger()->critical(__VA_ARGS__)
+
+
+
+#ifdef TD_DEBUG
+#define TD_ENABLE_ASSERTS
+#endif
+
+#ifdef TD_ENABLE_ASSERTS
+#define TD_ASSERT(x, ...) { if(!(x)) { TD_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#define TD_CORE_ASSERT(x, ...) { if(!(x)) { TD_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#else
+#define TD_ASSERT(x, ...)
+#define TD_CORE_ASSERT(x, ...)
+#endif

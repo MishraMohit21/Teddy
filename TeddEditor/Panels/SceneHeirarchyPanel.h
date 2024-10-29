@@ -1,21 +1,20 @@
 #pragma once
 
-#include <Teddy/Scene/Scene.h>
-#include <Teddy/Core/Core.h>
-#include <imgui/imgui.h>
-#include <Teddy/Scene/Entity.h>
+#include "Teddy/Core/Core.h"
+#include "Teddy/Scene/Scene.h"
+#include "Teddy/Scene/Entity.h"
 
-namespace Teddy
-{
-	class SceneHeirarchyPanel
+namespace Teddy {
+
+	class SceneHierarchyPanel
 	{
 	public:
-		SceneHeirarchyPanel() = default;
-		SceneHeirarchyPanel(const Ref<Scene>& context);
+		SceneHierarchyPanel() = default;
+		SceneHierarchyPanel(const Ref<Scene>& scene);
 
-		void SetContext(const Ref<Scene>& context);
+		void SetContext(const Ref<Scene>& scene);
 
-		void OnImGuiUpdate();
+		void OnImGuiRender();
 	private:
 		void DrawEntityNode(Entity entity);
 		void DrawComponents(Entity entity);
