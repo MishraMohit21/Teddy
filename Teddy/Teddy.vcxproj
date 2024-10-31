@@ -77,7 +77,7 @@
       <PrecompiledHeaderFile>tdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;TD_BUILD_DLL;GLFW_INCLUDE_NONE;TD_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\src;$(SolutionDir)$(ProjectName)\vendor\spdlog\include;$(SolutionDir)$(ProjectName)\vendor\GLFW\include;$(SolutionDir)$(ProjectName)\vendor\Glad\include;$(SolutionDir)$(ProjectName)\vendor\imgui;$(SolutionDir)$(ProjectName)\vendor\glm;$(SolutionDir)$(ProjectName)\vendor\stb_image;$(SolutionDir)$(ProjectName)\vendor\entt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\src;$(SolutionDir)$(ProjectName)\vendor\spdlog\include;$(SolutionDir)$(ProjectName)\vendor\GLFW\include;$(SolutionDir)$(ProjectName)\vendor\Glad\include;$(SolutionDir)$(ProjectName)\vendor\imgui;$(SolutionDir)$(ProjectName)\vendor\glm;$(SolutionDir)$(ProjectName)\vendor\stb_image;$(SolutionDir)$(ProjectName)\vendor\entt;$(SolutionDir)$(ProjectName)\vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -100,7 +100,7 @@
       <PrecompiledHeaderFile>tdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;TD_BUILD_DLL;GLFW_INCLUDE_NONE;TD_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\stb_image;vendor\entt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\stb_image;vendor\entt;vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -126,7 +126,7 @@
       <PrecompiledHeaderFile>tdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;TD_BUILD_DLL;GLFW_INCLUDE_NONE;TD_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\stb_image;vendor\entt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\stb_image;vendor\entt;vendor\yaml-cpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -147,12 +147,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Teddy\Core\MouseCode.h" />
-    <ClInclude Include="src\Teddy\Scene\SceneCamera.h" />
-    <ClInclude Include="src\Teddy\Renderer\Camera.h" />
-    <ClInclude Include="src\Teddy\Scene\Entity.h" />
-    <ClInclude Include="src\Teddy\Scene\Component.h" />
-    <ClInclude Include="src\Teddy\Scene\Scene.h" />
+    <ClInclude Include="src\Teddy\Scene\SceneSerializer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
@@ -171,6 +166,7 @@
     <ClInclude Include="src\Teddy\Core\LayerStack.h" />
     <ClInclude Include="src\Teddy\Core\Log.h" />
     <ClInclude Include="src\Teddy\Core\MouseButtonCodes.h" />
+    <ClInclude Include="src\Teddy\Core\MouseCode.h" />
     <ClInclude Include="src\Teddy\Core\Timestep.h" />
     <ClInclude Include="src\Teddy\Core\Window.h" />
     <ClInclude Include="src\Teddy\Debug\Instrumentor.h" />
@@ -180,6 +176,7 @@
     <ClInclude Include="src\Teddy\Events\MouseEvent.h" />
     <ClInclude Include="src\Teddy\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Teddy\Renderer\Buffer.h" />
+    <ClInclude Include="src\Teddy\Renderer\Camera.h" />
     <ClInclude Include="src\Teddy\Renderer\FrameBuffer.h" />
     <ClInclude Include="src\Teddy\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Teddy\Renderer\OrthographicCamera.h" />
@@ -191,8 +188,12 @@
     <ClInclude Include="src\Teddy\Renderer\Shader.h" />
     <ClInclude Include="src\Teddy\Renderer\Texture.h" />
     <ClInclude Include="src\Teddy\Renderer\VertexArray.h" />
-    <ClInclude Include="src\tdpch.h" />
+    <ClInclude Include="src\Teddy\Scene\Component.h" />
+    <ClInclude Include="src\Teddy\Scene\Entity.h" />
+    <ClInclude Include="src\Teddy\Scene\Scene.h" />
+    <ClInclude Include="src\Teddy\Scene\SceneCamera.h" />
     <ClInclude Include="src\Teddy\Scene\ScriptableEntity.h" />
+    <ClInclude Include="src\tdpch.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_fixes.hpp" />
@@ -558,9 +559,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Teddy\Scene\SceneCamera.cpp" />
-    <ClCompile Include="src\Teddy\Scene\Entity.cpp" />
-    <ClCompile Include="src\Teddy\Scene\Scene.cpp" />
+    <ClCompile Include="src\Teddy\Scene\SceneSerializer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
@@ -589,6 +588,9 @@
     <ClCompile Include="src\Teddy\Renderer\Shader.cpp" />
     <ClCompile Include="src\Teddy\Renderer\Texture.cpp" />
     <ClCompile Include="src\Teddy\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Teddy\Scene\Entity.cpp" />
+    <ClCompile Include="src\Teddy\Scene\Scene.cpp" />
+    <ClCompile Include="src\Teddy\Scene\SceneCamera.cpp" />
     <ClCompile Include="src\tdpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -603,6 +605,9 @@
     </ProjectReference>
     <ProjectReference Include="vendor\imgui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\yaml-cpp\yaml-cpp.vcxproj">
+      <Project>{88F1A057-74BE-FB62-9DD7-E90A890331F1}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

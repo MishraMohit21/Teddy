@@ -40,6 +40,9 @@ namespace Teddy
 				ImGui::EndPopup();
 			}
 
+			ImGui::Spacing();
+			ImGui::Spacing();	
+
 			if (open)
 			{
 				auto& src = entity.GetComponent<T>();
@@ -63,6 +66,8 @@ namespace Teddy
 		ImGuiIO& io = ImGui::GetIO();
 		ImGui::PushID(label.c_str());
 
+		float dragFloatWidth = 75.0f;
+
 		ImGui::Columns(2);
 		ImGui::SetColumnWidth(0, columnWidth);
 		ImGui::Text(label.c_str());
@@ -84,6 +89,7 @@ namespace Teddy
 		ImGui::PopFont();
 
 		ImGui::SameLine();
+		ImGui::SetNextItemWidth(dragFloatWidth);
 		ImGui::DragFloat("##X", &values.x, 0.1f, 0.0f, 0.0f, "%.2f");
 		ImGui::PopItemWidth();
 		ImGui::SameLine();
@@ -98,6 +104,7 @@ namespace Teddy
 		ImGui::PopFont();
 
 		ImGui::SameLine();
+		ImGui::SetNextItemWidth(dragFloatWidth);
 		ImGui::DragFloat("##Y", &values.y, 0.1f, 0.0f, 0.0f, "%.2f");
 		ImGui::PopItemWidth();
 		ImGui::SameLine();
@@ -112,6 +119,7 @@ namespace Teddy
 		ImGui::PopFont();
 
 		ImGui::SameLine();
+		ImGui::SetNextItemWidth(dragFloatWidth);
 		ImGui::DragFloat("##Z", &values.z, 0.1f, 0.0f, 0.0f, "%.2f");
 		ImGui::PopItemWidth();
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Teddy.h"
-#include "../Panels/SceneHeirarchyPanel.h"
+#include "./Panels/SceneHeirarchyPanel.h"
 
 namespace Teddy {
 

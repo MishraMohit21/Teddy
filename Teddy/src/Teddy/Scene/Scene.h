@@ -28,6 +28,7 @@ namespace Teddy
 		entt::registry m_Registry;
 		uint32_t viewportWidth = 0, viewportHeight = 0 ;
 		friend class Entity;
+		friend class SceneSerializer;
 		friend class SceneHierarchyPanel;
 	};
 

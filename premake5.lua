@@ -24,12 +24,15 @@ IncludeDir["ImGui"] = "Teddy/vendor/imgui"
 IncludeDir["glm"] = "Teddy/vendor/glm"
 IncludeDir["stb_image"] = "Teddy/vendor/stb_image"
 IncludeDir["entt"] = "Teddy/vendor/entt"
+IncludeDir["yaml_cpp"] = "Teddy/vendor/yaml-cpp/include"
 
 
 group "Dependencies"
 	include "Teddy/vendor/GLFW"
 	include "Teddy/vendor/Glad"
 	include "Teddy/vendor/imgui"
+	include "Teddy/vendor/yaml-cpp"
+	
 
 group ""
 
@@ -70,7 +73,9 @@ project "Teddy"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.yaml_cpp}"
+
 	}
 
 	links 
@@ -78,6 +83,7 @@ project "Teddy"
 		"GLFW",
 		"Glad",
 		"ImGui",
+		"yaml-cpp",
 		"opengl32.lib"
 	}
 
@@ -172,7 +178,9 @@ project "TeddEditor"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/Panels/**.h",
+		"%{prj.name}/Panels/**.cpp",
 	}
 	includedirs
 	{

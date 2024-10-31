@@ -31,6 +31,9 @@
     <Filter Include="src\Teddy\Renderer">
       <UniqueIdentifier>{3CE6ACC2-28CA-6D18-912A-686B7D2D589A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Teddy\Scene">
+      <UniqueIdentifier>{73272DFE-DFB2-9AC2-E8C3-1DB754CEF6C2}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
@@ -111,6 +114,9 @@
     <ClInclude Include="src\Teddy\Core\MouseButtonCodes.h">
       <Filter>src\Teddy\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Teddy\Core\MouseCode.h">
+      <Filter>src\Teddy\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Teddy\Core\Timestep.h">
       <Filter>src\Teddy\Core</Filter>
     </ClInclude>
@@ -136,6 +142,9 @@
       <Filter>src\Teddy\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Renderer\Buffer.h">
+      <Filter>src\Teddy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Renderer\Camera.h">
       <Filter>src\Teddy\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Renderer\FrameBuffer.h">
@@ -170,6 +179,21 @@
     </ClInclude>
     <ClInclude Include="src\Teddy\Renderer\VertexArray.h">
       <Filter>src\Teddy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Scene\Component.h">
+      <Filter>src\Teddy\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Scene\Entity.h">
+      <Filter>src\Teddy\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Scene\Scene.h">
+      <Filter>src\Teddy\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Scene\SceneCamera.h">
+      <Filter>src\Teddy\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Scene\ScriptableEntity.h">
+      <Filter>src\Teddy\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\tdpch.h">
       <Filter>src</Filter>
@@ -1263,13 +1287,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Teddy\Scene\Scene.h" />
-    <ClInclude Include="src\Teddy\Scene\Component.h" />
-    <ClInclude Include="src\Teddy\Scene\Entity.h" />
-    <ClInclude Include="src\Teddy\Renderer\Camera.h" />
-    <ClInclude Include="src\Teddy\Scene\SceneCamera.h" />
-    <ClInclude Include="src\Teddy\Scene\ScriptableEntity.h" />
-    <ClInclude Include="src\Teddy\Core\MouseCode.h" />
+    <ClInclude Include="src\Teddy\Scene\SceneSerializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1356,14 +1374,21 @@
     <ClCompile Include="src\Teddy\Renderer\VertexArray.cpp">
       <Filter>src\Teddy\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Teddy\Scene\Entity.cpp">
+      <Filter>src\Teddy\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Scene\Scene.cpp">
+      <Filter>src\Teddy\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Scene\SceneCamera.cpp">
+      <Filter>src\Teddy\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\tdpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Teddy\Scene\Scene.cpp" />
-    <ClCompile Include="src\Teddy\Scene\Entity.cpp" />
-    <ClCompile Include="src\Teddy\Scene\SceneCamera.cpp" />
+    <ClCompile Include="src\Teddy\Scene\SceneSerializer.cpp" />
   </ItemGroup>
 </Project>
