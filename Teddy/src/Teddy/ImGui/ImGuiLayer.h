@@ -22,6 +22,8 @@ namespace Teddy {
 
 		void BlockEvent(bool block) { m_blockImGuiEvent = block; }
 
+		void SetDarkThemeColors();
+
 	private:
 		bool m_blockImGuiEvent = true;
 		float m_Time = 0.0f;
