@@ -9,8 +9,9 @@ namespace Teddy
 	class Scene
 	{
 	public:
-		Scene();
+		Scene(const std::string& name);
 		~Scene();
+
 
 		Entity CreateEntity(const std::string name);
 		void DestroyEntity(Entity entity);
@@ -25,6 +26,7 @@ namespace Teddy
 		template<typename T>
 		void OnComponentAdded(Entity entity, T& component);
 	private:
+		std::string m_SceneName;
 		entt::registry m_Registry;
 		uint32_t viewportWidth = 0, viewportHeight = 0 ;
 		friend class Entity;

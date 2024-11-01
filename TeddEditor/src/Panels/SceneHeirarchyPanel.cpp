@@ -6,6 +6,14 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
+#include <cstring>
+/* The Microsoft C++ compiler is non-compliant with the C++ standard and needs
+ * the following definition to disable a security warning on std::strncpy().
+ */
+#ifdef _MSVC_LANG
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 namespace Teddy
 {
 
@@ -25,7 +33,8 @@ namespace Teddy
 			bool open = ImGui::TreeNodeEx((void*)typeid(T).hash_code(), treeNodeFlags, name.c_str());
 
 			ImGui::SameLine(contentRegionAvailable.x - lineHeight * 0.5f);
-			if (ImGui::Button("+", ImVec2{ lineHeight, lineHeight }))
+			
+			if (ImGui::Button("-", ImVec2{ lineHeight, lineHeight }))
 			{
 				ImGui::OpenPopup("Component Settings");
 			}
@@ -83,7 +92,7 @@ namespace Teddy
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
 		ImGui::PushFont(io.Fonts->Fonts[0]);
-		if (ImGui::Button("", buttonSize))
+		if (ImGui::Button("X", buttonSize))
 			values.x = resetValue;
 		ImGui::PopStyleColor(3);
 		ImGui::PopFont();
@@ -98,7 +107,7 @@ namespace Teddy
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
 		ImGui::PushFont(io.Fonts->Fonts[0]);
-		if (ImGui::Button("", buttonSize))
+		if (ImGui::Button("Y", buttonSize))
 			values.y = resetValue;
 		ImGui::PopStyleColor(3);
 		ImGui::PopFont();
@@ -113,7 +122,7 @@ namespace Teddy
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
 		ImGui::PushFont(io.Fonts->Fonts[0]);
-		if (ImGui::Button("", buttonSize))
+		if (ImGui::Button("Z", buttonSize))
 			values.z = resetValue;
 		ImGui::PopStyleColor(3);
 		ImGui::PopFont();
@@ -139,6 +148,7 @@ namespace Teddy
 	void SceneHierarchyPanel::SetContext(const Ref<Scene>& context)
 	{
 		m_Context = context;
+		m_SelectionContext = {};
 	}
 	void SceneHierarchyPanel::OnImGuiRender()
 	{
@@ -228,7 +238,7 @@ namespace Teddy
 
 			char buffer[256];
 			memset(buffer, 0, sizeof(buffer));
-			strcpy_s(buffer, sizeof(buffer), tag.c_str());
+			std::strncpy(buffer, tag.c_str(), sizeof(buffer));
 			if (ImGui::InputText("##Tag", buffer, sizeof(buffer)))
 			{
 				tag = std::string(buffer);
@@ -245,13 +255,19 @@ namespace Teddy
 		{
 			if (ImGui::MenuItem("Camera"))
 			{
-				m_SelectionContext.AddComponent<CameraComponent>();
+				if (!m_SelectionContext.HasComponent<CameraComponent>())
+					m_SelectionContext.AddComponent<CameraComponent>();
+				else
+					TD_CORE_WARN("This entity already has the Camera Component!");
 				ImGui::CloseCurrentPopup();
 			}
 
 			if (ImGui::MenuItem("Sprite Renderer"))
 			{
-				m_SelectionContext.AddComponent<SpriteRendererComponent>();
+				if (!m_SelectionContext.HasComponent<SpriteRendererComponent>())
+					m_SelectionContext.AddComponent<SpriteRendererComponent>();
+				else
+					TD_CORE_WARN("This entity already has the Sprite Renderer Component!");
 				ImGui::CloseCurrentPopup();
 			}
 
@@ -282,7 +298,7 @@ namespace Teddy
 			{
 				for (int i = 0; i < 2; i++)
 				{
-					bool isSelected = currentProjectionTypeString == projectionTypeStrings[i];
+					bool isSelected == projectionTypeStrings[i];
 					if (ImGui::Selectable(projectionTypeStrings[i], isSelected))
 					{
 						currentProjectionTypeString = projectionTypeStrings[i];

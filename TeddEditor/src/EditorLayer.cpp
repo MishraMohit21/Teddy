@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <Teddy/Utils/PlatformUtils.h>
 
 namespace Teddy {
 
@@ -23,7 +24,7 @@ namespace Teddy {
 		fbSpec.Height = 720;
 		m_Framebuffer = FrameBuffer::Create(fbSpec);
 
-		m_ActiveScene = CreateRef<Scene>();
+		m_ActiveScene = CreateRef<Scene>("OnlySquare");
 
 		class CameraController : public ScriptableEntity
 		{
@@ -68,7 +69,7 @@ namespace Teddy {
 
 		std::string testname = "CameraController";
 
-		m_CameraEntity.AddComponent<CppScriptComponent>().Bind<testname.>();
+		m_CameraEntity.AddComponent<CppScriptComponent>().Bind<CameraController>();
 		m_SecondCamera.AddComponent<CppScriptComponent>().Bind<CameraController>();
 #endif
 
@@ -176,19 +177,16 @@ namespace Teddy {
 				// which we can't undo at the moment without finer window depth/z control.
 				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
 
+				if (ImGui::MenuItem("New"))
+					OnNewScene();
+	
+				if (ImGui::MenuItem("Open ..."))
+					OnOpenScene();
+
+				if (ImGui::MenuItem("Save As..."))
+					OnSaveSceneAs();
+
 				if (ImGui::MenuItem("Exit")) Application::Get().Close();
-
-				if (ImGui::MenuItem("Serialize"))
-				{
-					SceneSerializer serializer(m_ActiveScene);
-					serializer.Serialize("assets/scenes/Example.tddy");
-				}
-				if (ImGui::MenuItem("Deserialize"))
-				{
-					SceneSerializer serializer(m_ActiveScene);
-					serializer.DeSerialize("assets/scenes/Example.tddy");
-				}
-
 				ImGui::EndMenu();
 			}
 
@@ -230,6 +228,78 @@ namespace Teddy {
 	void EditorLayer::OnEvent(Event& e)
 	{
 		m_CameraController.OnEvent(e);
+
+		EventDispatcher evnDis(e);
+		evnDis.Dispatch<KeyPressedEvent>(TD_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+	}
+
+
+
+	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
+	{
+
+		if (e.GetRepeatCount() > 0)
+			return false;
+
+		bool control = Input::IsKeyPressed(KeyCode::LeftControl) || Input::IsKeyPressed(KeyCode::RightControl);
+		bool shift = Input::IsKeyPressed(KeyCode::LeftShift) || Input::IsKeyPressed(KeyCode::RightShift);
+		
+		switch (e.GetKeyCode())
+		{
+			case Key::N:
+				if (control)
+					OnNewScene();
+				break;
+		
+			case Key::O:
+				if (control)
+					OnNewScene();
+				break; 
+
+			case Key::S:
+					if (control && shift)
+						OnNewScene();
+					break;
+			default:
+				break;
+		}
+
+		return false;
+	}
+
+	void EditorLayer::OnNewScene()
+	{
+
+		m_ActiveScene = CreateRef<Scene>("NewScene");
+
+		m_ActiveScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+	}
+
+	void EditorLayer::OnOpenScene()
+	{
+
+		std::string filepath = FileDialogs::OpenFile("Teddy Scene (*.tddy)\0*.tddy\0");
+		if (!filepath.empty())
+		{
+			m_ActiveScene = CreateRef<Scene>("SceneFromFile");
+			m_ActiveScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.DeSerialize(filepath);
+		}
+
+	}
+
+	void EditorLayer::OnSaveSceneAs()
+	{
+		std::string filepath = FileDialogs::SaveFile("Teddy Scene (*.tddy)\0*.tddy\0");
+		if (!filepath.empty())
+		{
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.Serialize(filepath);
+		}
 	}
 
 }

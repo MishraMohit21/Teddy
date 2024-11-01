@@ -1290,6 +1290,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\Teddy\Utils\PlatformUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1394,5 +1395,6 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowUtils.cpp" />
   </ItemGroup>
 </Project>

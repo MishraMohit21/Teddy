@@ -194,6 +194,7 @@
     <ClInclude Include="src\Teddy\Scene\SceneSerializer.h" />
     <ClInclude Include="src\Teddy\Scene\ScriptableEntity.h" />
     <ClInclude Include="src\tdpch.h" />
+    <ClInclude Include="src\Teddy\Utils\PlatformUtils.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_fixes.hpp" />
@@ -568,6 +569,7 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGlFrameBuffer.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowUtils.cpp" />
     <ClCompile Include="src\Teddy\Core\Application.cpp" />
     <ClCompile Include="src\Teddy\Core\Layer.cpp" />
     <ClCompile Include="src\Teddy\Core\LayerStack.cpp" />

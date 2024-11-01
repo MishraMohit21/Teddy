@@ -18,6 +18,13 @@ namespace Teddy {
 		void OnUpdate(Timestep ts) override;
 		virtual void OnImGuiRender() override;
 		void OnEvent(Event& e) override;
+
+	private:
+		bool OnKeyPressed(KeyPressedEvent& e);
+
+		void OnNewScene();
+		void OnOpenScene();
+		void OnSaveSceneAs();
 	private:
 		Teddy::OrthographicCameraController m_CameraController;
 

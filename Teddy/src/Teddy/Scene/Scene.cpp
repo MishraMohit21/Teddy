@@ -10,7 +10,8 @@
 namespace Teddy
 {
 	
-	Scene::Scene()
+	Scene::Scene(const std::string& name)
+		:m_SceneName(name)
 	{
 	}
 

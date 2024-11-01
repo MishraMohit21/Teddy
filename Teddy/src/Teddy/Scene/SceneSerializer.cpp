@@ -12,6 +12,7 @@ namespace YAML {
 			node.push_back(rhs.x);
 			node.push_back(rhs.y);
 			node.push_back(rhs.z);
+			node.SetStyle(EmitterStyle::Flow);
 			return node;
 		}
 		static bool decode(const Node& node, glm::vec3& rhs)
@@ -34,6 +35,7 @@ namespace YAML {
 			node.push_back(rhs.y);
 			node.push_back(rhs.z);
 			node.push_back(rhs.w);
+			node.SetStyle(EmitterStyle::Flow);
 			return node;
 		}
 		static bool decode(const Node& node, glm::vec4& rhs)
@@ -177,10 +179,8 @@ namespace Teddy
 
 	bool SceneSerializer::DeSerialize(const std::string& filePath)
 	{
-		std::ifstream stream(filePath);
-		std::stringstream strStream;
-		strStream << stream.rdbuf();
-		YAML::Node data = YAML::Load(strStream.str());
+		YAML::Node data = YAML::LoadFile(filePath);
+
 		if (!data["Scene"])
 			return false;
 		std::string sceneName = data["Scene"].as<std::string>();
