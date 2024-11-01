@@ -72,7 +72,7 @@ namespace Teddy
 	static void SerializeEntity(YAML::Emitter& out, Entity& entity)
 	{
 		out << YAML::BeginMap;
-		out << YAML::Key << "Entity" << YAML::Value << "98765678890";   // Fix this id system
+		out << YAML::Key << "EntityId" << YAML::Value << "12837192831273";   // Fix this id system
 
 		if (entity.HasComponent<TagComponent>())
 		{
@@ -130,6 +130,15 @@ namespace Teddy
 			out << YAML::EndMap;
 		}
 
+		if (entity.HasComponent<CppScriptComponent>())
+		{
+			out << YAML::Key << "CppScriptComponent";
+			out << YAML::BeginMap;
+			std::string className = entity.GetComponent<CppScriptComponent>().scriptClass;
+			out << YAML::Key << "Class" << YAML::Value << className;
+			out << YAML::EndMap;
+		}
+
 		out << YAML::EndMap;
 	}
 
@@ -171,9 +180,62 @@ namespace Teddy
 		std::ifstream stream(filePath);
 		std::stringstream strStream;
 		strStream << stream.rdbuf();
-
-
-
+		YAML::Node data = YAML::Load(strStream.str());
+		if (!data["Scene"])
+			return false;
+		std::string sceneName = data["Scene"].as<std::string>();
+		TD_CORE_TRACE("Deserializing scene '{0}'", sceneName);
+		auto entities = data["Entities"];
+		if (entities)
+		{
+			for (auto entity : entities)
+			{
+				uint64_t uuid = entity["EntityId"].as<uint64_t>(); // TODO
+				std::string name;
+				auto tagComponent = entity["TagComponent"];
+				if (tagComponent)
+					name = tagComponent["Tag"].as<std::string>();
+				TD_CORE_TRACE("Deserialized entity with ID = {0}, name = {1}", uuid, name);
+				Entity deserializedEntity = m_Scene->CreateEntity(name);
+				auto transformComponent = entity["TransformComponent"];
+				if (transformComponent)
+				{
+					// Entities always have transforms
+					auto& tc = deserializedEntity.GetComponent<TransformComponent>();
+					tc.Translation = transformComponent["Translation"].as<glm::vec3>();
+					tc.Rotation = transformComponent["Rotation"].as<glm::vec3>();
+					tc.Scale = transformComponent["Scale"].as<glm::vec3>();
+				}
+				auto cameraComponent = entity["CameraComponent"];
+				if (cameraComponent)
+				{
+					auto& cc = deserializedEntity.AddComponent<CameraComponent>();
+					auto& cameraProps = cameraComponent["Camera"];
+					cc.Camera.SetProjectionType((SceneCamera::ProjectionType)cameraProps["ProjectionType"].as<int>());
+					cc.Camera.SetPerspectiveVerticalFOV(cameraProps["PerspectiveFOV"].as<float>());
+					cc.Camera.SetPerspectiveNearClip(cameraProps["PerspectiveNearClip"].as<float>());
+					cc.Camera.SetPerspectiveFarClip(cameraProps["PerspectiveFarClip"].as<float>());
+					cc.Camera.SetOrthoSize(cameraProps["OrthographicSize"].as<float>());
+					cc.Camera.SetOrthoNearClip(cameraProps["OrthographicNearClip"].as<float>());
+					cc.Camera.SetOrthoFarClip(cameraProps["OrthographicFarClip"].as<float>());
+					cc.Primary = cameraComponent["Primary"].as<bool>();
+					cc.isFixedAspectRatio = cameraComponent["FixedAspectRatio"].as<bool>();
+				}
+				auto spriteRendererComponent = entity["SpriteRendererComponent"];
+				if (spriteRendererComponent)
+				{
+					auto& src = deserializedEntity.AddComponent<SpriteRendererComponent>();
+					src.Color = spriteRendererComponent["Color"].as<glm::vec4>();
+				}
+				/*auto cppScriptComponent = entity["CppScriptComponent"];
+				if (cppScriptComponent)
+				{
+					cppScriptComponent["Class"].as<function
+					auto& csc = deserializedEntity.AddComponent<Sprte
+				}*/
+			}
+		}
+		return true;
 	}
 	
 	bool SceneSerializer::DeSerializeRuntime(const std::string& filePath)

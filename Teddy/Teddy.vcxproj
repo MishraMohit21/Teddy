@@ -147,7 +147,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Teddy\Scene\SceneSerializer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
@@ -192,6 +191,7 @@
     <ClInclude Include="src\Teddy\Scene\Entity.h" />
     <ClInclude Include="src\Teddy\Scene\Scene.h" />
     <ClInclude Include="src\Teddy\Scene\SceneCamera.h" />
+    <ClInclude Include="src\Teddy\Scene\SceneSerializer.h" />
     <ClInclude Include="src\Teddy\Scene\ScriptableEntity.h" />
     <ClInclude Include="src\tdpch.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
@@ -559,7 +559,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Teddy\Scene\SceneSerializer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
@@ -591,6 +590,7 @@
     <ClCompile Include="src\Teddy\Scene\Entity.cpp" />
     <ClCompile Include="src\Teddy\Scene\Scene.cpp" />
     <ClCompile Include="src\Teddy\Scene\SceneCamera.cpp" />
+    <ClCompile Include="src\Teddy\Scene\SceneSerializer.cpp" />
     <ClCompile Include="src\tdpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

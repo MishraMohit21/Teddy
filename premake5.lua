@@ -134,6 +134,7 @@ project "Sandbox"
 		"Teddy/src",
 		"Teddy/vendor",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.yaml_cpp}",
 		"%{IncludeDir.entt}"
 
 	}
@@ -188,6 +189,7 @@ project "TeddEditor"
 		"Teddy/src",
 		"Teddy/vendor",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.yaml_cpp}",
 		"%{IncludeDir.entt}"
 	}
 	links

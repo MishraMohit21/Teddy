@@ -192,6 +192,9 @@
     <ClInclude Include="src\Teddy\Scene\SceneCamera.h">
       <Filter>src\Teddy\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\Teddy\Scene\SceneSerializer.h">
+      <Filter>src\Teddy\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="src\Teddy\Scene\ScriptableEntity.h">
       <Filter>src\Teddy\Scene</Filter>
     </ClInclude>
@@ -1287,7 +1290,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Teddy\Scene\SceneSerializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1383,12 +1385,14 @@
     <ClCompile Include="src\Teddy\Scene\SceneCamera.cpp">
       <Filter>src\Teddy\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\Teddy\Scene\SceneSerializer.cpp">
+      <Filter>src\Teddy\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\tdpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Teddy\Scene\SceneSerializer.cpp" />
   </ItemGroup>
 </Project>

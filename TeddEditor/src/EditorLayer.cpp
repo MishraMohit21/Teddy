@@ -25,19 +25,6 @@ namespace Teddy {
 
 		m_ActiveScene = CreateRef<Scene>();
 
-		// Entity
-		auto square = m_ActiveScene->CreateEntity("Square");
-		square.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0, 0.647, 0.0, 1.0f });
-
-		m_SquareEntity = square;
-
-		m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
-		m_CameraEntity.AddComponent<CameraComponent>();
-
-		m_SecondCamera = m_ActiveScene->CreateEntity("Camera B");
-		auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
-		cc.Primary = false;
-
 		class CameraController : public ScriptableEntity
 		{
 		public:
@@ -65,9 +52,25 @@ namespace Teddy {
 			}
 		};
 
+#if 1
+		// Entity
+		auto square = m_ActiveScene->CreateEntity("Square");
+		square.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0, 0.647, 0.0, 1.0f });
 
-		m_CameraEntity.AddComponent<CppScriptComponent>().Bind<CameraController>();
+		m_SquareEntity = square;
+
+		m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
+		m_CameraEntity.AddComponent<CameraComponent>();
+
+		m_SecondCamera = m_ActiveScene->CreateEntity("Camera B");
+		auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
+		cc.Primary = false;
+
+		std::string testname = "CameraController";
+
+		m_CameraEntity.AddComponent<CppScriptComponent>().Bind<testname.>();
 		m_SecondCamera.AddComponent<CppScriptComponent>().Bind<CameraController>();
+#endif
 
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 
@@ -100,7 +103,7 @@ namespace Teddy {
 		// Render
 		Renderer2D::ResetStats();
 		m_Framebuffer->bind();
-		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+		RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
 		RenderCommand::Clear();
 
 		// Update scene
@@ -174,6 +177,18 @@ namespace Teddy {
 				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
 
 				if (ImGui::MenuItem("Exit")) Application::Get().Close();
+
+				if (ImGui::MenuItem("Serialize"))
+				{
+					SceneSerializer serializer(m_ActiveScene);
+					serializer.Serialize("assets/scenes/Example.tddy");
+				}
+				if (ImGui::MenuItem("Deserialize"))
+				{
+					SceneSerializer serializer(m_ActiveScene);
+					serializer.DeSerialize("assets/scenes/Example.tddy");
+				}
+
 				ImGui::EndMenu();
 			}
 

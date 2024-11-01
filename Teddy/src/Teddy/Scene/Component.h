@@ -71,6 +71,7 @@ namespace Teddy
 
 	struct CppScriptComponent
 	{
+		std::string scriptClass;
 		ScriptableEntity* Instance = nullptr;
 
 		ScriptableEntity* (*InstantiateScript)();
@@ -80,6 +81,7 @@ namespace Teddy
 		template <typename T>
 		void Bind()
 		{
+			scriptClass = typeid(T).name;
 			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
 			DestroyScript = [](CppScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
 
