@@ -18,13 +18,15 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
-IncludeDir["GLFW"] = "Teddy/vendor/GLFW/include"
-IncludeDir["Glad"] = "Teddy/vendor/Glad/include"
-IncludeDir["ImGui"] = "Teddy/vendor/imgui"
-IncludeDir["glm"] = "Teddy/vendor/glm"
-IncludeDir["stb_image"] = "Teddy/vendor/stb_image"
-IncludeDir["entt"] = "Teddy/vendor/entt"
-IncludeDir["yaml_cpp"] = "Teddy/vendor/yaml-cpp/include"
+IncludeDir["GLFW"] = "./Teddy/vendor/GLFW/include"
+IncludeDir["Glad"] = "./Teddy/vendor/Glad/include"
+IncludeDir["ImGui"] = "./Teddy/vendor/imgui"
+IncludeDir["glm"] = "./Teddy/vendor/glm"
+IncludeDir["stb_image"] = "./Teddy/vendor/stb_image"
+IncludeDir["entt"] = "./Teddy/vendor/entt"
+IncludeDir["yaml_cpp"] = "./Teddy/vendor/yaml-cpp/include"
+IncludeDir["ImGuizmo"] = "./Teddy/vendor/ImGuizmo"
+
 
 
 group "Dependencies"
@@ -57,6 +59,9 @@ project "Teddy"
 		"%{prj.name}/vendor/stb_image/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
+
+		"vendor/ImGuizmo/ImGuizmo.h",
+		"vendor/ImGuizmo/ImGuizmo.cpp"
 	}
 
 	defines
@@ -74,6 +79,7 @@ project "Teddy"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.entt}",
+		"%{IncludeDir.ImGuizmo}",
 		"%{IncludeDir.yaml_cpp}"
 
 	}
@@ -86,6 +92,9 @@ project "Teddy"
 		"yaml-cpp",
 		"opengl32.lib"
 	}
+
+	filter "files:vendor/OP/**.cpp"
+	flags { "NoPCH" }
 
 	filter "system:windows"
 		systemversion "latest"
@@ -135,6 +144,7 @@ project "Sandbox"
 		"Teddy/vendor",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.ImGuizmo}",
 		"%{IncludeDir.entt}"
 
 	}
@@ -190,6 +200,7 @@ project "TeddEditor"
 		"Teddy/vendor",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.ImGuizmo}",	
 		"%{IncludeDir.entt}"
 	}
 	links

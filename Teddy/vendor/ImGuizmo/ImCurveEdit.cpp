@@ -427,3 +427,4 @@ namespace ImCurveEdit
       return ret;
    }
 }
+

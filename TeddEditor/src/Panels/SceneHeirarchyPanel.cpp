@@ -298,7 +298,7 @@ namespace Teddy
 			{
 				for (int i = 0; i < 2; i++)
 				{
-					bool isSelected == projectionTypeStrings[i];
+					bool isSelected  = currentProjectionTypeString == projectionTypeStrings[i];
 					if (ImGui::Selectable(projectionTypeStrings[i], isSelected))
 					{
 						currentProjectionTypeString = projectionTypeStrings[i];

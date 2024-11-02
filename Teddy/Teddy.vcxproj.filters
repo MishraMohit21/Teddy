@@ -34,6 +34,15 @@
     <Filter Include="src\Teddy\Scene">
       <UniqueIdentifier>{73272DFE-DFB2-9AC2-E8C3-1DB754CEF6C2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Teddy\Utils">
+      <UniqueIdentifier>{B6BB5AFE-2247-C8C2-2B58-4BB7976224C3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor">
+      <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\ImGuizmo">
+      <UniqueIdentifier>{73BF7F4C-DF4A-ED10-E85B-700554664911}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
@@ -197,6 +206,9 @@
     </ClInclude>
     <ClInclude Include="src\Teddy\Scene\ScriptableEntity.h">
       <Filter>src\Teddy\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Utils\PlatformUtils.h">
+      <Filter>src\Teddy\Utils</Filter>
     </ClInclude>
     <ClInclude Include="src\tdpch.h">
       <Filter>src</Filter>
@@ -1290,7 +1302,10 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Teddy\Utils\PlatformUtils.h" />
+    <ClInclude Include="vendor\ImGuizmo\ImCurveEdit.h" />
+    <ClInclude Include="vendor\ImGuizmo\ImGradient.h" />
+    <ClInclude Include="vendor\ImGuizmo\ImGuizmo.h" />
+    <ClInclude Include="vendor\ImGuizmo\ImSequencer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1313,6 +1328,9 @@
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGlFrameBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowUtils.cpp">
+      <Filter>src\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>
@@ -1395,6 +1413,9 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\Windows\WindowUtils.cpp" />
+    <ClCompile Include="vendor\ImGuizmo\ImCurveEdit.cpp" />
+    <ClCompile Include="vendor\ImGuizmo\ImGradient.cpp" />
+    <ClCompile Include="vendor\ImGuizmo\ImGuizmo.cpp" />
+    <ClCompile Include="vendor\ImGuizmo\ImSequencer.cpp" />
   </ItemGroup>
 </Project>

@@ -253,12 +253,12 @@ namespace Teddy {
 		
 			case Key::O:
 				if (control)
-					OnNewScene();
+					OnOpenScene();
 				break; 
 
 			case Key::S:
 					if (control && shift)
-						OnNewScene();
+						OnSaveSceneAs();
 					break;
 			default:
 				break;
