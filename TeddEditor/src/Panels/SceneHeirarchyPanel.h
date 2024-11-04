@@ -3,6 +3,8 @@
 #include "Teddy/Core/Core.h"
 #include "Teddy/Scene/Scene.h"
 #include "Teddy/Scene/Entity.h"
+#include <Teddy/Utils/PlatformUtils.h>
+
 
 namespace Teddy {
 
@@ -18,9 +20,14 @@ namespace Teddy {
 	private:
 		void DrawEntityNode(Entity entity);
 		void DrawComponents(Entity entity);
+
+	private:
+		bool showRemoveTexture = false;
 	private:
 		Ref<Scene> m_Context;
 		Entity m_SelectionContext;
 	};
 
 }
+
+void ShowTimedPrompt(float duration);

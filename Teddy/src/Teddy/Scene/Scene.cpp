@@ -3,6 +3,7 @@
 
 #include "Component.h"
 #include "Teddy/Renderer/Renderer2D.h"
+#include "Teddy/Renderer/RenderCommand.h"
 
 #include "Entity.h"
 #include <glm/glm.hpp>
@@ -109,7 +110,11 @@ namespace Teddy
 			for (auto entity : group)
 			{
 				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-				Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
+
+				if (sprite.c_texture)
+					Renderer2D::DrawQuad(transform.GetTransform(), sprite.c_texture, sprite.c_tilingFactor, sprite.Color);
+				else
+					Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
 			}
 			Renderer2D::EndScene();
 		}

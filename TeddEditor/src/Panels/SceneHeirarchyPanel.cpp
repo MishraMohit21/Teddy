@@ -72,7 +72,6 @@ namespace Teddy
 
 	static void DrawVec3Control(const std::string& label, glm::vec3& values, float resetValue = 0.0f, float columnWidth = 100.0f)
 	{
-		ImGuiIO& io = ImGui::GetIO();
 		ImGui::PushID(label.c_str());
 
 		float dragFloatWidth = 75.0f;
@@ -91,11 +90,9 @@ namespace Teddy
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-		ImGui::PushFont(io.Fonts->Fonts[0]);
-		if (ImGui::Button("X", buttonSize))
+		if (ImGui::Button("", buttonSize))
 			values.x = resetValue;
 		ImGui::PopStyleColor(3);
-		ImGui::PopFont();
 
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(dragFloatWidth);
@@ -106,11 +103,9 @@ namespace Teddy
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-		ImGui::PushFont(io.Fonts->Fonts[0]);
 		if (ImGui::Button("Y", buttonSize))
 			values.y = resetValue;
 		ImGui::PopStyleColor(3);
-		ImGui::PopFont();
 
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(dragFloatWidth);
@@ -121,11 +116,9 @@ namespace Teddy
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-		ImGui::PushFont(io.Fonts->Fonts[0]);
 		if (ImGui::Button("Z", buttonSize))
 			values.z = resetValue;
 		ImGui::PopStyleColor(3);
-		ImGui::PopFont();
 
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(dragFloatWidth);
@@ -347,11 +340,71 @@ namespace Teddy
 		});
 
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component) {
-			ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
+			
+
+			ImGui::ColorEdit4("Tint Color", glm::value_ptr(component.Color));
+
+			// Add texture selection button
+			if (ImGui::Button("Select Texture"))
+			{
+				std::string filepath = FileDialogs::OpenFile("Image Files (*.png;*.jpg)\0*.png;*.jpg\0All Files (*.*)\0*.*\0");
+				if (!filepath.empty())
+				{
+					component.c_texture = Texture2D::Create(filepath);
+				}
+				else
+				{
+					ShowTimedPrompt(3.0f);
+				}
+			}
+
+			// Show the remove texture button only if there's a texture
+			ImGui::SameLine();
+			if (component.c_texture)
+			{
+				if (ImGui::Button("Remove Texture"))
+				{
+					component.c_texture = nullptr;
+					TD_CORE_INFO("Texture removed successfully.");
+				}
+			}
+
+			ImGui::SameLine();
+			// Display current texture preview if it exists
+			if (component.c_texture)
+			{
+				ImGui::Text("Current Texture: Active");
+				// Optional: Add texture preview or additional texture properties here
+			}
+			else
+			{
+				ImGui::Text("Current Texture: None");
+			}
+
 		});
 
 	}
 
 	
 
+}
+
+
+
+
+void ShowTimedPrompt(float duration) {
+	static float endTime = 0.0f;
+
+		ImGui::OpenPopup("Timed Prompt");
+		endTime = ImGui::GetTime() + duration;
+
+	if (ImGui::BeginPopupModal("Timed Prompt")) {
+		ImGui::Text("File Does Not Exists.");
+
+		if (ImGui::GetTime() > endTime) {
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+	}
 }
