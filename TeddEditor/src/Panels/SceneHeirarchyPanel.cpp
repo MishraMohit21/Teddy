@@ -181,17 +181,8 @@ namespace Teddy
 
 	void SceneHierarchyPanel::DrawEntityNode(Entity entity)
 	{
-		bool entityDeleted = false;
-		/*
-		if (ImGui::BeginPopupContextItem())
-		{
-			if (ImGui::MenuItem("Delete Entity"))
-				entityDeleted = true;
 
-			ImGui::EndPopup();
-		}*/
-		
-		auto& tag = entity.GetComponent<TagComponent>().Tag;
+		/*auto& tag = entity.GetComponent<TagComponent>().Tag;
 
 		ImGuiTreeNodeFlags flags = ((m_SelectionContext == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
 		flags |= ImGuiTreeNodeFlags_SpanAvailWidth;
@@ -201,6 +192,17 @@ namespace Teddy
 			m_SelectionContext = entity;
 		}
 
+		bool entityDeleted = false;
+		if (ImGui::BeginPopupContextItem())
+		{
+			if (ImGui::MenuItem("Delete Entity"))
+			{
+				entityDeleted = true;
+				opened = false;
+			}
+
+			ImGui::EndPopup();
+		}
 
 		if (opened)
 		{
@@ -216,7 +218,52 @@ namespace Teddy
 			m_Context->DestroyEntity(entity);
 			if (m_SelectionContext == entity)
 				m_SelectionContext = {};
+		}*/
+
+
+		// Check if the entity is still valid before proceeding
+		if (!m_Context->m_Registry.valid(entity))
+			return;
+
+		auto& tag = entity.GetComponent<TagComponent>().Tag;
+
+		ImGuiTreeNodeFlags flags = ((m_SelectionContext == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
+		flags |= ImGuiTreeNodeFlags_SpanAvailWidth;
+		bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, tag.c_str());
+		if (ImGui::IsItemClicked())
+		{
+			m_SelectionContext = entity;
 		}
+
+		bool entityDeleted = false;
+		if (ImGui::BeginPopupContextItem())
+		{
+			if (ImGui::MenuItem("Delete Entity"))
+			{
+				entityDeleted = true;
+				opened = false;
+			}
+
+			ImGui::EndPopup();
+		}
+
+		if (opened)
+		{
+			ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
+			bool opened = ImGui::TreeNodeEx((void*)9817239, flags, tag.c_str());
+			if (opened)
+				ImGui::TreePop();
+			ImGui::TreePop();
+		}
+
+		if (entityDeleted)
+		{
+			TD_CORE_INFO("Deleting entity: {}", tag);
+			m_Context->DestroyEntity(entity);
+			if (m_SelectionContext == entity)
+				m_SelectionContext = {};
+		}
+
 	}
 
 	

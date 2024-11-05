@@ -2,20 +2,45 @@ Scene: untitled
 Entities:
   - EntityId: 12837192831273
     TagComponent:
-      Tag: Square
+      Tag: Front
     TransformComponent:
-      Translation: [2.55303168, 1.22000003, -6.5999999]
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     SpriteRendererComponent:
-      TintColor: [1, 0.647000015, 0, 1]
+      TintColor: [0.876447856, 0, 0.834712803, 1]
       TextureFile: 0
       TilingFactor: 1
+
   - EntityId: 12837192831273
     TagComponent:
-      Tag: Camera A
+      Tag: Right
     TransformComponent:
-      Translation: [2, 0, 5.4000001]
+      Translation: [0.5, 0, 0.5]
+      Rotation: [0, 0.785398185, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      TintColor: [0.54842025, 0, 0.586872578, 1]
+      TextureFile: 0
+      TilingFactor: 1
+
+  - EntityId: 12837192831273
+    TagComponent:
+      Tag: Top
+    TransformComponent:
+      Translation: [0, 0.5, 0.5]
+      Rotation: [1.57079637, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      TintColor: [1, 0, 0.949807167, 1]
+      TextureFile: 0
+      TilingFactor: 1
+
+  - EntityId: 12837192831273
+    TagComponent:
+      Tag: Camera
+    TransformComponent:
+      Translation: [2, 1, 5]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     CameraComponent:
@@ -31,34 +56,3 @@ Entities:
       FixedAspectRatio: false
     CppScriptComponent:
       Class: "class `public: virtual void __cdecl Teddy::EditorLayer::OnAttach(void) __ptr64'::`2'::CameraController"
-  - EntityId: 12837192831273
-    TagComponent:
-      Tag: Camera B
-    TransformComponent:
-      Translation: [-4, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    CameraComponent:
-      Camera:
-        ProjectionType: 1
-        PerspectiveFOV: 0.785398185
-        PerspectiveNearClip: 0.00999999978
-        PerspectiveFarClip: 1000
-        OrthographicSize: 10
-        OrthographicNearClip: -1
-        OrthographicFarClip: 1
-      Primary: false
-      FixedAspectRatio: false
-    CppScriptComponent:
-      Class: "class `public: virtual void __cdecl Teddy::EditorLayer::OnAttach(void) __ptr64'::`2'::CameraController"
-  - EntityId: 12837192831273
-    TagComponent:
-      Tag: Square two
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      TintColor: [0.876447856, 0.402692288, 0.402692288, 1]
-      TextureFile: 0
-      TilingFactor: 1
