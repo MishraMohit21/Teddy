@@ -13,7 +13,7 @@ namespace Teddy
 	public:
 		Entity() = default;
 		Entity(entt::entity handle, Scene* scene);
-		Entity(Entity& other) = default;
+		Entity(const Entity& other) = default;
 	
 		template <typename T, typename... Args>
 		T& AddComponent(Args&&... args)

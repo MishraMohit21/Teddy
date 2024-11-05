@@ -10,7 +10,10 @@
 
 namespace Teddy
 {
-	
+	Scene::Scene()
+		:m_SceneName("Untitiled")
+	{
+	}
 	Scene::Scene(const std::string& name)
 		:m_SceneName(name)
 	{
@@ -49,7 +52,7 @@ namespace Teddy
 	template<>
 	void Scene::OnComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
 	{
-		component.Camera.SetProjection(viewportWidth, viewportHeight);
+		component.Camera.SetViewportSize(viewportWidth, viewportHeight);
 	}
 	template<>
 	void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component)
@@ -65,7 +68,24 @@ namespace Teddy
 	}
 
 
-	void Scene::OnUpdate(Timestep ts)
+	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& cam	)
+	{
+
+		Renderer2D::BeginScene(cam);
+		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+		for (auto entity : group)
+		{
+			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+			if (sprite.c_texture)
+				Renderer2D::DrawQuad(transform.GetTransform(), sprite.c_texture, sprite.c_tilingFactor, sprite.Color);
+			else
+				Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
+		}
+		Renderer2D::EndScene();
+
+	}
+
+	void Scene::OnUpdateRuntime(Timestep ts)
 	{
 
 
@@ -131,9 +151,22 @@ namespace Teddy
 
 			if (!cameraComponent.isFixedAspectRatio)
 			{
-				cameraComponent.Camera.SetProjection(width, height);
+				cameraComponent.Camera.SetViewportSize(width, height);
 			}
 		}
 
 	}
+	Entity Scene::GetPrimarySceneCamera()
+	{
+		auto view = m_Registry.view<CameraComponent>();
+
+		for (auto& entity : view)
+		{
+			const auto& camera = view.get<CameraComponent>(entity);
+			if (camera.Primary)
+				return Entity(entity, this);
+		}
+		return {};
+	}
+
 }

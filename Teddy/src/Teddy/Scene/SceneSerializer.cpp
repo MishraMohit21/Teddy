@@ -108,13 +108,13 @@ namespace Teddy
 
 			out << YAML::Key << "Camera" << YAML::Value;
 			out << YAML::BeginMap;
-			out << YAML::Key << "ProjectionType" << YAML::Value << (int)camera.GetProjection();
+			out << YAML::Key << "ProjectionType" << YAML::Value << (int)camera.GetProjectionType();
 			out << YAML::Key << "PerspectiveFOV" << YAML::Value << camera.GetPerspectiveVerticalFOV();
 			out << YAML::Key << "PerspectiveNearClip" << YAML::Value << camera.GetPerspectiveNearClip();
 			out << YAML::Key << "PerspectiveFarClip" << YAML::Value << camera.GetPerspectiveFarClip();
-			out << YAML::Key << "OrthographicSize" << YAML::Value << camera.GetOrthoSize();
-			out << YAML::Key << "OrthographicNearClip" << YAML::Value << camera.GetOrthoNearClip();
-			out << YAML::Key << "OrthographicFarClip" << YAML::Value << camera.GetOrthoFarClip();
+			out << YAML::Key << "OrthographicSize" << YAML::Value << camera.GetOrthographicSize();
+			out << YAML::Key << "OrthographicNearClip" << YAML::Value << camera.GetOrthographicNearClip();
+			out << YAML::Key << "OrthographicFarClip" << YAML::Value << camera.GetOrthographicFarClip();
 			out << YAML::EndMap;
 
 			out << YAML::Key << "Primary" << YAML::Value << cameraComponent.Primary;
@@ -127,8 +127,17 @@ namespace Teddy
 		{
 			out << YAML::Key << "SpriteRendererComponent";
 			out << YAML::BeginMap;
-			auto& color = entity.GetComponent<SpriteRendererComponent>().Color;
-			out << YAML::Key << "Color" << YAML::Value << color;
+			auto& src = entity.GetComponent<SpriteRendererComponent>();
+			out << YAML::Key << "TintColor" << YAML::Value << src.Color;
+			if (src.c_texture)
+			{
+				out << YAML::Key << "TextureFile" << YAML::Value << src.c_texture->GetPath();
+			}
+			else
+			{
+				out << YAML::Key << "TextureFile" << YAML::Value << NULL;
+			}
+				out << YAML::Key << "TilingFactor" << YAML::Value << src.c_tilingFactor;
 			out << YAML::EndMap;
 		}
 
@@ -215,9 +224,9 @@ namespace Teddy
 					cc.Camera.SetPerspectiveVerticalFOV(cameraProps["PerspectiveFOV"].as<float>());
 					cc.Camera.SetPerspectiveNearClip(cameraProps["PerspectiveNearClip"].as<float>());
 					cc.Camera.SetPerspectiveFarClip(cameraProps["PerspectiveFarClip"].as<float>());
-					cc.Camera.SetOrthoSize(cameraProps["OrthographicSize"].as<float>());
-					cc.Camera.SetOrthoNearClip(cameraProps["OrthographicNearClip"].as<float>());
-					cc.Camera.SetOrthoFarClip(cameraProps["OrthographicFarClip"].as<float>());
+					cc.Camera.SetOrthographicSize(cameraProps["OrthographicSize"].as<float>());
+					cc.Camera.SetOrthographicNearClip(cameraProps["OrthographicNearClip"].as<float>());
+					cc.Camera.SetOrthographicFarClip(cameraProps["OrthographicFarClip"].as<float>());
 					cc.Primary = cameraComponent["Primary"].as<bool>();
 					cc.isFixedAspectRatio = cameraComponent["FixedAspectRatio"].as<bool>();
 				}
@@ -225,7 +234,14 @@ namespace Teddy
 				if (spriteRendererComponent)
 				{
 					auto& src = deserializedEntity.AddComponent<SpriteRendererComponent>();
-					src.Color = spriteRendererComponent["Color"].as<glm::vec4>();
+					src.Color = spriteRendererComponent["TintColor"].as<glm::vec4>();
+					std::string path = spriteRendererComponent["TextureFile"].as<std::string>();
+					if (path != "0")
+					{
+						//TD_CORE_(path);
+						src.c_texture = Texture2D::Create(path);
+					}
+					src.c_tilingFactor = spriteRendererComponent["TilingFactor"].as<float>();
 				}
 				/*auto cppScriptComponent = entity["CppScriptComponent"];
 				if (cppScriptComponent)

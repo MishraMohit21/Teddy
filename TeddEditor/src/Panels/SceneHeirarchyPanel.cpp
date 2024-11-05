@@ -286,7 +286,7 @@ namespace Teddy
 			ImGui::Checkbox("Primary", &component.Primary);
 
 			const char* projectionTypeStrings[] = { "Perspective", "Orthographic" };
-			const char* currentProjectionTypeString = projectionTypeStrings[(int)camera.GetProjection()];
+			const char* currentProjectionTypeString = projectionTypeStrings[(int)camera.GetProjectionType()];
 			if (ImGui::BeginCombo("Projection", currentProjectionTypeString))
 			{
 				for (int i = 0; i < 2; i++)
@@ -305,7 +305,7 @@ namespace Teddy
 				ImGui::EndCombo();
 			}
 
-			if (camera.GetProjection() == SceneCamera::ProjectionType::Perspective)
+			if (camera.GetProjectionType() == SceneCamera::ProjectionType::Perspective)
 			{
 				float perspectiveVerticalFov = glm::degrees(camera.GetPerspectiveVerticalFOV());
 				if (ImGui::DragFloat("Vertical FOV", &perspectiveVerticalFov))
@@ -320,19 +320,19 @@ namespace Teddy
 					camera.SetPerspectiveFarClip(perspectiveFar);
 			}
 
-			if (camera.GetProjection() == SceneCamera::ProjectionType::Orthographic)
+			if (camera.GetProjectionType() == SceneCamera::ProjectionType::Orthographic)
 			{
-				float orthoSize = camera.GetOrthoSize();
+				float orthoSize = camera.GetOrthographicSize();
 				if (ImGui::DragFloat("Size", &orthoSize))
-					camera.SetOrthoSize(orthoSize);
+					camera.SetOrthographicSize(orthoSize);
 
-				float orthoNear = camera.GetOrthoNearClip();
+				float orthoNear = camera.GetOrthographicNearClip();
 				if (ImGui::DragFloat("Near", &orthoNear))
-					camera.SetOrthoNearClip(orthoNear);
+					camera.SetOrthographicNearClip(orthoNear);
 
-				float orthoFar = camera.GetOrthoFarClip();
+				float orthoFar = camera.GetOrthographicFarClip();
 				if (ImGui::DragFloat("Far", &orthoFar))
-					camera.SetOrthoFarClip(orthoFar);
+					camera.SetOrthographicFarClip(orthoFar);
 
 				ImGui::Checkbox("Fixed Aspect Ratio", &component.isFixedAspectRatio);
 			}
@@ -340,7 +340,7 @@ namespace Teddy
 		});
 
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component) {
-			
+
 
 			ImGui::ColorEdit4("Tint Color", glm::value_ptr(component.Color));
 
@@ -367,13 +367,17 @@ namespace Teddy
 					component.c_texture = nullptr;
 					TD_CORE_INFO("Texture removed successfully.");
 				}
+				ImGui::SliderFloat("Tilling Factor", &component.c_tilingFactor, 1.0f, 10.0f);
 			}
 
-			ImGui::SameLine();
+			//ImGui::SameLine();
 			// Display current texture preview if it exists
 			if (component.c_texture)
 			{
 				ImGui::Text("Current Texture: Active");
+				//TD_CORE_WARN(component.c_texture->GetPath());
+				
+
 				// Optional: Add texture preview or additional texture properties here
 			}
 			else
@@ -388,9 +392,6 @@ namespace Teddy
 	
 
 }
-
-
-
 
 void ShowTimedPrompt(float duration) {
 	static float endTime = 0.0f;
@@ -408,3 +409,5 @@ void ShowTimedPrompt(float duration) {
 		ImGui::EndPopup();
 	}
 }
+
+

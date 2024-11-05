@@ -24,7 +24,7 @@
 #include "Teddy/Scene/Scene.h"
 #include "Teddy/Scene/Entity.h"
 #include "Teddy/Scene/SceneSerializer.h"
-
+#include "Teddy/Renderer/EditorCamera.h"
 
 
 // ---------------------------

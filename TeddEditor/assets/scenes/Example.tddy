@@ -8,7 +8,9 @@ Entities:
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     SpriteRendererComponent:
-      Color: [1, 0.647000015, 0, 1]
+      TintColor: [1, 0.647000015, 0, 1]
+      TextureFile: 0
+      TilingFactor: 1
   - EntityId: 12837192831273
     TagComponent:
       Tag: Camera A
@@ -27,6 +29,8 @@ Entities:
         OrthographicFarClip: 10
       Primary: true
       FixedAspectRatio: false
+    CppScriptComponent:
+      Class: "class `public: virtual void __cdecl Teddy::EditorLayer::OnAttach(void) __ptr64'::`2'::CameraController"
   - EntityId: 12837192831273
     TagComponent:
       Tag: Camera B
@@ -45,3 +49,5 @@ Entities:
         OrthographicFarClip: 10
       Primary: false
       FixedAspectRatio: false
+    CppScriptComponent:
+      Class: "class `public: virtual void __cdecl Teddy::EditorLayer::OnAttach(void) __ptr64'::`2'::CameraController"

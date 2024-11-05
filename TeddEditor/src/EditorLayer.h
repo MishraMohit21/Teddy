@@ -40,7 +40,8 @@ namespace Teddy {
 
 		bool m_PrimaryCamera = true;
 
-		Ref<Texture2D> m_CheckerboardTexture;
+		EditorCamera m_EditorCamera;
+		int m_GizmoType = -1;
 
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 

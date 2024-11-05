@@ -2,6 +2,7 @@
 
 #include "entt.hpp"
 #include <Teddy/Core/Timestep.h>
+#include <Teddy/Renderer/EditorCamera.h>
 
 namespace Teddy
 {
@@ -9,6 +10,7 @@ namespace Teddy
 	class Scene
 	{
 	public:
+		Scene();
 		Scene(const std::string& name);
 		~Scene();
 
@@ -19,8 +21,11 @@ namespace Teddy
 		// Temprory 
 		//entt::registry& getReg() { return m_Registry; }
 
-		void OnUpdate(Timestep ts);
+		void OnUpdateEditor(Timestep ts, EditorCamera& cam);
+		void OnUpdateRuntime(Timestep ts);
 		void OnVeiwportResize(uint32_t width, uint32_t height);
+
+		Entity GetPrimarySceneCamera();
 
 	private:
 		template<typename T>
