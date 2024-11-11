@@ -58,7 +58,7 @@ namespace Teddy {
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
-#if 0	
+#if 1	
 		// Entity
 		auto square = m_ActiveScene->CreateEntity("Square");
 		square.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0, 0.647, 0.0, 1.0f });
@@ -97,7 +97,7 @@ namespace Teddy {
 			(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
 			m_Framebuffer->NewSize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y); 
+			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 			m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
 
 			m_ActiveScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
@@ -112,7 +112,7 @@ namespace Teddy {
 		// Render
 		Renderer2D::ResetStats();
 		m_Framebuffer->bind();
-		RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
+		RenderCommand::SetClearColor(glm::vec4(m_CameraBackground, 1));
 		RenderCommand::Clear();
 
 		// Update scene
@@ -126,7 +126,7 @@ namespace Teddy {
 		TD_PROFILE_FUNCTION();
 
 		// Note: Switch this to true to enable dockspace
-		static bool dockspaceOpen = true;
+		static bool dockspaceOpen = false;
 		static bool opt_fullscreen_persistant = true;
 		bool opt_fullscreen = opt_fullscreen_persistant;
 		static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
@@ -212,7 +212,12 @@ namespace Teddy {
 		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
-		
+		ImGui::ColorEdit3("Camera Background", glm::value_ptr(m_CameraBackground));
+		if(ImGui::Button("Set Default"))
+		{
+			m_CameraBackground = m_CameraDefault;
+		}
+
 		ImGui::End();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
@@ -322,7 +327,7 @@ namespace Teddy {
 					break;
 
 
-				// Gizmos
+			// Gizmos
 			case Key::Q:
 				m_GizmoType = -1;
 				break;

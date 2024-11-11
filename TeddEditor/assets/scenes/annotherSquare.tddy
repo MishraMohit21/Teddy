@@ -11,19 +11,17 @@ Entities:
       TintColor: [0.876447856, 0, 0.834712803, 1]
       TextureFile: 0
       TilingFactor: 1
-
   - EntityId: 12837192831273
     TagComponent:
       Tag: Right
     TransformComponent:
-      Translation: [0.5, 0, 0.5]
-      Rotation: [0, 0.785398185, 0]
-      Scale: [1, 1, 1]
+      Translation: [0.497597188, 0, 0.499980181]
+      Rotation: [0, 1.56253147, 0]
+      Scale: [0.999999762, 1, 0.999999762]
     SpriteRendererComponent:
       TintColor: [0.54842025, 0, 0.586872578, 1]
       TextureFile: 0
       TilingFactor: 1
-
   - EntityId: 12837192831273
     TagComponent:
       Tag: Top
@@ -35,7 +33,6 @@ Entities:
       TintColor: [1, 0, 0.949807167, 1]
       TextureFile: 0
       TilingFactor: 1
-
   - EntityId: 12837192831273
     TagComponent:
       Tag: Camera
@@ -54,5 +51,4 @@ Entities:
         OrthographicFarClip: 1
       Primary: true
       FixedAspectRatio: false
-    CppScriptComponent:
-      Class: "class `public: virtual void __cdecl Teddy::EditorLayer::OnAttach(void) __ptr64'::`2'::CameraController"
+  - EntityId: 12837192831273

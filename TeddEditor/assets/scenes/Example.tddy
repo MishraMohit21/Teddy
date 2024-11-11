@@ -2,52 +2,53 @@ Scene: untitled
 Entities:
   - EntityId: 12837192831273
     TagComponent:
-      Tag: Square
+      Tag: Front
     TransformComponent:
-      Translation: [0, 0, 0]
+      Translation: [0, 0, 0.00682151318]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     SpriteRendererComponent:
-      TintColor: [1, 0.647000015, 0, 1]
+      TintColor: [0.876447856, 0, 0.834712803, 1]
+      TextureFile: C:\dev\Teddy\TeddEditor\assets\textures\pngwing.com (1).png
+      TilingFactor: 1
+  - EntityId: 12837192831273
+    TagComponent:
+      Tag: Right
+    TransformComponent:
+      Translation: [0.497597188, 0, 0.499980181]
+      Rotation: [0, 1.56253147, 0]
+      Scale: [0.999999762, 1, 0.999999762]
+    SpriteRendererComponent:
+      TintColor: [0.54842025, 0, 0.586872578, 1]
       TextureFile: 0
       TilingFactor: 1
   - EntityId: 12837192831273
     TagComponent:
-      Tag: Camera A
+      Tag: Top
     TransformComponent:
-      Translation: [2, 0, 0]
-      Rotation: [0, 0, 0]
+      Translation: [0, 0.5, 0.5]
+      Rotation: [1.57079637, 0, 0]
       Scale: [1, 1, 1]
-    CameraComponent:
-      Camera:
-        ProjectionType: 1
-        PerspectiveFOV: 0.785398185
-        PerspectiveNearClip: 0.00999999978
-        PerspectiveFarClip: 1000
-        OrthographicSize: 10
-        OrthographicNearClip: -1
-        OrthographicFarClip: 10
-      Primary: true
-      FixedAspectRatio: false
-    CppScriptComponent:
-      Class: "class `public: virtual void __cdecl Teddy::EditorLayer::OnAttach(void) __ptr64'::`2'::CameraController"
+    SpriteRendererComponent:
+      TintColor: [1, 0, 0.949807167, 1]
+      TextureFile: 0
+      TilingFactor: 1
   - EntityId: 12837192831273
     TagComponent:
-      Tag: Camera B
+      Tag: Camera
     TransformComponent:
-      Translation: [-4, 0, 0]
+      Translation: [2, 1, 5]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     CameraComponent:
       Camera:
-        ProjectionType: 1
+        ProjectionType: 0
         PerspectiveFOV: 0.785398185
         PerspectiveNearClip: 0.00999999978
         PerspectiveFarClip: 1000
         OrthographicSize: 10
         OrthographicNearClip: -1
-        OrthographicFarClip: 10
-      Primary: false
+        OrthographicFarClip: 1
+      Primary: true
       FixedAspectRatio: false
-    CppScriptComponent:
-      Class: "class `public: virtual void __cdecl Teddy::EditorLayer::OnAttach(void) __ptr64'::`2'::CameraController"
+  - EntityId: 12837192831273

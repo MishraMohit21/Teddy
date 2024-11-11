@@ -39,7 +39,7 @@ namespace Teddy
 	}
 	float EditorCamera::RotationSpeed() const
 	{
-		return 0.8f;
+		return 0.9f;
 	}
 	float EditorCamera::ZoomSpeed() const
 	{
