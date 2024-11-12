@@ -684,13 +684,14 @@ namespace ImGuizmo
    static const float planeLimit = 0.2f;
 
    static const vec_t directionUnary[3] = { makeVect(1.f, 0.f, 0.f), makeVect(0.f, 1.f, 0.f), makeVect(0.f, 0.f, 1.f) };
-   static const ImU32 directionColor[3] = { 0xFF715ED8, 0xFF25AA25, 0xFFCC532C };
+   static const ImU32 directionColor[3] = { 0xFF5A60E8, 0xFF21B36B, 0xFFEB5D44 }; // Updated for a cooler blue, vibrant green, and a warm coral
 
    // Alpha: 100%: FF, 87%: DE, 70%: B3, 54%: 8A, 50%: 80, 38%: 61, 12%: 1F
-   static const ImU32 planeColor[3] = { 0xFF7A68D8, 0xFF55AB55, 0xFFD96742 };
-   static const ImU32 selectionColor = 0xFF20AACC;
-   static const ImU32 inactiveColor = 0x99999999;
-   static const ImU32 translationLineColor = 0xAAAAAAAA;
+   static const ImU32 planeColor[3] = { 0xFF6B66E8, 0xFF4FB68A, 0xFFEA7B55 };  // Softer tones to avoid overwhelming the interface
+   static const ImU32 selectionColor = 0xFF00BCD4; // Cyan for a noticeable and modern selection color
+   static const ImU32 inactiveColor = 0xFF7E7E7E;  // Slightly darker inactive gray for better contrast
+   static const ImU32 translationLineColor = 0xAA888888; // Softer gray for translation lines, a bit more subtle
+
    static const char* translationInfoMask[] = { "X : %5.3f", "Y : %5.3f", "Z : %5.3f",
       "Y : %5.3f Z : %5.3f", "X : %5.3f Z : %5.3f", "X : %5.3f Y : %5.3f",
       "X : %5.3f Y : %5.3f Z : %5.3f" };

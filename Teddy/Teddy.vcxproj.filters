@@ -28,6 +28,9 @@
     <Filter Include="src\Teddy\ImGui">
       <UniqueIdentifier>{802F7DFD-ECBA-EAC1-F5CB-6DB661D646C2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Teddy\Math">
+      <UniqueIdentifier>{6F2C7A2E-5BFA-6D34-448E-DE5A30FB4999}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Teddy\Renderer">
       <UniqueIdentifier>{3CE6ACC2-28CA-6D18-912A-686B7D2D589A}</UniqueIdentifier>
     </Filter>
@@ -147,10 +150,16 @@
     <ClInclude Include="src\Teddy\ImGui\ImGuiLayer.h">
       <Filter>src\Teddy\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\Teddy\Math\Math.h">
+      <Filter>src\Teddy\Math</Filter>
+    </ClInclude>
     <ClInclude Include="src\Teddy\Renderer\Buffer.h">
       <Filter>src\Teddy\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Renderer\Camera.h">
+      <Filter>src\Teddy\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Renderer\EditorCamera.h">
       <Filter>src\Teddy\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Renderer\FrameBuffer.h">
@@ -1302,8 +1311,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Teddy\Math\Math.h" />
-    <ClInclude Include="src\Teddy\Renderer\EditorCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1357,7 +1364,13 @@
     <ClCompile Include="src\Teddy\ImGui\ImGuiLayer.cpp">
       <Filter>src\Teddy\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="src\Teddy\Math\Math.cpp">
+      <Filter>src\Teddy\Math</Filter>
+    </ClCompile>
     <ClCompile Include="src\Teddy\Renderer\Buffer.cpp">
+      <Filter>src\Teddy\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Renderer\EditorCamera.cpp">
       <Filter>src\Teddy\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Teddy\Renderer\FrameBuffer.cpp">
@@ -1414,7 +1427,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Teddy\Math\Math.cpp" />
-    <ClCompile Include="src\Teddy\Renderer\EditorCamera.cpp" />
   </ItemGroup>
 </Project>

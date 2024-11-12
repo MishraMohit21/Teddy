@@ -12,7 +12,7 @@
 namespace Teddy {
 
 	EditorLayer::EditorLayer()
-		: Layer("EditorLayer"), m_CameraController(1280.0 / 720.0), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f })
+		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f })
 	{
 	}
 
@@ -22,7 +22,7 @@ namespace Teddy {
 
 
 		FrameBufferSpecification fbSpec;
-		fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
+		fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
 		fbSpec.Width = 1280;
 		fbSpec.Height = 720;
 		m_Framebuffer = FrameBuffer::Create(fbSpec);
@@ -58,28 +58,37 @@ namespace Teddy {
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
-#if 1	
+#if 1
 		// Entity
-		auto square = m_ActiveScene->CreateEntity("Square");
-		square.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0, 0.647, 0.0, 1.0f });
+		auto square = m_ActiveScene->CreateEntity("Square", glm::vec3(0.0f, 0.0f, 0.0f));
+		square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.4, 0.9, 0.7, 1.0 });
 
 		m_SquareEntity = square;
-
-		m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
-		m_CameraEntity.AddComponent<CameraComponent>();
-
-		m_SecondCamera = m_ActiveScene->CreateEntity("Camera B");
+		m_SecondCamera = m_ActiveScene->CreateEntity("Camera", glm::vec3(0.0f, 0.0f, 15.0f));
 		auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
-		cc.Primary = false;
-
-		std::string testname = "CameraController";
-
-		m_CameraEntity.AddComponent<CppScriptComponent>().Bind<CameraController>();
+		cc.Primary = true;
 		m_SecondCamera.AddComponent<CppScriptComponent>().Bind<CameraController>();
+
+		//square = m_ActiveScene->CreateEntity("Square2", glm::vec3(1.0f, 0.0f, 0.0f));
+		//square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.4, 0.9, 0.7, 1.0 });
+		//m_SecondSquare = square;
 #endif
 
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		//for (int j = 0; j < 40; j++)
+		//{
+		//	for (int i = 0; i < 60; i++)
+		//	{
+		//		std::ostringstream oss;
+		//		oss << "Square_" << i * 60 + j; // Adds unique ID to each string
+		//		std::string name = oss.str();
+		//		auto tile = m_ActiveScene->CreateEntity(name, glm::vec3(i, j, 0.0f));
+		//		tile.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.58, 0.24, 0.09, 1.0 });
+		//		m_Elements.push_back(tile);
+		//	}
+		//}
 
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		
 	}
 
 	void EditorLayer::OnDetach()
@@ -97,15 +106,15 @@ namespace Teddy {
 			(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
 			m_Framebuffer->NewSize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+			//m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 			m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
 
 			m_ActiveScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		}
 
 		// Update
-		if (m_ViewportFocused)
-			m_CameraController.OnUpdate(ts);
+		/*if (m_ViewportFocused)
+			m_CameraController.OnUpdate(ts);*/
 
 		m_EditorCamera.OnUpdate(ts);
 
@@ -115,9 +124,37 @@ namespace Teddy {
 		RenderCommand::SetClearColor(glm::vec4(m_CameraBackground, 1));
 		RenderCommand::Clear();
 
+		m_Framebuffer->ClearAttachmentValue(1, -1);
+
+		
+
 		// Update scene
-		//m_ActiveScene->OnUpdateRuntime(ts);
-		m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
+		if (runGame)
+			m_ActiveScene->OnUpdateRuntime(ts);
+		else
+			m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
+		
+		auto [mx, my] = ImGui::GetMousePos();
+		//TD_CORE_INFO("mx -= m_ViewportBounds[0].x: {0} -= {1}", mx, m_ViewportBounds[0].x);
+		mx -= m_ViewportBounds[0].x;
+		my -= m_ViewportBounds[0].y;
+		//TD_CORE_INFO("Mouse Position: {0} {1}", mx, my);
+
+
+		glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
+		my = viewportSize.y - my;
+		int mouseX = (int)mx;
+		int mouseY = (int)my;
+
+		//TD_CORE_INFO("Mouse Position: {0} {1}", mouseX, mouseY);
+
+		if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
+		{
+			int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
+			//TD_CORE_INFO("Pixel data = {0}", pixelData);
+			m_HoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_ActiveScene.get());
+		}
+
 		m_Framebuffer->unBind();
 	}
 
@@ -187,21 +224,22 @@ namespace Teddy {
 
 				if (ImGui::MenuItem("New"))
 					OnNewScene();
-	
+				ImGui::Separator();
 				if (ImGui::MenuItem("Open ..."))
 					OnOpenScene();
-
+				ImGui::Separator();
 				if (ImGui::MenuItem("Save As..."))
 					OnSaveSceneAs();
-
+				ImGui::Separator();
 				if (ImGui::MenuItem("Exit")) Application::Get().Close();
 				ImGui::EndMenu();
 			}
-
 			ImGui::EndMenuBar();
 		}
 
 		m_SceneHierarchyPanel.OnImGuiRender();
+		m_ContentBrowser.OnImGuiRender();
+
 
 		ImGui::Begin("Stats");
 
@@ -211,17 +249,29 @@ namespace Teddy {
 		ImGui::Text("Quads: %d", stats.QuadCount);
 		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
-
+		ImGui::Separator();
 		ImGui::ColorEdit3("Camera Background", glm::value_ptr(m_CameraBackground));
 		if(ImGui::Button("Set Default"))
 		{
 			m_CameraBackground = m_CameraDefault;
 		}
+		ImGui::Separator();
+		std::string name = "None";
+		if (m_HoveredEntity)
+			name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
+		ImGui::Text("Hovered Entity: %s", name.c_str());
+		ImGui::Separator();
+
+		ImGui::Checkbox("Run Game", &runGame);
 
 		ImGui::End();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Viewport");
+
+		ImVec2 viewportOffset = ImGui::GetCursorPos();
+		//TD_CORE_WARN("Viewport Offset: ( {0}, {1} )", viewportOffset.x, viewportOffset.y);
+
 
 		m_ViewportFocused = ImGui::IsWindowFocused();
 		m_ViewportHovered = ImGui::IsWindowHovered();
@@ -232,7 +282,18 @@ namespace Teddy {
 
 		uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 		ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+		
+		auto windowSize = ImGui::GetWindowSize();
+		ImVec2 minBound = ImGui::GetWindowPos();
+		minBound.x += viewportOffset.x;
+		minBound.y += viewportOffset.y;
+		ImVec2 maxBound = { minBound.x + windowSize.x, minBound.y + windowSize.y };
+		m_ViewportBounds[0] = { minBound.x, minBound.y };
+		m_ViewportBounds[1] = { maxBound.x, maxBound.y };
 
+
+		//TD_CORE_WARN("Min Bound: ( {0}, {1} )", minBound.x, minBound.y);
+		//TD_CORE_WARN("Max Bound: ( {0}, {1} )", maxBound.x, maxBound.y);
 
 
 		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
@@ -296,6 +357,7 @@ namespace Teddy {
 
 		EventDispatcher evnDis(e);
 		evnDis.Dispatch<KeyPressedEvent>(TD_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+		evnDis.Dispatch<MouseButtonPressedEvent>(TD_BIND_EVENT_FN(EditorLayer::OnMouseButtonPressed));
 	}
 
 
@@ -347,6 +409,16 @@ namespace Teddy {
 
 
 
+		return false;
+	}
+
+	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e)
+	{
+		if (e.GetMouseButton() == (int)Mouse::ButtonLeft)
+		{
+			if (m_ViewportHovered && !ImGuizmo::IsOver() && !Input::IsKeyPressed(Key::LeftAlt))
+				m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
+		}
 		return false;
 	}
 

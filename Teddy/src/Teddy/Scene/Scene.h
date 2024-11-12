@@ -16,6 +16,8 @@ namespace Teddy
 
 
 		Entity CreateEntity(const std::string name);
+		Entity CreateEntity(const std::string name, glm::vec3 transform);
+
 		void DestroyEntity(Entity entity);
 
 		// Temprory 
