@@ -5,7 +5,7 @@
 #include <imgui/imgui_internal.h>
 
 #include <glm/gtc/type_ptr.hpp>
-
+#include <filesystem>
 #include <cstring>
 /* The Microsoft C++ compiler is non-compliant with the C++ standard and needs
  * the following definition to disable a security warning on std::strncpy().
@@ -16,6 +16,7 @@
 
 namespace Teddy
 {
+	extern const std::filesystem::path g_AssetPath;
 
 	template<typename T, typename UIFunction>
 	static void DrawComponent(const std::string& name, Entity& entity, UIFunction uiFunction)
@@ -34,7 +35,7 @@ namespace Teddy
 
 			ImGui::SameLine(contentRegionAvailable.x - lineHeight * 0.5f);
 			
-			if (ImGui::Button("-", ImVec2{ lineHeight, lineHeight }))
+			if (ImGui::Button("-", ImVec2{ lineHeight + 5.0f, lineHeight }))
 			{
 				ImGui::OpenPopup("Component Settings");
 			}
@@ -394,22 +395,24 @@ namespace Teddy
 		DrawComponent<SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component) {
 
 
+			ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
 			ImGui::ColorEdit4("Tint Color", glm::value_ptr(component.Color));
 
-			// Add texture selection button
-			if (ImGui::Button("Select Texture"))
+
+			ImGui::Button("Texture", ImVec2(100.0f, 0.0f));
+			if (ImGui::BeginDragDropTarget())
 			{
-				std::string filepath = FileDialogs::OpenFile("Image Files (*.png;*.jpg)\0*.png;*.jpg\0All Files (*.*)\0*.*\0");
-				if (!filepath.empty())
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
 				{
-					component.c_texture = Texture2D::Create(filepath);
+					const wchar_t* path = (const wchar_t*)payload->Data;
+					std::filesystem::path texturePath = std::filesystem::path(g_AssetPath) / path;
+					component.c_texture = Texture2D::Create(texturePath.string());
 				}
-				else
-				{
-					ShowTimedPrompt(3.0f);
-				}
+				ImGui::EndDragDropTarget();
 			}
 
+			// Add texture selection button
+			
 			// Show the remove texture button only if there's a texture
 			ImGui::SameLine();
 			if (component.c_texture)
@@ -422,6 +425,7 @@ namespace Teddy
 				ImGui::SliderFloat("Tilling Factor", &component.c_tilingFactor, 1.0f, 10.0f);
 			}
 
+			ImGui::PopStyleVar();
 			//ImGui::SameLine();
 			// Display current texture preview if it exists
 			if (component.c_texture)

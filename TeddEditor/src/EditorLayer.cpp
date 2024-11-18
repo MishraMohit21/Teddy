@@ -8,8 +8,11 @@
 #include <Teddy/Math/Math.h>
 
 #include <ImGuizmo.h>
+#include <filesystem>
 
 namespace Teddy {
+
+	extern const std::filesystem::path g_AssetPath;
 
 	EditorLayer::EditorLayer()
 		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f })
@@ -63,11 +66,13 @@ namespace Teddy {
 		auto square = m_ActiveScene->CreateEntity("Square", glm::vec3(0.0f, 0.0f, 0.0f));
 		square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.4, 0.9, 0.7, 1.0 });
 
-		m_SquareEntity = square;
-		m_SecondCamera = m_ActiveScene->CreateEntity("Camera", glm::vec3(0.0f, 0.0f, 15.0f));
-		auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
+		m_Elements.push_back(square);
+		auto entity = m_ActiveScene->CreateEntity("Camera", glm::vec3(0.0f, 0.0f, 15.0f));
+		auto& cc = entity.AddComponent<CameraComponent>();
 		cc.Primary = true;
-		m_SecondCamera.AddComponent<CppScriptComponent>().Bind<CameraController>();
+		entity.AddComponent<CppScriptComponent>().Bind<CameraController>();
+		m_Elements.push_back(entity);
+
 
 		//square = m_ActiveScene->CreateEntity("Square2", glm::vec3(1.0f, 0.0f, 0.0f));
 		//square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.4, 0.9, 0.7, 1.0 });
@@ -92,7 +97,7 @@ namespace Teddy {
 	}
 
 	void EditorLayer::OnDetach()
-	{
+	{	
 		TD_PROFILE_FUNCTION();
 	}
 
@@ -113,8 +118,8 @@ namespace Teddy {
 		}
 
 		// Update
-		/*if (m_ViewportFocused)
-			m_CameraController.OnUpdate(ts);*/
+		if (m_ViewportFocused)
+			m_CameraController.OnUpdate(ts);
 
 		m_EditorCamera.OnUpdate(ts);
 
@@ -204,7 +209,7 @@ namespace Teddy {
 		
 		ImGuiStyle& style = ImGui::GetStyle();
 		float minWinSizeX = style.WindowMinSize.x;
-		style.WindowMinSize.x = 370.0f;
+		style.WindowMinSize.x = 395.0f;
 
 		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 		{
@@ -234,118 +239,45 @@ namespace Teddy {
 				if (ImGui::MenuItem("Exit")) Application::Get().Close();
 				ImGui::EndMenu();
 			}
-			ImGui::EndMenuBar();
-		}
-
-		m_SceneHierarchyPanel.OnImGuiRender();
-		m_ContentBrowser.OnImGuiRender();
 
 
-		ImGui::Begin("Stats");
-
-		auto stats = Renderer2D::GetStats();
-		ImGui::Text("Renderer2D Stats:");
-		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-		ImGui::Text("Quads: %d", stats.QuadCount);
-		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
-		ImGui::Separator();
-		ImGui::ColorEdit3("Camera Background", glm::value_ptr(m_CameraBackground));
-		if(ImGui::Button("Set Default"))
-		{
-			m_CameraBackground = m_CameraDefault;
-		}
-		ImGui::Separator();
-		std::string name = "None";
-		if (m_HoveredEntity)
-			name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
-		ImGui::Text("Hovered Entity: %s", name.c_str());
-		ImGui::Separator();
-
-		ImGui::Checkbox("Run Game", &runGame);
-
-		ImGui::End();
-
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
-		ImGui::Begin("Viewport");
-
-		ImVec2 viewportOffset = ImGui::GetCursorPos();
-		//TD_CORE_WARN("Viewport Offset: ( {0}, {1} )", viewportOffset.x, viewportOffset.y);
-
-
-		m_ViewportFocused = ImGui::IsWindowFocused();
-		m_ViewportHovered = ImGui::IsWindowHovered();
-		Application::Get().GetImGuiLayer()->BlockEvent(!m_ViewportFocused && !m_ViewportHovered);
-
-		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
-
-		uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-		ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
-		
-		auto windowSize = ImGui::GetWindowSize();
-		ImVec2 minBound = ImGui::GetWindowPos();
-		minBound.x += viewportOffset.x;
-		minBound.y += viewportOffset.y;
-		ImVec2 maxBound = { minBound.x + windowSize.x, minBound.y + windowSize.y };
-		m_ViewportBounds[0] = { minBound.x, minBound.y };
-		m_ViewportBounds[1] = { maxBound.x, maxBound.y };
-
-
-		//TD_CORE_WARN("Min Bound: ( {0}, {1} )", minBound.x, minBound.y);
-		//TD_CORE_WARN("Max Bound: ( {0}, {1} )", maxBound.x, maxBound.y);
-
-
-		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
-		if (selectedEntity && m_GizmoType != -1)
-		{
-			ImGuizmo::SetOrthographic(false);
-			ImGuizmo::SetDrawlist();
-			float windowWidth = (float)ImGui::GetWindowWidth();
-			float windowHeight = (float)ImGui::GetWindowHeight();
-			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
-
-			// Camera
-
-			// Runtime camera from entity
-			// auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
-			// const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
-			// const glm::mat4& cameraProjection = camera.GetProjection();
-			// glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
-			// Editor camera
-			const glm::mat4& cameraProjection = m_EditorCamera.GetProjection();
-			glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
-
-			// Entity transform
-			auto& tc = selectedEntity.GetComponent<TransformComponent>();
-			glm::mat4 transform = tc.GetTransform();
-
-			// Snapping
-			bool snap = Input::IsKeyPressed(Key::LeftControl);
-			float snapValue = 0.5f; // Snap to 0.5m for translation/scale
-			// Snap to 45 degrees for rotation
-			if (m_GizmoType == ImGuizmo::OPERATION::ROTATE)
-				snapValue = 45.0f;
-			float snapValues[3] = { snapValue, snapValue, snapValue };
-			ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
-				(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform),
-				nullptr, snap ? snapValues : nullptr);
-			if (ImGuizmo::IsUsing())
+			if (ImGui::BeginMenu("Windows"))
 			{
-				glm::vec3 translation, rotation, scale;
-				Math::DecomposeTransform(transform, translation, rotation, scale);
-				glm::vec3 deltaRotation = rotation - tc.Rotation;
-				tc.Translation = translation;
-				tc.Rotation += deltaRotation;
-				tc.Scale = scale;
+				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
+				if (ImGui::MenuItem("Viewport"))
+					m_ShowViewport = !m_ShowViewport;
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Stats"))
+					m_ShowSettingpanel = !m_ShowSettingpanel;
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Content Browser"))
+					m_ShowContentBrowser = !m_ShowContentBrowser;
+				ImGui::Separator();
+
+				ImGui::EndMenu();
 			}
+			ImGui::EndMenuBar();
+
 		}
 
+		//ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+		//ImGui::PushStyleVar(ImGuiStyleVar_ChildBorderSize, 0.0f);
+		//ImGui::PushStyleVar(ImGuiStyleVar_PopupBorderSize, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
+		//ImGui::PushStyleVar(ImGuiStyleVar_TabBorderSize, 1.0f);
+		m_SceneHierarchyPanel.OnImGuiRender();
+		if (m_ShowContentBrowser)
+			m_ContentBrowser.OnImGuiRender(m_ShowContentBrowser);
+		ImGui::PopStyleVar(); 
 
+		if (m_ShowSettingpanel)
+			ShowSettings();
 
-
-		ImGui::End();
-		ImGui::PopStyleVar();
+		
+		if (m_ShowViewport)
+			ViewportRender();
 
 		ImGui::End();
 	}
@@ -387,6 +319,14 @@ namespace Teddy {
 					if (control && shift)
 						OnSaveSceneAs();
 					break;
+			case Key::A:
+				if (control)
+					OnSaveSceneAs();
+				break;
+			case Key::Space:
+				if (control)
+					m_ShowContentBrowser = !m_ShowContentBrowser;
+
 
 
 			// Gizmos
@@ -440,13 +380,18 @@ namespace Teddy {
 		std::string filepath = FileDialogs::OpenFile("Teddy Scene (*.tddy)\0*.tddy\0");
 		if (!filepath.empty())
 		{
-			m_ActiveScene = CreateRef<Scene>("SceneFromFile");
-			m_ActiveScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-			SceneSerializer serializer(m_ActiveScene);
-			serializer.DeSerialize(filepath);
+			OnOpenScene(filepath);
 		}
 
+	}
+
+	void EditorLayer::OnOpenScene(const std::filesystem::path& filepath)
+	{
+		m_ActiveScene = CreateRef<Scene>("SceneFromFile");
+		m_ActiveScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		SceneSerializer serializer(m_ActiveScene);
+		serializer.DeSerialize(filepath.string());
 	}
 
 	void EditorLayer::OnSaveSceneAs()
@@ -458,5 +403,259 @@ namespace Teddy {
 			serializer.Serialize(filepath);
 		}
 	}
+
+	void EditorLayer::ViewportRender()
+	{
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
+		ImGui::Begin("Viewport", &m_ShowViewport);
+
+		ImVec2 viewportOffset = ImGui::GetCursorPos();
+		//TD_CORE_WARN("Viewport Offset: ( {0}, {1} )", viewportOffset.x, viewportOffset.y);
+		m_cursoePosition = ImVec2(
+			ImGui::GetMousePos().x - ImGui::GetWindowPos().x,
+			ImGui::GetMousePos().y - ImGui::GetWindowPos().y
+		);
+
+		m_ViewportFocused = ImGui::IsWindowFocused();
+		m_ViewportHovered = ImGui::IsWindowHovered();
+		Application::Get().GetImGuiLayer()->BlockEvent(!m_ViewportFocused && !m_ViewportHovered);
+
+		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+
+		uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+		ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+			{
+				const wchar_t* path = ((const wchar_t*)payload->Data);
+				std::filesystem::path fullPath(g_AssetPath);
+				fullPath /= path;  // Using /= operator instead of / for path concatenation
+
+				std::wstring extension = fullPath.extension().wstring();
+				std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
+				std::string filepathString = fullPath.string();
+				if (extension == L".tddy") {
+					OnOpenScene(fullPath);
+				}
+				else if (extension == L".png" || extension == L".jpg" ||
+					extension == L".jpeg" || extension == L".bmp") {
+					//ImGui::Dummy(ImVec2(200.0f, 200.0f));  // Space for image
+					auto square = m_ActiveScene->CreateEntity("newEntity", glm::vec3(0.0f, 0.0f, 0.0f));
+					const Ref<Texture2D> fileTexture = Texture2D::Create(filepathString.c_str());
+
+					square.AddComponent<SpriteRendererComponent>(fileTexture);
+					m_Elements.push_back(square);
+				}
+				else
+				{
+					TD_CORE_ASSERT(false, "No action for this file")
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
+
+		auto windowSize = ImGui::GetWindowSize();
+		ImVec2 minBound = ImGui::GetWindowPos();
+		minBound.x += viewportOffset.x;
+		minBound.y += viewportOffset.y;
+		ImVec2 maxBound = { minBound.x + windowSize.x, minBound.y + windowSize.y };
+		m_ViewportBounds[0] = { minBound.x, minBound.y };
+		m_ViewportBounds[1] = { maxBound.x, maxBound.y };
+
+
+		//TD_CORE_WARN("Min Bound: ( {0}, {1} )", minBound.x, minBound.y);
+		//TD_CORE_WARN("Max Bound: ( {0}, {1} )", maxBound.x, maxBound.y);
+
+
+		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
+		if (selectedEntity && m_GizmoType != -1)
+		{
+			ImGuizmo::SetOrthographic(false);
+			ImGuizmo::SetDrawlist();
+			float windowWidth = (float)ImGui::GetWindowWidth();
+			float windowHeight = (float)ImGui::GetWindowHeight();
+			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+			// Camera
+
+			if (runGame)
+			{
+				// Runtime camera from entity
+				auto cameraEntity = m_ActiveScene->GetPrimarySceneCamera();
+				const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
+				const glm::mat4& cameraProjection = camera.GetProjection();
+				glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+			}
+			else
+			{
+			// Editor camera
+
+				const glm::mat4& cameraProjection = m_EditorCamera.GetProjection();
+				glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
+
+				// Entity transform
+				auto& tc = selectedEntity.GetComponent<TransformComponent>();
+				glm::mat4 transform = tc.GetTransform();
+
+				// Snapping
+				bool snap = Input::IsKeyPressed(Key::LeftControl);
+				float snapValue = 0.5f; // Snap to 0.5m for translation/scale
+				// Snap to 45 degrees for rotation
+				if (m_GizmoType == ImGuizmo::OPERATION::ROTATE)
+					snapValue = 45.0f;
+				float snapValues[3] = { snapValue, snapValue, snapValue };
+				ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
+					(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform),
+					nullptr, snap ? snapValues : nullptr);
+				if (ImGuizmo::IsUsing())
+				{
+					glm::vec3 translation, rotation, scale;
+					Math::DecomposeTransform(transform, translation, rotation, scale);
+					glm::vec3 deltaRotation = rotation - tc.Rotation;
+					tc.Translation = translation;
+					tc.Rotation += deltaRotation;
+					tc.Scale = scale;
+				}
+			}
+		}
+
+
+
+
+		ImGui::End();
+		ImGui::PopStyleVar();
+	}
+
+	void EditorLayer::ShowSettings()
+	{
+
+		ImGui::Begin("Stats", &m_ShowSettingpanel);
+
+		auto stats = Renderer2D::GetStats();
+		ImGui::Text("Renderer2D Stats:");
+		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
+		ImGui::Text("Quads: %d", stats.QuadCount);
+		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+		ImGui::Text("Cursor Position: (%d, %d)", m_cursoePosition.x, m_cursoePosition.y);
+		ImGui::Separator();
+		ImGui::ColorEdit3("Camera Background", glm::value_ptr(m_CameraBackground));
+		if (ImGui::Button("Set Default"))
+		{
+			m_CameraBackground = m_CameraDefault;
+		}
+		ImGui::Separator();
+		std::string name = "None";
+		if (m_HoveredEntity)
+ 			name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
+		ImGui::Text("Hovered Entity: %s", name.c_str());
+		ImGui::Separator();
+
+		ImGui::Checkbox("Run Game", &runGame);
+
+		//if (ImGui::Button("Dark"))
+		//	SetDarkThemeColors();
+		//if (ImGui::Button("Light"))
+		//	SetLightThemeColors();
+
+		ImGui::End();
+
+
+	}
+
+	void EditorLayer::SetDarkThemeColors()
+	{
+
+		auto& colors = ImGui::GetStyle().Colors;
+		colors[ImGuiCol_WindowBg] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		// Headers
+		colors[ImGuiCol_Header] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
+		colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
+		colors[ImGuiCol_HeaderActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+
+		// Buttons
+		colors[ImGuiCol_Button] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
+		colors[ImGuiCol_ButtonHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
+		colors[ImGuiCol_ButtonActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		// Frame BG
+		colors[ImGuiCol_FrameBg] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
+		colors[ImGuiCol_FrameBgHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
+		colors[ImGuiCol_FrameBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		// Tabs
+		colors[ImGuiCol_Tab] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		colors[ImGuiCol_TabHovered] = ImVec4{ 0.38f, 0.3805f, 0.381f, 1.0f };
+		colors[ImGuiCol_TabActive] = ImVec4{ 0.28f, 0.2805f, 0.281f, 1.0f };
+		colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
+		// Title
+		colors[ImGuiCol_TitleBg] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+
+	}
+
+	void EditorLayer::SetLightThemeColors()
+	{
+		auto& colors = ImGui::GetStyle().Colors;
+
+		// Main background
+		colors[ImGuiCol_WindowBg] = ImVec4{ 0.96f, 0.96f, 0.96f, 1.0f }; // Light gray
+		colors[ImGuiCol_ChildBg] = ImVec4{ 0.92f, 0.92f, 0.92f, 1.0f };
+		colors[ImGuiCol_PopupBg] = ImVec4{ 0.98f, 0.98f, 0.98f, 1.0f };
+
+		// Headers
+		colors[ImGuiCol_Header] = ImVec4{ 0.86f, 0.86f, 0.86f, 1.0f };
+		colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.76f, 0.76f, 0.76f, 1.0f };
+		colors[ImGuiCol_HeaderActive] = ImVec4{ 0.66f, 0.66f, 0.66f, 1.0f };
+
+		// Buttons
+		colors[ImGuiCol_Button] = ImVec4{ 0.85f, 0.85f, 0.85f, 1.0f };
+		colors[ImGuiCol_ButtonHovered] = ImVec4{ 0.75f, 0.75f, 0.75f, 1.0f };
+		colors[ImGuiCol_ButtonActive] = ImVec4{ 0.65f, 0.65f, 0.65f, 1.0f };
+
+		// Frame BG
+		colors[ImGuiCol_FrameBg] = ImVec4{ 0.90f, 0.90f, 0.90f, 1.0f };
+		colors[ImGuiCol_FrameBgHovered] = ImVec4{ 0.80f, 0.80f, 0.80f, 1.0f };
+		colors[ImGuiCol_FrameBgActive] = ImVec4{ 0.70f, 0.70f, 0.70f, 1.0f };
+
+		// Tabs
+		colors[ImGuiCol_Tab] = ImVec4{ 0.92f, 0.92f, 0.92f, 1.0f };
+		colors[ImGuiCol_TabHovered] = ImVec4{ 0.76f, 0.76f, 0.76f, 1.0f };
+		colors[ImGuiCol_TabActive] = ImVec4{ 0.82f, 0.82f, 0.82f, 1.0f };
+		colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.92f, 0.92f, 0.92f, 1.0f };
+		colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.86f, 0.86f, 0.86f, 1.0f };
+
+		// Title
+		colors[ImGuiCol_TitleBg] = ImVec4{ 0.85f, 0.85f, 0.85f, 1.0f };
+		colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.75f, 0.75f, 0.75f, 1.0f };
+		colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.85f, 0.85f, 0.85f, 1.0f };
+
+		// Separator
+		colors[ImGuiCol_Separator] = ImVec4{ 0.80f, 0.80f, 0.80f, 1.0f };
+		colors[ImGuiCol_SeparatorHovered] = ImVec4{ 0.70f, 0.70f, 0.70f, 1.0f };
+		colors[ImGuiCol_SeparatorActive] = ImVec4{ 0.60f, 0.60f, 0.60f, 1.0f };
+
+		// Text
+		colors[ImGuiCol_Text] = ImVec4{ 0.10f, 0.10f, 0.10f, 1.0f }; // Dark text
+		colors[ImGuiCol_TextDisabled] = ImVec4{ 0.50f, 0.50f, 0.50f, 1.0f };
+
+		// Scrollbar
+		colors[ImGuiCol_ScrollbarBg] = ImVec4{ 0.95f, 0.95f, 0.95f, 1.0f };
+		colors[ImGuiCol_ScrollbarGrab] = ImVec4{ 0.80f, 0.80f, 0.80f, 1.0f };
+		colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4{ 0.70f, 0.70f, 0.70f, 1.0f };
+		colors[ImGuiCol_ScrollbarGrabActive] = ImVec4{ 0.60f, 0.60f, 0.60f, 1.0f };
+
+	}
+
+	/*void EditorLayer::OnSelectAll()
+	{
+		for (auto& ent : m_Elements)
+		{
+		
+		}
+	}*/
 
 }

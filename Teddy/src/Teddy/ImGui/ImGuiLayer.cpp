@@ -79,7 +79,45 @@ namespace Teddy {
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
 			style.WindowRounding = 0.0f;
-			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+			style.AntiAliasedFill = true;
+			style.AntiAliasedLines = true;
+			style.AntiAliasedLinesUseTex = true;   style.WindowPadding = ImVec2(12, 12);
+			style.FramePadding = ImVec2(6, 6);
+			//style.P = ImVec2(12, 6);
+			style.ItemSpacing = ImVec2(6, 6);
+			style.ItemInnerSpacing = ImVec2(6, 6);
+			style.TouchExtraPadding = ImVec2(0, 0);
+			style.IndentSpacing = 25;
+			style.ScrollbarSize = 12;
+			style.GrabMinSize = 10;
+
+			// Borders
+			style.WindowBorderSize = 1;
+			style.ChildBorderSize = 1;
+			style.PopupBorderSize = 1;
+			style.FrameBorderSize = 1;
+			style.TabBorderSize = 1;
+
+			// Rounding
+			style.WindowRounding = 2;
+			style.ChildRounding = 2;
+			style.FrameRounding = 2;
+			style.PopupRounding = 2;
+			style.ScrollbarRounding = 2;
+			style.GrabRounding = 2;
+			style.TabRounding = 2;
+
+			// Alignment
+			style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
+			style.WindowMenuButtonPosition = ImGuiDir_Right;
+			style.ColorButtonPosition = ImGuiDir_Right;
+			style.ButtonTextAlign = ImVec2(0.5f, 0.5f);
+			style.SelectableTextAlign = ImVec2(0.0f, 0.0f);
+
+			// Anti-aliasing
+			style.AntiAliasedLines = true;
+			style.AntiAliasedFill = true;
+			style.Colors[ImGuiCol_WindowBg].w = 0.1f;
 		}
 
 		//ImGui::ShowDemoWindow();

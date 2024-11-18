@@ -1,0 +1,1276 @@
+
+========================================
+Content of .\OpenGLBuffer.cpp:
+========================================
+
+#include "tdpch.h"
+#include "Platform/OpenGL/OpenGLBuffer.h"
+
+#include <glad/glad.h>
+
+namespace Teddy {
+
+	/////////////////////////////////////////////////////////////////////////////
+	// VertexBuffer /////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+
+	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size)
+	{
+		TD_PROFILE_FUNCTION();
+
+		glCreateBuffers(1, &m_RendererID);
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+
+	}
+
+	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
+	{
+		TD_PROFILE_FUNCTION();
+
+		glCreateBuffers(1, &m_RendererID);
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+	}
+
+	OpenGLVertexBuffer::~OpenGLVertexBuffer()
+	{
+		TD_PROFILE_FUNCTION();
+
+		glDeleteBuffers(1, &m_RendererID);
+	}
+
+	void OpenGLVertexBuffer::Bind() const
+	{
+		TD_PROFILE_FUNCTION();
+
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+	}
+
+	void OpenGLVertexBuffer::Unbind() const
+	{
+		TD_PROFILE_FUNCTION();
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	void OpenGLVertexBuffer::SetData(const void* data, const uint32_t size)
+	{
+
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+
+		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+
+	}
+
+	/////////////////////////////////////////////////////////////////////////////
+	// IndexBuffer //////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////
+
+	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)
+		: m_Count(count)
+	{
+		TD_PROFILE_FUNCTION();
+
+		glCreateBuffers(1, &m_RendererID);
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+		glBufferData(GL_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
+	}
+
+	OpenGLIndexBuffer::~OpenGLIndexBuffer()
+	{
+		TD_PROFILE_FUNCTION();
+
+		glDeleteBuffers(1, &m_RendererID);
+	}
+
+	void OpenGLIndexBuffer::Bind() const
+	{
+		TD_PROFILE_FUNCTION();
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
+	}
+
+	void OpenGLIndexBuffer::Unbind() const
+	{
+		TD_PROFILE_FUNCTION();
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
+
+}
+
+
+
+========================================
+Content of .\OpenGLBuffer.h:
+========================================
+
+#pragma once
+
+#include "Teddy/Renderer/Buffer.h"
+
+namespace Teddy {
+
+	class OpenGLVertexBuffer : public VertexBuffer
+	{
+	public:
+		OpenGLVertexBuffer(uint32_t size);
+		OpenGLVertexBuffer(float* vertices, uint32_t size);
+		virtual ~OpenGLVertexBuffer();
+
+		virtual void Bind() const override;
+		virtual void Unbind() const override;
+
+		virtual void SetData(const void* data, const uint32_t size) override;
+
+		virtual const BufferLayout& GetLayout() const override { return m_Layout; }
+		virtual void SetLayout(const BufferLayout& layout) override { m_Layout = layout; }
+	private:
+		uint32_t m_RendererID;
+		BufferLayout m_Layout;
+	};
+
+	class OpenGLIndexBuffer : public IndexBuffer
+	{
+	public:
+		OpenGLIndexBuffer(uint32_t* indices, uint32_t count);
+		virtual ~OpenGLIndexBuffer();
+
+		virtual void Bind() const;
+		virtual void Unbind() const;
+
+		virtual uint32_t GetCount() const { return m_Count; }
+	private:
+		uint32_t m_RendererID;
+		uint32_t m_Count;
+	};
+
+}
+
+
+========================================
+Content of .\OpenGLContext.cpp:
+========================================
+
+#include "tdpch.h"
+#include "Platform/OpenGL/OpenGLContext.h"
+
+#include <GLFW/glfw3.h>
+#include <glad/glad.h>
+#include <GL/GL.h>
+
+namespace Teddy {
+
+	OpenGLContext::OpenGLContext(GLFWwindow* windowHandle)
+		: m_WindowHandle(windowHandle)
+	{
+		TD_CORE_ASSERT(windowHandle, "Window handle is null!")
+	}
+
+	void OpenGLContext::Init()
+	{
+		TD_PROFILE_FUNCTION();
+
+		glfwMakeContextCurrent(m_WindowHandle);
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		TD_CORE_ASSERT(status, "Failed to initialize Glad!");
+
+		TD_CORE_INFO("OpenGL Info:");
+		TD_CORE_INFO("  Vendor: {0}", glGetString(GL_VENDOR));
+		TD_CORE_INFO("  Renderer: {0}", glGetString(GL_RENDERER));
+		TD_CORE_INFO("  Version: {0}", glGetString(GL_VERSION));
+
+	#ifdef TD_ENABLE_ASSERTS
+		int versionMajor;
+		int versionMinor;
+		glGetIntegerv(GL_MAJOR_VERSION, &versionMajor);
+		glGetIntegerv(GL_MINOR_VERSION, &versionMinor);
+
+		TD_CORE_ASSERT(versionMajor > 4 || (versionMajor == 4 && versionMinor >= 5), "Teddy requires at least OpenGL version 4.5!");
+	#endif
+	}
+
+	void OpenGLContext::SwapBuffers()
+	{
+		TD_PROFILE_FUNCTION();
+
+		glfwSwapBuffers(m_WindowHandle);
+	}
+
+}
+
+
+========================================
+Content of .\OpenGLContext.h:
+========================================
+
+#pragma once
+
+#include "Teddy/Renderer/GraphicsContext.h"
+
+struct GLFWwindow;
+
+namespace Teddy {
+
+	class OpenGLContext : public GraphicsContext
+	{
+	public:
+		OpenGLContext(GLFWwindow* windowHandle);
+
+		virtual void Init() override;
+		virtual void SwapBuffers() override;
+	private:
+		GLFWwindow* m_WindowHandle;
+	};
+
+}
+
+
+========================================
+Content of .\OpenGlFrameBuffer.cpp:
+========================================
+
+#include "tdpch.h"
+#include "OpenGlFrameBuffer.h"
+
+#include <glad/glad.h>
+
+namespace Teddy
+{
+
+	const uint32_t s_MaxFrameBufferSize = 8196;
+
+	namespace Utils
+	{
+
+		static GLenum MultiSampleChecker(bool multiSample)
+		{
+			return multiSample ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D;
+		}
+
+		static void CreateTexture(bool multiSample, uint32_t* outID, uint32_t count)
+		{
+			glCreateTextures(MultiSampleChecker(multiSample), count, outID);
+		}
+
+		static void BindTexture(bool multiSample, uint32_t id)
+		{
+			glBindTexture(MultiSampleChecker(multiSample), id);
+		}
+
+		static void AttachColorTexture(uint32_t id, int sample, GLenum  internalFormat,GLenum format, uint32_t width, uint32_t height, int index)
+		{
+			bool multiSample = sample > 1;
+
+			if (multiSample)
+			{
+				glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, sample, internalFormat, width, height, GL_FALSE);
+			}
+			else
+			{
+				glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, nullptr);
+
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			}
+
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, MultiSampleChecker(multiSample), id, 0);
+		}
+
+		static void AttachDepthTexture(uint32_t id, int samples, GLenum format, GLenum attachmentType, uint32_t width, uint32_t height)
+		{
+			bool multisampled = samples > 1;
+			if (multisampled)
+			{
+				glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, format, width, height, GL_FALSE);
+			}
+			else
+			{
+				glTexStorage2D(GL_TEXTURE_2D, 1, format, width, height);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			}
+			glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, MultiSampleChecker(multisampled), id, 0);
+		}
+
+
+
+		static bool isDepthFormat(FramebufferTextureFormat format)
+		{
+			switch (format)
+			{
+				case FramebufferTextureFormat::DEPTH24STENCIL8: return true;
+			}
+			return false;
+		}
+
+
+		static GLenum OPENGLAPICONVERTER(FramebufferTextureFormat format)
+		{
+			switch (format)
+			{
+				case FramebufferTextureFormat::RGBA8: return GL_RGBA8;
+				case FramebufferTextureFormat::RED_INTEGER: return GL_RED_INTEGER;
+			}
+			TD_CORE_ASSERT(false, "Not Valid Texture Format");
+			return 0;
+		}
+
+	}
+
+	OpenGlFrameBuffer::OpenGlFrameBuffer(const FrameBufferSpecification& spec)
+		: m_Specification(spec)
+	{
+
+		for (auto spec : m_Specification.Attachments.Attachments)
+		{
+			if (!Utils::isDepthFormat(spec.TextureFormat))
+				m_ColorAttachmentSpecifications.emplace_back(spec);
+			else
+				m_DepthAttachmentSpecification = spec;
+		}
+
+		Invalidate();
+	}
+
+
+	OpenGlFrameBuffer::~OpenGlFrameBuffer()
+	{
+		glDeleteFramebuffers(1, &m_RendererID);
+		glDeleteTextures(1, &m_DepthAttachment);
+		glDeleteTextures(m_ColorAttachments.size(), m_ColorAttachments.data());
+	}
+
+	void OpenGlFrameBuffer::bind()
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
+		glViewport(0, 0, m_Specification.Width, m_Specification.Height);
+	}
+
+	void OpenGlFrameBuffer::unBind()
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	}
+
+
+	void OpenGlFrameBuffer::ClearAttachmentValue(uint32_t id, int value)
+	{
+
+		auto& textureSpec = m_ColorAttachmentSpecifications[id];
+		glClearTexImage(m_ColorAttachments[id], 0, Utils::OPENGLAPICONVERTER(textureSpec.TextureFormat), GL_INT, &value);
+	}
+
+	void OpenGlFrameBuffer::Invalidate()
+	{
+
+		if (m_RendererID)
+		{
+			glDeleteFramebuffers(1, &m_RendererID);
+			glDeleteTextures(1, &m_DepthAttachment);
+			glDeleteTextures(m_ColorAttachments.size(), m_ColorAttachments.data());
+
+
+			m_ColorAttachments.clear();
+			m_DepthAttachment = 0;
+		}
+
+		glCreateFramebuffers(1, &m_RendererID);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
+	
+		bool multisample = m_Specification.Samples > 1;
+
+		if (m_ColorAttachmentSpecifications.size())
+		{
+
+			m_ColorAttachments.resize(m_ColorAttachmentSpecifications.size());
+			Utils::CreateTexture(multisample, m_ColorAttachments.data(), m_ColorAttachments.size());
+
+			for (size_t i = 0; i < m_ColorAttachmentSpecifications.size(); i++)
+			{
+				Utils::BindTexture(multisample, m_ColorAttachments[i]);
+				switch (m_ColorAttachmentSpecifications[i].TextureFormat)
+				{
+				case FramebufferTextureFormat::RGBA8:
+					Utils::AttachColorTexture(m_ColorAttachments[i], m_Specification.Samples, GL_RGBA8,  GL_RGBA, m_Specification.Width, m_Specification.Height, i);
+					break;
+				case FramebufferTextureFormat::RED_INTEGER:
+					Utils::AttachColorTexture(m_ColorAttachments[i], m_Specification.Samples, GL_R32I, GL_RED_INTEGER, m_Specification.Width, m_Specification.Height, i);
+					break;
+
+				}
+				
+			}
+		}
+
+		if (m_DepthAttachmentSpecification.TextureFormat != FramebufferTextureFormat::None)
+		{
+			Utils::CreateTexture(multisample, &m_DepthAttachment, 1);
+			Utils::BindTexture(multisample, m_DepthAttachment);
+			switch (m_DepthAttachmentSpecification.TextureFormat)
+			{
+			case FramebufferTextureFormat::DEPTH24STENCIL8:
+				Utils::AttachDepthTexture(m_DepthAttachment, m_Specification.Samples, GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT, m_Specification.Width, m_Specification.Height);
+				break;
+			}
+		}
+		if (m_ColorAttachments.size() > 1)
+		{
+			//TD_CORE_ASSERT(m_ColorAttachments.size() <= 4);
+			GLenum buffers[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
+			glDrawBuffers(m_ColorAttachments.size(), buffers);
+		}
+		else if (m_ColorAttachments.empty())
+		{
+			// Only depth-pass
+			glDrawBuffer(GL_NONE);
+		}
+
+
+		//glCreateTextures(GL_TEXTURE_2D, 1, &m_ColorAttachment);
+		//glBindTexture(GL_TEXTURE_2D, m_ColorAttachment);
+		//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Specification.Width, m_Specification.Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorAttachment, 0);
+		//glCreateTextures(GL_TEXTURE_2D, 1, &m_DepthAttachment);
+		//glBindTexture(GL_TEXTURE_2D, m_DepthAttachment);
+		//glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, m_Specification.Width, m_Specification.Height);
+		//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_DepthAttachment, 0);
+
+		TD_CORE_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "Framebuffer is incomplete!");
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	int OpenGlFrameBuffer::ReadPixel(uint32_t attachmentIndex, int x, int y)
+	{
+
+		glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentIndex);
+		int pixelData;
+		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
+		return pixelData;
+	}
+
+	void OpenGlFrameBuffer::NewSize(uint32_t width, uint32_t height)
+	{
+
+		if (width < 0 || height < 0 || width > s_MaxFrameBufferSize || height > s_MaxFrameBufferSize)
+			return;
+
+		m_Specification.Width = width;
+		m_Specification.Height = height;
+
+		Invalidate();
+	}
+
+
+
+}
+
+
+========================================
+Content of .\OpenGlFrameBuffer.h:
+========================================
+
+#pragma once
+#include <Teddy/Renderer/FrameBuffer.h>
+#include <glm/glm.hpp>
+
+namespace Teddy
+{
+
+
+	class OpenGlFrameBuffer : public FrameBuffer
+	{
+	public:
+		OpenGlFrameBuffer(const FrameBufferSpecification& spec);
+		virtual	~OpenGlFrameBuffer();
+
+
+		virtual void bind() override;
+		virtual void unBind() override;
+
+		virtual const FrameBufferSpecification& GetFrameBufferSpecification() const override { return m_Specification; }
+		virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const override { /*TD_CORE_ASSERT(index < m_ColorAttachments.size());*/ return m_ColorAttachments[index]; }
+		
+		virtual void ClearAttachmentValue(uint32_t id, int value) override;
+
+
+		void Invalidate();
+		virtual int ReadPixel(uint32_t attachmentIndex, int x, int y) override;
+		virtual void NewSize(uint32_t width, uint32_t height) override;
+
+	private:
+		uint32_t m_RendererID = 0;
+
+		FrameBufferSpecification m_Specification;
+
+		std::vector<FramebufferTextureSpecification> m_ColorAttachmentSpecifications;
+
+		FramebufferTextureSpecification m_DepthAttachmentSpecification = FramebufferTextureFormat::None;
+
+		std::vector<uint32_t> m_ColorAttachments;
+		uint32_t m_DepthAttachment = 0;
+	};
+
+}
+
+
+========================================
+Content of .\OpenGLRendererAPI.cpp:
+========================================
+
+#include "tdpch.h"
+#include "Platform/OpenGL/OpenGLRendererAPI.h"
+
+#include <glad/glad.h>
+
+namespace Teddy {
+
+	void OpenGLRendererAPI::Init()
+	{
+		TD_PROFILE_FUNCTION();
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		glEnable(GL_DEPTH_TEST);
+	}
+
+	void OpenGLRendererAPI::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
+	{
+		glViewport(x, y, width, height);
+	}
+
+	void OpenGLRendererAPI::SetClearColor(const glm::vec4& color)
+	{
+		glClearColor(color.r, color.g, color.b, color.a);
+	}
+
+	void OpenGLRendererAPI::Clear()
+	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+
+	void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray, const uint32_t indexCount)
+	{
+
+		uint32_t count = indexCount ? vertexArray->GetIndexBuffer()->GetCount() : indexCount;
+
+		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
+}
+
+
+========================================
+Content of .\OpenGLRendererAPI.h:
+========================================
+
+#pragma once
+
+#include "Teddy/Renderer/RendererAPI.h"
+
+namespace Teddy {
+
+	class OpenGLRendererAPI : public RendererAPI
+	{
+	public:
+		virtual void Init() override;
+		virtual void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;
+
+		virtual void SetClearColor(const glm::vec4& color) override;
+		virtual void Clear() override;
+
+		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray, const uint32_t indexCount) override;
+	};
+
+
+}
+
+
+
+========================================
+Content of .\OpenGLShader.cpp:
+========================================
+
+#include "tdpch.h"
+#include "Platform/OpenGL/OpenGLShader.h"
+
+#include <fstream>
+#include <glad/glad.h>
+
+#include <glm/gtc/type_ptr.hpp>
+
+namespace Teddy {
+
+	static GLenum ShaderTypeFromString(const std::string& type)
+	{
+		if (type == "vertex")
+			return GL_VERTEX_SHADER;
+		if (type == "fragment" || type == "pixel")
+			return GL_FRAGMENT_SHADER;
+
+		TD_CORE_ASSERT(false, "Unknown shader type!");
+		return 0;
+	}
+
+	OpenGLShader::OpenGLShader(const std::string& filepath)
+	{
+		TD_PROFILE_FUNCTION();
+
+		std::string source = ReadFile(filepath);
+		auto shaderSources = PreProcess(source);
+		Compile(shaderSources);
+
+		// Extract name from filepath
+		auto lastSlash = filepath.find_last_of("/\\");
+		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+		auto lastDot = filepath.rfind('.');
+		auto count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
+		m_Name = filepath.substr(lastSlash, count);
+	}
+
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
+		: m_Name(name)
+	{
+		TD_PROFILE_FUNCTION();
+
+		std::unordered_map<GLenum, std::string> sources;
+		sources[GL_VERTEX_SHADER] = vertexSrc;
+		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
+		Compile(sources);
+	}
+
+	OpenGLShader::~OpenGLShader()
+	{
+		TD_PROFILE_FUNCTION();
+
+		glDeleteProgram(m_RendererID);
+	}
+
+	std::string OpenGLShader::ReadFile(const std::string& filepath)
+	{
+		TD_PROFILE_FUNCTION();
+
+		std::string result;
+		std::ifstream in(filepath, std::ios::in | std::ios::binary);
+		if (in)
+		{
+			in.seekg(0, std::ios::end);
+			size_t size = in.tellg();
+			if (size != -1)
+			{
+				result.resize(size);
+				in.seekg(0, std::ios::beg);
+				in.read(&result[0], size);
+				in.close();
+			}
+			else
+			{
+				TD_CORE_ERROR("Could not read from file '{0}'", filepath);
+			}
+		}
+		else
+		{
+			TD_CORE_ERROR("Could not open file '{0}'", filepath);
+		}
+
+		return result;
+	}
+
+	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source)
+	{
+		TD_PROFILE_FUNCTION();
+
+		std::unordered_map<GLenum, std::string> shaderSources;
+
+		const char* typeToken = "#type";
+		size_t typeTokenLength = strlen(typeToken);
+		size_t pos = source.find(typeToken, 0); //Start of shader type declaration line
+		while (pos != std::string::npos)
+		{
+			size_t eol = source.find_first_of("\r\n", pos); //End of shader type declaration line
+			TD_CORE_ASSERT(eol != std::string::npos, "Syntax error");
+			size_t begin = pos + typeTokenLength + 1; //Start of shader type name (after "#type " keyword)
+			std::string type = source.substr(begin, eol - begin);
+			TD_CORE_ASSERT(ShaderTypeFromString(type), "Invalid shader type specified");
+
+			size_t nextLinePos = source.find_first_not_of("\r\n", eol); //Start of shader code after shader type declaration line
+			TD_CORE_ASSERT(nextLinePos != std::string::npos, "Syntax error");
+			pos = source.find(typeToken, nextLinePos); //Start of next shader type declaration line
+
+			shaderSources[ShaderTypeFromString(type)] = (pos == std::string::npos) ? source.substr(nextLinePos) : source.substr(nextLinePos, pos - nextLinePos);
+		}
+
+		return shaderSources;
+	}
+
+	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
+	{
+		TD_PROFILE_FUNCTION();
+
+		GLuint program = glCreateProgram();
+		TD_CORE_ASSERT(shaderSources.size() <= 2, "We only support 2 shaders for now");
+		std::array<GLenum, 2> glShaderIDs;
+		int glShaderIDIndex = 0;
+		for (auto& kv : shaderSources)
+		{
+			GLenum type = kv.first;
+			const std::string& source = kv.second;
+
+			GLuint shader = glCreateShader(type);
+
+			const GLchar* sourceCStr = source.c_str();
+			glShaderSource(shader, 1, &sourceCStr, 0);
+
+			glCompileShader(shader);
+
+			GLint isCompiled = 0;
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+			if (isCompiled == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+
+				std::vector<GLchar> infoLog(maxLength);
+				glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+
+				glDeleteShader(shader);
+
+				TD_CORE_ERROR("{0}", infoLog.data());
+				TD_CORE_ASSERT(false, "Shader compilation failure!");
+				break;
+			}
+
+			glAttachShader(program, shader);
+			glShaderIDs[glShaderIDIndex++] = shader;
+		}
+		
+		m_RendererID = program;
+
+		// Link our program
+		glLinkProgram(program);
+
+		// Note the different functions here: glGetProgram* instead of glGetShader*.
+		GLint isLinked = 0;
+		glGetProgramiv(program, GL_LINK_STATUS, (int*)&isLinked);
+		if (isLinked == GL_FALSE)
+		{
+			GLint maxLength = 0;
+			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+
+			// The maxLength includes the NULL character
+			std::vector<GLchar> infoLog(maxLength);
+			glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
+
+			// We don't need the program anymore.
+			glDeleteProgram(program);
+			
+			for (auto id : glShaderIDs)
+				glDeleteShader(id);
+
+			TD_CORE_ERROR("{0}", infoLog.data());
+			TD_CORE_ASSERT(false, "Shader link failure!");
+			return;
+		}
+
+		for (auto id : glShaderIDs)
+		{
+			glDetachShader(program, id);
+			glDeleteShader(id);
+		}
+	}
+
+	void OpenGLShader::Bind() const
+	{
+		TD_PROFILE_FUNCTION();
+
+		glUseProgram(m_RendererID);
+	}
+
+	void OpenGLShader::Unbind() const
+	{
+		TD_PROFILE_FUNCTION();
+
+		glUseProgram(0);
+	}
+
+	void OpenGLShader::SetInt(const std::string& name, int value)
+	{
+		TD_PROFILE_FUNCTION();
+
+		UploadUniformInt(name, value);
+	}
+
+	void OpenGLShader::SetIntArray(const std::string& name, int* value, int count)
+	{
+		TD_PROFILE_FUNCTION();
+		UploadUniformIntArray(name, value, count);
+	}
+
+	void OpenGLShader::SetFloat(const std::string& name, float value)
+	{
+		TD_PROFILE_FUNCTION();
+
+		UploadUniformFloat(name, value);
+	}
+
+	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& value)
+	{
+		TD_PROFILE_FUNCTION();
+
+		UploadUniformFloat3(name, value);
+	}
+
+	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& value)
+	{
+		TD_PROFILE_FUNCTION();
+
+		UploadUniformFloat4(name, value);
+	}
+
+	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& value)
+	{
+		TD_PROFILE_FUNCTION();
+
+		UploadUniformMat4(name, value);
+	}
+
+	void OpenGLShader::UploadUniformInt(const std::string& name, int value)
+	{
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform1i(location, value);
+	}
+
+	void OpenGLShader::UploadUniformIntArray(const std::string& name, int* value, int count)
+	{
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform1iv(location, count, value);
+	}
+
+	void OpenGLShader::UploadUniformFloat(const std::string& name, float value)
+	{
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform1f(location, value);
+	}
+
+	void OpenGLShader::UploadUniformFloat2(const std::string& name, const glm::vec2& value)
+	{
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform2f(location, value.x, value.y);
+	}
+
+	void OpenGLShader::UploadUniformFloat3(const std::string& name, const glm::vec3& value)
+	{
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform3f(location, value.x, value.y, value.z);
+	}
+
+	void OpenGLShader::UploadUniformFloat4(const std::string& name, const glm::vec4& value)
+	{
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform4f(location, value.x, value.y, value.z, value.w);
+	}
+
+	void OpenGLShader::UploadUniformMat3(const std::string& name, const glm::mat3& matrix)
+	{
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+	}
+
+	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)
+	{
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+	}
+
+}
+
+
+========================================
+Content of .\OpenGLShader.h:
+========================================
+
+#pragma once
+
+#include "Teddy/Renderer/Shader.h"
+#include <glm/glm.hpp>
+
+// TODO: REMOVE!
+typedef unsigned int GLenum;
+
+namespace Teddy {
+
+	class OpenGLShader : public Shader
+	{
+	public:
+		OpenGLShader(const std::string& filepath);
+		OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
+		virtual ~OpenGLShader();
+
+		virtual void Bind() const override;
+		virtual void Unbind() const override;
+
+		virtual void SetInt(const std::string& name, int value) override;
+		virtual void SetIntArray(const std::string& name, int* value, int count) override;
+		virtual void SetFloat(const std::string& name, float value) override;
+		virtual void SetFloat3(const std::string& name, const glm::vec3& value) override;
+		virtual void SetFloat4(const std::string& name, const glm::vec4& value) override;
+		virtual void SetMat4(const std::string& name, const glm::mat4& value) override;
+
+		virtual const std::string& GetName() const override { return m_Name; }
+
+		void UploadUniformInt(const std::string& name, int value);
+		void UploadUniformIntArray(const std::string& name, int* value, int count);
+		void UploadUniformFloat(const std::string& name, float value);
+		void UploadUniformFloat2(const std::string& name, const glm::vec2& value);
+		void UploadUniformFloat3(const std::string& name, const glm::vec3& value);
+		void UploadUniformFloat4(const std::string& name, const glm::vec4& value);
+
+		void UploadUniformMat3(const std::string& name, const glm::mat3& matrix);
+		void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
+	private:
+		std::string ReadFile(const std::string& filepath);
+		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
+		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
+	private:
+		uint32_t m_RendererID;
+		std::string m_Name;
+	};
+
+}
+
+
+========================================
+Content of .\OpenGLTexture.cpp:
+========================================
+
+#include "tdpch.h"
+#include "Platform/OpenGL/OpenGLTexture.h"
+
+#include <stb_image.h>
+
+namespace Teddy {
+
+	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
+		: m_Width(width), m_Height(height)
+	{
+		TD_PROFILE_FUNCTION();
+
+		m_InternalFormat = GL_RGBA8;
+		m_DataFormat = GL_RGBA;
+
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
+		glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);
+
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	}
+
+	OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
+		: m_Path(path)
+	{
+		TD_PROFILE_FUNCTION();
+
+		int width, height, channels;
+		stbi_set_flip_vertically_on_load(1);
+		stbi_uc* data = nullptr;
+		{
+			TD_PROFILE_SCOPE("stbi_load - OpenGLTexture2D::OpenGLTexture2D(const std:string&)");
+			data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+		}
+		TD_CORE_ASSERT(data, "Failed to load image!");
+		m_Width = width;
+		m_Height = height;
+
+		GLenum internalFormat = 0, dataFormat = 0;
+		if (channels == 4)
+		{
+			internalFormat = GL_RGBA8;
+			dataFormat = GL_RGBA;
+		}
+		else if (channels == 3)
+		{
+			internalFormat = GL_RGB8;
+			dataFormat = GL_RGB;
+		}
+
+		m_InternalFormat = internalFormat;
+		m_DataFormat = dataFormat;
+
+		TD_CORE_ASSERT(internalFormat & dataFormat, "Format not supported!");
+
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
+		glTextureStorage2D(m_RendererID, 1, internalFormat, m_Width, m_Height);
+
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, dataFormat, GL_UNSIGNED_BYTE, data);
+
+		stbi_image_free(data);
+	}
+
+	OpenGLTexture2D::~OpenGLTexture2D()
+	{
+		TD_PROFILE_FUNCTION();
+
+		glDeleteTextures(1, &m_RendererID);
+	}
+
+	void OpenGLTexture2D::SetData(void* data, uint32_t size)
+	{
+		TD_PROFILE_FUNCTION();
+
+		uint32_t bpp = m_DataFormat == GL_RGBA ? 4 : 3;
+		TD_CORE_ASSERT(size == m_Width * m_Height * bpp, "Data must be entire texture!");
+		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
+	}
+
+	void OpenGLTexture2D::Bind(uint32_t slot) const
+	{
+		TD_PROFILE_FUNCTION();
+
+		glBindTextureUnit(slot, m_RendererID);
+	}
+}
+
+
+========================================
+Content of .\OpenGLTexture.h:
+========================================
+
+#pragma once
+
+#include "Teddy/Renderer/Texture.h"
+
+#include <glad/glad.h>
+
+namespace Teddy {
+
+	class OpenGLTexture2D : public Texture2D
+	{
+	public:
+		OpenGLTexture2D(uint32_t width, uint32_t height);
+		OpenGLTexture2D(const std::string& path);
+		virtual ~OpenGLTexture2D();
+
+		virtual uint32_t GetWidth() const override { return m_Width;  }
+		virtual uint32_t GetHeight() const override { return m_Height; }
+		virtual uint32_t GetRendererID() const override { return m_RendererID;  }
+		virtual std::string GetPath() const override { return m_Path; }
+
+
+		virtual void SetData(void* data, uint32_t size) override;
+
+		virtual void Bind(uint32_t slot = 0) const override;
+
+
+		virtual bool operator== (const Texture& Other) const override
+		{
+			return m_RendererID == ((OpenGLTexture2D&)Other).m_RendererID;
+		}
+	private:
+		std::string m_Path;
+		uint32_t m_Width, m_Height;
+		uint32_t m_RendererID;
+		GLenum m_InternalFormat, m_DataFormat;
+	};
+
+}
+
+
+
+========================================
+Content of .\OpenGLVertexArray.cpp:
+========================================
+
+#include "tdpch.h"
+#include "Platform/OpenGL/OpenGLVertexArray.h"
+
+#include <glad/glad.h>
+
+namespace Teddy {
+
+	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
+	{
+		switch (type)
+		{
+			case ShaderDataType::Float:    return GL_FLOAT;
+			case ShaderDataType::Float2:   return GL_FLOAT;
+			case ShaderDataType::Float3:   return GL_FLOAT;
+			case ShaderDataType::Float4:   return GL_FLOAT;
+			case ShaderDataType::Mat3:     return GL_FLOAT;
+			case ShaderDataType::Mat4:     return GL_FLOAT;
+			case ShaderDataType::Int:      return GL_INT;
+			case ShaderDataType::Int2:     return GL_INT;
+			case ShaderDataType::Int3:     return GL_INT;
+			case ShaderDataType::Int4:     return GL_INT;
+			case ShaderDataType::Bool:     return GL_BOOL;
+		}
+
+		TD_CORE_ASSERT(false, "Unknown ShaderDataType!");
+		return 0;
+	}
+
+	OpenGLVertexArray::OpenGLVertexArray()
+	{
+		TD_PROFILE_FUNCTION();
+
+		glCreateVertexArrays(1, &m_RendererID);
+	}
+
+	OpenGLVertexArray::~OpenGLVertexArray()
+	{
+		TD_PROFILE_FUNCTION();
+
+		glDeleteVertexArrays(1, &m_RendererID);
+	}
+
+	void OpenGLVertexArray::Bind() const
+	{
+		TD_PROFILE_FUNCTION();
+
+		glBindVertexArray(m_RendererID);
+	}
+
+	void OpenGLVertexArray::Unbind() const
+	{
+		TD_PROFILE_FUNCTION();
+
+		glBindVertexArray(0);
+	}
+
+	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
+	{
+		TD_PROFILE_FUNCTION();
+
+		TD_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex Buffer has no layout!");
+
+		glBindVertexArray(m_RendererID);
+		vertexBuffer->Bind();
+
+		const auto& layout = vertexBuffer->GetLayout();
+		for (const auto& element : layout)
+		{
+			switch (element.Type)
+			{
+			case ShaderDataType::Float:
+			case ShaderDataType::Float2:
+			case ShaderDataType::Float3:
+			case ShaderDataType::Float4:
+			{
+				glEnableVertexAttribArray(m_VertexBufferIndex);
+				glVertexAttribPointer(m_VertexBufferIndex,
+					element.GetComponentCount(),
+					ShaderDataTypeToOpenGLBaseType(element.Type),
+					element.Normalized ? GL_TRUE : GL_FALSE,
+					layout.GetStride(),
+					(const void*)element.Offset);
+				m_VertexBufferIndex++;
+				break;
+			}
+			case ShaderDataType::Int:
+			case ShaderDataType::Int2:
+			case ShaderDataType::Int3:
+			case ShaderDataType::Int4:
+			case ShaderDataType::Bool:
+			{
+				glEnableVertexAttribArray(m_VertexBufferIndex);
+				glVertexAttribIPointer(m_VertexBufferIndex,
+					element.GetComponentCount(),
+					ShaderDataTypeToOpenGLBaseType(element.Type),
+					layout.GetStride(),
+					(const void*)element.Offset);
+				m_VertexBufferIndex++;
+				break;
+			}
+			case ShaderDataType::Mat3:
+			case ShaderDataType::Mat4:
+			{
+				uint8_t count = element.GetComponentCount();
+				for (uint8_t i = 0; i < count; i++)
+				{
+					glEnableVertexAttribArray(m_VertexBufferIndex);
+					glVertexAttribPointer(m_VertexBufferIndex,
+						count,
+						ShaderDataTypeToOpenGLBaseType(element.Type),
+						element.Normalized ? GL_TRUE : GL_FALSE,
+						layout.GetStride(),
+						(const void*)(element.Offset + sizeof(float) * count * i));
+					glVertexAttribDivisor(m_VertexBufferIndex, 1);
+					m_VertexBufferIndex++;
+				}
+				break;
+			}
+			default:
+				TD_CORE_ASSERT(false, "Unknown ShaderDataType!");
+			}
+		}
+
+		m_VertexBuffers.push_back(vertexBuffer);
+	}
+
+	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
+	{
+		TD_PROFILE_FUNCTION();
+
+		glBindVertexArray(m_RendererID);
+		indexBuffer->Bind();
+
+		m_IndexBuffer = indexBuffer;
+	}
+
+}
+
+
+
+========================================
+Content of .\OpenGLVertexArray.h:
+========================================
+
+#pragma once
+
+#include "Teddy/Renderer/VertexArray.h"
+
+namespace Teddy {
+
+	class OpenGLVertexArray : public VertexArray
+	{
+	public:
+		OpenGLVertexArray();
+		virtual ~OpenGLVertexArray();
+
+		virtual void Bind() const override;
+		virtual void Unbind() const override;
+
+		virtual void AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) override;
+		virtual void SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) override;
+
+		virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() const { return m_VertexBuffers; }
+		virtual const Ref<IndexBuffer>& GetIndexBuffer() const { return m_IndexBuffer; }
+	private:
+		uint32_t m_RendererID;
+		uint32_t m_VertexBufferIndex = 0;
+		std::vector<Ref<VertexBuffer>> m_VertexBuffers;
+		Ref<IndexBuffer> m_IndexBuffer;
+	};
+
+}
+
+

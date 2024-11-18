@@ -4572,14 +4572,16 @@ bool ImGui::ColorEdit4(const char* label, float col[4], ImGuiColorEditFlags flag
         return false;
 
     ImGuiContext& g = *GImGui;
-    const ImGuiStyle& style = g.Style;
+    ImGuiStyle& style = g.Style;
     const float square_sz = GetFrameHeight();
     const float w_full = CalcItemWidth();
+    style.ItemInnerSpacing.x = 0.0f;
+    style.FrameBorderSize = 0.0f;
+    style.FrameRounding = 0.1f;
     const float w_button = (flags & ImGuiColorEditFlags_NoSmallPreview) ? 0.0f : (square_sz + style.ItemInnerSpacing.x);
     const float w_inputs = w_full - w_button;
     const char* label_display_end = FindRenderedTextEnd(label);
     g.NextItemData.ClearFlags();
-
     BeginGroup();
     PushID(label);
 
