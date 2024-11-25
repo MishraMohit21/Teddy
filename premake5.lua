@@ -34,6 +34,7 @@ group "Dependencies"
 	include "Teddy/vendor/Glad"
 	include "Teddy/vendor/imgui"
 	include "Teddy/vendor/yaml-cpp"
+	include "Teddy/vendor/Box2D"
 	
 
 group ""
@@ -80,7 +81,12 @@ project "Teddy"
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.entt}",
 		"%{IncludeDir.ImGuizmo}",
+<<<<<<< HEAD
 		"%{IncludeDir.yaml_cpp}"
+=======
+		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.Box2D}"
+>>>>>>> a7acb02 (Box2D added completed)
 
 	}
 
@@ -88,6 +94,7 @@ project "Teddy"
 	{ 
 		"GLFW",
 		"Glad",
+		"Box2D",
 		"ImGui",
 		"yaml-cpp",
 		"opengl32.lib"
@@ -201,6 +208,10 @@ project "TeddEditor"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.yaml_cpp}",
 		"%{IncludeDir.ImGuizmo}",	
+<<<<<<< HEAD
+=======
+		"%{IncludeDir.Box2D}",
+>>>>>>> a7acb02 (Box2D added completed)
 		"%{IncludeDir.entt}"
 	}
 	links

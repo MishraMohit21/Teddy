@@ -4,9 +4,12 @@
 #include <Teddy/Core/Timestep.h>
 #include <Teddy/Renderer/EditorCamera.h>
 
+class b2World;
+
 namespace Teddy
 {
 	class Entity;
+
 	class Scene
 	{
 	public:
@@ -20,8 +23,8 @@ namespace Teddy
 
 		void DestroyEntity(Entity entity);
 
-		// Temprory 
-		//entt::registry& getReg() { return m_Registry; }
+		void OnRuntimeStart();
+		void OnRuntimeStop();
 
 		void OnUpdateEditor(Timestep ts, EditorCamera& cam);
 		void OnUpdateRuntime(Timestep ts);
@@ -36,6 +39,9 @@ namespace Teddy
 		std::string m_SceneName;
 		entt::registry m_Registry;
 		uint32_t viewportWidth = 0, viewportHeight = 0 ;
+
+		b2World* m_PhysicsWorld = nullptr;
+
 		friend class Entity;
 		friend class SceneSerializer;
 		friend class SceneHierarchyPanel;

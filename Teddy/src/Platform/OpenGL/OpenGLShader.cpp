@@ -51,7 +51,7 @@ namespace Teddy {
 		TD_PROFILE_FUNCTION();
 
 		glDeleteProgram(m_RendererID);
-	}
+	}	
 
 	std::string OpenGLShader::ReadFile(const std::string& filepath)
 	{

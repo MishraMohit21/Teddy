@@ -1,0 +1,64 @@
+Scene: untitled
+Entities:
+  - EntityId: 12837192831273
+    TagComponent:
+      Tag: Square
+    TransformComponent:
+      Translation: [-4.69738579, -2.36558247, 0]
+      Rotation: [0.0208260566, 0.00353144249, 7.85354662]
+      Scale: [1.00000644, 1.00000644, 1]
+    SpriteRendererComponent:
+      TintColor: [0.400000006, 0.899999976, 0.699999988, 1]
+      TextureFile: 0
+      TilingFactor: 1
+    Rigid2DBodyComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    Box2DColliderComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.5
+      RestitutionThreshold: 0.5
+  - EntityId: 12837192831273
+    TagComponent:
+      Tag: Camera
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        PerspectiveNearClip: 0.00999999978
+        PerspectiveFarClip: 1000
+        OrthographicSize: 34
+        OrthographicNearClip: -1
+        OrthographicFarClip: 1
+      Primary: true
+      FixedAspectRatio: false
+    CppScriptComponent:
+      Class: "class `public: virtual void __cdecl Teddy::EditorLayer::OnAttach(void) __ptr64'::`2'::CameraController"
+  - EntityId: 12837192831273
+    TagComponent:
+      Tag: Floor
+    TransformComponent:
+      Translation: [0.100000001, -3.5, 0]
+      Rotation: [0, 0, 0]
+      Scale: [15.3299999, 1.23000002, 1.13]
+    SpriteRendererComponent:
+      TintColor: [0.563931763, 0.908814609, 0.212701261, 1]
+      TextureFile: 0
+      TilingFactor: 1
+    Rigid2DBodyComponent:
+      BodyType: Static
+      FixedRotation: false
+    Box2DColliderComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5

@@ -3,6 +3,31 @@
 #include "glm/glm.hpp"
 
 namespace YAML {
+
+	template<>
+	struct convert<glm::vec2>
+	{
+		static Node encode(const glm::vec2& rhs)
+		{
+			Node node;
+			node.push_back(rhs.x);
+			node.push_back(rhs.y);
+			node.SetStyle(EmitterStyle::Flow);
+			return node;
+		}
+
+		static bool decode(const Node& node, glm::vec2& rhs)
+		{
+			if (!node.IsSequence() || node.size() != 2)
+				return false;
+
+			rhs.x = node[0].as<float>();
+			rhs.y = node[1].as<float>();
+			return true;
+		}
+	};
+
+
 	template<>
 	struct convert<glm::vec3>
 	{
@@ -53,6 +78,34 @@ namespace YAML {
 
 namespace Teddy
 {
+	YAML::Emitter& operator<<(YAML::Emitter& out, const glm::vec2& v)
+	{
+		out << YAML::Flow;
+		out << YAML::BeginSeq << v.x << v.y << YAML::EndSeq;
+		return out;
+	}
+
+	static std::string RigidBody2DBodyTypeToString(Rigid2DBodyComponent::BodyType bodyType)
+	{
+		switch (bodyType)
+		{
+		case Rigid2DBodyComponent::BodyType::Static:    return "Static";
+		case Rigid2DBodyComponent::BodyType::Dynamic:   return "Dynamic";
+		case Rigid2DBodyComponent::BodyType::Kinematic: return "Kinematic";
+		}
+		TD_CORE_ASSERT(false, "Unknown body type");
+		return {};
+	}
+	static Rigid2DBodyComponent::BodyType RigidBody2DBodyTypeFromString(const std::string& bodyTypeString)
+	{
+		if (bodyTypeString == "Static")    return Rigid2DBodyComponent::BodyType::Static;
+		if (bodyTypeString == "Dynamic")   return Rigid2DBodyComponent::BodyType::Dynamic;
+		if (bodyTypeString == "Kinematic") return Rigid2DBodyComponent::BodyType::Kinematic;
+
+		TD_CORE_ASSERT(false, "Unknown body type");
+		return Rigid2DBodyComponent::BodyType::Static;
+	}
+
 	YAML::Emitter& operator<<(YAML::Emitter& out, const glm::vec3& v)
 	{
 		out << YAML::Flow;
@@ -148,6 +201,29 @@ namespace Teddy
 			std::string className = entity.GetComponent<CppScriptComponent>().scriptClass;
 			out << YAML::Key << "Class" << YAML::Value << className;
 			out << YAML::EndMap;
+		}
+
+		if (entity.HasComponent<Rigid2DBodyComponent>())
+		{
+			out << YAML::Key << "Rigid2DBodyComponent";
+			out << YAML::BeginMap; // Rigid2DBodyComponent
+			auto& rb2dComponent = entity.GetComponent<Rigid2DBodyComponent>();
+			out << YAML::Key << "BodyType" << YAML::Value << RigidBody2DBodyTypeToString(rb2dComponent.Type);
+			out << YAML::Key << "FixedRotation" << YAML::Value << rb2dComponent.fixedRotation;
+			out << YAML::EndMap; // Rigid2DBodyComponent
+		}
+		if (entity.HasComponent<Box2DColliderComponent>())
+		{
+			out << YAML::Key << "Box2DColliderComponent";
+			out << YAML::BeginMap; // Box2DColliderComponent
+			auto& bc2dComponent = entity.GetComponent<Box2DColliderComponent>();
+			out << YAML::Key << "Offset" << YAML::Value << bc2dComponent.Offset;
+			out << YAML::Key << "Size" << YAML::Value << bc2dComponent.Size;
+			out << YAML::Key << "Density" << YAML::Value << bc2dComponent.Density;
+			out << YAML::Key << "Friction" << YAML::Value << bc2dComponent.Friction;
+			out << YAML::Key << "Restitution" << YAML::Value << bc2dComponent.Restitution;
+			out << YAML::Key << "RestitutionThreshold" << YAML::Value << bc2dComponent.RestitutionThreshold;
+			out << YAML::EndMap; // Box2DColliderComponent
 		}
 
 		out << YAML::EndMap;
@@ -249,6 +325,25 @@ namespace Teddy
 					cppScriptComponent["Class"].as<function
 					auto& csc = deserializedEntity.AddComponent<Sprte
 				}*/
+
+				auto rigidbody2DComponent = entity["Rigid2DBodyComponent"];
+				if (rigidbody2DComponent)
+				{
+					auto& rb2d = deserializedEntity.AddComponent<Rigid2DBodyComponent>();
+					rb2d.Type = RigidBody2DBodyTypeFromString(rigidbody2DComponent["BodyType"].as<std::string>());
+					rb2d.fixedRotation = rigidbody2DComponent["FixedRotation"].as<bool>();
+				}
+				auto boxCollider2DComponent = entity["Box2DColliderComponent"];
+				if (boxCollider2DComponent)
+				{
+					auto& bc2d = deserializedEntity.AddComponent<Box2DColliderComponent>();
+					bc2d.Offset = boxCollider2DComponent["Offset"].as<glm::vec2>();
+					bc2d.Size = boxCollider2DComponent["Size"].as<glm::vec2>();
+					bc2d.Density = boxCollider2DComponent["Density"].as<float>();
+					bc2d.Friction = boxCollider2DComponent["Friction"].as<float>();
+					bc2d.Restitution = boxCollider2DComponent["Restitution"].as<float>();
+					bc2d.RestitutionThreshold = boxCollider2DComponent["RestitutionThreshold"].as<float>();
+				}
 			}
 		}
 		return true;

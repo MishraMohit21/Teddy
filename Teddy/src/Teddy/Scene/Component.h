@@ -99,4 +99,34 @@ namespace Teddy
 		}
 
 	};
+
+	struct Rigid2DBodyComponent
+	{
+
+		static enum class BodyType { Static = 0, Dynamic, Kinematic };
+		BodyType Type = BodyType::Static;
+		bool fixedRotation = false;
+		void* RunTimeBody = nullptr;
+
+		Rigid2DBodyComponent() = default;
+		Rigid2DBodyComponent(const Rigid2DBodyComponent&) = default;
+			
+	};
+
+	struct Box2DColliderComponent
+	{
+		glm::vec2 Offset = { 0.0f, 0.0f };
+		glm::vec2 Size = { 0.5f, 0.5f };
+
+		float Density = 1.0f;
+		float Friction = 0.5f;
+		float Restitution = 0.0f;
+		float RestitutionThreshold = 0.5f;
+
+		void* RuntimeFixture = nullptr;
+
+		Box2DColliderComponent() = default;
+		Box2DColliderComponent(const Box2DColliderComponent&) = default;	
+	};
+	
 }

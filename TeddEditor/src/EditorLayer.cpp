@@ -79,18 +79,7 @@ namespace Teddy {
 		//m_SecondSquare = square;
 #endif
 
-		//for (int j = 0; j < 40; j++)
-		//{
-		//	for (int i = 0; i < 60; i++)
-		//	{
-		//		std::ostringstream oss;
-		//		oss << "Square_" << i * 60 + j; // Adds unique ID to each string
-		//		std::string name = oss.str();
-		//		auto tile = m_ActiveScene->CreateEntity(name, glm::vec3(i, j, 0.0f));
-		//		tile.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.58, 0.24, 0.09, 1.0 });
-		//		m_Elements.push_back(tile);
-		//	}
-		//}
+		
 
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 		
@@ -282,6 +271,43 @@ namespace Teddy {
 		ImGui::End();
 	}
 
+<<<<<<< HEAD
+=======
+	void EditorLayer::UI_Toolbar()
+	{
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 2));
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0, 0));
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+		auto& colors = ImGui::GetStyle().Colors;
+		const auto& buttonHovered = colors[ImGuiCol_ButtonHovered];
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(buttonHovered.x, buttonHovered.y, buttonHovered.z, 0.5f));
+		const auto& buttonActive = colors[ImGuiCol_ButtonActive];
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(buttonActive.x, buttonActive.y, buttonActive.z, 0.5f));
+		ImGui::Begin("##toolbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+		float size = ImGui::GetWindowHeight() - 4.0f;
+		Ref<Texture2D> icon = !runGame ? m_IconPlay : m_IconStop;
+		ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5f) - (size * 0.5f));
+		if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0))
+		{
+			if (!runGame)
+			{
+				runGame = true;
+				m_ActiveScene->OnRuntimeStart();
+			}
+			else if (runGame)
+			{
+				runGame = false;
+				m_ActiveScene->OnRuntimeStop();
+			}
+		}
+		ImGui::PopStyleVar(2);
+		ImGui::PopStyleColor(3);
+		ImGui::End();
+	}
+
+
+
+>>>>>>> a7acb02 (Box2D added completed)
 	void EditorLayer::OnEvent(Event& e)
 	{
 		m_CameraController.OnEvent(e);
