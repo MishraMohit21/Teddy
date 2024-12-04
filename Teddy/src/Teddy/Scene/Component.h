@@ -7,12 +7,20 @@
 
 #include <Teddy/Renderer/RenderCommand.h>
 #include "Teddy/Renderer/Renderer2D.h"
+#include "Teddy/Core/UUID.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
 namespace Teddy
 {
+
+	struct UUIDCompononet
+	{
+		UUID id;
+		UUIDCompononet() = default;
+		UUIDCompononet(const UUIDCompononet&) = default;
+	};
 
 	struct TagComponent
 	{

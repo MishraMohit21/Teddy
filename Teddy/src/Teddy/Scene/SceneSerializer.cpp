@@ -127,7 +127,8 @@ namespace Teddy
 	static void SerializeEntity(YAML::Emitter& out, Entity& entity)
 	{
 		out << YAML::BeginMap;
-		out << YAML::Key << "EntityId" << YAML::Value << "12837192831273";   // Fix this id system
+
+		out << YAML::Key << "EntityId" << YAML::Value << entity.GetComponent<UUIDCompononet>().id;   // Fix this id system
 
 		if (entity.HasComponent<TagComponent>())
 		{
@@ -281,7 +282,7 @@ namespace Teddy
 				if (tagComponent)
 					name = tagComponent["Tag"].as<std::string>();
 				TD_CORE_TRACE("Deserialized entity with ID = {0}, name = {1}", uuid, name);
-				Entity deserializedEntity = m_Scene->CreateEntity(name);
+				Entity deserializedEntity = m_Scene->CreateEntity(uuid, name);
 				auto transformComponent = entity["TransformComponent"];
 				if (transformComponent)
 				{

@@ -44,16 +44,26 @@ namespace Teddy
 
 	Entity Scene::CreateEntity(const std::string name)
 	{
-		Entity entity = { m_Registry.create(), this };
-		entity.AddComponent<TransformComponent>();
-		auto& tag = entity.AddComponent<TagComponent>();
-		tag.Tag = name.empty() ? "Entity" : name;
-		return entity;
+		return CreateEntity(UUID(), name, glm::vec3(0.0f, 0.0f, 0.0f));
 	}
 
 	Entity Scene::CreateEntity(const std::string name, glm::vec3 transform)
 	{
+		return CreateEntity(UUID(), name, transform);
+
+	}
+
+	Entity Scene::CreateEntity(UUID id, const std::string name)
+	{
+		return CreateEntity(id, name, glm::vec3(0.0f, 0.0f, 0.0f));
+
+	}
+
+	Entity Scene::CreateEntity(UUID id, const std::string name, glm::vec3 transform)
+	{
 		Entity entity = { m_Registry.create(), this };
+		auto& idc = entity.AddComponent<UUIDCompononet>();
+		idc.id = id;
 		entity.AddComponent<TransformComponent>(transform);
 		auto& tag = entity.AddComponent<TagComponent>();
 		tag.Tag = name.empty() ? "Entity" : name;
@@ -252,6 +262,11 @@ namespace Teddy
 	{
 		if (viewportWidth > 0 && viewportHeight > 0)
 			component.Camera.SetViewportSize(viewportWidth, viewportHeight);
+	}
+
+	template<>
+	void Scene::OnComponentAdded<UUIDCompononet>(Entity entity, UUIDCompononet& component)
+	{
 	}
 
 	template<>

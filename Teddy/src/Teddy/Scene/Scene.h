@@ -3,6 +3,7 @@
 #include "entt.hpp"
 #include <Teddy/Core/Timestep.h>
 #include <Teddy/Renderer/EditorCamera.h>
+#include "Teddy/Core/UUID.h"
 
 class b2World;
 
@@ -20,6 +21,9 @@ namespace Teddy
 
 		Entity CreateEntity(const std::string name);
 		Entity CreateEntity(const std::string name, glm::vec3 transform);
+		Entity CreateEntity(UUID id, const std::string name);
+		Entity CreateEntity(UUID id, const std::string name, glm::vec3 transform);
+
 
 		void DestroyEntity(Entity entity);
 

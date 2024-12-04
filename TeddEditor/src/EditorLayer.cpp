@@ -30,6 +30,9 @@ namespace Teddy {
 		fbSpec.Height = 720;
 		m_Framebuffer = FrameBuffer::Create(fbSpec);
 
+		m_IconStop = Texture2D::Create("external/Icon/stop.png");
+		m_IconPlay = Texture2D::Create("external/Icon/play.png");
+
 		m_ActiveScene = CreateRef<Scene>("OnlySquare");
 
 		class CameraController : public ScriptableEntity
@@ -268,11 +271,12 @@ namespace Teddy {
 		if (m_ShowViewport)
 			ViewportRender();
 
+
+		UI_Toolbar();
+
 		ImGui::End();
 	}
 
-<<<<<<< HEAD
-=======
 	void EditorLayer::UI_Toolbar()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 2));
@@ -307,11 +311,11 @@ namespace Teddy {
 
 
 
->>>>>>> a7acb02 (Box2D added completed)
+
 	void EditorLayer::OnEvent(Event& e)
 	{
 		m_CameraController.OnEvent(e);
-		m_EditorCamera.OnEvent(e);
+				m_EditorCamera.OnEvent(e);
 
 		EventDispatcher evnDis(e);
 		evnDis.Dispatch<KeyPressedEvent>(TD_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
@@ -573,11 +577,7 @@ namespace Teddy {
 		{
 			m_CameraBackground = m_CameraDefault;
 		}
-		ImGui::Separator();
-		std::string name = "None";
-		if (m_HoveredEntity)
- 			name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
-		ImGui::Text("Hovered Entity: %s", name.c_str());
+		
 		ImGui::Separator();
 
 		ImGui::Checkbox("Run Game", &runGame);
@@ -676,12 +676,5 @@ namespace Teddy {
 
 	}
 
-	/*void EditorLayer::OnSelectAll()
-	{
-		for (auto& ent : m_Elements)
-		{
-		
-		}
-	}*/
-
+	
 }

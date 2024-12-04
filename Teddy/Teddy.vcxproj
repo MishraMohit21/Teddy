@@ -197,6 +197,7 @@
     <ClInclude Include="src\Teddy\Scene\ScriptableEntity.h" />
     <ClInclude Include="src\Teddy\Utils\PlatformUtils.h" />
     <ClInclude Include="src\tdpch.h" />
+    <ClInclude Include="src\Teddy\Core\UUID.h" />
     <ClInclude Include="vendor\ImGuizmo\ImGuizmo.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
@@ -601,6 +602,7 @@
     <ClCompile Include="src\tdpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Teddy\Core\UUID.cpp" />
     <ClCompile Include="vendor\ImGuizmo\ImGuizmo.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>

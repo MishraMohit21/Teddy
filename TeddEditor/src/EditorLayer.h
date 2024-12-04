@@ -35,6 +35,8 @@ namespace Teddy {
 	private:
 		void ViewportRender();
 		void ShowSettings();
+		void UI_Toolbar();
+			
 	private:
 		void SetDarkThemeColors();
 		void SetLightThemeColors();
@@ -47,7 +49,7 @@ namespace Teddy {
 		Ref<VertexArray> m_SquareVA;
 		Ref<Shader> m_FlatColorShader;
 		Ref<FrameBuffer> m_Framebuffer;
-
+		Ref<Texture2D> m_IconPlay, m_IconStop;
 		Ref<Scene> m_ActiveScene;
 		
 		std::vector<Entity> m_Elements;
@@ -58,9 +60,9 @@ namespace Teddy {
 
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 		ContentBrowser m_ContentBrowser;
-		bool m_ShowContentBrowser = false;
+		bool m_ShowContentBrowser = true;
 		bool m_ShowViewport = true;
-		bool m_ShowSettingpanel = false;
+		bool m_ShowSettingpanel = true;
 
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
