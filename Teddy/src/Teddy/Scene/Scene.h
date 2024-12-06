@@ -18,6 +18,7 @@ namespace Teddy
 		Scene(const std::string& name);
 		~Scene();
 
+		static Ref<Scene> Copy(Ref<Scene> scene);
 
 		Entity CreateEntity(const std::string name);
 		Entity CreateEntity(const std::string name, glm::vec3 transform);
@@ -36,6 +37,8 @@ namespace Teddy
 
 		Entity GetPrimarySceneCamera();
 
+
+		void DuplicateEntity(Entity entity);
 	private:
 		template<typename T>
 		void OnComponentAdded(Entity entity, T& component);

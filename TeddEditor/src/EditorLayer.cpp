@@ -15,7 +15,7 @@ namespace Teddy {
 	extern const std::filesystem::path g_AssetPath;
 
 	EditorLayer::EditorLayer()
-		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f })
+		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f)
 	{
 	}
 
@@ -33,7 +33,6 @@ namespace Teddy {
 		m_IconStop = Texture2D::Create("external/Icon/stop.png");
 		m_IconPlay = Texture2D::Create("external/Icon/play.png");
 
-		m_ActiveScene = CreateRef<Scene>("OnlySquare");
 
 		class CameraController : public ScriptableEntity
 		{
@@ -64,27 +63,19 @@ namespace Teddy {
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
-#if 1
-		// Entity
-		auto square = m_ActiveScene->CreateEntity("Square", glm::vec3(0.0f, 0.0f, 0.0f));
-		square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.4, 0.9, 0.7, 1.0 });
+		if (!m_ActiveScene)
+		{
+			m_ActiveScene = CreateRef<Scene>("DefaultScene");
+			m_EditorScenePath = std::filesystem::path("default_scene.tddy");
 
-		m_Elements.push_back(square);
-		auto entity = m_ActiveScene->CreateEntity("Camera", glm::vec3(0.0f, 0.0f, 15.0f));
-		auto& cc = entity.AddComponent<CameraComponent>();
-		cc.Primary = true;
-		entity.AddComponent<CppScriptComponent>().Bind<CameraController>();
-		m_Elements.push_back(entity);
+			// Add a default entity
+			auto square = m_ActiveScene->CreateEntity("Square", glm::vec3(0.0f, 0.0f, 0.0f));
+			square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.4, 0.9, 0.7, 1.0 });
+		}
 
-
-		//square = m_ActiveScene->CreateEntity("Square2", glm::vec3(1.0f, 0.0f, 0.0f));
-		//square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.4, 0.9, 0.7, 1.0 });
-		//m_SecondSquare = square;
-#endif
-
-		
-
+		m_ActiveScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		m_EditorScene = m_ActiveScene;
 		
 	}
 
@@ -103,15 +94,13 @@ namespace Teddy {
 			(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
 			m_Framebuffer->NewSize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			//m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 			m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
 
 			m_ActiveScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		}
 
-		// Update
-		if (m_ViewportFocused)
-			m_CameraController.OnUpdate(ts);
+		
 
 		m_EditorCamera.OnUpdate(ts);
 
@@ -125,11 +114,24 @@ namespace Teddy {
 
 		
 
-		// Update scene
-		if (runGame)
-			m_ActiveScene->OnUpdateRuntime(ts);
-		else
+		switch (m_SceneState)
+		{
+		case SceneState::Edit:
+		{
+			if (m_ViewportFocused)
+				m_CameraController.OnUpdate(ts);
+
+			m_EditorCamera.OnUpdate(ts);
+
 			m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
+			break;
+		}
+		case SceneState::Play:
+		{
+			m_ActiveScene->OnUpdateRuntime(ts);
+			break;
+		}
+		}
 		
 		auto [mx, my] = ImGui::GetMousePos();
 		//TD_CORE_INFO("mx -= m_ViewportBounds[0].x: {0} -= {1}", mx, m_ViewportBounds[0].x);
@@ -210,7 +212,8 @@ namespace Teddy {
 		}
 
 		style.WindowMinSize.x = minWinSizeX;
-
+		myFont = io.Fonts->Fonts[1];
+		ImGui::PushFont(myFont);
 		if (ImGui::BeginMenuBar())
 		{
 			if (ImGui::BeginMenu("File"))
@@ -253,7 +256,7 @@ namespace Teddy {
 			ImGui::EndMenuBar();
 
 		}
-
+		ImGui::PopFont();
 		//ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
 		//ImGui::PushStyleVar(ImGuiStyleVar_ChildBorderSize, 0.0f);
 		//ImGui::PushStyleVar(ImGuiStyleVar_PopupBorderSize, 0.0f);
@@ -289,20 +292,14 @@ namespace Teddy {
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(buttonActive.x, buttonActive.y, buttonActive.z, 0.5f));
 		ImGui::Begin("##toolbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 		float size = ImGui::GetWindowHeight() - 4.0f;
-		Ref<Texture2D> icon = !runGame ? m_IconPlay : m_IconStop;
+		Ref<Texture2D> icon = m_SceneState == SceneState::Edit ? m_IconPlay : m_IconStop;
 		ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5f) - (size * 0.5f));
 		if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0))
 		{
-			if (!runGame)
-			{
-				runGame = true;
-				m_ActiveScene->OnRuntimeStart();
-			}
-			else if (runGame)
-			{
-				runGame = false;
-				m_ActiveScene->OnRuntimeStop();
-			}
+			if (m_SceneState == SceneState::Edit)
+				OnScenePlay();
+			else if (m_SceneState == SceneState::Play)
+				OnSceneStop();
 		}
 		ImGui::PopStyleVar(2);
 		ImGui::PopStyleColor(3);
@@ -314,7 +311,7 @@ namespace Teddy {
 
 	void EditorLayer::OnEvent(Event& e)
 	{
-		m_CameraController.OnEvent(e);
+		//m_CameraController.OnEvent(e);
 				m_EditorCamera.OnEvent(e);
 
 		EventDispatcher evnDis(e);
@@ -348,16 +345,22 @@ namespace Teddy {
 			case Key::S:
 					if (control && shift)
 						OnSaveSceneAs();
+					else
+						SaveScene();
+
 					break;
-			case Key::A:
-				if (control)
-					OnSaveSceneAs();
-				break;
+
 			case Key::Space:
 				if (control)
 					m_ShowContentBrowser = !m_ShowContentBrowser;
 
+			case Key::D:
+			{
+				if (control)
+					OnDuplicateEntity();
 
+				break;
+			}
 
 			// Gizmos
 			case Key::Q:
@@ -402,6 +405,8 @@ namespace Teddy {
 		m_ActiveScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
+		m_EditorScenePath = std::filesystem::path();
 	}
 
 	void EditorLayer::OnOpenScene()
@@ -415,24 +420,141 @@ namespace Teddy {
 
 	}
 
-	void EditorLayer::OnOpenScene(const std::filesystem::path& filepath)
+
+	void EditorLayer::SaveScene()
 	{
-		m_ActiveScene = CreateRef<Scene>("SceneFromFile");
-		m_ActiveScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-		SceneSerializer serializer(m_ActiveScene);
-		serializer.DeSerialize(filepath.string());
+		try
+		{
+			if (m_ActiveScene == nullptr)
+			{
+				TD_ERROR("Cannot save: No active scene exists");
+				return;
+			}
+
+			// If no path exists, prompt for save location
+			if (m_EditorScenePath.empty())
+			{
+				OnSaveSceneAs();
+				return;
+			}
+
+			// Ensure directory exists
+			std::filesystem::path directory = m_EditorScenePath.parent_path();
+			if (!std::filesystem::exists(directory))
+			{
+				std::filesystem::create_directories(directory);
+			}
+
+			SerializeScene(m_ActiveScene, m_EditorScenePath);
+			TD_INFO("Scene saved successfully to {0}", m_EditorScenePath.string());
+		}
+		catch (const std::exception& e)
+		{
+			TD_ERROR("Failed to save scene: {0}", e.what());
+			// Optionally, show a dialog to user about save failure
+		}
+	}
+
+	void EditorLayer::SerializeScene(Ref<Scene> scene, const std::filesystem::path& path)
+	{
+		SceneSerializer serializer(scene);
+		serializer.Serialize(path.string());
+	}
+
+	void EditorLayer::OnOpenScene(const std::filesystem::path& path)
+	{
+		try
+		{
+			if (m_SceneState != SceneState::Edit)
+				OnSceneStop();
+
+			// Validate file extension
+			if (path.extension().string() != ".tddy")
+			{
+				TD_WARN("Could not load {0} - not a scene file", path.filename().string());
+				return;
+			}
+
+			// Check if file exists
+			if (!std::filesystem::exists(path))
+			{
+				TD_ERROR("Scene file does not exist: {0}", path.string());
+				return;
+			}
+
+			OnNewScene();
+
+			Ref<Scene> newScene = CreateRef<Scene>();
+			SceneSerializer serializer(newScene);
+
+			if (serializer.DeSerialize(path.string()))
+			{
+				m_EditorScene = newScene;
+				m_EditorScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+				m_SceneHierarchyPanel.SetContext(m_EditorScene);
+
+				m_ActiveScene = m_EditorScene;
+				m_EditorScenePath = path;
+
+				TD_INFO("Scene loaded successfully from {0}", path.string());
+			}
+			else
+			{
+				TD_ERROR("Failed to deserialize scene from {0}", path.string());
+			}
+		}
+		catch (const std::exception& e)
+		{
+			TD_ERROR("Error opening scene: {0}", e.what());
+		}
+
 	}
 
 	void EditorLayer::OnSaveSceneAs()
 	{
-		std::string filepath = FileDialogs::SaveFile("Teddy Scene (*.tddy)\0*.tddy\0");
-		if (!filepath.empty())
+		try
 		{
-			SceneSerializer serializer(m_ActiveScene);
-			serializer.Serialize(filepath);
+			if (m_ActiveScene == nullptr)
+			{
+				TD_ERROR("Cannot save: No active scene exists");
+				return;
+			}
+
+			std::string filepath = FileDialogs::SaveFile("Teddy Scene (*.tddy)\0*.tddy\0");
+			if (!filepath.empty())
+			{
+				// Ensure .tddy extension
+				std::filesystem::path scenePath(filepath);
+				if (scenePath.extension() != ".tddy")
+				{
+					scenePath += ".tddy";
+				}
+
+				SceneSerializer serializer(m_ActiveScene);
+				serializer.Serialize(scenePath.string());
+
+				m_EditorScenePath = scenePath;
+				TD_INFO("Scene saved successfully to {0}", scenePath.string());
+			}
+		}
+		catch (const std::exception& e)
+		{
+			TD_ERROR("Failed to save scene as: {0}", e.what());
+			// Optionally, show a dialog to user about save failure
 		}
 	}
+
+
+	void EditorLayer::OnDuplicateEntity()
+	{
+		if (m_SceneState != SceneState::Edit)
+			return;
+
+		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
+		if (selectedEntity)
+			m_EditorScene->DuplicateEntity(selectedEntity);
+	}
+
 
 	void EditorLayer::ViewportRender()
 	{
@@ -561,9 +683,10 @@ namespace Teddy {
 
 	void EditorLayer::ShowSettings()
 	{
+		
 
 		ImGui::Begin("Stats", &m_ShowSettingpanel);
-
+		
 		auto stats = Renderer2D::GetStats();
 		ImGui::Text("Renderer2D Stats:");
 		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
@@ -580,7 +703,7 @@ namespace Teddy {
 		
 		ImGui::Separator();
 
-		ImGui::Checkbox("Run Game", &runGame);
+		
 
 		//if (ImGui::Button("Dark"))
 		//	SetDarkThemeColors();
@@ -591,6 +714,51 @@ namespace Teddy {
 
 
 	}
+	
+	void EditorLayer::OnScenePlay()
+	{
+		try
+		{
+			m_SceneState = SceneState::Play;
+
+			// Create a runtime copy of the current scene
+			m_ActiveScene = Scene::Copy(m_EditorScene);
+
+			// If no path exists for the original scene, create a temporary one
+			if (m_EditorScenePath.empty())
+			{
+				m_EditorScenePath = std::filesystem::temp_directory_path() / "temp_scene.tddy";
+				SerializeScene(m_EditorScene, m_EditorScenePath);
+			}
+
+			m_ActiveScene->OnRuntimeStart();
+			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		}
+		catch (const std::exception& e)
+		{
+			TD_ERROR("Failed to start scene play: {0}", e.what());
+			// Revert to edit mode if play fails
+			m_SceneState = SceneState::Edit;
+		}
+	}
+
+	void EditorLayer::OnSceneStop()
+	{
+		try
+		{
+			m_SceneState = SceneState::Edit;
+
+			m_ActiveScene->OnRuntimeStop();
+			m_ActiveScene = m_EditorScene;
+
+			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		}
+		catch (const std::exception& e)
+		{
+			TD_ERROR("Failed to stop scene: {0}", e.what());
+		}
+	}
+
 
 	void EditorLayer::SetDarkThemeColors()
 	{

@@ -16,6 +16,78 @@
 namespace Teddy
 {
 
+
+	template<typename Component>
+	static void CopyComponent(entt::registry& dst, entt::registry& src, const std::unordered_map<UUID, entt::entity>& enttMap)
+	{
+		auto view = src.view<Component>();
+		for (auto e : view)
+		{
+			UUID uuid = src.get<UUIDCompononet>(e).id;
+			//TD_CORE_ASSERT(enttMap.find(uuid) != enttMap.end());
+			entt::entity dstEnttID = enttMap.at(uuid);
+
+			auto& component = src.get<Component>(e);
+			dst.emplace_or_replace<Component>(dstEnttID, component);
+		}
+	}
+
+	template<typename Component>
+	static void CopyComponentIfExists(Entity dst, Entity src)
+	{
+		if (src.HasComponent<Component>())
+			dst.AddOrReplaceComponent<Component>(src.GetComponent<Component>());
+	}
+
+
+	template<typename T>
+	void Scene::OnComponentAdded(Entity entity, T& component)
+	{
+		static_assert(false);
+	}
+
+	template<>
+	void Scene::OnComponentAdded<TransformComponent>(Entity entity, TransformComponent& component)
+	{
+	}
+
+	template<>
+	void Scene::OnComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
+	{
+		if (viewportWidth > 0 && viewportHeight > 0)
+			component.Camera.SetViewportSize(viewportWidth, viewportHeight);
+	}
+
+	template<>
+	void Scene::OnComponentAdded<UUIDCompononet>(Entity entity, UUIDCompononet& component)
+	{
+	}
+
+	template<>
+	void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component)
+	{
+	}
+
+	template<>
+	void Scene::OnComponentAdded<TagComponent>(Entity entity, TagComponent& component)
+	{
+	}
+
+	template<>
+	void Scene::OnComponentAdded<CppScriptComponent>(Entity entity, CppScriptComponent& component)
+	{
+	}
+
+	template<>
+	void Scene::OnComponentAdded<Rigid2DBodyComponent>(Entity entity, Rigid2DBodyComponent& component)
+	{
+	}
+
+	template<>
+	void Scene::OnComponentAdded<Box2DColliderComponent>(Entity entity, Box2DColliderComponent& component)
+	{
+	}
+
 	static b2BodyType Rigidbody2DTypeToBox2DBody(Rigid2DBodyComponent::BodyType bodyType)
 	{
 		switch (bodyType)
@@ -40,6 +112,38 @@ namespace Teddy
 
 	Scene::~Scene()
 	{
+	}
+
+	Ref<Scene> Scene::Copy(Ref<Scene> other)
+	{
+		Ref<Scene> newScene = CreateRef<Scene>();
+
+		newScene->viewportWidth = other->viewportWidth;
+		newScene->viewportHeight = other->viewportHeight;
+
+		auto& srcSceneRegistry = other->m_Registry;
+		auto& dstSceneRegistry = newScene->m_Registry;
+		std::unordered_map<UUID, entt::entity> enttMap;
+
+		// Create entities in new scene
+		auto idView = srcSceneRegistry.view<UUIDCompononet>();
+		for (auto e : idView)
+		{
+			UUID uuid = srcSceneRegistry.get<UUIDCompononet>(e).id;
+			const auto& name = srcSceneRegistry.get<TagComponent>(e).Tag;
+			Entity newEntity = newScene->CreateEntity(uuid, name);
+			enttMap[uuid] = (entt::entity)newEntity;
+		}
+
+		// Copy components (except IDComponent and TagComponent)
+		CopyComponent<TransformComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<SpriteRendererComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<CameraComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<CppScriptComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<Rigid2DBodyComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<Box2DColliderComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+
+		return newScene;
 	}
 
 	Entity Scene::CreateEntity(const std::string name)
@@ -245,53 +349,18 @@ namespace Teddy
 		return {};
 	}
 
-
-	template<typename T>
-	void Scene::OnComponentAdded(Entity entity, T& component)
+	void Scene::DuplicateEntity(Entity entity)
 	{
-		static_assert(false);
+		std::string name = entity.GetComponent<TagComponent>().Tag;
+		Entity newEntity = CreateEntity(name);
+
+		CopyComponentIfExists<TransformComponent>(newEntity, entity);
+		CopyComponentIfExists<SpriteRendererComponent>(newEntity, entity);
+		CopyComponentIfExists<CameraComponent>(newEntity, entity);
+		CopyComponentIfExists<CppScriptComponent>(newEntity, entity);
+		CopyComponentIfExists<Rigid2DBodyComponent>(newEntity, entity);
+		CopyComponentIfExists<Box2DColliderComponent>(newEntity, entity);
 	}
 
-	template<>
-	void Scene::OnComponentAdded<TransformComponent>(Entity entity, TransformComponent& component)
-	{
-	}
-
-	template<>
-	void Scene::OnComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
-	{
-		if (viewportWidth > 0 && viewportHeight > 0)
-			component.Camera.SetViewportSize(viewportWidth, viewportHeight);
-	}
-
-	template<>
-	void Scene::OnComponentAdded<UUIDCompononet>(Entity entity, UUIDCompononet& component)
-	{
-	}
-
-	template<>
-	void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component)
-	{
-	}
-
-	template<>
-	void Scene::OnComponentAdded<TagComponent>(Entity entity, TagComponent& component)
-	{
-	}
-
-	template<>
-	void Scene::OnComponentAdded<CppScriptComponent>(Entity entity, CppScriptComponent& component)
-	{
-	}
-
-	template<>
-	void Scene::OnComponentAdded<Rigid2DBodyComponent>(Entity entity, Rigid2DBodyComponent& component)
-	{
-	}
-
-	template<>
-	void Scene::OnComponentAdded<Box2DColliderComponent>(Entity entity, Box2DColliderComponent& component)
-	{
-	}
 
 }

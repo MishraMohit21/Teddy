@@ -6536,6 +6536,7 @@ void ImGui::EndMainMenuBar()
 
 bool ImGui::BeginMenu(const char* label, bool enabled)
 {
+    
     ImGuiWindow* window = GetCurrentWindow();
     if (window->SkipItems)
         return false;
@@ -6566,6 +6567,7 @@ bool ImGui::BeginMenu(const char* label, bool enabled)
     g.MenusIdSubmittedThisFrame.push_back(id);
 
     ImVec2 label_size = CalcTextSize(label, NULL, true);
+    
     bool pressed;
     bool menuset_is_open = !(window->Flags & ImGuiWindowFlags_Popup) && (g.OpenPopupStack.Size > g.BeginPopupStack.Size && g.OpenPopupStack[g.BeginPopupStack.Size].OpenParentId == window->IDStack.back());
     ImGuiWindow* backed_nav_window = g.NavWindow;
