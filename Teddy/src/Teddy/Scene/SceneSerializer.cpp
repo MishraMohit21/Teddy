@@ -195,6 +195,17 @@ namespace Teddy
 			out << YAML::EndMap;
 		}
 
+		if (entity.HasComponent<CircleRendererComponent>())
+		{
+			out << YAML::Key << "CircleRendererComponent";
+			out << YAML::BeginMap; // CircleRendererComponent
+			auto& circleRendererComponent = entity.GetComponent<CircleRendererComponent>();
+			out << YAML::Key << "Color" << YAML::Value << circleRendererComponent.Color;
+			out << YAML::Key << "Thickness" << YAML::Value << circleRendererComponent.Thickness;
+			out << YAML::Key << "Fade" << YAML::Value << circleRendererComponent.Fade;
+			out << YAML::EndMap; // CircleRendererComponent
+		}
+
 		if (entity.HasComponent<CppScriptComponent>())
 		{
 			out << YAML::Key << "CppScriptComponent";
@@ -320,6 +331,16 @@ namespace Teddy
 					}
 					src.c_tilingFactor = spriteRendererComponent["TilingFactor"].as<float>();
 				}
+
+				auto circleRendererComponent = entity["CircleRendererComponent"];
+				if (circleRendererComponent)
+				{
+					auto& crc = deserializedEntity.AddComponent<CircleRendererComponent>();
+					crc.Color = circleRendererComponent["Color"].as<glm::vec4>();
+					crc.Thickness = circleRendererComponent["Thickness"].as<float>();
+					crc.Fade = circleRendererComponent["Fade"].as<float>();
+				}
+
 				/*auto cppScriptComponent = entity["CppScriptComponent"];
 				if (cppScriptComponent)
 				{
