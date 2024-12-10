@@ -14,6 +14,9 @@ namespace Teddy {
 		virtual void Clear() override;
 
 		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray, const uint32_t indexCount) override;
+
+		virtual void DrawLines(const Ref<VertexArray>& vertexArray, const uint32_t vertexCount) override;
+
 	};
 
 

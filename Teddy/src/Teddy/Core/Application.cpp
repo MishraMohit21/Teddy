@@ -13,13 +13,16 @@ namespace Teddy {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application(const char* name	)
+	Application::Application(const std::string& name, ApplicationCommandLineArgs args)
+		: m_CommandLineArgs(args)
 	{
 		TD_PROFILE_FUNCTION();
 
 		TD_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
-		m_Window = Window::Create(WindowProps(name));
+		WindowProps winprop;
+		winprop.Title = name;
+		m_Window = Window::Create(winprop);
 		m_Window->SetEventCallback(TD_BIND_EVENT_FN(Application::OnEvent));
 
 		Renderer::Init();

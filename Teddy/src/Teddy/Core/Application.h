@@ -13,10 +13,21 @@
 
 namespace Teddy {
 
+	struct ApplicationCommandLineArgs
+	{
+		int Count = 0;
+		char** Args = nullptr;
+		const char* operator[](int index) const
+		{
+			//TD_CORE_ASSERT(index < Count);
+			return Args[index];
+		}
+	};
+
 	class Application
 	{
 	public:
-		Application(const char* name);
+		Application(const std::string& name, ApplicationCommandLineArgs args = ApplicationCommandLineArgs());
 		virtual ~Application();
 
 		void Run();
@@ -32,12 +43,15 @@ namespace Teddy {
 
 		inline Window& GetWindow() { return *m_Window; }
 
+		ApplicationCommandLineArgs GetCommandLineArgs() const { return m_CommandLineArgs; }
+
 		inline static Application& Get() { return *s_Instance; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);
 	private:
 		std::unique_ptr<Window> m_Window;
+		ApplicationCommandLineArgs m_CommandLineArgs;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		bool m_Minimized = false;
@@ -48,6 +62,5 @@ namespace Teddy {
 	};
 
 	// To be defined in CLIENT
-	Application* CreateApplication();
-
+	Application* CreateApplication(ApplicationCommandLineArgs args);
 }

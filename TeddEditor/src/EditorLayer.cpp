@@ -15,7 +15,7 @@ namespace Teddy {
 	extern const std::filesystem::path g_AssetPath;
 
 	EditorLayer::EditorLayer()
-		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f)
+		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f), m_ViewportSize({ 1280.0f, 720.0f })
 	{
 	}
 
@@ -30,48 +30,24 @@ namespace Teddy {
 		fbSpec.Height = 720;
 		m_Framebuffer = FrameBuffer::Create(fbSpec);
 
+		
+		auto commandLineArgs = Application::Get().GetCommandLineArgs();
+		if (commandLineArgs.Count > 1)
+		{
+			auto sceneFilePath = commandLineArgs[1];
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.DeSerialize(sceneFilePath);
+		}
+
+
 		m_IconStop = Texture2D::Create("external/Icon/stop.png");
 		m_IconPlay = Texture2D::Create("external/Icon/play.png");
 
-
-		class CameraController : public ScriptableEntity
-		{
-		public:
-			
-			virtual void OnCreate() override
-			{
-				auto& tc = GetComponent<TransformComponent>();
-				tc.Translation[0] = rand() % 10 - 5.0f;
-			}
-			virtual void OnDestroy() override
-			{
-			}
-			virtual void OnUpdate(Timestep ts) override
-			{
-				auto& tc = GetComponent<TransformComponent>();
-				float speed = 5.0f;
-				if (Input::IsKeyPressed(KeyCode::Right))
-					tc.Translation[0] -= speed * ts;
-				if (Input::IsKeyPressed(KeyCode::Left))
-					tc.Translation[0] += speed * ts;
-				if (Input::IsKeyPressed(KeyCode::Down))
-					tc.Translation[1] += speed * ts;
-				if (Input::IsKeyPressed(KeyCode::Up))
-					tc.Translation[1] -= speed * ts;
-			}
-		};
-
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
-		if (!m_ActiveScene)
-		{
-			m_ActiveScene = CreateRef<Scene>("DefaultScene");
-			m_EditorScenePath = std::filesystem::path("default_scene.tddy");
 
-			// Add a default entity
-			auto square = m_ActiveScene->CreateEntity("Square", glm::vec3(0.0f, 0.0f, 0.0f));
-			square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.4, 0.9, 0.7, 1.0 });
-		}
+		
+
 
 		m_ActiveScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
@@ -427,7 +403,7 @@ namespace Teddy {
 		{
 			if (m_ActiveScene == nullptr)
 			{
-				TD_ERROR("Cannot save: No active scene exists");
+				TD_CORE_ERROR("Cannot save: No active scene exists");
 				return;
 			}
 
@@ -446,11 +422,11 @@ namespace Teddy {
 			}
 
 			SerializeScene(m_ActiveScene, m_EditorScenePath);
-			TD_INFO("Scene saved successfully to {0}", m_EditorScenePath.string());
+			TD_CORE_INFO("Scene saved successfully to {0}", m_EditorScenePath.string());
 		}
 		catch (const std::exception& e)
 		{
-			TD_ERROR("Failed to save scene: {0}", e.what());
+			TD_CORE_ERROR("Failed to save scene: {0}", e.what());
 			// Optionally, show a dialog to user about save failure
 		}
 	}
@@ -471,14 +447,14 @@ namespace Teddy {
 			// Validate file extension
 			if (path.extension().string() != ".tddy")
 			{
-				TD_WARN("Could not load {0} - not a scene file", path.filename().string());
+				TD_CORE_WARN("Could not load {0} - not a scene file", path.filename().string());
 				return;
 			}
 
 			// Check if file exists
 			if (!std::filesystem::exists(path))
 			{
-				TD_ERROR("Scene file does not exist: {0}", path.string());
+				TD_CORE_ERROR("Scene file does not exist: {0}", path.string());
 				return;
 			}
 
@@ -496,16 +472,16 @@ namespace Teddy {
 				m_ActiveScene = m_EditorScene;
 				m_EditorScenePath = path;
 
-				TD_INFO("Scene loaded successfully from {0}", path.string());
+				TD_CORE_INFO("Scene loaded successfully from {0}", path.string());
 			}
 			else
 			{
-				TD_ERROR("Failed to deserialize scene from {0}", path.string());
+				TD_CORE_ERROR("Failed to deserialize scene from {0}", path.string());
 			}
 		}
 		catch (const std::exception& e)
 		{
-			TD_ERROR("Error opening scene: {0}", e.what());
+			TD_CORE_ERROR("Error opening scene: {0}", e.what());
 		}
 
 	}
@@ -516,7 +492,7 @@ namespace Teddy {
 		{
 			if (m_ActiveScene == nullptr)
 			{
-				TD_ERROR("Cannot save: No active scene exists");
+				TD_CORE_ERROR("Cannot save: No active scene exists");
 				return;
 			}
 
@@ -534,12 +510,12 @@ namespace Teddy {
 				serializer.Serialize(scenePath.string());
 
 				m_EditorScenePath = scenePath;
-				TD_INFO("Scene saved successfully to {0}", scenePath.string());
+				TD_CORE_INFO("Scene saved successfully to {0}", scenePath.string());
 			}
 		}
 		catch (const std::exception& e)
 		{
-			TD_ERROR("Failed to save scene as: {0}", e.what());
+			TD_CORE_ERROR("Failed to save scene as: {0}", e.what());
 			// Optionally, show a dialog to user about save failure
 		}
 	}
@@ -736,7 +712,7 @@ namespace Teddy {
 		}
 		catch (const std::exception& e)
 		{
-			TD_ERROR("Failed to start scene play: {0}", e.what());
+			TD_CORE_ERROR("Failed to start scene play: {0}", e.what());
 			// Revert to edit mode if play fails
 			m_SceneState = SceneState::Edit;
 		}
@@ -755,7 +731,7 @@ namespace Teddy {
 		}
 		catch (const std::exception& e)
 		{
-			TD_ERROR("Failed to stop scene: {0}", e.what());
+			TD_CORE_ERROR("Failed to stop scene: {0}", e.what());
 		}
 	}
 

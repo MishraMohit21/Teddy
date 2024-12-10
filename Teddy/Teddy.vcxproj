@@ -76,12 +76,12 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>tdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;TD_BUILD_DLL;GLFW_INCLUDE_NONE;TD_DEBUG;_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vendor\spdlog\include;$(ProjectDir)vendor\GLFW\include;$(ProjectDir)vendor\Glad\include;$(ProjectDir)vendor\imgui;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb_image;$(ProjectDir)vendor\entt;$(ProjectDir)vendor\ImGuizmo;$(ProjectDir)vendor\yaml-cpp\include;$(ProjectDir)vendor\Box2D\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;TD_BUILD_DLL;GLFW_INCLUDE_NONE;TD_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vendor\spdlog\include;$(ProjectDir)vendor\GLFW\include;$(ProjectDir)vendor\Glad\include;$(ProjectDir)vendor\imgui;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb_image;$(ProjectDir)vendor\entt;$(ProjectDir)vendor\ImGuizmo;$(ProjectDir)vendor\Box2D\include;$(ProjectDir)vendor\yaml-cpp\include;C:\VulkanSDK\1.3.296.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
@@ -91,7 +91,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;C:\VulkanSDK\1.3.296.0\Lib\shaderc_sharedd.lib;C:\VulkanSDK\1.3.296.0\Lib\spirv-cross-cored.lib;C:\VulkanSDK\1.3.296.0\Lib\spirv-cross-glsld.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -100,13 +100,13 @@
       <PrecompiledHeaderFile>tdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;TD_BUILD_DLL;GLFW_INCLUDE_NONE;TD_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\stb_image;vendor\entt;vendor\ImGuizmo;vendor\yaml-cpp\include;vendor\Box2D\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vendor\spdlog\include;$(ProjectDir)vendor\GLFW\include;$(ProjectDir)vendor\Glad\include;$(ProjectDir)vendor\imgui;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb_image;$(ProjectDir)vendor\entt;$(ProjectDir)vendor\ImGuizmo;$(ProjectDir)vendor\Box2D\include;$(ProjectDir)vendor\yaml-cpp\include;C:\VulkanSDK\1.3.296.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
@@ -117,7 +117,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;C:\VulkanSDK\1.3.296.0\Lib\shaderc_shared.lib;C:\VulkanSDK\1.3.296.0\Lib\spirv-cross-core.lib;C:\VulkanSDK\1.3.296.0\Lib\spirv-cross-glsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -126,13 +126,13 @@
       <PrecompiledHeaderFile>tdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;TD_BUILD_DLL;GLFW_INCLUDE_NONE;TD_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;vendor\glm;vendor\stb_image;vendor\entt;vendor\ImGuizmo;vendor\yaml-cpp\include;vendor\Box2D\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vendor\spdlog\include;$(ProjectDir)vendor\GLFW\include;$(ProjectDir)vendor\Glad\include;$(ProjectDir)vendor\imgui;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb_image;$(ProjectDir)vendor\entt;$(ProjectDir)vendor\ImGuizmo;$(ProjectDir)vendor\Box2D\include;$(ProjectDir)vendor\yaml-cpp\include;C:\VulkanSDK\1.3.296.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
@@ -143,10 +143,11 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;C:\VulkanSDK\1.3.296.0\Lib\shaderc_shared.lib;C:\VulkanSDK\1.3.296.0\Lib\spirv-cross-core.lib;C:\VulkanSDK\1.3.296.0\Lib\spirv-cross-glsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLUniformBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
@@ -166,7 +167,9 @@
     <ClInclude Include="src\Teddy\Core\Log.h" />
     <ClInclude Include="src\Teddy\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\Teddy\Core\MouseCode.h" />
+    <ClInclude Include="src\Teddy\Core\Timer.h" />
     <ClInclude Include="src\Teddy\Core\Timestep.h" />
+    <ClInclude Include="src\Teddy\Core\UUID.h" />
     <ClInclude Include="src\Teddy\Core\Window.h" />
     <ClInclude Include="src\Teddy\Debug\Instrumentor.h" />
     <ClInclude Include="src\Teddy\Events\ApplicationEvent.h" />
@@ -194,10 +197,11 @@
     <ClInclude Include="src\Teddy\Scene\Scene.h" />
     <ClInclude Include="src\Teddy\Scene\SceneCamera.h" />
     <ClInclude Include="src\Teddy\Scene\SceneSerializer.h" />
+    <ClInclude Include="src\Teddy\Scene\ScriptRegistry.h" />
     <ClInclude Include="src\Teddy\Scene\ScriptableEntity.h" />
     <ClInclude Include="src\Teddy\Utils\PlatformUtils.h" />
     <ClInclude Include="src\tdpch.h" />
-    <ClInclude Include="src\Teddy\Core\UUID.h" />
+    <ClInclude Include="src\Teddy\Renderer\UniformBuffer.h" />
     <ClInclude Include="vendor\ImGuizmo\ImGuizmo.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
@@ -564,6 +568,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLUniformBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
@@ -578,6 +583,7 @@
     <ClCompile Include="src\Teddy\Core\Layer.cpp" />
     <ClCompile Include="src\Teddy\Core\LayerStack.cpp" />
     <ClCompile Include="src\Teddy\Core\Log.cpp" />
+    <ClCompile Include="src\Teddy\Core\UUID.cpp" />
     <ClCompile Include="src\Teddy\Core\Window.cpp" />
     <ClCompile Include="src\Teddy\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Teddy\ImGui\ImGuiLayer.cpp" />
@@ -602,10 +608,9 @@
     <ClCompile Include="src\tdpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Teddy\Core\UUID.cpp" />
+    <ClCompile Include="src\Teddy\Renderer\UniformBuffer.cpp" />
     <ClCompile Include="vendor\ImGuizmo\ImGuizmo.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp" />
   </ItemGroup>

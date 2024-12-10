@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Teddy/Scene/Entity.h"
 #include "Teddy/Scene/Component.h"
+#include "Teddy/Scene/ScriptRegistry.h"
 
 
 #include <yaml-cpp/yaml.h>

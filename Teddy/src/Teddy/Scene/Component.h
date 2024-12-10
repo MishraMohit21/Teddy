@@ -9,6 +9,8 @@
 #include "Teddy/Renderer/Renderer2D.h"
 #include "Teddy/Core/UUID.h"
 
+#include <type_traits>
+
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
@@ -81,6 +83,9 @@ namespace Teddy
 		float Fade = 0.005f;
 		CircleRendererComponent() = default;
 		CircleRendererComponent(const CircleRendererComponent&) = default;
+		CircleRendererComponent(const glm::vec4& color)
+			: Color(color) {
+		}
 	};
 
 	struct CameraComponent
@@ -96,24 +101,61 @@ namespace Teddy
 	};
 
 
-	struct CppScriptComponent
-	{
+	struct CppScriptComponent {
 		std::string scriptClass;
 		ScriptableEntity* Instance = nullptr;
 
-		ScriptableEntity* (*InstantiateScript)();
-		void (*DestroyScript)(CppScriptComponent*);
+		// Use std::function to support lambdas with captures
+		std::function<ScriptableEntity* ()> InstantiateScript = nullptr;
+		std::function<void(CppScriptComponent*)> DestroyScript = nullptr;
 
-
+		// Default binding for no-argument constructors
 		template <typename T>
-		void Bind()
-		{
+		void Bind() {
 			scriptClass = typeid(T).name();
-			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
-			DestroyScript = [](CppScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
 
+			// Use a static function that creates the instance
+			InstantiateScript = []() -> ScriptableEntity* {
+				return static_cast<ScriptableEntity*>(new T());
+				};
+
+			DestroyScript = [](CppScriptComponent* nsc) {
+				delete nsc->Instance;
+				nsc->Instance = nullptr;
+				};
 		}
 
+		// Binding with a single Entity argument
+		template <typename T>
+		void Bind(Entity entity) {
+			scriptClass = typeid(T).name();
+
+			// Use a static function with explicit return type
+			InstantiateScript = [entity]() -> ScriptableEntity* {
+				return static_cast<ScriptableEntity*>(new T(entity));
+				};
+
+			DestroyScript = [](CppScriptComponent* nsc) {
+				delete nsc->Instance;
+				nsc->Instance = nullptr;
+				};
+		}
+
+		// Variadic template for additional arguments
+		template <typename T, typename... Args>
+		void Bind(Args&&... args) {
+			scriptClass = typeid(T).name();
+
+			// Explicitly specify return type
+			InstantiateScript = [args...]() -> ScriptableEntity* {
+				return static_cast<ScriptableEntity*>(new T(std::forward<Args>(args)...));
+				};
+
+			DestroyScript = [](CppScriptComponent* nsc) {
+				delete nsc->Instance;
+				nsc->Instance = nullptr;
+				};
+		}
 	};
 
 	struct Rigid2DBodyComponent

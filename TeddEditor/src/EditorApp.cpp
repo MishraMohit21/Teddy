@@ -14,8 +14,8 @@ namespace Teddy
 	class TeddEditor : public Application
 	{
 	public:
-		TeddEditor()
-			: Application("Teddy Editor")
+		TeddEditor(ApplicationCommandLineArgs args)
+			: Application("Teddy Editor", args)
 		{
 			// PushLayer(new ExampleLayer());
 			PushLayer(new (EditorLayer));
@@ -26,9 +26,9 @@ namespace Teddy
 		}
 	};
 
-	Application* CreateApplication()
+	Application* CreateApplication(ApplicationCommandLineArgs args)
 	{
-		return new TeddEditor();
+		return new TeddEditor(args);
 	}
 
 }

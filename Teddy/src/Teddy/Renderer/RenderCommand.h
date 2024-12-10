@@ -31,6 +31,12 @@ namespace Teddy {
 		{
 			s_RendererAPI->DrawIndexed(vertexArray, count);
 		}
+
+		inline static void DrawLines(const Ref<VertexArray>& vertexArray, uint32_t count)
+		{
+			s_RendererAPI->DrawLines(vertexArray, count);
+		}
+
 	private:
 		static Scope<RendererAPI> s_RendererAPI;
 	};

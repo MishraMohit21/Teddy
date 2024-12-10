@@ -1,0 +1,44 @@
+Scene: untitled
+Entities:
+  - EntityId: 8756890758658193811
+    TagComponent:
+      Tag: Sun
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CircleRendererComponent:
+      Color: [1, 0.800000012, 0, 1]
+      Thickness: 1
+      Fade: 0.00499999989
+  - EntityId: 9428976078862595285
+    TagComponent:
+      Tag: Earth
+    TransformComponent:
+      Translation: [5, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CircleRendererComponent:
+      Color: [0, 0, 1, 1]
+      Thickness: 1
+      Fade: 0.00499999989
+    CppScriptComponent:
+      Class: "class `public: virtual void __cdecl Teddy::EditorLayer::OnAttach(void) __ptr64'::`2'::OrbitController"
+  - EntityId: 4558272557506625077
+    TagComponent:
+      Tag: Camera
+    TransformComponent:
+      Translation: [0, 0, 15]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        PerspectiveNearClip: 0.00999999978
+        PerspectiveFarClip: 1000
+        OrthographicSize: 10
+        OrthographicNearClip: -1
+        OrthographicFarClip: 1
+      Primary: true
+      FixedAspectRatio: false

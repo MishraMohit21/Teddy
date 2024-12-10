@@ -341,12 +341,27 @@ namespace Teddy
 					crc.Fade = circleRendererComponent["Fade"].as<float>();
 				}
 
-				/*auto cppScriptComponent = entity["CppScriptComponent"];
-				if (cppScriptComponent)
-				{
-					cppScriptComponent["Class"].as<function
-					auto& csc = deserializedEntity.AddComponent<Sprte
-				}*/
+				//auto cppScriptComponent = entity["CppScriptComponent"];
+				//if (cppScriptComponent) {
+				//	std::string scriptClassName = cppScriptComponent["Class"].as<std::string>();
+
+				//	// Add the CppScriptComponent
+				//	auto& csc = deserializedEntity.AddComponent<CppScriptComponent>();
+
+				//	// Bind the component
+				//	csc.scriptClass = scriptClassName;
+
+				//	// Create script instance using the registry
+				//	csc.Instance = ScriptRegistry::CreateScript(scriptClassName);
+
+				//	// Set up destroy function
+				//	if (csc.Instance) {
+				//		csc.DestroyScript = [](CppScriptComponent* nsc) {
+				//			delete nsc->Instance;
+				//			nsc->Instance = nullptr;
+				//			};
+				//	}
+				//}
 
 				auto rigidbody2DComponent = entity["Rigid2DBodyComponent"];
 				if (rigidbody2DComponent)
