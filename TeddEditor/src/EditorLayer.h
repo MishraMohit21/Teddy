@@ -76,7 +76,7 @@ namespace Teddy {
 		bool m_ShowSettingpanel = true;
 
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
-		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
+		glm::vec2 m_ViewportSize = { 1240.0f, 720.0f };
 		glm::vec2 m_ViewportBounds[2];
 
 		glm::vec3 m_CameraBackground =  { 0.03f, 0.03f, 0.04f };

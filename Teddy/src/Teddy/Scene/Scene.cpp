@@ -248,15 +248,17 @@ namespace Teddy
 			}
 		}
 
-		/*{
+		{
 			auto view = m_Registry.view<TransformComponent, CircleRendererComponent>();
 			for (auto entity : view)
 			{
 				auto [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
 				Renderer2D::DrawCircle(transform.GetTransform(), circle.Color, circle.Thickness, circle.Fade, (int)entity);
 			}
-		}*/
+		}
 
+		Renderer2D::DrawLine(glm::vec3(0.0f), glm::vec3(4.0f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+		Renderer2D::DrawRect(glm::mat4(1.0f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 		Renderer2D::EndScene();
 
 	}
@@ -338,21 +340,21 @@ namespace Teddy
 			}
 
 			// Circle Rendering 
-			/*{
+			{
 				auto view = m_Registry.view<TransformComponent, CircleRendererComponent>();
 				for (auto entity : view)
 				{
 					auto [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
 					Renderer2D::DrawCircle(transform.GetTransform(), circle.Color, circle.Thickness, circle.Fade, (int)entity);
 				}
-			}*/
+			}
 			Renderer2D::EndScene();
 		}
 	}
 	void Scene::OnVeiwportResize(uint32_t width, uint32_t height)
 	{	
 		viewportHeight = height;
-		viewportWidth = wid	th;
+		viewportWidth = width;
 
 		auto view = m_Registry.view<CameraComponent>();
 		for (auto& entity : view)

@@ -15,7 +15,7 @@ namespace Teddy {
 	extern const std::filesystem::path g_AssetPath;
 
 	EditorLayer::EditorLayer()
-		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f), m_ViewportSize({ 1280.0f, 720.0f })
+		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f)
 	{
 	}
 
@@ -46,7 +46,15 @@ namespace Teddy {
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
 
-		
+		if (!m_ActiveScene)
+		{
+			m_ActiveScene = CreateRef<Scene>("DefaultScene");
+			m_EditorScenePath = std::filesystem::path("default_scene.tddy");
+
+			// Add a default entity
+			auto square = m_ActiveScene->CreateEntity("Square", glm::vec3(0.0f, 0.0f, 0.0f));
+			square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.4, 0.9, 0.7, 1.0 });
+		}
 
 
 		m_ActiveScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);

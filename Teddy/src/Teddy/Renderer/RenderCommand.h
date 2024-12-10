@@ -27,14 +27,18 @@ namespace Teddy {
 			s_RendererAPI->Clear();
 		}
 
-		inline static void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t count = 0)
+	
+		static void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0)
 		{
-			s_RendererAPI->DrawIndexed(vertexArray, count);
+			s_RendererAPI->DrawIndexed(vertexArray, indexCount);
 		}
-
-		inline static void DrawLines(const Ref<VertexArray>& vertexArray, uint32_t count)
+		static void DrawLines(const Ref<VertexArray>& vertexArray, uint32_t vertexCount)
 		{
-			s_RendererAPI->DrawLines(vertexArray, count);
+			s_RendererAPI->DrawLines(vertexArray, vertexCount);
+		}
+		static void SetLineWidth(float width)
+		{
+			s_RendererAPI->SetLineWidth(width);
 		}
 
 	private:
