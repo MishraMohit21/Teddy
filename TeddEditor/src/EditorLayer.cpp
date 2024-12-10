@@ -138,6 +138,9 @@ namespace Teddy {
 			m_HoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_ActiveScene.get());
 		}
 
+		OnOverlayRender();
+
+
 		m_Framebuffer->unBind();
 	}
 
@@ -259,8 +262,8 @@ namespace Teddy {
 			ViewportRender();
 
 
-		UI_Toolbar();
 
+		UI_Toolbar();
 		ImGui::End();
 	}
 
@@ -573,25 +576,34 @@ namespace Teddy {
 				std::wstring extension = fullPath.extension().wstring();
 				std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
 				std::string filepathString = fullPath.string();
+
 				if (extension == L".tddy") {
 					OnOpenScene(fullPath);
 				}
 				else if (extension == L".png" || extension == L".jpg" ||
-					extension == L".jpeg" || extension == L".bmp") {
-					//ImGui::Dummy(ImVec2(200.0f, 200.0f));  // Space for image
-					auto square = m_ActiveScene->CreateEntity("newEntity", glm::vec3(0.0f, 0.0f, 0.0f));
+					extension == L".jpeg" || extension == L".bmp")
+				{
+					// Extract the file name without the extension
+					std::string entityName = fullPath.stem().string(); // `stem()` gives the file name without extension
+
+					// Create a new entity with the extracted name
+					auto square = m_ActiveScene->CreateEntity(entityName, glm::vec3(0.0f, 0.0f, 0.0f));
+
+					// Create the texture from the file
 					const Ref<Texture2D> fileTexture = Texture2D::Create(filepathString.c_str());
 
+					// Add a SpriteRendererComponent with the texture
 					square.AddComponent<SpriteRendererComponent>(fileTexture);
 					m_Elements.push_back(square);
 				}
 				else
 				{
-					TD_CORE_ASSERT(false, "No action for this file")
+					TD_CORE_ASSERT(false, "No action for this file");
 				}
 			}
 			ImGui::EndDragDropTarget();
 		}
+	
 
 		auto windowSize = ImGui::GetWindowSize();
 		ImVec2 minBound = ImGui::GetWindowPos();
@@ -617,7 +629,7 @@ namespace Teddy {
 
 			// Camera
 
-			if (runGame)
+			if (m_SceneState == SceneState::Play)
 			{
 				// Runtime camera from entity
 				auto cameraEntity = m_ActiveScene->GetPrimarySceneCamera();
@@ -686,8 +698,9 @@ namespace Teddy {
 		}
 		
 		ImGui::Separator();
+		ImGui::Checkbox("Show physics colliders", &m_ShowPhysicsColliders);
+		ImGui::Separator();
 
-		
 
 		//if (ImGui::Button("Dark"))
 		//	SetDarkThemeColors();
@@ -741,6 +754,50 @@ namespace Teddy {
 		{
 			TD_CORE_ERROR("Failed to stop scene: {0}", e.what());
 		}
+	}
+
+	void EditorLayer::OnOverlayRender()
+	{
+		if (m_SceneState == SceneState::Play)
+		{
+			Entity camera = m_ActiveScene->GetPrimarySceneCamera();
+			Renderer2D::BeginScene(camera.GetComponent<CameraComponent>().Camera, camera.GetComponent<TransformComponent>().GetTransform());
+		}
+		else
+		{
+			Renderer2D::BeginScene(m_EditorCamera);
+		}
+		if (m_ShowPhysicsColliders)
+		{
+			// Box Colliders
+			{
+				auto view = m_ActiveScene->GetAllEntitiesWith<TransformComponent, Box2DColliderComponent>();
+				for (auto entity : view)
+				{
+					auto [tc, bc2d] = view.get<TransformComponent, Box2DColliderComponent>(entity);
+					glm::vec3 translation = tc.Translation + glm::vec3(bc2d.Offset, 0.001f);
+					glm::vec3 scale = tc.Scale * glm::vec3(bc2d.Size * 2.0f, 1.0f);
+					glm::mat4 transform = glm::translate(glm::mat4(1.0f), translation)
+						* glm::rotate(glm::mat4(1.0f), tc.Rotation.z, glm::vec3(0.0f, 0.0f, 1.0f))
+						* glm::scale(glm::mat4(1.0f), scale);
+					Renderer2D::DrawRect(transform, glm::vec4(0, 1, 0, 1));
+				}
+			}
+			// Circle Colliders
+			{
+				auto view = m_ActiveScene->GetAllEntitiesWith<TransformComponent, Circle2DColliderComponent>();
+				for (auto entity : view)
+				{
+					auto [tc, cc2d] = view.get<TransformComponent, Circle2DColliderComponent>(entity);
+					glm::vec3 translation = tc.Translation + glm::vec3(cc2d.Offset, 0.001f);
+					glm::vec3 scale = tc.Scale * glm::vec3(cc2d.Radius * 2.0f);
+					glm::mat4 transform = glm::translate(glm::mat4(1.0f), translation)
+						* glm::scale(glm::mat4(1.0f), scale);
+					Renderer2D::DrawCircle(transform, glm::vec4(0, 1, 0, 1), 0.05f);
+				}
+			}
+		}
+		Renderer2D::EndScene();
 	}
 
 

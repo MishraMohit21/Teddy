@@ -9,6 +9,7 @@
 #include "box2d/b2_body.h"
 #include "box2d/b2_fixture.h"
 #include "box2d/b2_polygon_shape.h"
+#include "box2d/b2_circle_shape.h"
 
 #include "Entity.h"
 #include <glm/glm.hpp>
@@ -93,6 +94,11 @@ namespace Teddy
 	{
 	}
 
+	template<>
+	void Scene::OnComponentAdded<Circle2DColliderComponent>(Entity entity, Circle2DColliderComponent& component)
+	{
+	}
+
 	static b2BodyType Rigidbody2DTypeToBox2DBody(Rigid2DBodyComponent::BodyType bodyType)
 	{
 		switch (bodyType)
@@ -148,6 +154,7 @@ namespace Teddy
 		CopyComponent<CppScriptComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<Rigid2DBodyComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<Box2DColliderComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<Circle2DColliderComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 
 		return newScene;
 	}
@@ -221,6 +228,23 @@ namespace Teddy
 				fixtureDef.restitutionThreshold = bc2d.RestitutionThreshold;
 				body->CreateFixture(&fixtureDef);
 			}
+
+			if (entity.HasComponent<Circle2DColliderComponent>())
+			{
+				auto& cc2d = entity.GetComponent<Circle2DColliderComponent>();
+
+				b2CircleShape circleShape;
+				circleShape.m_p.Set(cc2d.Offset.x, cc2d.Offset.y);
+				circleShape.m_radius = cc2d.Radius;
+
+				b2FixtureDef fixtureDef;
+				fixtureDef.shape = &circleShape;
+				fixtureDef.density = cc2d.Density;
+				fixtureDef.friction = cc2d.Friction;
+				fixtureDef.restitution = cc2d.Restitution;
+				fixtureDef.restitutionThreshold = cc2d.RestitutionThreshold;
+				body->CreateFixture(&fixtureDef);
+			}
 		}
 
 	}
@@ -257,8 +281,6 @@ namespace Teddy
 			}
 		}
 
-		Renderer2D::DrawLine(glm::vec3(0.0f), glm::vec3(4.0f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-		Renderer2D::DrawRect(glm::mat4(1.0f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 		Renderer2D::EndScene();
 
 	}
@@ -393,6 +415,7 @@ namespace Teddy
 		CopyComponentIfExists<CppScriptComponent>(newEntity, entity);
 		CopyComponentIfExists<Rigid2DBodyComponent>(newEntity, entity);
 		CopyComponentIfExists<Box2DColliderComponent>(newEntity, entity);
+		CopyComponentIfExists<Circle2DColliderComponent>(newEntity, entity);
 	}
 
 

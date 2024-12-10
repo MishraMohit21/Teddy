@@ -37,6 +37,8 @@ namespace Teddy {
 		void OnScenePlay();
 		void OnSceneStop();
 
+		void OnOverlayRender();
+
 	// UI Controls
 	private:
 		void ViewportRender();
@@ -68,7 +70,7 @@ namespace Teddy {
 
 		EditorCamera m_EditorCamera;
 		int m_GizmoType = -1;
-
+		bool m_ShowPhysicsColliders = false;
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 		ContentBrowser m_ContentBrowser;
 		bool m_ShowContentBrowser = true;
@@ -90,7 +92,6 @@ namespace Teddy {
 
 
 		ImVec2 m_cursoePosition;
-		bool runGame = false;
 		Entity m_HoveredEntity;
 	};
 

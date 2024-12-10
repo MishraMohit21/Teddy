@@ -187,4 +187,19 @@ namespace Teddy
 		Box2DColliderComponent(const Box2DColliderComponent&) = default;	
 	};
 	
+	struct Circle2DColliderComponent
+	{
+		glm::vec2 Offset = { 0.0f, 0.0f };
+		float Radius = 0.5f;
+		float Density = 1.0f;
+		float Friction = 0.5f;
+		float Restitution = 0.0f;
+		float RestitutionThreshold = 0.5f;
+
+		void* RuntimeFixture = nullptr;
+
+		Circle2DColliderComponent() = default;
+		Circle2DColliderComponent(const Circle2DColliderComponent&) = default;
+	};
+
 }

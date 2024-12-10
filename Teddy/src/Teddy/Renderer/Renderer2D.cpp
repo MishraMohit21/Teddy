@@ -76,7 +76,7 @@ namespace Teddy {
 		uint32_t LineVertexCount = 0;
 		LineVertex* LineVertexBufferBase = nullptr;
 		LineVertex* LineVertexBufferPtr = nullptr;
-		float LineWidth = 2.0f;
+		float LineWidth = 5.0f;
 
 		Ref<Texture2D> WhiteTexture;
 		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;

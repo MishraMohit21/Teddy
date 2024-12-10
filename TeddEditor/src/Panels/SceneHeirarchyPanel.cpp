@@ -1,4 +1,4 @@
-#include "SceneHeirarchyPanel.h"
+	#include "SceneHeirarchyPanel.h"
 #include "Teddy/Scene/Component.h"
 
 #include <imgui/imgui.h>
@@ -308,7 +308,7 @@ namespace Teddy
 				}
 			}
 
-			if (!m_SelectionContext.HasComponent<SpriteRendererComponent>())
+			if (!m_SelectionContext.HasComponent<SpriteRendererComponent>() && !m_SelectionContext.HasComponent<CircleRendererComponent>())
 			{
 				if (ImGui::MenuItem("Sprite Renderer"))
 				{
@@ -317,7 +317,7 @@ namespace Teddy
 				}
 			}
 
-			if (!m_SelectionContext.HasComponent<CircleRendererComponent>())
+			if (!m_SelectionContext.HasComponent<CircleRendererComponent>() && !m_SelectionContext.HasComponent<SpriteRendererComponent>())
 			{
 				if (ImGui::MenuItem("Circle Renderer"))
 				{
@@ -340,6 +340,15 @@ namespace Teddy
 				if (ImGui::MenuItem("Box Collider 2D"))
 				{
 					m_SelectionContext.AddComponent<Box2DColliderComponent>();
+					ImGui::CloseCurrentPopup();
+				}
+			}
+
+			if (!m_SelectionContext.HasComponent<Circle2DColliderComponent>())
+			{
+				if (ImGui::MenuItem("Circle Collider 2D"))
+				{
+					m_SelectionContext.AddComponent<Circle2DColliderComponent>();
 					ImGui::CloseCurrentPopup();
 				}
 			}
@@ -502,6 +511,16 @@ namespace Teddy
 			{
 				ImGui::DragFloat2("Offset", glm::value_ptr(component.Offset));
 				ImGui::DragFloat2("Size", glm::value_ptr(component.Size));
+				ImGui::DragFloat("Density", &component.Density, 0.01f, 0.0f, 1.0f);
+				ImGui::DragFloat("Friction", &component.Friction, 0.01f, 0.0f, 1.0f);
+				ImGui::DragFloat("Restitution", &component.Restitution, 0.01f, 0.0f, 1.0f);
+				ImGui::DragFloat("Restitution Threshold", &component.RestitutionThreshold, 0.01f, 0.0f);
+			});
+
+		DrawComponent<Circle2DColliderComponent>("Circle Collider 2D", entity, [](auto& component)
+			{
+				ImGui::DragFloat2("Offset", glm::value_ptr(component.Offset));
+				ImGui::DragFloat("Radius", &component.Radius);
 				ImGui::DragFloat("Density", &component.Density, 0.01f, 0.0f, 1.0f);
 				ImGui::DragFloat("Friction", &component.Friction, 0.01f, 0.0f, 1.0f);
 				ImGui::DragFloat("Restitution", &component.Restitution, 0.01f, 0.0f, 1.0f);
