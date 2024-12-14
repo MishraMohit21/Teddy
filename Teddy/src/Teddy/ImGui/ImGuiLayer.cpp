@@ -67,7 +67,7 @@ namespace Teddy {
 		colors[ImGuiCol_SliderGrabActive] = ImVec4{ 0.0f, 0.3f, 0.7f, 1.0f }; // Slightly darker when active
 
 		// Assuming your menu bar uses these ImGui elements:
-		colors[ImGuiCol_MenuBarBg] = ImVec4{ 0.03f, 0.03f, 0.04f, 1.0f }; // Match the main window background
+		colors[ImGuiCol_MenuBarBg] = ImVec4{ 0.13f, 0.13f, 0.14f, 1.0f }; // Match the main window background
 		//colors[/*ImGuiCol_MenuBarItem*/] = ImVec4{ 0.8f, 0.8f, 0.82f, 1.0f }; // Slightly off-white for menu items
 
 		// If you have a border around your menu bar:
@@ -139,13 +139,13 @@ namespace Teddy {
 			style.TabBorderSize = 1;
 
 			// Rounding
-			style.WindowRounding = 2;
-			style.ChildRounding = 2;
-			style.FrameRounding = 2;
-			style.PopupRounding = 2;
-			style.ScrollbarRounding = 2;
-			style.GrabRounding = 2;
-			style.TabRounding = 2;
+			style.WindowRounding = 4;
+			style.ChildRounding = 4;
+			style.FrameRounding = 4;
+			style.PopupRounding = 4;
+			style.ScrollbarRounding = 4;
+			style.GrabRounding = 4;
+			style.TabRounding = 4;
 
 			// Alignment
 			style.WindowTitleAlign = ImVec2(0.5f, 0.5f);

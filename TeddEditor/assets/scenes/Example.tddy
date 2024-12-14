@@ -9,7 +9,7 @@ Entities:
       Scale: [1, 1, 1]
     SpriteRendererComponent:
       TintColor: [0.876447856, 0, 0.834712803, 1]
-      TextureFile: 0
+      TextureFile: assets\textures\HollowKnight.png
       TilingFactor: 1
   - EntityId: 12837192831273
     TagComponent:
@@ -37,12 +37,12 @@ Entities:
     TagComponent:
       Tag: Camera
     TransformComponent:
-      Translation: [2, 1, 5]
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     CameraComponent:
       Camera:
-        ProjectionType: 0
+        ProjectionType: 1
         PerspectiveFOV: 0.785398185
         PerspectiveNearClip: 0.00999999978
         PerspectiveFarClip: 1000
@@ -52,3 +52,9 @@ Entities:
       Primary: true
       FixedAspectRatio: false
   - EntityId: 12837192831273
+    TagComponent:
+      Tag: Entity
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]

@@ -2307,6 +2307,15 @@ bool ImGui::DragFloat2(const char* label, float v[2], float v_speed, float v_min
     return DragScalarN(label, ImGuiDataType_Float, v, 2, v_speed, &v_min, &v_max, format, flags);
 }
 
+IMGUI_API bool ImGui::DragFloat2(const char* label, ImVec2& vec, float v_speed, float v_min, float v_max, const char* format, ImGuiSliderFlags flags)
+{
+    float v[2] = { vec.x, vec.y };
+    bool change = DragScalarN(label, ImGuiDataType_Float, v, 2, v_speed, &v_min, &v_max, format, flags);
+    vec.x = v[0];
+    vec.y = v[1];
+    return change;
+}
+
 bool ImGui::DragFloat3(const char* label, float v[3], float v_speed, float v_min, float v_max, const char* format, ImGuiSliderFlags flags)
 {
     return DragScalarN(label, ImGuiDataType_Float, v, 3, v_speed, &v_min, &v_max, format, flags);

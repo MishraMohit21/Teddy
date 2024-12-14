@@ -93,7 +93,7 @@ namespace Teddy {
 		// Render
 		Renderer2D::ResetStats();
 		m_Framebuffer->bind();
-		RenderCommand::SetClearColor(glm::vec4(m_CameraBackground, 0.8));
+		RenderCommand::SetClearColor(glm::vec4(m_CameraBackground, 1.0f));
 		RenderCommand::Clear();
 
 		m_Framebuffer->ClearAttachmentValue(1, -1);
@@ -209,6 +209,7 @@ namespace Teddy {
 		style.WindowMinSize.x = minWinSizeX;
 		myFont = io.Fonts->Fonts[1];
 		ImGui::PushFont(myFont);
+		ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 0.0f, 5.0f });
 		if (ImGui::BeginMenuBar())
 		{
 			if (ImGui::BeginMenu("File"))
@@ -251,7 +252,9 @@ namespace Teddy {
 			ImGui::EndMenuBar();
 
 		}
+		ImGui::PopStyleVar();
 		ImGui::PopFont();
+
 		//ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
 		//ImGui::PushStyleVar(ImGuiStyleVar_ChildBorderSize, 0.0f);
 		//ImGui::PushStyleVar(ImGuiStyleVar_PopupBorderSize, 0.0f);
@@ -276,14 +279,23 @@ namespace Teddy {
 
 	void EditorLayer::UI_Toolbar()
 	{
+		float multi = 0.8f;
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 4)); // Toolbar padding
 		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8, 4));  // Spacing between buttons
-		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 4.0f);        // Rounded button corners
-		ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.15f, 0.15f, 0.15f, 0.8f)); // Semi-transparent background
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 8.0f);
 
-		ImGui::SetNextWindowSize(ImVec2{ 85, 38 });
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 4.0f);        // Rounded button corners
+
+		// Set the button styles to be transparent with a hover effect
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 1.0f, 1.0f, 0.1f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 1.0f, 1.0f, 0.2f));
+		ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.15f, 0.15f, 0.15f, 0.6f));
+
+		ImGui::SetNextWindowSize(ImVec2{ 80, 38 });
 		float XpositionOfToolbar = m_ViewportBounds[0].x + ((m_ViewportBounds[1].x - m_ViewportBounds[0].x) / 2);
-		float YpositionOfToolbar = m_ViewportBounds[0].y + 10;
+		float YpositionOfToolbar = m_ViewportBounds[0].y + 5;
 		ImGui::SetNextWindowPos(ImVec2{ XpositionOfToolbar, YpositionOfToolbar });
 
 		// Begin a toolbar window inside the viewport
@@ -291,12 +303,12 @@ namespace Teddy {
 			ImGuiWindowFlags_NoDecoration |
 			ImGuiWindowFlags_NoScrollbar |
 			ImGuiWindowFlags_NoScrollWithMouse |
-			ImGuiWindowFlags_NoTitleBar);
+			ImGuiWindowFlags_NoTitleBar); // Add NoBackground flag
 
 		// Center toolbar in the viewport
 		float toolbarWidth = ImGui::GetContentRegionAvail().x;
 		float buttonSize = 24.0f;
-		float totalButtonWidth = buttonSize * 2 + 16.0f; // 3 buttons with spacing
+		float totalButtonWidth = buttonSize * 2.0 + 16.0f; // 3 buttons with spacing
 		float offsetX = (toolbarWidth - totalButtonWidth) * 0.5f; // Center align
 		ImGui::SetCursorPosX(offsetX);
 
@@ -311,7 +323,6 @@ namespace Teddy {
 			else if (m_SceneState == SceneState::Play)
 				OnSceneStop();
 		}
-
 		ImGui::SameLine();
 
 		// Simulate Button
@@ -326,11 +337,9 @@ namespace Teddy {
 				OnSceneStop();
 		}
 
-
-
 		// End toolbar window
-		ImGui::PopStyleVar(3);
-		ImGui::PopStyleColor();
+		ImGui::PopStyleColor(4);
+		ImGui::PopStyleVar(5);
 		ImGui::End();
 	}
 
@@ -736,10 +745,10 @@ namespace Teddy {
 
 	void EditorLayer::ShowSettings()
 	{
-		
+
 
 		ImGui::Begin("Stats", &m_ShowSettingpanel);
-		
+
 		auto stats = Renderer2D::GetStats();
 		ImGui::Text("Renderer2D Stats:");
 		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
@@ -753,7 +762,7 @@ namespace Teddy {
 		{
 			m_CameraBackground = m_CameraDefault;
 		}
-		
+
 		ImGui::Separator();
 		ImGui::Checkbox("Show physics colliders", &m_ShowPhysicsColliders);
 		ImGui::Separator();
@@ -763,7 +772,9 @@ namespace Teddy {
 		if (ImGui::Button("Light"))
 			SetLightThemeColors();
 		ImGui::Separator();
-		
+		ImGui::DragFloat2("Menubar Padding", menubar);
+		ImGui::Separator();
+
 		ImGui::End();
 
 
@@ -876,7 +887,8 @@ namespace Teddy {
 		if (Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity()) {
 			TransformComponent transform = selectedEntity.GetComponent<TransformComponent>();
 			//Red
-			Renderer2D::DrawRect(transform.GetTransform(), glm::vec4(1, 0, 0, 1));
+			Renderer2D::SetLineWidth(4.0f);
+			Renderer2D::DrawRect(transform.GetTransform(), glm::vec4(1, 1, 1, 1));
 		}
 
 		Renderer2D::EndScene();

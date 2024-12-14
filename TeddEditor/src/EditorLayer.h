@@ -81,8 +81,8 @@ namespace Teddy {
 		glm::vec2 m_ViewportSize = { 1240.0f, 720.0f };
 		glm::vec2 m_ViewportBounds[2];
 
-		glm::vec3 m_CameraBackground =  { 0.529f, 0.808f, 0.922f };
-		glm::vec3 m_CameraDefault =		{ 0.529f, 0.808f, 0.922f };
+		glm::vec3 m_CameraBackground =  { 0.03f, 0.03f, 0.04f };
+		glm::vec3 m_CameraDefault =		{ 0.03f, 0.03f, 0.04f };
 
 		enum class SceneState
 		{
@@ -90,7 +90,7 @@ namespace Teddy {
 		};
 		SceneState m_SceneState = SceneState::Edit;
 
-
+		ImVec2 menubar;
 		ImVec2 m_cursoePosition;
 		Entity m_HoveredEntity;
 		int pixelData;
