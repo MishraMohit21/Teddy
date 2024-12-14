@@ -299,15 +299,8 @@ namespace Teddy
 
 		if (ImGui::BeginPopup("AddComponent"))
 		{
-			if (!m_SelectionContext.HasComponent<CameraComponent>())
-			{
-				if (ImGui::MenuItem("Camera"))
-				{
-					m_SelectionContext.AddComponent<CameraComponent>();
-					ImGui::CloseCurrentPopup();
-				}
-			}
-
+			DisplayAddComponentEntry<CameraComponent>("Camera");
+			ImGui::Separator();
 			if (!m_SelectionContext.HasComponent<SpriteRendererComponent>() && !m_SelectionContext.HasComponent<CircleRendererComponent>())
 			{
 				if (ImGui::MenuItem("Sprite Renderer"))
@@ -315,6 +308,7 @@ namespace Teddy
 					m_SelectionContext.AddComponent<SpriteRendererComponent>();
 					ImGui::CloseCurrentPopup();
 				}
+				ImGui::Separator();
 			}
 
 			if (!m_SelectionContext.HasComponent<CircleRendererComponent>() && !m_SelectionContext.HasComponent<SpriteRendererComponent>())
@@ -324,34 +318,11 @@ namespace Teddy
 					m_SelectionContext.AddComponent<CircleRendererComponent>();
 					ImGui::CloseCurrentPopup();
 				}
+				ImGui::Separator();
 			}
-
-			if (!m_SelectionContext.HasComponent<Rigid2DBodyComponent>())
-			{
-				if (ImGui::MenuItem("Rigidbody 2D"))
-				{
-					m_SelectionContext.AddComponent<Rigid2DBodyComponent>();
-					ImGui::CloseCurrentPopup();
-				}
-			}
-
-			if (!m_SelectionContext.HasComponent<Box2DColliderComponent>())
-			{
-				if (ImGui::MenuItem("Box Collider 2D"))
-				{
-					m_SelectionContext.AddComponent<Box2DColliderComponent>();
-					ImGui::CloseCurrentPopup();
-				}
-			}
-
-			if (!m_SelectionContext.HasComponent<Circle2DColliderComponent>())
-			{
-				if (ImGui::MenuItem("Circle Collider 2D"))
-				{
-					m_SelectionContext.AddComponent<Circle2DColliderComponent>();
-					ImGui::CloseCurrentPopup();
-				}
-			}
+			DisplayAddComponentEntry<Rigid2DBodyComponent>("RigidBody 2D");
+			DisplayAddComponentEntry<CameraComponent>("BoxCollider 2D");
+			DisplayAddComponentEntry<CameraComponent>("CircleCollider 2D");
 
 			ImGui::EndPopup();
 		}
@@ -432,7 +403,10 @@ namespace Teddy
 
 
 			ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
-			ImGui::ColorEdit4("Tint Color", glm::value_ptr(component.Color));
+			if (component.c_texture)
+				ImGui::ColorEdit4("Tint Color", glm::value_ptr(component.Color));
+			else 
+				ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
 
 
 			ImGui::Button("Texture", ImVec2(100.0f, 0.0f));
@@ -531,25 +505,18 @@ namespace Teddy
 	}
 
 
+	template<typename T>
+	void SceneHierarchyPanel::DisplayAddComponentEntry(const std::string& entryName) {
+		if (!m_SelectionContext.HasComponent<T>())
+		{
+			if (ImGui::MenuItem(entryName.c_str()))
+			{
+				m_SelectionContext.AddComponent<T>();
+				ImGui::CloseCurrentPopup();
+			}
+		}
+	}
+
 	
 
 }
-
-void ShowTimedPrompt(float duration) {
-	static float endTime = 0.0f;
-
-		ImGui::OpenPopup("Timed Prompt");
-		endTime = ImGui::GetTime() + duration;
-
-	if (ImGui::BeginPopupModal("Timed Prompt")) {
-		ImGui::Text("File Does Not Exists.");
-
-		if (ImGui::GetTime() > endTime) {
-			ImGui::CloseCurrentPopup();
-		}
-
-		ImGui::EndPopup();
-	}
-}
-
-

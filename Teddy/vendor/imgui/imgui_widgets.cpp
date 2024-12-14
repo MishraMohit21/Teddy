@@ -4570,6 +4570,9 @@ bool ImGui::ColorEdit4(const char* label, float col[4], ImGuiColorEditFlags flag
     ImGuiWindow* window = GetCurrentWindow();
     if (window->SkipItems)
         return false;
+    //char* pref = "    ";
+    ////pref, label;
+    //strcat(pref, label);
 
     ImGuiContext& g = *GImGui;
     ImGuiStyle& style = g.Style;

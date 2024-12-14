@@ -26,7 +26,7 @@ namespace Teddy {
 
 		virtual bool operator== (const Texture& Other) const override
 		{
-			return m_RendererID == ((OpenGLTexture2D&)Other).m_RendererID;
+			return m_RendererID == Other.GetRendererID();
 		}
 	private:
 		std::string m_Path;

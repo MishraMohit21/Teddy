@@ -42,6 +42,8 @@ namespace Teddy {
 
 		m_IconStop = Texture2D::Create("external/Icon/stop.png");
 		m_IconPlay = Texture2D::Create("external/Icon/play.png");
+		m_IconSimulate = Texture2D::Create("external/Icon/SimulateButton.png");
+
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
@@ -91,7 +93,7 @@ namespace Teddy {
 		// Render
 		Renderer2D::ResetStats();
 		m_Framebuffer->bind();
-		RenderCommand::SetClearColor(glm::vec4(m_CameraBackground, 1));
+		RenderCommand::SetClearColor(glm::vec4(m_CameraBackground, 0.8));
 		RenderCommand::Clear();
 
 		m_Framebuffer->ClearAttachmentValue(1, -1);
@@ -110,15 +112,21 @@ namespace Teddy {
 			m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 			break;
 		}
+		case SceneState::Simulate:
+		{
+			m_ActiveScene->OnUpdateSimuation(ts, m_EditorCamera);
+			break;
+		}
 		case SceneState::Play:
 		{
 			m_ActiveScene->OnUpdateRuntime(ts);
 			break;
 		}
+		
 		}
 		
 		auto [mx, my] = ImGui::GetMousePos();
-		//TD_CORE_INFO("mx -= m_ViewportBounds[0].x: {0} -= {1}", mx, m_ViewportBounds[0].x);
+		//TD_CORE_INFO("m_ViewportBounds[0].x: {0}", m_ViewportBounds[0].x);
 		mx -= m_ViewportBounds[0].x;
 		my -= m_ViewportBounds[0].y;
 		//TD_CORE_INFO("Mouse Position: {0} {1}", mx, my);
@@ -133,7 +141,7 @@ namespace Teddy {
 
 		if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
 		{
-			int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
+			pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
 			//TD_CORE_INFO("Pixel data = {0}", pixelData);
 			m_HoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_ActiveScene.get());
 		}
@@ -263,33 +271,66 @@ namespace Teddy {
 
 
 
-		UI_Toolbar();
 		ImGui::End();
 	}
 
 	void EditorLayer::UI_Toolbar()
 	{
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 2));
-		ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0, 0));
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
-		auto& colors = ImGui::GetStyle().Colors;
-		const auto& buttonHovered = colors[ImGuiCol_ButtonHovered];
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(buttonHovered.x, buttonHovered.y, buttonHovered.z, 0.5f));
-		const auto& buttonActive = colors[ImGuiCol_ButtonActive];
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(buttonActive.x, buttonActive.y, buttonActive.z, 0.5f));
-		ImGui::Begin("##toolbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
-		float size = ImGui::GetWindowHeight() - 4.0f;
-		Ref<Texture2D> icon = m_SceneState == SceneState::Edit ? m_IconPlay : m_IconStop;
-		ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5f) - (size * 0.5f));
-		if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0))
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 4)); // Toolbar padding
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8, 4));  // Spacing between buttons
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 4.0f);        // Rounded button corners
+		ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.15f, 0.15f, 0.15f, 0.8f)); // Semi-transparent background
+
+		ImGui::SetNextWindowSize(ImVec2{ 85, 38 });
+		float XpositionOfToolbar = m_ViewportBounds[0].x + ((m_ViewportBounds[1].x - m_ViewportBounds[0].x) / 2);
+		float YpositionOfToolbar = m_ViewportBounds[0].y + 10;
+		ImGui::SetNextWindowPos(ImVec2{ XpositionOfToolbar, YpositionOfToolbar });
+
+		// Begin a toolbar window inside the viewport
+		ImGui::Begin("ViewportToolbar", nullptr,
+			ImGuiWindowFlags_NoDecoration |
+			ImGuiWindowFlags_NoScrollbar |
+			ImGuiWindowFlags_NoScrollWithMouse |
+			ImGuiWindowFlags_NoTitleBar);
+
+		// Center toolbar in the viewport
+		float toolbarWidth = ImGui::GetContentRegionAvail().x;
+		float buttonSize = 24.0f;
+		float totalButtonWidth = buttonSize * 2 + 16.0f; // 3 buttons with spacing
+		float offsetX = (toolbarWidth - totalButtonWidth) * 0.5f; // Center align
+		ImGui::SetCursorPosX(offsetX);
+
+		// Play/Stop Button
+		Ref<Texture2D> playStopIcon = (m_SceneState == SceneState::Edit || m_SceneState == SceneState::Simulate)
+			? m_IconPlay
+			: m_IconStop;
+		if (ImGui::ImageButton((ImTextureID)playStopIcon->GetRendererID(), ImVec2(buttonSize, buttonSize)))
 		{
-			if (m_SceneState == SceneState::Edit)
+			if (m_SceneState == SceneState::Edit || m_SceneState == SceneState::Simulate)
 				OnScenePlay();
 			else if (m_SceneState == SceneState::Play)
 				OnSceneStop();
 		}
-		ImGui::PopStyleVar(2);
-		ImGui::PopStyleColor(3);
+
+		ImGui::SameLine();
+
+		// Simulate Button
+		Ref<Texture2D> simulateIcon = (m_SceneState == SceneState::Edit || m_SceneState == SceneState::Play)
+			? m_IconSimulate
+			: m_IconStop;
+		if (ImGui::ImageButton((ImTextureID)simulateIcon->GetRendererID(), ImVec2(buttonSize, buttonSize)))
+		{
+			if (m_SceneState == SceneState::Edit || m_SceneState == SceneState::Play)
+				OnSceneSimulate();
+			else if (m_SceneState == SceneState::Simulate)
+				OnSceneStop();
+		}
+
+
+
+		// End toolbar window
+		ImGui::PopStyleVar(3);
+		ImGui::PopStyleColor();
 		ImGui::End();
 	}
 
@@ -548,6 +589,10 @@ namespace Teddy {
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Viewport", &m_ShowViewport);
 
+
+		UI_Toolbar();
+
+
 		ImVec2 viewportOffset = ImGui::GetCursorPos();
 		//TD_CORE_WARN("Viewport Offset: ( {0}, {1} )", viewportOffset.x, viewportOffset.y);
 		m_cursoePosition = ImVec2(
@@ -583,18 +628,30 @@ namespace Teddy {
 				else if (extension == L".png" || extension == L".jpg" ||
 					extension == L".jpeg" || extension == L".bmp")
 				{
-					// Extract the file name without the extension
-					std::string entityName = fullPath.stem().string(); // `stem()` gives the file name without extension
-
-					// Create a new entity with the extracted name
-					auto square = m_ActiveScene->CreateEntity(entityName, glm::vec3(0.0f, 0.0f, 0.0f));
-
 					// Create the texture from the file
 					const Ref<Texture2D> fileTexture = Texture2D::Create(filepathString.c_str());
+					if (m_HoveredEntity != Entity())
+					{
+						if (m_HoveredEntity.HasComponent<SpriteRendererComponent>())
+						{
+							auto& src = m_HoveredEntity.GetComponent<SpriteRendererComponent>();
+							src.c_texture = fileTexture;
+						}
+					}
+					else
+					{
 
-					// Add a SpriteRendererComponent with the texture
-					square.AddComponent<SpriteRendererComponent>(fileTexture);
-					m_Elements.push_back(square);
+						// Extract the file name without the extension
+						std::string entityName = fullPath.stem().string(); // `stem()` gives the file name without extension
+
+						// Create a new entity with the extracted name
+						auto square = m_ActiveScene->CreateEntity(entityName, glm::vec3(0.0f, 0.0f, 0.0f));
+
+
+						// Add a SpriteRendererComponent with the texture
+						square.AddComponent<SpriteRendererComponent>(fileTexture);
+						m_Elements.push_back(square);
+					}
 				}
 				else
 				{
@@ -700,13 +757,13 @@ namespace Teddy {
 		ImGui::Separator();
 		ImGui::Checkbox("Show physics colliders", &m_ShowPhysicsColliders);
 		ImGui::Separator();
-
-
-		//if (ImGui::Button("Dark"))
-		//	SetDarkThemeColors();
-		//if (ImGui::Button("Light"))
-		//	SetLightThemeColors();
-
+		if (ImGui::Button("Dark"))
+			SetDarkThemeColors();
+		ImGui::SameLine();
+		if (ImGui::Button("Light"))
+			SetLightThemeColors();
+		ImGui::Separator();
+		
 		ImGui::End();
 
 
@@ -716,19 +773,14 @@ namespace Teddy {
 	{
 		try
 		{
+			if (m_SceneState == SceneState::Simulate)
+				OnSceneStop();
+
 			m_SceneState = SceneState::Play;
 
-			// Create a runtime copy of the current scene
 			m_ActiveScene = Scene::Copy(m_EditorScene);
-
-			// If no path exists for the original scene, create a temporary one
-			if (m_EditorScenePath.empty())
-			{
-				m_EditorScenePath = std::filesystem::temp_directory_path() / "temp_scene.tddy";
-				SerializeScene(m_EditorScene, m_EditorScenePath);
-			}
-
 			m_ActiveScene->OnRuntimeStart();
+
 			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 		}
 		catch (const std::exception& e)
@@ -743,9 +795,13 @@ namespace Teddy {
 	{
 		try
 		{
+			if (m_SceneState == SceneState::Play)
+				m_ActiveScene->OnRuntimeStop();
+			else if (m_SceneState == SceneState::Simulate)
+				m_ActiveScene->OnSimulationStop();
+
 			m_SceneState = SceneState::Edit;
 
-			m_ActiveScene->OnRuntimeStop();
 			m_ActiveScene = m_EditorScene;
 
 			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
@@ -754,6 +810,25 @@ namespace Teddy {
 		{
 			TD_CORE_ERROR("Failed to stop scene: {0}", e.what());
 		}
+	}
+
+	void EditorLayer::OnSceneSimulate()
+	{
+		try
+		{
+			if (m_SceneState == SceneState::Play)
+				OnSceneStop();
+			m_SceneState = SceneState::Simulate;
+			m_ActiveScene = Scene::Copy(m_EditorScene);
+			m_ActiveScene->OnSimulationStart();
+			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		}
+		catch (const std::exception& e)
+		{
+			TD_CORE_ERROR("Failed to stop scene: {0}", e.what());
+		}
+
+
 	}
 
 	void EditorLayer::OnOverlayRender()
@@ -797,52 +872,90 @@ namespace Teddy {
 				}
 			}
 		}
+
+		if (Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity()) {
+			TransformComponent transform = selectedEntity.GetComponent<TransformComponent>();
+			//Red
+			Renderer2D::DrawRect(transform.GetTransform(), glm::vec4(1, 0, 0, 1));
+		}
+
 		Renderer2D::EndScene();
 	}
 
 
-	void EditorLayer::SetDarkThemeColors()
-	{
-
+	void EditorLayer::SetDarkThemeColors() {
 		auto& colors = ImGui::GetStyle().Colors;
-		colors[ImGuiCol_WindowBg] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-		// Headers
-		colors[ImGuiCol_Header] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
-		colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
-		colors[ImGuiCol_HeaderActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 
-		// Buttons
-		colors[ImGuiCol_Button] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
-		colors[ImGuiCol_ButtonHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
-		colors[ImGuiCol_ButtonActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-		// Frame BG
-		colors[ImGuiCol_FrameBg] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
-		colors[ImGuiCol_FrameBgHovered] = ImVec4{ 0.3f, 0.305f, 0.31f, 1.0f };
-		colors[ImGuiCol_FrameBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-		// Tabs
-		colors[ImGuiCol_Tab] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-		colors[ImGuiCol_TabHovered] = ImVec4{ 0.38f, 0.3805f, 0.381f, 1.0f };
-		colors[ImGuiCol_TabActive] = ImVec4{ 0.28f, 0.2805f, 0.281f, 1.0f };
-		colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-		colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.2f, 0.205f, 0.21f, 1.0f };
-		// Title
-		colors[ImGuiCol_TitleBg] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-		colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
-		colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+		// --- Background Colors ---
+		colors[ImGuiCol_WindowBg] = ImVec4{ 0.03f, 0.03f, 0.04f, 1.0f };
+		colors[ImGuiCol_ChildBg] = ImVec4{ 0.03f, 0.03f, 0.04f, 1.0f };
+		colors[ImGuiCol_PopupBg] = ImVec4{ 0.03f, 0.03f, 0.04f, 1.0f };
+		
+		m_CameraBackground = { 0.03f, 0.03f, 0.04f };
 
+		// --- Header Colors ---
+		colors[ImGuiCol_Header] = ImVec4{ 0.08f, 0.08f, 0.1f, 1.0f };
+		colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.12f, 0.12f, 0.15f, 1.0f };
+		colors[ImGuiCol_HeaderActive] = ImVec4{ 0.05f, 0.05f, 0.07f, 1.0f };
+
+		// --- Button Colors ---
+		colors[ImGuiCol_Button] = ImVec4{ 0.1f, 0.1f, 0.12f, 1.0f };
+		colors[ImGuiCol_ButtonHovered] = ImVec4{ 0.0f, 0.2f, 0.4f, 1.0f };
+		colors[ImGuiCol_ButtonActive] = ImVec4{ 0.0f, 0.15f, 0.3f, 1.0f };
+
+		// --- Frame Background Colors ---
+		colors[ImGuiCol_FrameBg] = ImVec4{ 0.08f, 0.08f, 0.1f, 1.0f };
+		colors[ImGuiCol_FrameBgHovered] = ImVec4{ 0.15f, 0.15f, 0.2f, 1.0f };
+		colors[ImGuiCol_FrameBgActive] = ImVec4{ 0.05f, 0.05f, 0.07f, 1.0f };
+
+		// --- Tab Colors ---
+		colors[ImGuiCol_Tab] = ImVec4{ 0.07f, 0.07f, 0.09f, 1.0f };
+		colors[ImGuiCol_TabHovered] = ImVec4{ 0.3f, 0.1f, 0.4f, 1.0f };
+		colors[ImGuiCol_TabActive] = ImVec4{ 0.2f, 0.05f, 0.3f, 1.0f };
+		colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.04f, 0.04f, 0.05f, 1.0f };
+		colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.08f, 0.08f, 0.1f, 1.0f };
+
+		// --- Title Bar Colors ---
+		colors[ImGuiCol_TitleBg] = ImVec4{ 0.07f, 0.07f, 0.09f, 1.0f };
+		colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.07f, 0.07f, 0.09f, 1.0f };
+		colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.04f, 0.04f, 0.05f, 1.0f };
+
+		// --- Separator Colors ---
+		colors[ImGuiCol_Separator] = colors[ImGuiCol_Border];
+		colors[ImGuiCol_SeparatorHovered] = ImVec4(0.10f, 0.40f, 0.75f, 0.78f);
+		colors[ImGuiCol_SeparatorActive] = ImVec4(0.10f, 0.40f, 0.75f, 1.00f);
+
+		// --- Text Colors ---
+		colors[ImGuiCol_Text] = ImVec4{ 0.8f, 0.8f, 0.82f, 1.0f };
+		colors[ImGuiCol_CheckMark] = ImVec4{ 0.0f, 0.6f, 1.0f, 1.0f };
+		colors[ImGuiCol_SliderGrab] = ImVec4{ 0.0f, 0.4f, 0.8f, 1.0f };
+		colors[ImGuiCol_SliderGrabActive] = ImVec4{ 0.0f, 0.3f, 0.7f, 1.0f };
+
+		// --- Menu Bar Colors ---
+		colors[ImGuiCol_MenuBarBg] = ImVec4{ 0.03f, 0.03f, 0.04f, 1.0f };
+		colors[ImGuiCol_Border] = ImVec4{ 0.1f, 0.1f, 0.12f, 1.0f };
+
+		// --- Style Settings ---
+		auto& style = ImGui::GetStyle();
+		style.WindowRounding = 3.0f;
+		style.FrameRounding = 2.0f;
+		style.GrabRounding = 2.0f;
+		style.WindowPadding = ImVec2(8.0f, 8.0f);
+		style.FramePadding = ImVec2(5.0f, 3.0f);
 	}
+
 
 	void EditorLayer::SetLightThemeColors()
 	{
 		auto& colors = ImGui::GetStyle().Colors;
 
 		// Main background
-		colors[ImGuiCol_WindowBg] = ImVec4{ 0.96f, 0.96f, 0.96f, 1.0f }; // Light gray
+		colors[ImGuiCol_WindowBg] = ImVec4{ 0.94f, 0.94f, 0.94f, 1.0f }; // Lighter gray background
 		colors[ImGuiCol_ChildBg] = ImVec4{ 0.92f, 0.92f, 0.92f, 1.0f };
 		colors[ImGuiCol_PopupBg] = ImVec4{ 0.98f, 0.98f, 0.98f, 1.0f };
 
 		// Headers
-		colors[ImGuiCol_Header] = ImVec4{ 0.86f, 0.86f, 0.86f, 1.0f };
+		colors[ImGuiCol_Header] = ImVec4{ 0.86f, 0.86f, 0.86f, 1.0f }; // Slightly darker header
 		colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.76f, 0.76f, 0.76f, 1.0f };
 		colors[ImGuiCol_HeaderActive] = ImVec4{ 0.66f, 0.66f, 0.66f, 1.0f };
 
@@ -874,7 +987,7 @@ namespace Teddy {
 		colors[ImGuiCol_SeparatorActive] = ImVec4{ 0.60f, 0.60f, 0.60f, 1.0f };
 
 		// Text
-		colors[ImGuiCol_Text] = ImVec4{ 0.10f, 0.10f, 0.10f, 1.0f }; // Dark text
+		colors[ImGuiCol_Text] = ImVec4{ 0.10f, 0.10f, 0.10f, 1.0f }; // Dark text for contrast
 		colors[ImGuiCol_TextDisabled] = ImVec4{ 0.50f, 0.50f, 0.50f, 1.0f };
 
 		// Scrollbar
@@ -882,7 +995,6 @@ namespace Teddy {
 		colors[ImGuiCol_ScrollbarGrab] = ImVec4{ 0.80f, 0.80f, 0.80f, 1.0f };
 		colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4{ 0.70f, 0.70f, 0.70f, 1.0f };
 		colors[ImGuiCol_ScrollbarGrabActive] = ImVec4{ 0.60f, 0.60f, 0.60f, 1.0f };
-
 	}
 
 	

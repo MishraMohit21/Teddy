@@ -31,14 +31,18 @@ namespace Teddy
 		void OnRuntimeStart();
 		void OnRuntimeStop();
 
+		void OnSimulationStart();
+		void OnSimulationStop();
+
 		void OnUpdateEditor(Timestep ts, EditorCamera& cam);
+		void OnUpdateSimuation(Timestep ts, EditorCamera& cam);
 		void OnUpdateRuntime(Timestep ts);
 		void OnVeiwportResize(uint32_t width, uint32_t height);
 
 		Entity GetPrimarySceneCamera();
 
-
 		void DuplicateEntity(Entity entity);
+
 		template<typename... Components>
 		auto GetAllEntitiesWith()
 		{
@@ -47,6 +51,12 @@ namespace Teddy
 	private:
 		template<typename T>
 		void OnComponentAdded(Entity entity, T& component);
+
+		void OnPhysics2DStart();
+		void OnPhysics2DStop();
+
+
+		void RenderScene(EditorCamera& cam);
 
 	private:
 		std::string m_SceneName;

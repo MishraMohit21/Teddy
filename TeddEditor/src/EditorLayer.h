@@ -36,7 +36,7 @@ namespace Teddy {
 
 		void OnScenePlay();
 		void OnSceneStop();
-
+		void OnSceneSimulate();
 		void OnOverlayRender();
 
 	// UI Controls
@@ -59,7 +59,7 @@ namespace Teddy {
 		Ref<VertexArray> m_SquareVA;
 		Ref<Shader> m_FlatColorShader;
 		Ref<FrameBuffer> m_Framebuffer;
-		Ref<Texture2D> m_IconPlay, m_IconStop;
+		Ref<Texture2D> m_IconPlay, m_IconStop, m_IconSimulate;
 
 		Ref<Scene> m_ActiveScene;
 		Ref<Scene> m_EditorScene;
@@ -81,18 +81,19 @@ namespace Teddy {
 		glm::vec2 m_ViewportSize = { 1240.0f, 720.0f };
 		glm::vec2 m_ViewportBounds[2];
 
-		glm::vec3 m_CameraBackground =  { 0.03f, 0.03f, 0.04f };
-		glm::vec3 m_CameraDefault =	{ 0.03f, 0.03f, 0.04f };
+		glm::vec3 m_CameraBackground =  { 0.529f, 0.808f, 0.922f };
+		glm::vec3 m_CameraDefault =		{ 0.529f, 0.808f, 0.922f };
 
 		enum class SceneState
 		{
-			Edit = 0, Play = 1
+			Edit = 0, Play = 1, Simulate = 2,
 		};
 		SceneState m_SceneState = SceneState::Edit;
 
 
 		ImVec2 m_cursoePosition;
 		Entity m_HoveredEntity;
+		int pixelData;
 	};
 
 }
