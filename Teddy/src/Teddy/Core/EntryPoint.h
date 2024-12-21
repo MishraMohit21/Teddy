@@ -21,6 +21,9 @@ int main(int argc, char** argv)
 	TD_PROFILE_BEGIN_SESSION("Shutdown", "Profiles/TeddyProfile-Shutdown.json");
 	delete app;
 	TD_PROFILE_END_SESSION();
+
+	//system("PAUSE");
+
 }
 
 #endif

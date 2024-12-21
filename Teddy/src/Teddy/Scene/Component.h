@@ -105,56 +105,17 @@ namespace Teddy
 		std::string scriptClass;
 		ScriptableEntity* Instance = nullptr;
 
-		// Use std::function to support lambdas with captures
-		std::function<ScriptableEntity* ()> InstantiateScript = nullptr;
-		std::function<void(CppScriptComponent*)> DestroyScript = nullptr;
+		ScriptableEntity* (*InstantiateScript)();
+		void (*DestroyScript)(CppScriptComponent*);
 
-		// Default binding for no-argument constructors
+
 		template <typename T>
-		void Bind() {
+		void Bind()
+		{
 			scriptClass = typeid(T).name();
+			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
+			DestroyScript = [](CppScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
 
-			// Use a static function that creates the instance
-			InstantiateScript = []() -> ScriptableEntity* {
-				return static_cast<ScriptableEntity*>(new T());
-				};
-
-			DestroyScript = [](CppScriptComponent* nsc) {
-				delete nsc->Instance;
-				nsc->Instance = nullptr;
-				};
-		}
-
-		// Binding with a single Entity argument
-		template <typename T>
-		void Bind(Entity entity) {
-			scriptClass = typeid(T).name();
-
-			// Use a static function with explicit return type
-			InstantiateScript = [entity]() -> ScriptableEntity* {
-				return static_cast<ScriptableEntity*>(new T(entity));
-				};
-
-			DestroyScript = [](CppScriptComponent* nsc) {
-				delete nsc->Instance;
-				nsc->Instance = nullptr;
-				};
-		}
-
-		// Variadic template for additional arguments
-		template <typename T, typename... Args>
-		void Bind(Args&&... args) {
-			scriptClass = typeid(T).name();
-
-			// Explicitly specify return type
-			InstantiateScript = [args...]() -> ScriptableEntity* {
-				return static_cast<ScriptableEntity*>(new T(std::forward<Args>(args)...));
-				};
-
-			DestroyScript = [](CppScriptComponent* nsc) {
-				delete nsc->Instance;
-				nsc->Instance = nullptr;
-				};
 		}
 	};
 
@@ -165,6 +126,10 @@ namespace Teddy
 		BodyType Type = BodyType::Static;
 		bool fixedRotation = false;
 		void* RunTimeBody = nullptr;
+
+		glm::vec2 linearVelocity = glm::vec2(0);
+		glm::vec2 forceValue = glm::vec2(0);
+		bool ApplyForcebool = false;
 
 		Rigid2DBodyComponent() = default;
 		Rigid2DBodyComponent(const Rigid2DBodyComponent&) = default;

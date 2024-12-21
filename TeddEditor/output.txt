@@ -1,0 +1,5 @@
+Main constructor!
+Hello World from C#!
+C# says: 5
+C# says: 5 and 508
+C# says: Hello World from C++!

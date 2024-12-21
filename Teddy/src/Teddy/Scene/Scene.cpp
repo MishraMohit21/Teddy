@@ -14,9 +14,19 @@
 #include "Entity.h"
 #include <glm/glm.hpp>
 
+namespace Utils
+{
+	static b2Vec2 Convert(const glm::vec2 & vec) {
+		return b2Vec2(vec.x, vec.y);
+	}
+
+	// Convert b2Vec2 to glm::vec2
+	static glm::vec2 Convert(const b2Vec2 & vec) {
+		return glm::vec2(vec.x, vec.y);
+	}
+}
 namespace Teddy
 {
-
 
 	template<typename Component>
 	static void CopyComponent(entt::registry& dst, entt::registry& src, const std::unordered_map<UUID, entt::entity>& enttMap)
@@ -237,6 +247,10 @@ namespace Teddy
 
 				b2Body* body = (b2Body*)rb2d.RunTimeBody;
 				const auto& position = body->GetPosition();
+				/*b2Vec2 linearVel = { rb2d.linearVelocity.x, rb2d.linearVelocity.y };
+				body->SetLinearVelocity(linearVel);
+				body->ApplyForceToCenter(Utils::Convert(rb2d.forceValue), true);*/
+
 				transform.Translation.x = position.x;
 				transform.Translation.y = position.y;
 				transform.Rotation.z = body->GetAngle();
@@ -281,9 +295,12 @@ namespace Teddy
 
 				b2Body* body = (b2Body*)rb2d.RunTimeBody;
 				const auto& position = body->GetPosition();
+				
 				transform.Translation.x = position.x;
 				transform.Translation.y = position.y;
 				transform.Rotation.z = body->GetAngle();
+
+				
 			}
 		}
 

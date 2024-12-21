@@ -479,6 +479,16 @@ namespace Teddy
 					}
 					ImGui::EndCombo();
 				}
+				ImGui::DragFloat2("Linear Velocity", glm::value_ptr(component.linearVelocity));
+				ImGui::DragFloat2("Force Value", glm::value_ptr(component.forceValue));
+				if (ImGui::Button("ApplyForce"))
+				{
+					component.ApplyForcebool = true;
+				}
+				else
+				{
+					component.ApplyForcebool = false;
+				}
 				ImGui::Checkbox("Fixed Rotation", &component.fixedRotation);
 			});
 		DrawComponent<Box2DColliderComponent>("Box Collider 2D", entity, [](auto& component)

@@ -28,14 +28,18 @@ IncludeDir["stb_image"] = "vendor/stb_image"
 IncludeDir["entt"] = "vendor/entt"
 IncludeDir["yaml_cpp"] = "vendor/yaml-cpp/include"
 IncludeDir["Box2D"] = "vendor/Box2D/include"
+IncludeDir["mono"] = "vendor/mono/include"
 IncludeDir["ImGuizmo"] = "vendor/ImGuizmo"
 IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
 
 LibraryDir = {}
 LibraryDir["VulkanSDK"] = "%{VULKAN_SDK}/Lib"
 LibraryDir["VulkanSDK_Debug"] = "%{VULKAN_SDK}/Lib"
+LibraryDir["mono"] = "$(SolutionDir)Teddy/vendor/mono/lib/%{cfg.buildcfg}"
+
 
 Library = {}
+Library["mono"] = "%{LibraryDir.mono}/libmono-static-sgen.lib"
 Library["Vulkan"] = "%{LibraryDir.VulkanSDK}/vulkan-1.lib"
 Library["VulkanUtils"] = "%{LibraryDir.VulkanSDK}/VkLayer_utils.lib"
 Library["ShaderC_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/shaderc_sharedd.lib"
@@ -45,6 +49,12 @@ Library["SPIRV_Tools_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/SPIRV-Toolsd.lib"
 Library["ShaderC_Release"] = "%{LibraryDir.VulkanSDK}/shaderc_shared.lib"
 Library["SPIRV_Cross_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-core.lib"
 Library["SPIRV_Cross_GLSL_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-glsl.lib"
+
+
+Library["WinSock"] = "Ws2_32.lib"
+Library["WinMM"] = "Winmm.lib"
+Library["WinVersion"] = "Version.lib"
+Library["BCrypt"] = "Bcrypt.lib"
 
 
 group "Dependencies"
@@ -57,6 +67,9 @@ group "Dependencies"
 
 group ""
 
+
+group "Main"
+ 
 project "Teddy"
 	location "Teddy"
 	kind "StaticLib"
@@ -98,6 +111,7 @@ project "Teddy"
 		"$(ProjectDir)%{IncludeDir.glm}",
 		"$(ProjectDir)%{IncludeDir.stb_image}",
 		"$(ProjectDir)%{IncludeDir.entt}",
+		"$(ProjectDir)%{IncludeDir.mono}",
 		"$(ProjectDir)%{IncludeDir.ImGuizmo}",
 		"$(ProjectDir)%{IncludeDir.Box2D}",
 		"$(ProjectDir)%{IncludeDir.yaml_cpp}",
@@ -112,7 +126,9 @@ project "Teddy"
 		"Box2D",
 		"ImGui",
 		"yaml-cpp",
-		"opengl32.lib"
+		"opengl32.lib",
+		"%{Library.mono}",
+
 	}
 
 	filter "files:vendor/ImGuizmo/**.cpp"
@@ -126,6 +142,14 @@ project "Teddy"
 			"TD_PLATFORM_WINDOWS",
 			"TD_BUILD_DLL",
 			"GLFW_INCLUDE_NONE"
+		}
+
+		links
+		{
+    		"%{Library.WinSock}",
+			"%{Library.WinMM}",
+			"%{Library.WinVersion}",
+			"%{Library.BCrypt}",
 		}
 
 	filter "configurations:Debug"
@@ -164,6 +188,38 @@ project "Teddy"
 			"%{Library.SPIRV_Cross_GLSL_Release}"
 		}
 
+
+project "ScriptCore"
+		location "ScriptCore"
+		kind "SharedLib"
+		language "C#"
+		dotnetframework "4.7.2"
+		
+		targetdir ("$(SolutionDir)TeddEditor/Resources/Scripts")
+		objdir ("$(SolutionDir)TeddEditor/Resources/Scripts/Intermediates")
+		
+		files
+		{
+		    "ScriptCore/Source/ **. cs",
+		    "ScriptCore/Properties/ **. cs"
+    	}
+		
+		filter "configurations:Debug"
+		optimize "Off"
+		symbols "Default"
+		
+		filter "configurations:Release"
+		optimize "On"
+		symbols "Default"
+		
+		filter "configurations:Dist"
+		optimize "Full"
+		symbols "Off"
+
+group ""
+
+group "Misc"	
+
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
@@ -185,10 +241,10 @@ project "Sandbox"
 		"Teddy/vendor/spdlog/include",
 		"Teddy/src",
 		"Teddy/vendor",
-		"%{IncludeDir.glm}",
-		"%{IncludeDir.yaml_cpp}",
-		"%{IncludeDir.ImGuizmo}",
-		"%{IncludeDir.entt}"
+		"Teddy/%{IncludeDir.glm}",
+		"Teddy/%{IncludeDir.yaml_cpp}",
+		"Teddy/%{IncludeDir.ImGuizmo}",
+		"Teddy/%{IncludeDir.entt}"
 
 	}
 
@@ -220,6 +276,9 @@ project "Sandbox"
 		runtime "Release"
 		optimize "on"
 
+group ""
+
+group "Editor"
 
 project "TeddEditor"
 	location "TeddEditor"
@@ -242,11 +301,11 @@ project "TeddEditor"
 		"Teddy/vendor/spdlog/include",
 		"Teddy/src",
 		"Teddy/vendor",
-		"%{IncludeDir.glm}",
-		"%{IncludeDir.yaml_cpp}",
-		"%{IncludeDir.ImGuizmo}",	
-		"%{IncludeDir.Box2D}",
-		"%{IncludeDir.entt}"
+		"Teddy/%{IncludeDir.glm}",
+		"Teddy/%{IncludeDir.yaml_cpp}",
+		"Teddy/%{IncludeDir.ImGuizmo}",	
+		"Teddy/%{IncludeDir.Box2D}",
+		"Teddy/%{IncludeDir.entt}"
 	}
 	links
 	{
@@ -267,3 +326,6 @@ project "TeddEditor"
 		defines "TD_DIST"
 		runtime "Release"
 		optimize "on"
+
+
+group ""

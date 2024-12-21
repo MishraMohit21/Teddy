@@ -37,6 +37,9 @@
     <Filter Include="src\Teddy\Scene">
       <UniqueIdentifier>{73272DFE-DFB2-9AC2-E8C3-1DB754CEF6C2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Teddy\Scripting">
+      <UniqueIdentifier>{586A9DF4-C4CB-7A02-4D39-C1B4B999B1C1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Teddy\Utils">
       <UniqueIdentifier>{B6BB5AFE-2247-C8C2-2B58-4BB7976224C3}</UniqueIdentifier>
     </Filter>
@@ -84,6 +87,9 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLUniformBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
@@ -124,6 +130,9 @@
       <Filter>src\Teddy\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Core\MouseCode.h">
+      <Filter>src\Teddy\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Core\Timer.h">
       <Filter>src\Teddy\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Core\Timestep.h">
@@ -195,6 +204,9 @@
     <ClInclude Include="src\Teddy\Renderer\Texture.h">
       <Filter>src\Teddy\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Teddy\Renderer\UniformBuffer.h">
+      <Filter>src\Teddy\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Teddy\Renderer\VertexArray.h">
       <Filter>src\Teddy\Renderer</Filter>
     </ClInclude>
@@ -218,6 +230,9 @@
     </ClInclude>
     <ClInclude Include="src\Teddy\Scene\ScriptableEntity.h">
       <Filter>src\Teddy\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Scripting\ScriptingEngine.h">
+      <Filter>src\Teddy\Scripting</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Utils\PlatformUtils.h">
       <Filter>src\Teddy\Utils</Filter>
@@ -1317,9 +1332,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Teddy\Core\Timer.h" />
-    <ClInclude Include="src\Teddy\Renderer\UniformBuffer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLUniformBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1335,6 +1347,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLUniformBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
@@ -1415,6 +1430,9 @@
     <ClCompile Include="src\Teddy\Renderer\Texture.cpp">
       <Filter>src\Teddy\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Teddy\Renderer\UniformBuffer.cpp">
+      <Filter>src\Teddy\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Teddy\Renderer\VertexArray.cpp">
       <Filter>src\Teddy\Renderer</Filter>
     </ClCompile>
@@ -1430,6 +1448,9 @@
     <ClCompile Include="src\Teddy\Scene\SceneSerializer.cpp">
       <Filter>src\Teddy\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\Teddy\Scripting\ScriptingEngine.cpp">
+      <Filter>src\Teddy\Scripting</Filter>
+    </ClCompile>
     <ClCompile Include="src\tdpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -1439,7 +1460,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Teddy\Renderer\UniformBuffer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLUniformBuffer.cpp" />
   </ItemGroup>
 </Project>

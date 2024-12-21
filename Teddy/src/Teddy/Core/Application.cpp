@@ -6,6 +6,7 @@
 #include "Teddy/Renderer/Renderer.h"
 
 #include "Teddy/Core/Input.h"
+#include "Teddy/Scripting/ScriptingEngine.h"
 
 #include <glfw/glfw3.h>
 
@@ -26,6 +27,7 @@ namespace Teddy {
 		m_Window->SetEventCallback(TD_BIND_EVENT_FN(Application::OnEvent));
 
 		Renderer::Init();
+ 		ScriptingEngine::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
@@ -35,6 +37,7 @@ namespace Teddy {
 	{
 		TD_PROFILE_FUNCTION();
 
+		ScriptingEngine::Shutdown();
 		Renderer::Shutdown();
 	}
 

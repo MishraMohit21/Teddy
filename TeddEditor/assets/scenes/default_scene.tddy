@@ -1,34 +1,21 @@
 Scene: untitled
 Entities:
-  - EntityId: 8756890758658193811
+  - EntityId: 3739987199003850117
     TagComponent:
-      Tag: Sun
+      Tag: Square
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-    CircleRendererComponent:
-      Color: [1, 0.800000012, 0, 1]
-      Thickness: 1
-      Fade: 0.00499999989
-  - EntityId: 9428976078862595285
-    TagComponent:
-      Tag: Earth
-    TransformComponent:
-      Translation: [5, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    CircleRendererComponent:
-      Color: [0, 0, 1, 1]
-      Thickness: 1
-      Fade: 0.00499999989
-    CppScriptComponent:
-      Class: "class `public: virtual void __cdecl Teddy::EditorLayer::OnAttach(void) __ptr64'::`2'::OrbitController"
-  - EntityId: 4558272557506625077
+    SpriteRendererComponent:
+      TintColor: [0.400000006, 0.899999976, 0.699999988, 1]
+      TextureFile: 0
+      TilingFactor: 1
+  - EntityId: 400720518006221313
     TagComponent:
       Tag: Camera
     TransformComponent:
-      Translation: [0, 0, 15]
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     CameraComponent:
@@ -42,3 +29,5 @@ Entities:
         OrthographicFarClip: 1
       Primary: true
       FixedAspectRatio: false
+    CppScriptComponent:
+      Class: "class `public: virtual void __cdecl Teddy::EditorLayer::OnAttach(void) __ptr64'::`2'::CameraController"
