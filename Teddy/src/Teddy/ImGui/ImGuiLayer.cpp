@@ -146,7 +146,7 @@ namespace Teddy {
 			style.ScrollbarRounding = 4;
 			style.GrabRounding = 4;
 			style.TabRounding = 4;
-
+			//style.WindowMinSize.x = 10.0f;
 			// Alignment
 			style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
 			style.WindowMenuButtonPosition = ImGuiDir_Right;

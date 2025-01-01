@@ -147,6 +147,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Teddy\Scripting\ScriptGlue.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
@@ -198,7 +199,6 @@
     <ClInclude Include="src\Teddy\Scene\Scene.h" />
     <ClInclude Include="src\Teddy\Scene\SceneCamera.h" />
     <ClInclude Include="src\Teddy\Scene\SceneSerializer.h" />
-    <ClInclude Include="src\Teddy\Scene\ScriptRegistry.h" />
     <ClInclude Include="src\Teddy\Scene\ScriptableEntity.h" />
     <ClInclude Include="src\Teddy\Scripting\ScriptingEngine.h" />
     <ClInclude Include="src\Teddy\Utils\PlatformUtils.h" />
@@ -569,6 +569,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Teddy\Scripting\ScriptGlue.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />

@@ -2,13 +2,13 @@ Scene: untitled
 Entities:
   - EntityId: 9024333626806206537
     TagComponent:
-      Tag: Empty Entity
+      Tag: Square2
     TransformComponent:
-      Translation: [0.369870782, 8.29101944, 0]
+      Translation: [1.39090121, 9.54064751, 0]
       Rotation: [0, 0, -2.25585866]
       Scale: [1, 1, 1]
     SpriteRendererComponent:
-      TintColor: [0.958506227, 0.808906674, 0.222723424, 1]
+      TintColor: [0.618257284, 0.501940906, 0.046176888, 1]
       TextureFile: 0
       TilingFactor: 1
     Rigid2DBodyComponent:

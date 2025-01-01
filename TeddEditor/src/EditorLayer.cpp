@@ -699,7 +699,7 @@ namespace Teddy {
 				}
 				else
 				{
-					TD_CORE_ASSERT(false, "No action for this file");
+					TD_CORE_WARN("No action for this file");
 				}
 			}
 			ImGui::EndDragDropTarget();
@@ -995,6 +995,8 @@ namespace Teddy {
 	void EditorLayer::SetLightThemeColors()
 	{
 		auto& colors = ImGui::GetStyle().Colors;
+
+		m_CameraBackground = { 0.94f, 0.94f, 0.94f };
 
 		// Main background
 		colors[ImGuiCol_WindowBg] = ImVec4{ 0.94f, 0.94f, 0.94f, 1.0f }; // Lighter gray background

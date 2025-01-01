@@ -225,9 +225,6 @@
     <ClInclude Include="src\Teddy\Scene\SceneSerializer.h">
       <Filter>src\Teddy\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\Teddy\Scene\ScriptRegistry.h">
-      <Filter>src\Teddy\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="src\Teddy\Scene\ScriptableEntity.h">
       <Filter>src\Teddy\Scene</Filter>
     </ClInclude>
@@ -1332,6 +1329,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\Teddy\Scripting\ScriptGlue.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1460,5 +1458,6 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="src\Teddy\Scripting\ScriptGlue.cpp" />
   </ItemGroup>
 </Project>
