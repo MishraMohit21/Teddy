@@ -78,8 +78,7 @@ namespace Teddy {
 
 				const char* nameSpace = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
 				const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
-
-				TD_CORE_TRACE("{}.{}", nameSpace, name);
+ 				TD_CORE_TRACE("{}.{}", nameSpace, name);
 			}
 		}
 
@@ -94,6 +93,8 @@ namespace Teddy {
 		MonoImage* CoreAssemblyImage = nullptr;
 
 		ScriptClass EntityClass;
+
+		std::unordered_map<std::string, Ref<ScriptClass>> EntClasses;
 	};
 
 	static ScriptingEngineData* s_Data = nullptr;
@@ -104,6 +105,9 @@ namespace Teddy {
 
 		InitMono();
 		LoadAssembly("Resources/Scripts/ScriptCore.dll");
+
+		TD_CORE_INFO("Assembly Loaded");
+		LoadAssemblyClasses(s_Data->CoreAssembly);
 
 		ScriptGlue::RegisterFunctions();
 
@@ -180,6 +184,42 @@ namespace Teddy {
 		s_Data->CoreAssembly = Utils::LoadMonoAssembly(filepath);
 		s_Data->CoreAssemblyImage = mono_assembly_get_image(s_Data->CoreAssembly);
 		// Utils::PrintAssemblyTypes(s_Data->CoreAssembly);
+	}
+
+	void ScriptingEngine::LoadAssemblyClasses(MonoAssembly* assembly)
+	{
+		MonoImage* image = mono_assembly_get_image(assembly);
+		const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(s_Data->CoreAssemblyImage, MONO_TABLE_TYPEDEF);
+		int32_t numTypes = mono_table_info_get_rows(typeDefinitionsTable);
+
+		for (int32_t i = 0; i < numTypes; i++)
+		{
+			uint32_t cols[MONO_TYPEDEF_SIZE];
+			mono_metadata_decode_row(typeDefinitionsTable, i, cols, MONO_TYPEDEF_SIZE);
+
+			const char* nameSpace = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
+			const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
+
+			std::string fullName;
+			if (strlen(nameSpace))
+			{
+				fullName = fmt::format("{}.{}", nameSpace, name);
+			}
+			else
+				fullName = name;
+			
+			MonoClass* monoclass = mono_class_from_name(image, nameSpace, name);
+			MonoClass* entityclass = mono_class_from_name(image, "Teddy", "Entity");
+
+			bool isEntity = mono_class_is_subclass_of(monoclass, entityclass, false);
+
+			if (isEntity)
+			{
+				s_Data->EntClasses[fullname]
+			}
+
+			TD_CORE_TRACE("{}.{}", nameSpace, name);
+		}
 	}
 
 	MonoObject* ScriptingEngine::InstantiateClass(MonoClass* monoClass)

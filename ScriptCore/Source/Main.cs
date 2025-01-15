@@ -35,7 +35,7 @@ namespace Teddy
         public Entity()
         {
             Console.WriteLine("Main constructor!");
-            Log("AAstroPhysiC", 8058);
+            Log("Mohit ", 8058);
 
             Vector3 pos = new Vector3(5, 2.5f, 1);
             Vector3 result = Log(pos);

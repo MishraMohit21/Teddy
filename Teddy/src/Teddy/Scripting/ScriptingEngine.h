@@ -18,6 +18,8 @@ namespace Teddy {
 		static void Shutdown();
 
 		static void LoadAssembly(const std::filesystem::path& filepath);
+		static void LoadAssemblyClasses(MonoAssembly* assembly);
+
 	private:
 		static void InitMono();
 		static void ShutdownMono();

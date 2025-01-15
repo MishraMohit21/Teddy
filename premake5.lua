@@ -2,7 +2,7 @@ VULKAN_SDK = "C:/VulkanSDK/1.3.296.0"
 
 workspace "Teddy"
 	architecture "x64"
-	startproject "Sandbox"
+	startproject "TeddEditor"
 
 	configurations
 	{
@@ -131,7 +131,7 @@ project "Teddy"
 
 	}
 
-	filter "files:vendor/ImGuizmo/**.cpp"
+	filter "files:Teddy/vendor/ImGuizmo/**.cpp"
 	flags { "NoPCH" }
 
 	filter "system:windows"

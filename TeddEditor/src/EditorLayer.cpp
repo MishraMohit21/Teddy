@@ -982,6 +982,7 @@ namespace Teddy {
 		colors[ImGuiCol_MenuBarBg] = ImVec4{ 0.03f, 0.03f, 0.04f, 1.0f };
 		colors[ImGuiCol_Border] = ImVec4{ 0.1f, 0.1f, 0.12f, 1.0f };
 
+
 		// --- Style Settings ---
 		auto& style = ImGui::GetStyle();
 		style.WindowRounding = 3.0f;

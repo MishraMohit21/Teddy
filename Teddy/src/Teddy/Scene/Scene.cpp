@@ -197,8 +197,9 @@ namespace Teddy
 		return entity;
 	}
 
-	void Scene::DestroyEntity(Entity entity)
+	void Scene::DestroyEntity(Entity& entity)
 	{
+		TD_CORE_WARN("Deleting the entity properly");
 		m_Registry.destroy(entity);
 	}
 
