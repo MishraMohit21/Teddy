@@ -119,6 +119,14 @@ namespace Teddy
 		}
 	};
 
+	struct ScriptComponent
+	{
+		std::string ClassName;
+		ScriptComponent() = default;
+		ScriptComponent(const ScriptComponent&) = default;
+	};
+
+
 	struct Rigid2DBodyComponent
 	{
 

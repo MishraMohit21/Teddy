@@ -197,6 +197,11 @@ namespace Teddy
 		return entity;
 	}
 
+	Entity Scene::GetEntityByUUID(const UUID& id)
+	{
+		
+	}
+
 	void Scene::DestroyEntity(Entity& entity)
 	{
 		TD_CORE_WARN("Deleting the entity properly");

@@ -25,6 +25,7 @@ namespace Teddy
 		Entity CreateEntity(UUID id, const std::string name);
 		Entity CreateEntity(UUID id, const std::string name, glm::vec3 transform);
 
+		Entity GetEntityByUUID(const UUID& id);
 
 		void DestroyEntity(Entity& entity);
 

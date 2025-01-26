@@ -59,8 +59,15 @@
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Dist|x64' ">
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Source\Main.cs" />
+    <Compile Include="Source\Camera.cs" />
+    <Compile Include="Source\Teddy\Input.cs" />
+    <Compile Include="Source\Teddy\InternalCalls.cs" />
     <Compile Include="Source\Player.cs" />
+    <Compile Include="Source\Teddy\KeyCodes.cs" />
+    <Compile Include="Source\Teddy\Scene\Components.cs" />
+    <Compile Include="Source\Teddy\Scene\Entity.cs" />
+    <Compile Include="Source\Teddy\Vector2.cs" />
+    <Compile Include="Source\Teddy\Vector3.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
