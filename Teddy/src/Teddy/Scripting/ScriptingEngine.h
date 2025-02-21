@@ -2,6 +2,7 @@
 
 #include "Teddy/Scene/Scene.h"
 #include "Teddy/Scene/Entity.h"
+#include "Teddy/Scene/Component.h"
 
 #include <filesystem>
 #include <string>
@@ -48,7 +49,7 @@ namespace Teddy {
 		MonoMethod* m_OnUpdateMethod = nullptr;
 	};
 
-	class ScriptEngine
+	class ScriptingEngine
 	{
 	public:
 		static void Init();
@@ -77,5 +78,6 @@ namespace Teddy {
 		friend class ScriptClass;
 		friend class ScriptGlue;
 	};
+
 
 }

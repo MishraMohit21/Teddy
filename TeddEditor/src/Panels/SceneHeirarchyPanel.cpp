@@ -1,5 +1,6 @@
-	#include "SceneHeirarchyPanel.h"
+#include "SceneHeirarchyPanel.h"
 #include "Teddy/Scene/Component.h"
+#include "Teddy/Scripting/ScriptingEngine.h"
 
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
@@ -320,6 +321,9 @@ namespace Teddy
 				}
 				ImGui::Separator();
 			}
+
+			DisplayAddComponentEntry<ScriptComponent>("Script");
+
 			DisplayAddComponentEntry<Rigid2DBodyComponent>("RigidBody 2D");
 			DisplayAddComponentEntry<CameraComponent>("BoxCollider 2D");
 			DisplayAddComponentEntry<CameraComponent>("CircleCollider 2D");
@@ -452,6 +456,23 @@ namespace Teddy
 			}
 
 		});
+
+		DrawComponent<ScriptComponent>("Script", entity, [](auto& component)
+			{
+				bool scriptClassExists = ScriptingEngine::EntityClassExists(component.ClassName);
+
+				static char buffer[64];
+				strcpy(buffer, component.ClassName.c_str());
+
+				if (!scriptClassExists)
+					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.9f, 0.2f, 0.3f, 1.0f));
+
+				if (ImGui::InputText("Class", buffer, sizeof(buffer)))
+					component.ClassName = buffer;
+
+				if (!scriptClassExists)
+					ImGui::PopStyleColor();
+			});
 
 		DrawComponent<CircleRendererComponent>("Circle Renderer", entity, [](auto& component)
 		{

@@ -122,10 +122,10 @@ namespace Teddy
 	struct ScriptComponent
 	{
 		std::string ClassName;
+
 		ScriptComponent() = default;
 		ScriptComponent(const ScriptComponent&) = default;
 	};
-
 
 	struct Rigid2DBodyComponent
 	{
@@ -174,5 +174,16 @@ namespace Teddy
 		Circle2DColliderComponent() = default;
 		Circle2DColliderComponent(const Circle2DColliderComponent&) = default;
 	};
+
+	template<typename... Component>
+	struct ComponentGroup
+	{
+	};
+
+	using AllComponents =
+		ComponentGroup < TransformComponent, SpriteRendererComponent,
+		CircleRendererComponent, CameraComponent, ScriptComponent,
+		CppScriptComponent, Rigid2DBodyComponent, Box2DColliderComponent,
+		Circle2DColliderComponent > ;
 
 }

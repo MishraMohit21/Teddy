@@ -1,6 +1,6 @@
 Scene: untitled
 Entities:
-  - EntityId: 16969456212538292165
+  - EntityId: 2832015627278811439
     TagComponent:
       Tag: Square
     TransformComponent:
@@ -11,7 +11,7 @@ Entities:
       TintColor: [0.400000006, 0.899999976, 0.699999988, 1]
       TextureFile: 0
       TilingFactor: 1
-  - EntityId: 14583242761970940529
+  - EntityId: 13571656635609910688
     TagComponent:
       Tag: Camera
     TransformComponent:

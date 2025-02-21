@@ -104,12 +104,12 @@ namespace Teddy {
 
 	static ScriptEngineData* s_Data = nullptr;
 
-	void ScriptEngine::Init()
+	void ScriptingEngine::Init()
 	{
 		s_Data = new ScriptEngineData();
 
 		InitMono();
-		LoadAssembly("Resources/Scripts/Teddy-ScriptCore.dll");
+		LoadAssembly("Resources/Scripts/ScriptCore.dll");
 		LoadAssemblyClasses(s_Data->CoreAssembly);
 
 		ScriptGlue::RegisterComponents();
@@ -147,28 +147,28 @@ namespace Teddy {
 		void* stringParam = monoString;
 		s_Data->EntityClass.InvokeMethod(instance, printCustomMessageFunc, &stringParam);
 
-		//(false);
+		TD_CORE_ASSERT(false);
 #endif
 	}
 
-	void ScriptEngine::Shutdown()
+	void ScriptingEngine::Shutdown()
 	{
 		ShutdownMono();
 		delete s_Data;
 	}
 
-	void ScriptEngine::InitMono()
+	void ScriptingEngine::InitMono()
 	{
 		mono_set_assemblies_path("mono/lib");
 
 		MonoDomain* rootDomain = mono_jit_init("TeddyJITRuntime");
-		//(rootDomain);
+		//TD_CORE_ASSERT(rootDomain);
 
 		// Store the root domain pointer
 		s_Data->RootDomain = rootDomain;
 	}
 
-	void ScriptEngine::ShutdownMono()
+	void ScriptingEngine::ShutdownMono()
 	{
 		// NOTE(Yan): mono is a little confusing to shutdown, so maybe come back to this
 
@@ -179,7 +179,7 @@ namespace Teddy {
 		s_Data->RootDomain = nullptr;
 	}
 
-	void ScriptEngine::LoadAssembly(const std::filesystem::path& filepath)
+	void ScriptingEngine::LoadAssembly(const std::filesystem::path& filepath)
 	{
 		// Create an App Domain
 		s_Data->AppDomain = mono_domain_create_appdomain("TeddyScriptRuntime", nullptr);
@@ -191,54 +191,54 @@ namespace Teddy {
 		// Utils::PrintAssemblyTypes(s_Data->CoreAssembly);
 	}
 
-	void ScriptEngine::OnRuntimeStart(Scene* scene)
+	void ScriptingEngine::OnRuntimeStart(Scene* scene)
 	{
 		s_Data->SceneContext = scene;
 	}
 
-	bool ScriptEngine::EntityClassExists(const std::string& fullClassName)
+	bool ScriptingEngine::EntityClassExists(const std::string& fullClassName)
 	{
 		return s_Data->EntityClasses.find(fullClassName) != s_Data->EntityClasses.end();
 	}
 
-	void ScriptEngine::OnCreateEntity(Entity entity)
+	void ScriptingEngine::OnCreateEntity(Entity entity)
 	{
 		const auto& sc = entity.GetComponent<ScriptComponent>();
-		if (ScriptEngine::EntityClassExists(sc.ClassName))
+		if (ScriptingEngine::EntityClassExists(sc.ClassName))
 		{
 			Ref<ScriptInstance> instance = CreateRef<ScriptInstance>(s_Data->EntityClasses[sc.ClassName], entity);
-			s_Data->EntityInstances[entity.GetUUID()] = instance;
+			s_Data->EntityInstances[entity.GetComponent<UUIDCompononet>().id] = instance;
 			instance->InvokeOnCreate();
 		}
 	}
 
-	void ScriptEngine::OnUpdateEntity(Entity entity, Timestep ts)
+	void ScriptingEngine::OnUpdateEntity(Entity entity, Timestep ts)
 	{
-		UUID entityUUID = entity.GetUUID();
-		//(s_Data->EntityInstances.find(entityUUID) != s_Data->EntityInstances.end());
+		UUID entityUUID = entity.GetComponent<UUIDCompononet>().id;
+		//TD_CORE_ASSERT(s_Data->EntityInstances.find(entityUUID) != s_Data->EntityInstances.end());
 
 		Ref<ScriptInstance> instance = s_Data->EntityInstances[entityUUID];
 		instance->InvokeOnUpdate((float)ts);
 	}
 
-	Scene* ScriptEngine::GetSceneContext()
+	Scene* ScriptingEngine::GetSceneContext()
 	{
 		return s_Data->SceneContext;
 	}
 
-	void ScriptEngine::OnRuntimeStop()
+	void ScriptingEngine::OnRuntimeStop()
 	{
 		s_Data->SceneContext = nullptr;
 
 		s_Data->EntityInstances.clear();
 	}
 
-	std::unordered_map<std::string, Ref<ScriptClass>> ScriptEngine::GetEntityClasses()
+	std::unordered_map<std::string, Ref<ScriptClass>> ScriptingEngine::GetEntityClasses()
 	{
 		return s_Data->EntityClasses;
 	}
 
-	void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
+	void ScriptingEngine::LoadAssemblyClasses(MonoAssembly* assembly)
 	{
 		s_Data->EntityClasses.clear();
 
@@ -271,12 +271,12 @@ namespace Teddy {
 		}
 	}
 
-	MonoImage* ScriptEngine::GetCoreAssemblyImage()
+	MonoImage* ScriptingEngine::GetCoreAssemblyImage()
 	{
 		return s_Data->CoreAssemblyImage;
 	}
 
-	MonoObject* ScriptEngine::InstantiateClass(MonoClass* monoClass)
+	MonoObject* ScriptingEngine::InstantiateClass(MonoClass* monoClass)
 	{
 		MonoObject* instance = mono_object_new(s_Data->AppDomain, monoClass);
 		mono_runtime_object_init(instance);
@@ -291,7 +291,7 @@ namespace Teddy {
 
 	MonoObject* ScriptClass::Instantiate()
 	{
-		return ScriptEngine::InstantiateClass(m_MonoClass);
+		return ScriptingEngine::InstantiateClass(m_MonoClass);
 	}
 
 	MonoMethod* ScriptClass::GetMethod(const std::string& name, int parameterCount)
@@ -315,7 +315,7 @@ namespace Teddy {
 
 		// Call Entity constructor
 		{
-			UUID entityID = entity.GetUUID();
+			UUID entityID = entity.GetComponent<UUIDCompononet>().id;
 			void* param = &entityID;
 			m_ScriptClass->InvokeMethod(m_Instance, m_Constructor, &param);
 		}

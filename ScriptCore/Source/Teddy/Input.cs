@@ -1,5 +1,3 @@
-﻿
-using static System.Runtime.CompilerServices.RuntimeHelpers;
 using Teddy;
 
 namespace Teddy

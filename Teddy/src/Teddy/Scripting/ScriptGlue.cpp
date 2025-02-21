@@ -2,14 +2,12 @@
 #include "ScriptGlue.h"
 #include "ScriptingEngine.h"
 
-
 #include "Teddy/Core/UUID.h"
 #include "Teddy/Core/KeyCodes.h"
 #include "Teddy/Core/Input.h"
 
 #include "Teddy/Scene/Scene.h"
 #include "Teddy/Scene/Entity.h"
-#include "Teddy/Scene/Component.h"
 
 #include "mono/metadata/object.h"
 #include "mono/metadata/reflection.h"
@@ -44,7 +42,7 @@ namespace Teddy {
 
 	static bool Entity_HasComponent(UUID entityID, MonoReflectionType* componentType)
 	{
-		Scene* scene = ScriptEngine::GetSceneContext();
+		Scene* scene = ScriptingEngine::GetSceneContext();
 		//(scene);
 		Entity entity = scene->GetEntityByUUID(entityID);
 		//(entity);
@@ -56,7 +54,7 @@ namespace Teddy {
 
 	static void TransformComponent_GetTranslation(UUID entityID, glm::vec3* outTranslation)
 	{
-		Scene* scene = ScriptEngine::GetSceneContext();
+		Scene* scene = ScriptingEngine::GetSceneContext();
 		//(scene);
 		Entity entity = scene->GetEntityByUUID(entityID);
 		//(entity);
@@ -66,7 +64,7 @@ namespace Teddy {
 
 	static void TransformComponent_SetTranslation(UUID entityID, glm::vec3* translation)
 	{
-		Scene* scene = ScriptEngine::GetSceneContext();
+		Scene* scene = ScriptingEngine::GetSceneContext();
 		//(scene);
 		Entity entity = scene->GetEntityByUUID(entityID);
 		//(entity);
@@ -74,25 +72,28 @@ namespace Teddy {
 		entity.GetComponent<TransformComponent>().Translation = *translation;
 	}
 
-	static void Rigidbody2DComponent_ApplyLinearImpulse(UUID entityID, glm::vec2* impulse, glm::vec2* point, bool wake)
+	static void Rigid2DBodyComponent_ApplyLinearImpulse(UUID entityID, glm::vec2* impulse, glm::vec2* point, bool wake)
 	{
-		Scene* scene = ScriptEngine::GetSceneContext();
+		Scene* scene = ScriptingEngine::GetSceneContext();
 		//(scene);
 		Entity entity = scene->GetEntityByUUID(entityID);
 		//(entity);
-
 		auto& rb2d = entity.GetComponent<Rigid2DBodyComponent>();
 		b2Body* body = (b2Body*)rb2d.RunTimeBody;
 		body->ApplyLinearImpulse(b2Vec2(impulse->x, impulse->y), b2Vec2(point->x, point->y), wake);
 	}
 
-	static void Rigidbody2DComponent_ApplyLinearImpulseToCenter(UUID entityID, glm::vec2* impulse, bool wake)
+	static void Rigid2DBodyComponent_ApplyLinearImpulseToCenter(UUID entityID, glm::vec2* impulse, bool wake)
 	{
-		Scene* scene = ScriptEngine::GetSceneContext();
+		Scene* scene = ScriptingEngine::GetSceneContext();
 		//(scene);
 		Entity entity = scene->GetEntityByUUID(entityID);
 		//(entity);
+		if (impulse->x != 0.0f || impulse->y != 0)
+		{
+			TD_CORE_INFO("We are runing Rigid2DBodyComponent_ApplyLinearImpulseToCenter");
 
+		}
 		auto& rb2d = entity.GetComponent<Rigid2DBodyComponent>();
 		b2Body* body = (b2Body*)rb2d.RunTimeBody;
 		body->ApplyLinearImpulseToCenter(b2Vec2(impulse->x, impulse->y), wake);
@@ -113,7 +114,7 @@ namespace Teddy {
 				std::string_view structName = typeName.substr(pos + 1);
 				std::string managedTypename = fmt::format("Teddy.{}", structName);
 
-				MonoType* managedType = mono_reflection_type_from_name(managedTypename.data(), ScriptEngine::GetCoreAssemblyImage());
+				MonoType* managedType = mono_reflection_type_from_name(managedTypename.data(), ScriptingEngine::GetCoreAssemblyImage());
 				if (!managedType)
 				{
 					TD_CORE_ERROR("Could not find component type {}", managedTypename);
@@ -144,8 +145,8 @@ namespace Teddy {
 		TD_ADD_INTERNAL_CALL(TransformComponent_GetTranslation);
 		TD_ADD_INTERNAL_CALL(TransformComponent_SetTranslation);
 
-		TD_ADD_INTERNAL_CALL(Rigidbody2DComponent_ApplyLinearImpulse);
-		TD_ADD_INTERNAL_CALL(Rigidbody2DComponent_ApplyLinearImpulseToCenter);
+		TD_ADD_INTERNAL_CALL(Rigid2DBodyComponent_ApplyLinearImpulse);
+		TD_ADD_INTERNAL_CALL(Rigid2DBodyComponent_ApplyLinearImpulseToCenter);
 
 		TD_ADD_INTERNAL_CALL(Input_IsKeyDown);
 	}

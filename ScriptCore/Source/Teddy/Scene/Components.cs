@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Teddy;
-
 
 namespace Teddy
 {
@@ -12,6 +11,7 @@ namespace Teddy
     {
         public Entity Entity { get; internal set; }
     }
+
     public class TransformComponent : Component
     {
         public Vector3 Translation
@@ -27,15 +27,20 @@ namespace Teddy
             }
         }
     }
-    public class Rigidbody2DComponent : Component
+
+    public class Rigid2DBodyComponent : Component
     {
+
         public void ApplyLinearImpulse(Vector2 impulse, Vector2 worldPosition, bool wake)
         {
-            InternalCalls.Rigidbody2DComponent_ApplyLinearImpulse(Entity.ID, ref impulse, ref worldPosition, wake);
+            InternalCalls.Rigid2DBodyComponent_ApplyLinearImpulse(Entity.ID, ref impulse, ref worldPosition, wake);
         }
+
         public void ApplyLinearImpulse(Vector2 impulse, bool wake)
         {
-            InternalCalls.Rigidbody2DComponent_ApplyLinearImpulseToCenter(Entity.ID, ref impulse, wake);
+            //Console.WriteLine("Rigid2DBodyComponent_ApplyLinearImpulseToCenter Called");
+            InternalCalls.Rigid2DBodyComponent_ApplyLinearImpulseToCenter(Entity.ID, ref impulse, wake);
         }
+
     }
 }
