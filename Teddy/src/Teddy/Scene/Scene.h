@@ -42,12 +42,15 @@ namespace Teddy
 		Entity GetPrimarySceneCamera();
 
 		void DuplicateEntity(Entity entity);
+		Entity GetEntityByUUID(UUID uuid);
 
 		template<typename... Components>
 		auto GetAllEntitiesWith()
 		{
 			return m_Registry.view<Components...>();
 		}
+
+
 	private:
 		template<typename T>
 		void OnComponentAdded(Entity entity, T& component);
@@ -64,6 +67,7 @@ namespace Teddy
 		uint32_t viewportWidth = 0, viewportHeight = 0 ;
 
 		b2World* m_PhysicsWorld = nullptr;
+		std::unordered_map<UUID, entt::entity> m_EntityMap;
 
 		friend class Entity;
 		friend class SceneSerializer;

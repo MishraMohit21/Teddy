@@ -11,6 +11,8 @@
 #include "box2d/b2_polygon_shape.h"
 #include "box2d/b2_circle_shape.h"
 
+#include "Teddy/Scripting/ScriptingEngine.h"
+
 #include "Entity.h"
 #include <glm/glm.hpp>
 
@@ -95,6 +97,11 @@ namespace Teddy
 	}
 
 	template<>
+	void Scene::OnComponentAdded<ScriptComponent>(Entity entity, ScriptComponent& component)
+	{
+	}
+
+	template<>
 	void Scene::OnComponentAdded<Rigid2DBodyComponent>(Entity entity, Rigid2DBodyComponent& component)
 	{
 	}
@@ -161,6 +168,7 @@ namespace Teddy
 		CopyComponent<SpriteRendererComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<CircleRendererComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<CameraComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<ScriptComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<CppScriptComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<Rigid2DBodyComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<Box2DColliderComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
@@ -194,6 +202,9 @@ namespace Teddy
 		entity.AddComponent<TransformComponent>(transform);
 		auto& tag = entity.AddComponent<TagComponent>();
 		tag.Tag = name.empty() ? "Entity" : name;
+
+		m_EntityMap[id] = entity;
+
 		return entity;
 	}
 
@@ -201,6 +212,7 @@ namespace Teddy
 	{
 		TD_CORE_WARN("Deleting the entity properly");
 		m_Registry.destroy(entity);
+		m_EntityMap.erase(entity.GetComponent<UUIDCompononet>().id);
 	}
 
 	void Scene::OnRuntimeStart()
@@ -208,11 +220,28 @@ namespace Teddy
 
 		OnPhysics2DStart();
 
+		{
+
+			ScriptingEngine::OnRuntimeStart(this);
+
+			auto& view = m_Registry.view<ScriptComponent>();
+
+			for (auto& e : view)
+			{
+				Entity entity = { e, this };
+				ScriptingEngine::OnCreateEntity(entity);
+			}
+
+		}
+		
+
 	}
 
 	void Scene::OnRuntimeStop()
 	{
 		OnPhysics2DStop();
+
+		ScriptingEngine::OnRuntimeStop();
 	}
 
 	void Scene::OnSimulationStart()
@@ -267,6 +296,15 @@ namespace Teddy
 
 
 		{
+
+			auto view = m_Registry.view<ScriptComponent>();
+			for (auto e : view)
+			{
+				Entity entity = { e, this };
+				ScriptingEngine::OnUpdateEntity(entity, ts);
+			}
+
+
 			m_Registry.view<CppScriptComponent>().each([=](auto entity, auto& ncs) 
 			{
 				if (!ncs.Instance)
@@ -396,6 +434,14 @@ namespace Teddy
 		CopyComponentIfExists<Rigid2DBodyComponent>(newEntity, entity);
 		CopyComponentIfExists<Box2DColliderComponent>(newEntity, entity);
 		CopyComponentIfExists<Circle2DColliderComponent>(newEntity, entity);
+	}
+
+	Entity Scene::GetEntityByUUID(UUID uuid)
+	{
+		if (m_EntityMap.find(uuid) != m_EntityMap.end())
+			return { m_EntityMap.at(uuid), this };
+
+		return {};
 	}
 
 

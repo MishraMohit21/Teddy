@@ -194,6 +194,17 @@ namespace Teddy
 				out << YAML::Key << "TilingFactor" << YAML::Value << src.c_tilingFactor;
 			out << YAML::EndMap;
 		}
+		
+		if (entity.HasComponent<ScriptComponent>())
+		{
+			auto& scriptComponent = entity.GetComponent<ScriptComponent>();
+
+			out << YAML::Key << "ScriptComponent";
+			out << YAML::BeginMap; // ScriptComponent
+			out << YAML::Key << "ClassName" << YAML::Value << scriptComponent.ClassName;
+			out << YAML::EndMap; // ScriptComponent
+		}
+
 
 		if (entity.HasComponent<CircleRendererComponent>())
 		{
@@ -344,6 +355,13 @@ namespace Teddy
 						src.c_texture = Texture2D::Create(path);
 					}
 					src.c_tilingFactor = spriteRendererComponent["TilingFactor"].as<float>();
+				}
+
+				auto scriptComponent = entity["ScriptComponent"];
+				if (scriptComponent)
+				{
+					auto& sc = deserializedEntity.AddComponent<ScriptComponent>();
+					sc.ClassName = scriptComponent["ClassName"].as<std::string>();
 				}
 
 				auto circleRendererComponent = entity["CircleRendererComponent"];

@@ -4,18 +4,7 @@ Entities:
     TagComponent:
       Tag: Square
     TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      TintColor: [0.400000006, 0.899999976, 0.699999988, 1]
-      TextureFile: 0
-      TilingFactor: 1
-  - EntityId: 12908654571696849245
-    TagComponent:
-      Tag: Camera
-    TransformComponent:
-      Translation: [0, 0, 15]
+      Translation: [7.4505806e-09, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     CameraComponent:
@@ -29,5 +18,30 @@ Entities:
         OrthographicFarClip: 1
       Primary: true
       FixedAspectRatio: false
-    CppScriptComponent:
-      Class: "class `public: virtual void __cdecl Teddy::EditorLayer::OnAttach(void) __ptr64'::`2'::CameraController"
+    SpriteRendererComponent:
+      TintColor: [0.400000006, 0.899999976, 0.699999988, 1]
+      TextureFile: 0
+      TilingFactor: 1
+    ScriptComponent:
+      ClassName: Sandbox.Player
+    Rigid2DBodyComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+  - EntityId: 12908654571696849245
+    TagComponent:
+      Tag: Camera
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        PerspectiveNearClip: 0.00999999978
+        PerspectiveFarClip: 1000
+        OrthographicSize: 10
+        OrthographicNearClip: -1
+        OrthographicFarClip: 1
+      Primary: true
+      FixedAspectRatio: false

@@ -620,6 +620,9 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ScriptCore\ScriptCore.csproj">
+      <Project>{43ddc966-2f95-0bb4-989c-e40f8473a6a4}</Project>
+    </ProjectReference>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">
       <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
     </ProjectReference>
