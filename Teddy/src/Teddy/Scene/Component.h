@@ -135,10 +135,6 @@ namespace Teddy
 		bool fixedRotation = false;
 		void* RunTimeBody = nullptr;
 
-		glm::vec2 linearVelocity = glm::vec2(0);
-		glm::vec2 forceValue = glm::vec2(0);
-		bool ApplyForcebool = false;
-
 		Rigid2DBodyComponent() = default;
 		Rigid2DBodyComponent(const Rigid2DBodyComponent&) = default;
 			
