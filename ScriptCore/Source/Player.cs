@@ -23,7 +23,7 @@ namespace Sandbox
 
         void OnUpdate(float ts)
         {
-            float speed = 1.0f;
+            float speed = 6.0f;
             Vector3 velocity = Vector3.Zero;
 
             if (Input.IsKeyDown(KeyCode.Up))

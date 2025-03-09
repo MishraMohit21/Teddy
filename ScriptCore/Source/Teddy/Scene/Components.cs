@@ -28,6 +28,8 @@ namespace Teddy
         }
     }
 
+    
+
     public class Rigid2DBodyComponent : Component
     {
 

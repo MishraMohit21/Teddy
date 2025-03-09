@@ -1,4 +1,5 @@
 #pragma once
+#include <Teddy/Core/Log.h>
 
 namespace Teddy {
 

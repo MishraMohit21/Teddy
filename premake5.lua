@@ -128,6 +128,7 @@ project "Teddy"
 		"yaml-cpp",
 		"opengl32.lib",
 		"%{Library.mono}",
+		"ScriptCore"
 
 	}
 
