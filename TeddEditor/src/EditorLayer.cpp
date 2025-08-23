@@ -9,6 +9,7 @@
 
 #include <ImGuizmo.h>
 #include <filesystem>
+#include <Teddy/Scripting/ScriptingEngine.h>
 
 namespace Teddy {
 
@@ -48,36 +49,6 @@ namespace Teddy {
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 
 
-		class CameraController : public ScriptableEntity
-		{
-		public:
-
-			virtual void OnCreate() override
-			{
-				auto& tc = GetComponent<TransformComponent>();
-				tc.Translation[0] = rand() % 10 - 5.0f;
-			}
-			virtual void OnDestroy() override
-			{
-			}
-			virtual void OnUpdate(Timestep ts) override
-			{
-				auto& tc = GetComponent<TransformComponent>();
-				float speed = 5.0f;
-				if (Input::IsKeyPressed(KeyCode::Right))
-					tc.Translation[0] -= speed * ts;
-				if (Input::IsKeyPressed(KeyCode::Left))
-					tc.Translation[0] += speed * ts;
-				if (Input::IsKeyPressed(KeyCode::Down))
-					tc.Translation[1] += speed * ts;
-				if (Input::IsKeyPressed(KeyCode::Up))
-					tc.Translation[1] -= speed * ts;
-			}
-		};
-
-
-
-
 		if (!m_ActiveScene)
 		{
 			m_ActiveScene = CreateRef<Scene>("DefaultScene");
@@ -89,7 +60,6 @@ namespace Teddy {
 			
 			auto camera = m_ActiveScene->CreateEntity("Camera", glm::vec3(0.0f, 0.0f, 0.0f));
 			camera.AddComponent<CameraComponent>();
-			camera.AddComponent<CppScriptComponent>().Bind<CameraController>();
 			SaveScene();
 		}
 
@@ -97,7 +67,9 @@ namespace Teddy {
 		m_ActiveScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 		m_EditorScene = m_ActiveScene;
-		
+
+		Teddy::ScriptingEngine::PrintAssemblyTypes();
+
 	}
 
 	void EditorLayer::OnDetach()

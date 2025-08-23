@@ -66,23 +66,6 @@ namespace Teddy {
 			return assembly;
 		}
 
-		void PrintAssemblyTypes(MonoAssembly* assembly)
-		{
-			MonoImage* image = mono_assembly_get_image(assembly);
-			const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(image, MONO_TABLE_TYPEDEF);
-			int32_t numTypes = mono_table_info_get_rows(typeDefinitionsTable);
-
-			for (int32_t i = 0; i < numTypes; i++)
-			{
-				uint32_t cols[MONO_TYPEDEF_SIZE];
-				mono_metadata_decode_row(typeDefinitionsTable, i, cols, MONO_TYPEDEF_SIZE);
-
-				const char* nameSpace = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
-				const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
-				TD_CORE_TRACE("{}.{}", nameSpace, name);
-			}
-		}
-
 	}
 
 	struct ScriptEngineData
@@ -235,7 +218,15 @@ namespace Teddy {
 
 	std::unordered_map<std::string, Ref<ScriptClass>> ScriptingEngine::GetEntityClasses()
 	{
-		return s_Data->EntityClasses;
+		std::unordered_map<std::string, Ref<ScriptClass>> sandboxClasses;
+		for (auto const& [name, scriptClass] : s_Data->EntityClasses)
+		{
+			if (name.rfind("Sandbox.", 0) == 0) // Check if the name starts with "Sandbox."
+			{
+				sandboxClasses[name] = scriptClass;
+			}
+		}
+		return sandboxClasses;
 	}
 
 	void ScriptingEngine::LoadAssemblyClasses(MonoAssembly* assembly)
@@ -246,6 +237,12 @@ namespace Teddy {
 		const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(image, MONO_TABLE_TYPEDEF);
 		int32_t numTypes = mono_table_info_get_rows(typeDefinitionsTable);
 		MonoClass* entityClass = mono_class_from_name(image, "Teddy", "Entity");
+
+		if (entityClass == nullptr)
+		{
+			TD_CORE_ERROR("Could not find Teddy.Entity class in ScriptCore assembly!");
+			return;
+		}
 
 		for (int32_t i = 0; i < numTypes; i++)
 		{
@@ -262,6 +259,12 @@ namespace Teddy {
 
 			MonoClass* monoClass = mono_class_from_name(image, nameSpace, name);
 
+			if (monoClass == nullptr)
+			{
+				TD_CORE_WARN("Could not get class from name: {}", fullName);
+				continue;
+			}
+
 			if (monoClass == entityClass)
 				continue;
 
@@ -271,9 +274,32 @@ namespace Teddy {
 		}
 	}
 
+	void ScriptingEngine::PrintAssemblyTypes()
+	{
+		MonoImage* image = s_Data->CoreAssemblyImage;
+		const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(image, MONO_TABLE_TYPEDEF);
+		int32_t numTypes = mono_table_info_get_rows(typeDefinitionsTable);
+
+		TD_CORE_TRACE("C# Classes in ScriptCore.dll:");
+		for (int32_t i = 0; i < numTypes; i++)
+		{
+			uint32_t cols[MONO_TYPEDEF_SIZE];
+			mono_metadata_decode_row(typeDefinitionsTable, i, cols, MONO_TYPEDEF_SIZE);
+
+			const char* nameSpace = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
+			const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
+			TD_CORE_TRACE("  - {}.{}", nameSpace, name);
+		}
+	}
+
 	MonoImage* ScriptingEngine::GetCoreAssemblyImage()
 	{
 		return s_Data->CoreAssemblyImage;
+	}
+
+	MonoDomain* ScriptingEngine::GetAppDomain()
+	{
+		return s_Data->AppDomain;
 	}
 
 	MonoObject* ScriptingEngine::InstantiateClass(MonoClass* monoClass)

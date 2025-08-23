@@ -1,3 +1,4 @@
+
 #include "tdpch.h"
 #include "Scene.h"
 
@@ -92,11 +93,6 @@ namespace Teddy
 	}
 
 	template<>
-	void Scene::OnComponentAdded<CppScriptComponent>(Entity entity, CppScriptComponent& component)
-	{
-	}
-
-	template<>
 	void Scene::OnComponentAdded<ScriptComponent>(Entity entity, ScriptComponent& component)
 	{
 	}
@@ -168,8 +164,11 @@ namespace Teddy
 		CopyComponent<SpriteRendererComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<CircleRendererComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<CameraComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+
+		// Add this logging
+		TD_CORE_TRACE("Copying ScriptComponent...");
 		CopyComponent<ScriptComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
-		CopyComponent<CppScriptComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+
 		CopyComponent<Rigid2DBodyComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<Box2DColliderComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<Circle2DColliderComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
@@ -230,6 +229,9 @@ namespace Teddy
 			ScriptingEngine::OnRuntimeStart(this);
 
 			auto& view = m_Registry.view<ScriptComponent>();
+
+			// Add this logging
+			TD_CORE_TRACE("Found {} entities with ScriptComponent", view.size());
 
 			for (auto& e : view)
 			{
@@ -310,17 +312,7 @@ namespace Teddy
 			}
 
 
-			m_Registry.view<CppScriptComponent>().each([=](auto entity, auto& ncs) 
-			{
-				if (!ncs.Instance)
-				{
-					ncs.Instance = ncs.InstantiateScript();
-					ncs.Instance->m_entity = Entity{ entity, this };
-					ncs.Instance->OnCreate();
-				}
-
-				ncs.Instance->OnUpdate(ts);
-			});
+	
 		}
 
 
@@ -401,7 +393,7 @@ namespace Teddy
 		viewportHeight = height;
 		viewportWidth = width;
 
-		auto view = m_Registry.view<CameraComponent>();
+			auto view = m_Registry.view<CameraComponent>();
 		for (auto& entity : view)
 		{
 			auto& cameraComponent = view.get<CameraComponent>(entity);
@@ -435,7 +427,6 @@ namespace Teddy
 		CopyComponentIfExists<SpriteRendererComponent>(newEntity, entity);
 		CopyComponentIfExists<CircleRendererComponent>(newEntity, entity);
 		CopyComponentIfExists<CameraComponent>(newEntity, entity);
-		CopyComponentIfExists<CppScriptComponent>(newEntity, entity);
 		CopyComponentIfExists<Rigid2DBodyComponent>(newEntity, entity);
 		CopyComponentIfExists<Box2DColliderComponent>(newEntity, entity);
 		CopyComponentIfExists<Circle2DColliderComponent>(newEntity, entity);

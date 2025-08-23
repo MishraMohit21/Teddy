@@ -1,6 +1,6 @@
 Scene: untitled
 Entities:
-  - EntityId: 2832015627278811439
+  - EntityId: 5627864054812693192
     TagComponent:
       Tag: Square
     TransformComponent:
@@ -11,7 +11,7 @@ Entities:
       TintColor: [0.400000006, 0.899999976, 0.699999988, 1]
       TextureFile: 0
       TilingFactor: 1
-  - EntityId: 13571656635609910688
+  - EntityId: 11025297853172743838
     TagComponent:
       Tag: Camera
     TransformComponent:
@@ -29,5 +29,3 @@ Entities:
         OrthographicFarClip: 1
       Primary: true
       FixedAspectRatio: false
-    CppScriptComponent:
-      Class: "class `public: virtual void __cdecl Teddy::EditorLayer::OnAttach(void) __ptr64'::`2'::CameraController"

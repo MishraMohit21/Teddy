@@ -1,4 +1,4 @@
-VULKAN_SDK = "C:/VulkanSDK/1.3.296.0"
+VULKAN_SDK = os.getenv("VULKAN_SDK")
 
 workspace "Teddy"
 	architecture "x64"
@@ -306,6 +306,12 @@ project "TeddEditor"
 		"Teddy/%{IncludeDir.ImGuizmo}",	
 		"Teddy/%{IncludeDir.Box2D}",
 		"Teddy/%{IncludeDir.entt}"
+	}
+	-- In your TeddEditor project
+	postbuildcommands
+	{
+		'{COPY} "%{wks.location}/TeddEditor/mono/lib" "%{cfg.targetdir}/../lib/mono"',
+		-- '{COPY} "%{wks.location}/TeddEditor/mono/etc" "%{cfg.targetdir}/etc"' -- Comment out or delete this line
 	}
 	links
 	{

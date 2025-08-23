@@ -459,19 +459,44 @@ namespace Teddy
 
 		DrawComponent<ScriptComponent>("Script", entity, [](auto& component)
 			{
-				bool scriptClassExists = ScriptingEngine::EntityClassExists(component.ClassName);
+				auto scriptClasses = ScriptingEngine::GetEntityClasses();
 
-				static char buffer[64];
-				strcpy(buffer, component.ClassName.c_str());
+				// Convert map keys to a vector of strings for easier handling
+				std::vector<std::string> classNames;
+				for (auto const& [name, scriptClass] : scriptClasses)
+				{
+					classNames.push_back(name);
+				}
 
-				if (!scriptClassExists)
-					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.9f, 0.2f, 0.3f, 1.0f));
+				// Find the index of the currently selected class name
+				int currentItem = -1;
+				if (!component.ClassName.empty())
+				{
+					for (int i = 0; i < classNames.size(); i++)
+					{
+						if (classNames[i] == component.ClassName)
+						{
+							currentItem = i;
+							break;
+						}
+					}
+				}
 
-				if (ImGui::InputText("Class", buffer, sizeof(buffer)))
-					component.ClassName = buffer;
+				// Convert vector of strings to a const char* array for ImGui's Combo function
+				std::vector<const char*> cstrClassNames;
+				for (const auto& name : classNames)
+				{
+					cstrClassNames.push_back(name.c_str());
+				}
 
-				if (!scriptClassExists)
-					ImGui::PopStyleColor();
+				// Display the dropdown
+				if (ImGui::Combo("Class", &currentItem, cstrClassNames.data(), cstrClassNames.size()))
+				{
+					if (currentItem >= 0)
+					{
+						component.ClassName = classNames[currentItem];
+					}
+				}
 			});
 
 		DrawComponent<CircleRendererComponent>("Circle Renderer", entity, [](auto& component)

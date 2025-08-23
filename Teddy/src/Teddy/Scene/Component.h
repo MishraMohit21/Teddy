@@ -3,7 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <Teddy/Scene/SceneCamera.h>
-#include <Teddy/Scene/ScriptableEntity.h>
+
 
 #include <Teddy/Renderer/RenderCommand.h>
 #include "Teddy/Renderer/Renderer2D.h"
@@ -60,8 +60,7 @@ namespace Teddy
 	{
 		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
 
-		Ref<Texture2D> c_texture = nullptr;
-		float c_tilingFactor = 1.0f;
+		Ref<Texture2D> c_texture = nullptr;  float c_tilingFactor = 1.0f;
 
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
@@ -101,23 +100,9 @@ namespace Teddy
 	};
 
 
-	struct CppScriptComponent {
-		std::string scriptClass;
-		ScriptableEntity* Instance = nullptr;
-
-		ScriptableEntity* (*InstantiateScript)();
-		void (*DestroyScript)(CppScriptComponent*);
 
 
-		template <typename T>
-		void Bind()
-		{
-			scriptClass = typeid(T).name();
-			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
-			DestroyScript = [](CppScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
 
-		}
-	};
 
 	struct ScriptComponent
 	{
@@ -183,7 +168,7 @@ namespace Teddy
 	using AllComponents =
 		ComponentGroup < TransformComponent, SpriteRendererComponent,
 		CircleRendererComponent, CameraComponent, ScriptComponent,
-		CppScriptComponent, Rigid2DBodyComponent, Box2DColliderComponent,
+		Rigid2DBodyComponent, Box2DColliderComponent,
 		Circle2DColliderComponent > ;
 
 }

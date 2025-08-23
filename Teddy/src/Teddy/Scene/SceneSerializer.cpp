@@ -217,14 +217,7 @@ namespace Teddy
 			out << YAML::EndMap; // CircleRendererComponent
 		}
 
-		if (entity.HasComponent<CppScriptComponent>())
-		{
-			out << YAML::Key << "CppScriptComponent";
-			out << YAML::BeginMap;
-			std::string className = entity.GetComponent<CppScriptComponent>().scriptClass;
-			out << YAML::Key << "Class" << YAML::Value << className;
-			out << YAML::EndMap;
-		}
+		
 
 		if (entity.HasComponent<Rigid2DBodyComponent>())
 		{
