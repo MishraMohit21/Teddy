@@ -225,9 +225,6 @@
     <ClInclude Include="src\Teddy\Scene\SceneSerializer.h">
       <Filter>src\Teddy\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\Teddy\Scene\ScriptableEntity.h">
-      <Filter>src\Teddy\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="src\Teddy\Scripting\ScriptGlue.h">
       <Filter>src\Teddy\Scripting</Filter>
     </ClInclude>

@@ -207,10 +207,6 @@ namespace Teddy
 		return entity;
 	}
 
-	Entity Scene::GetEntityByUUID(const UUID& id)
-	{
-		
-	}
 
 	void Scene::DestroyEntity(Entity& entity)
 	{

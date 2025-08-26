@@ -25,7 +25,8 @@ namespace Teddy
 		Entity CreateEntity(UUID id, const std::string name);
 		Entity CreateEntity(UUID id, const std::string name, glm::vec3 transform);
 
-		Entity GetEntityByUUID(const UUID& id);
+		/*Entity GetEntityByUUID(const UUID& id);*/
+		Entity GetEntityByUUID(UUID uuid);
 
 		void DestroyEntity(Entity& entity);
 
@@ -43,7 +44,6 @@ namespace Teddy
 		Entity GetPrimarySceneCamera();
 
 		void DuplicateEntity(Entity entity);
-		Entity GetEntityByUUID(UUID uuid);
 
 		template<typename... Components>
 		auto GetAllEntitiesWith()

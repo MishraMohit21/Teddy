@@ -61,11 +61,13 @@
   <ItemGroup>
     <Compile Include="Source\Camera.cs" />
     <Compile Include="Source\Player.cs" />
+    <Compile Include="Source\Teddy\Attributes.cs" />
     <Compile Include="Source\Teddy\Input.cs" />
     <Compile Include="Source\Teddy\InternalCalls.cs" />
     <Compile Include="Source\Teddy\KeyCodes.cs" />
     <Compile Include="Source\Teddy\Scene\Components.cs" />
     <Compile Include="Source\Teddy\Scene\Entity.cs" />
+    <Compile Include="Source\Teddy\Scene\Scene.cs" />
     <Compile Include="Source\Teddy\Vector2.cs" />
     <Compile Include="Source\Teddy\Vector3.cs" />
     <Compile Include="Source\Teddy\Vector4.cs" />

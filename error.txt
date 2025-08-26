@@ -1,0 +1,249 @@
+Build started at 21:06...
+1>------ Build started: Project: ScriptCore, Configuration: Debug x64 ------
+1>C:\Dev\Teddy\Teddy\ScriptCore\Source\Teddy\Scene\Scene.cs(14,44,14,67): error CS0117: 'InternalCalls' does not contain a definition for 'Entity_FindEntityByName'
+1>C:\Dev\Teddy\Teddy\ScriptCore\Source\Teddy\Scene\Scene.cs(23,44,23,61): error CS0117: 'InternalCalls' does not contain a definition for 'Scene_Instantiate'
+2>------ Build started: Project: Teddy, Configuration: Debug x64 ------
+2>Application.cpp
+2>Scene.cpp
+2>ScriptGlue.cpp
+2>ScriptingEngine.cpp
+2>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scene\Component.h(118,21): warning C4091: 'static ': ignored on left of 'Teddy::Rigid2DBodyComponent::BodyType' when no variable is declared
+2>(compiling source file '/src/Teddy/Scene/Scene.cpp')
+2>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scene\Component.h(118,21): warning C4091: 'static ': ignored on left of 'Teddy::Rigid2DBodyComponent::BodyType' when no variable is declared
+2>(compiling source file '/src/Teddy/Scripting/ScriptingEngine.cpp')
+2>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scripting\ScriptingEngine.h(25,15): error C3646: 'Field': unknown override specifier
+2>(compiling source file '/src/Teddy/Scripting/ScriptingEngine.cpp')
+2>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scripting\ScriptingEngine.h(25,3): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+2>(compiling source file '/src/Teddy/Scripting/ScriptingEngine.cpp')
+2>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scene\Component.h(118,21): warning C4091: 'static ': ignored on left of 'Teddy::Rigid2DBodyComponent::BodyType' when no variable is declared
+2>(compiling source file '/src/Teddy/Scripting/ScriptGlue.cpp')
+2>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scripting\ScriptingEngine.h(25,15): error C3646: 'Field': unknown override specifier
+2>(compiling source file '/src/Teddy/Scripting/ScriptGlue.cpp')
+2>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scripting\ScriptingEngine.h(25,3): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+2>(compiling source file '/src/Teddy/Scripting/ScriptGlue.cpp')
+2>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scripting\ScriptingEngine.h(25,15): error C3646: 'Field': unknown override specifier
+2>(compiling source file '/src/Teddy/Scene/Scene.cpp')
+2>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scripting\ScriptingEngine.h(25,3): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+2>(compiling source file '/src/Teddy/Scene/Scene.cpp')
+2>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scripting\ScriptingEngine.cpp(14,10): error C1083: Cannot open include file: 'Teddy/Core/Buffer.h': No such file or directory
+2>(compiling source file '/src/Teddy/Scripting/ScriptingEngine.cpp')
+2>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scene\Component.h(118,21): warning C4091: 'static ': ignored on left of 'Teddy::Rigid2DBodyComponent::BodyType' when no variable is declared
+2>(compiling source file '/src/Teddy/Core/Application.cpp')
+2>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scripting\ScriptingEngine.h(25,15): error C3646: 'Field': unknown override specifier
+2>(compiling source file '/src/Teddy/Core/Application.cpp')
+2>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scripting\ScriptingEngine.h(25,3): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+2>(compiling source file '/src/Teddy/Core/Application.cpp')
+2>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scripting\ScriptGlue.cpp(131,49): error C2248: 'Teddy::ScriptingEngine::GetAppDomain': cannot access private member declared in class 'Teddy::ScriptingEngine'
+2>(compiling source file '/src/Teddy/Scripting/ScriptGlue.cpp')
+2>    C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scripting\ScriptingEngine.h(165,22):
+2>    see declaration of 'Teddy::ScriptingEngine::GetAppDomain'
+2>    C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scripting\ScriptingEngine.h(136,8):
+2>    see declaration of 'Teddy::ScriptingEngine'
+2>Done building project "Teddy.vcxproj" -- FAILED.
+3>------ Build started: Project: TeddEditor, Configuration: Debug x64 ------
+3>EditorLayer.cpp
+3>SceneHeirarchyPanel.cpp
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996: 'stdext::checked_array_iterator<T*>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+3>(compiling source file 'src/EditorLayer.cpp')
+3>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+3>    see declaration of 'stdext::checked_array_iterator'
+3>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18):
+3>    the template instantiation context (the oldest one first) is
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,8):
+3>        while compiling class template 'fmt::v5::internal::checked'
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(413,1): warning C4996: 'stdext::checked_array_iterator<T*>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+3>(compiling source file 'src/EditorLayer.cpp')
+3>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+3>    see declaration of 'stdext::checked_array_iterator'
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996: 'stdext::checked_array_iterator<T *>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         with
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         [
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:             T=char
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         ]
+3>(compiling source file 'src/EditorLayer.cpp')
+3>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+3>    see declaration of 'stdext::checked_array_iterator'
+3>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18):
+3>    the template instantiation context (the oldest one first) is
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3342,28):
+3>        see reference to class template instantiation 'fmt::v5::arg_formatter<fmt::v5::vformat_to::range>' being compiled
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2308,51):
+3>        see reference to class template instantiation 'fmt::v5::internal::arg_formatter_base<Range>' being compiled
+3>        with
+3>        [
+3>            Range=fmt::v5::vformat_to::range
+3>        ]
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1434,15):
+3>        see reference to class template instantiation 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>' being compiled
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+3>        see reference to function template instantiation 'std::enable_if<fmt::v5::is_contiguous<Container>::value,checked<Container::value_type>::type>::type fmt::v5::internal::reserve(std::back_insert_iterator<_Container> &,size_t)' being compiled
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+3>        see reference to class template instantiation 'fmt::v5::internal::checked<T>' being compiled
+3>        with
+3>        [
+3>            T=char
+3>        ]
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996: 'stdext::checked_array_iterator<T *>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         with
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         [
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:             T=wchar_t
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         ]
+3>(compiling source file 'src/EditorLayer.cpp')
+3>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+3>    see declaration of 'stdext::checked_array_iterator'
+3>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18):
+3>    the template instantiation context (the oldest one first) is
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3342,28):
+3>        see reference to class template instantiation 'fmt::v5::arg_formatter<fmt::v5::vformat_to::range>' being compiled
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2308,51):
+3>        see reference to class template instantiation 'fmt::v5::internal::arg_formatter_base<Range>' being compiled
+3>        with
+3>        [
+3>            Range=fmt::v5::vformat_to::range
+3>        ]
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1434,15):
+3>        see reference to class template instantiation 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>' being compiled
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+3>        see reference to function template instantiation 'std::enable_if<fmt::v5::is_contiguous<Container>::value,checked<Container::value_type>::type>::type fmt::v5::internal::reserve(std::back_insert_iterator<_Container> &,size_t)' being compiled
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+3>        see reference to class template instantiation 'fmt::v5::internal::checked<T>' being compiled
+3>        with
+3>        [
+3>            T=wchar_t
+3>        ]
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996: 'stdext::checked_array_iterator<T*>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+3>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+3>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+3>    see declaration of 'stdext::checked_array_iterator'
+3>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18):
+3>    the template instantiation context (the oldest one first) is
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,8):
+3>        while compiling class template 'fmt::v5::internal::checked'
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(413,1): warning C4996: 'stdext::checked_array_iterator<T*>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+3>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+3>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+3>    see declaration of 'stdext::checked_array_iterator'
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996: 'stdext::checked_array_iterator<T *>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         with
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         [
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:             T=char
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         ]
+3>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+3>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+3>    see declaration of 'stdext::checked_array_iterator'
+3>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18):
+3>    the template instantiation context (the oldest one first) is
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3342,28):
+3>        see reference to class template instantiation 'fmt::v5::arg_formatter<fmt::v5::vformat_to::range>' being compiled
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2308,51):
+3>        see reference to class template instantiation 'fmt::v5::internal::arg_formatter_base<Range>' being compiled
+3>        with
+3>        [
+3>            Range=fmt::v5::vformat_to::range
+3>        ]
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1434,15):
+3>        see reference to class template instantiation 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>' being compiled
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+3>        see reference to function template instantiation 'std::enable_if<fmt::v5::is_contiguous<Container>::value,checked<Container::value_type>::type>::type fmt::v5::internal::reserve(std::back_insert_iterator<_Container> &,size_t)' being compiled
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+3>        see reference to class template instantiation 'fmt::v5::internal::checked<T>' being compiled
+3>        with
+3>        [
+3>            T=char
+3>        ]
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996: 'stdext::checked_array_iterator<T *>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         with
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         [
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:             T=wchar_t
+3>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         ]
+3>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+3>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+3>    see declaration of 'stdext::checked_array_iterator'
+3>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18):
+3>    the template instantiation context (the oldest one first) is
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3342,28):
+3>        see reference to class template instantiation 'fmt::v5::arg_formatter<fmt::v5::vformat_to::range>' being compiled
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2308,51):
+3>        see reference to class template instantiation 'fmt::v5::internal::arg_formatter_base<Range>' being compiled
+3>        with
+3>        [
+3>            Range=fmt::v5::vformat_to::range
+3>        ]
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1434,15):
+3>        see reference to class template instantiation 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>' being compiled
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+3>        see reference to function template instantiation 'std::enable_if<fmt::v5::is_contiguous<Container>::value,checked<Container::value_type>::type>::type fmt::v5::internal::reserve(std::back_insert_iterator<_Container> &,size_t)' being compiled
+3>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+3>        see reference to class template instantiation 'fmt::v5::internal::checked<T>' being compiled
+3>        with
+3>        [
+3>            T=wchar_t
+3>        ]
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Debug\Instrumentor.h(113,22): warning C4267: 'initializing': conversion from 'size_t' to 'uint32_t', possible loss of data
+3>(compiling source file 'src/EditorLayer.cpp')
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseButtonCodes.h(4,9): warning C4005: 'TD_MOUSE_BUTTON_1': macro redefinition
+3>(compiling source file 'src/EditorLayer.cpp')
+3>    C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseCode.h(32,9):
+3>    see previous definition of 'TD_MOUSE_BUTTON_1'
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseButtonCodes.h(5,9): warning C4005: 'TD_MOUSE_BUTTON_2': macro redefinition
+3>(compiling source file 'src/EditorLayer.cpp')
+3>    C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseCode.h(33,9):
+3>    see previous definition of 'TD_MOUSE_BUTTON_2'
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseButtonCodes.h(6,9): warning C4005: 'TD_MOUSE_BUTTON_3': macro redefinition
+3>(compiling source file 'src/EditorLayer.cpp')
+3>    C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseCode.h(34,9):
+3>    see previous definition of 'TD_MOUSE_BUTTON_3'
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseButtonCodes.h(7,9): warning C4005: 'TD_MOUSE_BUTTON_4': macro redefinition
+3>(compiling source file 'src/EditorLayer.cpp')
+3>    C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseCode.h(35,9):
+3>    see previous definition of 'TD_MOUSE_BUTTON_4'
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseButtonCodes.h(8,9): warning C4005: 'TD_MOUSE_BUTTON_5': macro redefinition
+3>(compiling source file 'src/EditorLayer.cpp')
+3>    C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseCode.h(36,9):
+3>    see previous definition of 'TD_MOUSE_BUTTON_5'
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseButtonCodes.h(9,9): warning C4005: 'TD_MOUSE_BUTTON_6': macro redefinition
+3>(compiling source file 'src/EditorLayer.cpp')
+3>    C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseCode.h(37,9):
+3>    see previous definition of 'TD_MOUSE_BUTTON_6'
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseButtonCodes.h(10,9): warning C4005: 'TD_MOUSE_BUTTON_7': macro redefinition
+3>(compiling source file 'src/EditorLayer.cpp')
+3>    C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseCode.h(38,9):
+3>    see previous definition of 'TD_MOUSE_BUTTON_7'
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseButtonCodes.h(12,9): warning C4005: 'TD_MOUSE_BUTTON_LAST': macro redefinition
+3>(compiling source file 'src/EditorLayer.cpp')
+3>    C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseCode.h(39,9):
+3>    see previous definition of 'TD_MOUSE_BUTTON_LAST'
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseButtonCodes.h(13,9): warning C4005: 'TD_MOUSE_BUTTON_LEFT': macro redefinition
+3>(compiling source file 'src/EditorLayer.cpp')
+3>    C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseCode.h(40,9):
+3>    see previous definition of 'TD_MOUSE_BUTTON_LEFT'
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseButtonCodes.h(14,9): warning C4005: 'TD_MOUSE_BUTTON_RIGHT': macro redefinition
+3>(compiling source file 'src/EditorLayer.cpp')
+3>    C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseCode.h(41,9):
+3>    see previous definition of 'TD_MOUSE_BUTTON_RIGHT'
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseButtonCodes.h(15,9): warning C4005: 'TD_MOUSE_BUTTON_MIDDLE': macro redefinition
+3>(compiling source file 'src/EditorLayer.cpp')
+3>    C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Core\MouseCode.h(42,9):
+3>    see previous definition of 'TD_MOUSE_BUTTON_MIDDLE'
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scene\Component.h(118,21): warning C4091: 'static ': ignored on left of 'Teddy::Rigid2DBodyComponent::BodyType' when no variable is declared
+3>(compiling source file 'src/EditorLayer.cpp')
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Debug\Instrumentor.h(113,22): warning C4267: 'initializing': conversion from 'size_t' to 'uint32_t', possible loss of data
+3>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scene\Component.h(118,21): warning C4091: 'static ': ignored on left of 'Teddy::Rigid2DBodyComponent::BodyType' when no variable is declared
+3>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scripting\ScriptingEngine.h(25,15): error C3646: 'Field': unknown override specifier
+3>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scripting\ScriptingEngine.h(25,3): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+3>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+3>C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\SceneHeirarchyPanel.cpp(288,9): warning C4996: 'strncpy': This function or variable may be unsafe. Consider using strncpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scripting\ScriptingEngine.h(25,15): error C3646: 'Field': unknown override specifier
+3>(compiling source file 'src/EditorLayer.cpp')
+3>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Scripting\ScriptingEngine.h(25,3): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+3>(compiling source file 'src/EditorLayer.cpp')
+3>C:\Dev\Teddy\Teddy\TeddEditor\src\EditorLayer.cpp(318,26): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+3>C:\Dev\Teddy\Teddy\TeddEditor\src\EditorLayer.cpp(326,26): warning C4312: 'type cast': conversion from 'uint32_t' to 'ImTextureID' of greater size
+3>C:\Dev\Teddy\Teddy\TeddEditor\src\EditorLayer.cpp(339,26): warning C4312: 'type cast': conversion from 'uint32_t' to 'ImTextureID' of greater size
+3>C:\Dev\Teddy\Teddy\TeddEditor\src\EditorLayer.cpp(627,16): warning C4312: 'type cast': conversion from 'uint32_t' to 'void *' of greater size
+3>Done building project "TeddEditor.vcxproj" -- FAILED.
+========== Build: 0 succeeded, 3 failed, 5 up-to-date, 0 skipped ==========
+========== Build completed at 21:06 and took 03.074 seconds ==========
