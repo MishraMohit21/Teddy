@@ -37,7 +37,7 @@ namespace Teddy
 		auto view = src.view<Component>();
 		for (auto e : view)
 		{
-			UUID uuid = src.get<UUIDCompononet>(e).id;
+			UUID uuid = src.get<UUIDComponent>(e).id;
 			//TD_CORE_ASSERT(enttMap.find(uuid) != enttMap.end());
 			entt::entity dstEnttID = enttMap.at(uuid);
 
@@ -73,7 +73,7 @@ namespace Teddy
 	}
 
 	template<>
-	void Scene::OnComponentAdded<UUIDCompononet>(Entity entity, UUIDCompononet& component)
+	void Scene::OnComponentAdded<UUIDComponent>(Entity entity, UUIDComponent& component)
 	{
 	}
 
@@ -150,10 +150,10 @@ namespace Teddy
 		std::unordered_map<UUID, entt::entity> enttMap;
 
 		// Create entities in new scene
-		auto idView = srcSceneRegistry.view<UUIDCompononet>();
+		auto idView = srcSceneRegistry.view<UUIDComponent>();
 		for (auto e : idView)
 		{
-			UUID uuid = srcSceneRegistry.get<UUIDCompononet>(e).id;
+			UUID uuid = srcSceneRegistry.get<UUIDComponent>(e).id;
 			const auto& name = srcSceneRegistry.get<TagComponent>(e).Tag;
 			Entity newEntity = newScene->CreateEntity(uuid, name);
 			enttMap[uuid] = (entt::entity)newEntity;
@@ -196,7 +196,7 @@ namespace Teddy
 	Entity Scene::CreateEntity(UUID id, const std::string name, glm::vec3 transform)
 	{
 		Entity entity = { m_Registry.create(), this };
-		auto& idc = entity.AddComponent<UUIDCompononet>();
+		auto& idc = entity.AddComponent<UUIDComponent>();
 		idc.id = id;
 		entity.AddComponent<TransformComponent>(transform);
 		auto& tag = entity.AddComponent<TagComponent>();
@@ -212,7 +212,7 @@ namespace Teddy
 	{
 		TD_CORE_WARN("Deleting the entity properly");
 		m_Registry.destroy(entity);
-		m_EntityMap.erase(entity.GetComponent<UUIDCompononet>().id);
+		m_EntityMap.erase(entity.GetComponent<UUIDComponent>().id);
 	}
 
 	void Scene::OnRuntimeStart()

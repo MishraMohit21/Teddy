@@ -68,6 +68,7 @@
     <Compile Include="Source\Teddy\Scene\Components.cs" />
     <Compile Include="Source\Teddy\Scene\Entity.cs" />
     <Compile Include="Source\Teddy\Scene\Scene.cs" />
+    <Compile Include="Source\Teddy\ScriptRegistry.cs" />
     <Compile Include="Source\Teddy\Vector2.cs" />
     <Compile Include="Source\Teddy\Vector3.cs" />
     <Compile Include="Source\Teddy\Vector4.cs" />

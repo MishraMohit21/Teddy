@@ -67,9 +67,6 @@ namespace Teddy {
 		m_ActiveScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 		m_EditorScene = m_ActiveScene;
-
-		Teddy::ScriptingEngine::PrintAssemblyTypes();
-
 	}
 
 	void EditorLayer::OnDetach()

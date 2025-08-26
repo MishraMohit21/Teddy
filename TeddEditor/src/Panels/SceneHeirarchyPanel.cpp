@@ -457,7 +457,7 @@ namespace Teddy
 
 		});
 
-		DrawComponent<ScriptComponent>("Script", entity, [](auto& component)
+		DrawComponent<ScriptComponent>("Script", entity, [&](auto& component)
 			{
 				auto scriptClasses = ScriptingEngine::GetEntityClasses();
 
@@ -495,6 +495,24 @@ namespace Teddy
 					if (currentItem >= 0)
 					{
 						component.ClassName = classNames[currentItem];
+					}
+				}
+
+				// Fields
+				Ref<ScriptInstance> scriptInstance = ScriptingEngine::GetEntityScriptInstance(entity.GetComponent<UUIDComponent>().id);
+				if (scriptInstance)
+				{
+					const auto& fields = scriptInstance->GetScriptClass()->GetFields();
+					for (const auto& [name, field] : fields)
+					{
+						if (field.Type == ScriptFieldType::Float)
+						{
+							float data = scriptInstance->GetFieldValue<float>(name);
+							if (ImGui::DragFloat(name.c_str(), &data))
+							{
+								scriptInstance->SetFieldValue(name, data);
+							}
+						}
 					}
 				}
 			});

@@ -9,10 +9,14 @@ namespace Sandbox
         private Rigid2DBodyComponent m_Rigidbody;
         private SpriteRendererComponent m_SpriteRenderer;
 
+        [ShowInEditor]
+        public float Speed = 1.5f;
+
+        [ShowInEditor]
+        public float Radius = 5.0f;
+
         // --- Member variables for motion ---
         private float angle = 0.0f;
-        private float radius = 5.0f;
-        private float speed = 1.5f;
 
         public void OnCreate()
         {
@@ -26,10 +30,10 @@ namespace Sandbox
         public void OnUpdate(float ts)
         {
             // --- 1. Circular Motion Logic ---
-            angle += speed * ts;
+            angle += Speed * ts;
 
-            float x = (float)Math.Cos(angle) * radius;
-            float y = (float)Math.Sin(angle) * radius;
+            float x = (float)Math.Cos(angle) * Radius;
+            float y = (float)Math.Sin(angle) * Radius;
 
             m_Transform.Translation = new Vector3(x, y, m_Transform.Translation.Z);
 

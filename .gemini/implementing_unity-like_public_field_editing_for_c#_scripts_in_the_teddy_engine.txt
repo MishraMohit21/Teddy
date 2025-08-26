@@ -1,0 +1,10 @@
+This conversation focuses on implementing Unity-like public field editing for C# scripts directly within the Teddy Engine's editor UI.
+
+Key steps and issues encountered:
+- Initial implementation of C# `[ShowInEditor]` attribute and C++ backend for field access.
+- UI implementation in `SceneHierarchyPanel.cpp` for `float` fields.
+- **Issue:** `[ShowInEditor]` attribute was initially applied to C# properties, but the attribute was only valid for fields. This was corrected by changing properties back to fields in `Player.cs`.
+- **Issue:** Fields were still not appearing in the UI. Debugging revealed that the C++ reflection code in `ScriptingEngine.cpp` was not checking for the `[ShowInEditor]` attribute. This was fixed by adding `mono_custom_attrs_has_attr` check.
+- Current status: Still debugging why fields are not appearing in the UI after the C++ reflection fix. Next step is to add logging to the UI panel to trace the issue.
+
+This summary has been saved to: `./.gemini/implementing_unity-like_public_field_editing_for_c#_scripts_in_the_teddy_engine.txt`

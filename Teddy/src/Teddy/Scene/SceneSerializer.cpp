@@ -128,7 +128,7 @@ namespace Teddy
 	{
 		out << YAML::BeginMap;
 
-		out << YAML::Key << "EntityId" << YAML::Value << entity.GetComponent<UUIDCompononet>().id;   // Fix this id system
+		out << YAML::Key << "EntityId" << YAML::Value << entity.GetComponent<UUIDComponent>().id;   // Fix this id system
 
 		if (entity.HasComponent<TagComponent>())
 		{

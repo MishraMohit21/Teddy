@@ -95,5 +95,8 @@ namespace Teddy
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static ulong Scene_CreateEntity(string name);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void ScriptRegistry_RegisterScripts();
     }
 }

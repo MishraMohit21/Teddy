@@ -17,11 +17,11 @@
 namespace Teddy
 {
 
-	struct UUIDCompononet
+	struct UUIDComponent
 	{
 		UUID id;
-		UUIDCompononet() = default;
-		UUIDCompononet(const UUIDCompononet&) = default;
+		UUIDComponent() = default;
+		UUIDComponent(const UUIDComponent&) = default;
 	};
 
 	struct TagComponent

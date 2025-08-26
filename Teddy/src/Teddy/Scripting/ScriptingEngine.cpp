@@ -6,10 +6,43 @@
 #include "mono/jit/jit.h"
 #include "mono/metadata/assembly.h"
 #include "mono/metadata/object.h"
+#include <mono/metadata/attrdefs.h>
 
 namespace Teddy {
 
 	namespace Utils {
+
+		static std::unordered_map<std::string, ScriptFieldType> s_ScriptFieldTypeMap =
+		{
+			{ "System.Single",  ScriptFieldType::Float },
+			{ "System.Double",  ScriptFieldType::Double },
+			{ "System.Boolean", ScriptFieldType::Bool },
+			{ "System.Char",    ScriptFieldType::Char },
+			{ "System.Int16",   ScriptFieldType::Short },
+			{ "System.Int32",   ScriptFieldType::Int },
+			{ "System.Int64",   ScriptFieldType::Long },
+			{ "System.Byte",    ScriptFieldType::Byte },
+			{ "System.UInt16",  ScriptFieldType::UShort },
+			{ "System.UInt32",  ScriptFieldType::UInt },
+			{ "System.UInt64",  ScriptFieldType::ULong },
+
+			{ "Teddy.Vector2", ScriptFieldType::Vector2 },
+			{ "Teddy.Vector3", ScriptFieldType::Vector3 },
+			{ "Teddy.Vector4", ScriptFieldType::Vector4 },
+
+			{ "Teddy.Entity", ScriptFieldType::Entity },
+		};
+
+		static ScriptFieldType MonoTypeToScriptFieldType(MonoType* monoType)
+		{
+			std::string typeName = mono_type_get_name(monoType);
+
+			auto it = s_ScriptFieldTypeMap.find(typeName);
+			if (it == s_ScriptFieldTypeMap.end())
+				return ScriptFieldType::None;
+
+			return it->second;
+		}
 
 		// TODO: move to FileSystem class
 		static char* ReadBytes(const std::filesystem::path& filepath, uint32_t* outSize)
@@ -85,11 +118,11 @@ namespace Teddy {
 		Scene* SceneContext = nullptr;
 	};
 
-	static ScriptEngineData* s_Data = nullptr;
+	static std::unique_ptr<ScriptEngineData> s_Data;
 
 	void ScriptingEngine::Init()
 	{
-		s_Data = new ScriptEngineData();
+		s_Data = std::make_unique<ScriptEngineData>();
 
 		InitMono();
 		LoadAssembly("Resources/Scripts/ScriptCore.dll");
@@ -100,6 +133,11 @@ namespace Teddy {
 
 		// Retrieve and instantiate class
 		s_Data->EntityClass = ScriptClass("Teddy", "Entity");
+
+		// Call ScriptRegistry::RegisterScripts()
+		MonoClass* scriptRegistryClass = mono_class_from_name(s_Data->CoreAssemblyImage, "Teddy", "ScriptRegistry");
+		MonoMethod* registerScriptsMethod = mono_class_get_method_from_name(scriptRegistryClass, "RegisterScripts", 0);
+		mono_runtime_invoke(registerScriptsMethod, nullptr, nullptr, nullptr);
 #if 0
 
 		MonoObject* instance = s_Data->EntityClass.Instantiate();
@@ -137,7 +175,7 @@ namespace Teddy {
 	void ScriptingEngine::Shutdown()
 	{
 		ShutdownMono();
-		delete s_Data;
+		s_Data.reset();
 	}
 
 	void ScriptingEngine::InitMono()
@@ -155,10 +193,12 @@ namespace Teddy {
 	{
 		// NOTE(Yan): mono is a little confusing to shutdown, so maybe come back to this
 
-		// mono_domain_unload(s_Data->AppDomain);
+		if (s_Data->AppDomain)
+			mono_domain_unload(s_Data->AppDomain);
 		s_Data->AppDomain = nullptr;
 
-		// mono_jit_cleanup(s_Data->RootDomain);
+		if (s_Data->RootDomain)
+			mono_jit_cleanup(s_Data->RootDomain);
 		s_Data->RootDomain = nullptr;
 	}
 
@@ -190,14 +230,14 @@ namespace Teddy {
 		if (ScriptingEngine::EntityClassExists(sc.ClassName))
 		{
 			Ref<ScriptInstance> instance = CreateRef<ScriptInstance>(s_Data->EntityClasses[sc.ClassName], entity);
-			s_Data->EntityInstances[entity.GetComponent<UUIDCompononet>().id] = instance;
+			s_Data->EntityInstances[entity.GetComponent<UUIDComponent>().id] = instance;
 			instance->InvokeOnCreate();
 		}
 	}
 
 	void ScriptingEngine::OnUpdateEntity(Entity entity, Timestep ts)
 	{
-		UUID entityUUID = entity.GetComponent<UUIDCompononet>().id;
+		UUID entityUUID = entity.GetComponent<UUIDComponent>().id;
 		//TD_CORE_ASSERT(s_Data->EntityInstances.find(entityUUID) != s_Data->EntityInstances.end());
 
 		Ref<ScriptInstance> instance = s_Data->EntityInstances[entityUUID];
@@ -313,6 +353,31 @@ namespace Teddy {
 		: m_ClassNamespace(classNamespace), m_ClassName(className)
 	{
 		m_MonoClass = mono_class_from_name(s_Data->CoreAssemblyImage, classNamespace.c_str(), className.c_str());
+
+		// Get ShowInEditor attribute class
+		MonoClass* showInEditorAttr = mono_class_from_name(s_Data->CoreAssemblyImage, "Teddy", "ShowInEditorAttribute");
+
+		void* iter = nullptr;
+		while (MonoClassField* field = mono_class_get_fields(m_MonoClass, &iter))
+		{
+			const char* fieldName = mono_field_get_name(field);
+			uint32_t flags = mono_field_get_flags(field);
+			if (flags & MONO_FIELD_ATTR_PUBLIC)
+			{
+				MonoCustomAttrInfo* attrInfo = mono_custom_attrs_from_field(m_MonoClass, field);
+				if (attrInfo)
+				{
+					bool hasAttribute = mono_custom_attrs_has_attr(attrInfo, showInEditorAttr);
+					mono_custom_attrs_free(attrInfo);
+					if (hasAttribute)
+					{
+						MonoType* monoType = mono_field_get_type(field);
+						ScriptFieldType fieldType = Utils::MonoTypeToScriptFieldType(monoType);
+						m_Fields[fieldName] = { fieldType, fieldName, field };
+					}
+				}
+			}
+		}
 	}
 
 	MonoObject* ScriptClass::Instantiate()
@@ -325,15 +390,16 @@ namespace Teddy {
 		return mono_class_get_method_from_name(m_MonoClass, name.c_str(), parameterCount);
 	}
 
-	MonoObject* ScriptClass::InvokeMethod(MonoObject* instance, MonoMethod* method, void** params)
+	MonoObject* ScriptClass::InvokeMethod(MonoObject* instance, MonoMethod* method, void** params, MonoObject** exc)
 	{
-		return mono_runtime_invoke(method, instance, params, nullptr);
+		return mono_runtime_invoke(method, instance, params, exc);
 	}
 
 	ScriptInstance::ScriptInstance(Ref<ScriptClass> scriptClass, Entity entity)
 		: m_ScriptClass(scriptClass)
 	{
 		m_Instance = scriptClass->Instantiate();
+		m_GCHandle = mono_gchandle_new(m_Instance, false);
 
 		m_Constructor = s_Data->EntityClass.GetMethod(".ctor", 1);
 		m_OnCreateMethod = scriptClass->GetMethod("OnCreate", 0);
@@ -341,16 +407,31 @@ namespace Teddy {
 
 		// Call Entity constructor
 		{
-			UUID entityID = entity.GetComponent<UUIDCompononet>().id;
+			UUID entityID = entity.GetComponent<UUIDComponent>().id;
 			void* param = &entityID;
 			m_ScriptClass->InvokeMethod(m_Instance, m_Constructor, &param);
 		}
 	}
 
+	ScriptInstance::~ScriptInstance()
+	{
+		mono_gchandle_free(m_GCHandle);
+	}
+
 	void ScriptInstance::InvokeOnCreate()
 	{
 		if (m_OnCreateMethod)
-			m_ScriptClass->InvokeMethod(m_Instance, m_OnCreateMethod);
+		{
+			MonoObject* exc = nullptr;
+			m_ScriptClass->InvokeMethod(m_Instance, m_OnCreateMethod, nullptr, &exc);
+			if (exc)
+			{
+				MonoString* exc_str = mono_object_to_string(exc, nullptr);
+				char* c_str = mono_string_to_utf8(exc_str);
+				TD_CORE_ERROR("C# Exception: {0}", c_str);
+				mono_free(c_str);
+			}
+		}
 	}
 
 	void ScriptInstance::InvokeOnUpdate(float ts)
@@ -358,8 +439,48 @@ namespace Teddy {
 		if (m_OnUpdateMethod)
 		{
 			void* param = &ts;
-			m_ScriptClass->InvokeMethod(m_Instance, m_OnUpdateMethod, &param);
+			MonoObject* exc = nullptr;
+			m_ScriptClass->InvokeMethod(m_Instance, m_OnUpdateMethod, &param, &exc);
+			if (exc)
+			{
+				MonoString* exc_str = mono_object_to_string(exc, nullptr);
+				char* c_str = mono_string_to_utf8(exc_str);
+				TD_CORE_ERROR("C# Exception: {0}", c_str);
+				mono_free(c_str);
+			}
 		}
+	}
+
+	void ScriptInstance::GetFieldValueInternal(const std::string& name, void* buffer)
+	{
+		const auto& fields = m_ScriptClass->GetFields();
+		auto it = fields.find(name);
+		if (it == fields.end())
+			return;
+
+		const ScriptField& field = it->second;
+		mono_field_get_value(m_Instance, field.ClassField, buffer);
+	}
+
+	void ScriptInstance::SetFieldValueInternal(const std::string& name, const void* value)
+	{
+		const auto& fields = m_ScriptClass->GetFields();
+		auto it = fields.find(name);
+		if (it == fields.end())
+			return;
+
+		const ScriptField& field = it->second;
+		mono_field_set_value(m_Instance, field.ClassField, (void*)value);
+	}
+
+
+	Ref<ScriptInstance> ScriptingEngine::GetEntityScriptInstance(UUID entityID)
+	{
+		auto it = s_Data->EntityInstances.find(entityID);
+		if (it == s_Data->EntityInstances.end())
+			return nullptr;
+
+		return it->second;
 	}
 
 }

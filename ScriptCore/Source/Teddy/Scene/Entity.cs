@@ -1,4 +1,6 @@
+
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Teddy;
 
@@ -7,6 +9,8 @@ namespace Teddy
     public class Entity
     {
         protected Entity() { ID = 0; }
+
+        private Dictionary<Type, Component> m_ComponentCache = new Dictionary<Type, Component>();
 
         internal Entity(ulong id)
         {
@@ -36,11 +40,17 @@ namespace Teddy
 
         public T GetComponent<T>() where T : Component, new()
         {
-            if (!HasComponent<T>())
-                return null;
+            Type componentType = typeof(T);
+            if (m_ComponentCache.TryGetValue(componentType, out var component))
+                return (T)component;
 
-            T component = new T() { Entity = this };
-            return component;
+            if (HasComponent<T>())
+            {
+                T newComponent = new T() { Entity = this };
+                m_ComponentCache.Add(componentType, newComponent);
+                return newComponent;
+            }
+            return null;
         }
 
     }

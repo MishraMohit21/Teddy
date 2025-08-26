@@ -227,7 +227,11 @@ namespace Teddy {
         Scene* scene = ScriptingEngine::GetSceneContext();
         Entity entity = scene->GetEntityByUUID(entityID);
         MonoType* managedType = mono_reflection_type_get_type(componentType);
-        return s_EntityHasComponentFuncs.at(managedType)(entity);
+
+		auto it = s_EntityHasComponentFuncs.find(managedType);
+		if (it == s_EntityHasComponentFuncs.end())
+			return false;
+        return it->second(entity);
     }
     
 
@@ -244,7 +248,7 @@ namespace Teddy {
         std::string entityName(cStr);
         mono_free(cStr);
         Entity entity = scene->CreateEntity(entityName);
-        return entity.GetComponent<UUIDCompononet>().id;
+        return entity.GetComponent<UUIDComponent>().id;
     }
 
     template<typename... Component>
