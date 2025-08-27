@@ -26,6 +26,8 @@ namespace Teddy {
 		m_Window = Window::Create(winprop);
 		m_Window->SetEventCallback(TD_BIND_EVENT_FN(Application::OnEvent));
 
+		m_LayerStack = std::make_unique<LayerStack>();
+
 		Renderer::Init();
  		ScriptingEngine::Init();
 
@@ -37,6 +39,8 @@ namespace Teddy {
 	{
 		TD_PROFILE_FUNCTION();
 
+		m_LayerStack.reset();
+
 		ScriptingEngine::Shutdown();
 		Renderer::Shutdown();
 	}
@@ -45,7 +49,7 @@ namespace Teddy {
 	{
 		TD_PROFILE_FUNCTION();
 
-		m_LayerStack.PushLayer(layer);
+		m_LayerStack->PushLayer(layer);
 		layer->OnAttach();
 	}
 
@@ -53,7 +57,7 @@ namespace Teddy {
 	{
 		TD_PROFILE_FUNCTION();
 
-		m_LayerStack.PushOverlay(layer);
+		m_LayerStack->PushOverlay(layer);
 		layer->OnAttach();
 	}
 
@@ -70,7 +74,7 @@ namespace Teddy {
 		dispatcher.Dispatch<WindowCloseEvent>(TD_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(TD_BIND_EVENT_FN(Application::OnWindowResize));
 
-		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
+		for (auto it = m_LayerStack->end(); it != m_LayerStack->begin(); )
 		{
 			(*--it)->OnEvent(e);
 			if (e.Handled)
@@ -95,7 +99,7 @@ namespace Teddy {
 				{
 					TD_PROFILE_SCOPE("LayerStack OnUpdate");
 
-					for (Layer* layer : m_LayerStack)
+					for (Layer* layer : *m_LayerStack)
 						layer->OnUpdate(timestep);
 				}
 
@@ -103,7 +107,7 @@ namespace Teddy {
 				{
 					TD_PROFILE_SCOPE("LayerStack OnImGuiRender");
 
-					for (Layer* layer : m_LayerStack)
+					for (Layer* layer : *m_LayerStack)
 						layer->OnImGuiRender();
 				}
 				m_ImGuiLayer->End();

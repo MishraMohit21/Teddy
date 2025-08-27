@@ -495,22 +495,155 @@ namespace Teddy
 					if (currentItem >= 0)
 					{
 						component.ClassName = classNames[currentItem];
+						component.FieldInstances.clear(); // Clear fields when changing script
 					}
 				}
 
 				// Fields
-				Ref<ScriptInstance> scriptInstance = ScriptingEngine::GetEntityScriptInstance(entity.GetComponent<UUIDComponent>().id);
-				if (scriptInstance)
+				bool sceneIsRunning = ScriptingEngine::GetSceneContext() != nullptr;
+				Ref<ScriptClass> scriptClass = scriptClasses.count(component.ClassName) ? scriptClasses.at(component.ClassName) : nullptr;
+				if (scriptClass)
 				{
-					const auto& fields = scriptInstance->GetScriptClass()->GetFields();
+					const auto& fields = scriptClass->GetFields();
 					for (const auto& [name, field] : fields)
 					{
-						if (field.Type == ScriptFieldType::Float)
+						Ref<ScriptInstance> scriptInstance = sceneIsRunning ? ScriptingEngine::GetEntityScriptInstance(entity.GetComponent<UUIDComponent>().id) : nullptr;
+
+						switch (field.Type)
 						{
-							float data = scriptInstance->GetFieldValue<float>(name);
-							if (ImGui::DragFloat(name.c_str(), &data))
+							case ScriptFieldType::Float:
 							{
-								scriptInstance->SetFieldValue(name, data);
+								float value;
+								if (sceneIsRunning)
+									value = scriptInstance->GetFieldValue<float>(name);
+								else
+									value = component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<float>() : field.GetDefaultValue<float>();
+								
+								if (ImGui::DragFloat(name.c_str(), &value, 0.1f))
+								{
+									if (sceneIsRunning)
+										scriptInstance->SetFieldValue(name, value);
+									else
+										component.FieldInstances[name].SetValue(value);
+								}
+								break;
+							}
+							case ScriptFieldType::Double:
+							{
+								double value;
+								if (sceneIsRunning)
+									value = scriptInstance->GetFieldValue<double>(name);
+								else
+									value = component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<double>() : field.GetDefaultValue<double>();
+
+								if (ImGui::DragScalar(name.c_str(), ImGuiDataType_Double, &value, 0.1f))
+								{
+									if (sceneIsRunning)
+										scriptInstance->SetFieldValue(name, value);
+									else
+										component.FieldInstances[name].SetValue(value);
+								}
+								break;
+							}
+							case ScriptFieldType::Bool:
+							{
+								bool value;
+								if (sceneIsRunning)
+									value = scriptInstance->GetFieldValue<bool>(name);
+								else
+									value = component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<bool>() : field.GetDefaultValue<bool>();
+
+								if (ImGui::Checkbox(name.c_str(), &value))
+								{
+									if (sceneIsRunning)
+										scriptInstance->SetFieldValue(name, value);
+									else
+										component.FieldInstances[name].SetValue(value);
+								}
+								break;
+							}
+							case ScriptFieldType::Char:
+							case ScriptFieldType::Byte:
+							case ScriptFieldType::Short:
+							case ScriptFieldType::Int:
+							case ScriptFieldType::Long:
+							case ScriptFieldType::UByte:
+							case ScriptFieldType::UShort:
+							case ScriptFieldType::UInt:
+							case ScriptFieldType::ULong:
+							{
+								// NOTE: We are using DragInt for all integer types
+								int value;
+								if (sceneIsRunning)
+									value = scriptInstance->GetFieldValue<int>(name);
+								else
+									value = component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<int>() : field.GetDefaultValue<int>();
+								
+								if (ImGui::DragInt(name.c_str(), &value))
+								{
+									if (sceneIsRunning)
+										scriptInstance->SetFieldValue(name, value);
+									else
+										component.FieldInstances[name].SetValue(value);
+								}
+								break;
+							}
+							case ScriptFieldType::Vector2:
+							{
+								glm::vec2 value;
+								if (sceneIsRunning)
+									value = scriptInstance->GetFieldValue<glm::vec2>(name);
+								else
+									value = component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<glm::vec2>() : field.GetDefaultValue<glm::vec2>();
+
+								if (ImGui::DragFloat2(name.c_str(), glm::value_ptr(value), 0.1f))
+								{
+									if (sceneIsRunning)
+										scriptInstance->SetFieldValue(name, value);
+									else
+										component.FieldInstances[name].SetValue(value);
+								}
+								break;
+							}
+							case ScriptFieldType::Vector3:
+							{
+								glm::vec3 value;
+								if (sceneIsRunning)
+									value = scriptInstance->GetFieldValue<glm::vec3>(name);
+								else
+									value = component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<glm::vec3>() : field.GetDefaultValue<glm::vec3>();
+
+								if (ImGui::DragFloat3(name.c_str(), glm::value_ptr(value), 0.1f))
+								{
+									if (sceneIsRunning)
+										scriptInstance->SetFieldValue(name, value);
+									else
+										component.FieldInstances[name].SetValue(value);
+								}
+								break;
+							}
+							case ScriptFieldType::Vector4:
+							{
+								glm::vec4 value;
+								if (sceneIsRunning)
+									value = scriptInstance->GetFieldValue<glm::vec4>(name);
+								else
+									value = component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<glm::vec4>() : field.GetDefaultValue<glm::vec4>();
+
+								if (ImGui::DragFloat4(name.c_str(), glm::value_ptr(value), 0.1f))
+								{
+									if (sceneIsRunning)
+										scriptInstance->SetFieldValue(name, value);
+									else
+										component.FieldInstances[name].SetValue(value);
+								}
+								break;
+							}
+							case ScriptFieldType::Entity:
+							{
+								ImGui::Text("%s (Entity)", name.c_str());
+								// TODO: Entity picking UI
+								break;
 							}
 						}
 					}
@@ -589,8 +722,7 @@ namespace Teddy
 				ImGui::CloseCurrentPopup();
 			}
 		}
-	}
 
-	
+	}
 
 }

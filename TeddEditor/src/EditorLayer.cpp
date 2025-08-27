@@ -72,6 +72,8 @@ namespace Teddy {
 	void EditorLayer::OnDetach()
 	{	
 		TD_PROFILE_FUNCTION();
+		if (m_SceneState != SceneState::Edit)
+			OnSceneStop();
 	}
 
 	void EditorLayer::OnUpdate(Timestep ts)

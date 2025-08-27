@@ -104,9 +104,36 @@ namespace Teddy
 
 
 
+	struct ScriptFieldInstance
+	{
+		// Stores the value of a script field. The type is known by the ScriptClass.
+		// Max size is 16 bytes (e.g. for a Vector4 or a future GUID type).
+		uint8_t m_Buffer[16];
+
+		ScriptFieldInstance()
+		{
+			memset(m_Buffer, 0, sizeof(m_Buffer));
+		}
+
+		template<typename T>
+		T GetValue() const
+		{
+			static_assert(sizeof(T) <= 16, "Type too large!");
+			return *(T*)m_Buffer;
+		}
+
+		template<typename T>
+		void SetValue(const T& value)
+		{
+			static_assert(sizeof(T) <= 16, "Type too large!");
+			memcpy(m_Buffer, &value, sizeof(T));
+		}
+	};
+
 	struct ScriptComponent
 	{
 		std::string ClassName;
+		std::unordered_map<std::string, ScriptFieldInstance> FieldInstances;
 
 		ScriptComponent() = default;
 		ScriptComponent(const ScriptComponent&) = default;

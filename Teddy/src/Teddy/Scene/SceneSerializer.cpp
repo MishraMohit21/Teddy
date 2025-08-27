@@ -1,6 +1,7 @@
 #include "tdpch.h"
 #include "SceneSerializer.h"
 #include "glm/glm.hpp"
+#include "Teddy/Scripting/ScriptingEngine.h"
 
 namespace YAML {
 
@@ -198,10 +199,83 @@ namespace Teddy
 		if (entity.HasComponent<ScriptComponent>())
 		{
 			auto& scriptComponent = entity.GetComponent<ScriptComponent>();
-
 			out << YAML::Key << "ScriptComponent";
 			out << YAML::BeginMap; // ScriptComponent
 			out << YAML::Key << "ClassName" << YAML::Value << scriptComponent.ClassName;
+
+			// Serialize fields
+			auto entityClasses = ScriptingEngine::GetEntityClasses();
+			auto it = entityClasses.find(scriptComponent.ClassName);
+			if (it != entityClasses.end())
+			{
+				const auto& scriptClass = it->second;
+				const auto& fields = scriptClass->GetFields();
+
+				if (!fields.empty())
+				{
+					out << YAML::Key << "Fields" << YAML::Value;
+					out << YAML::BeginMap; // Fields
+					for (const auto& [name, field] : fields)
+					{
+						if (scriptComponent.FieldInstances.find(name) != scriptComponent.FieldInstances.end())
+						{
+							const auto& fieldInstance = scriptComponent.FieldInstances.at(name);
+							out << YAML::Key << name << YAML::Value;
+
+							// TODO: This should be a function mapping type to a serialization function
+							switch (field.Type)
+							{
+								case ScriptFieldType::Float:
+									out << fieldInstance.GetValue<float>();
+									break;
+								case ScriptFieldType::Double:
+									out << fieldInstance.GetValue<double>();
+									break;
+								case ScriptFieldType::Bool:
+									out << fieldInstance.GetValue<bool>();
+									break;
+								case ScriptFieldType::Char:
+									out << fieldInstance.GetValue<char>();
+									break;
+								case ScriptFieldType::Byte:
+									out << fieldInstance.GetValue<uint8_t>();
+									break;
+								case ScriptFieldType::Short:
+									out << fieldInstance.GetValue<int16_t>();
+									break;
+								case ScriptFieldType::Int:
+									out << fieldInstance.GetValue<int32_t>();
+									break;
+								case ScriptFieldType::Long:
+									out << fieldInstance.GetValue<int64_t>();
+									break;
+								case ScriptFieldType::UByte:
+									out << fieldInstance.GetValue<uint8_t>();
+									break;
+								case ScriptFieldType::UShort:
+									out << fieldInstance.GetValue<uint16_t>();
+									break;
+								case ScriptFieldType::UInt:
+									out << fieldInstance.GetValue<uint32_t>();
+									break;
+								case ScriptFieldType::ULong:
+									out << fieldInstance.GetValue<uint64_t>();
+									break;
+								case ScriptFieldType::Vector2:
+									out << fieldInstance.GetValue<glm::vec2>();
+									break;
+								case ScriptFieldType::Vector3:
+									out << fieldInstance.GetValue<glm::vec3>();
+									break;
+								case ScriptFieldType::Vector4:
+									out << fieldInstance.GetValue<glm::vec4>();
+									break;
+							}
+						}
+					}
+					out << YAML::EndMap; // Fields
+				}
+			}
 			out << YAML::EndMap; // ScriptComponent
 		}
 
@@ -355,6 +429,79 @@ namespace Teddy
 				{
 					auto& sc = deserializedEntity.AddComponent<ScriptComponent>();
 					sc.ClassName = scriptComponent["ClassName"].as<std::string>();
+
+					auto fieldsNode = scriptComponent["Fields"];
+					if (fieldsNode)
+					{
+						auto entityClasses = ScriptingEngine::GetEntityClasses();
+						auto it = entityClasses.find(sc.ClassName);
+						if (it != entityClasses.end())
+						{
+							const auto& scriptClass = it->second;
+							const auto& fields = scriptClass->GetFields();
+
+							for (const auto& fieldNode : fieldsNode)
+							{
+								std::string name = fieldNode.first.as<std::string>();
+								auto fieldIt = fields.find(name);
+								if (fieldIt != fields.end())
+								{
+									const auto& field = fieldIt->second;
+									auto& fieldInstance = sc.FieldInstances[name];
+
+									// TODO: This should be a function mapping type to a deserialization function
+									switch (field.Type)
+									{
+										case ScriptFieldType::Float:
+											fieldInstance.SetValue(fieldNode.second.as<float>());
+											break;
+										case ScriptFieldType::Double:
+											fieldInstance.SetValue(fieldNode.second.as<double>());
+											break;
+										case ScriptFieldType::Bool:
+											fieldInstance.SetValue(fieldNode.second.as<bool>());
+											break;
+										case ScriptFieldType::Char:
+											fieldInstance.SetValue(fieldNode.second.as<char>());
+											break;
+										case ScriptFieldType::Byte:
+											fieldInstance.SetValue(fieldNode.second.as<uint8_t>());
+											break;
+										case ScriptFieldType::Short:
+											fieldInstance.SetValue(fieldNode.second.as<int16_t>());
+											break;
+										case ScriptFieldType::Int:
+											fieldInstance.SetValue(fieldNode.second.as<int32_t>());
+											break;
+										case ScriptFieldType::Long:
+											fieldInstance.SetValue(fieldNode.second.as<int64_t>());
+											break;
+										case ScriptFieldType::UByte:
+											fieldInstance.SetValue(fieldNode.second.as<uint8_t>());
+											break;
+										case ScriptFieldType::UShort:
+											fieldInstance.SetValue(fieldNode.second.as<uint16_t>());
+											break;
+										case ScriptFieldType::UInt:
+											fieldInstance.SetValue(fieldNode.second.as<uint32_t>());
+											break;
+										case ScriptFieldType::ULong:
+											fieldInstance.SetValue(fieldNode.second.as<uint64_t>());
+											break;
+										case ScriptFieldType::Vector2:
+											fieldInstance.SetValue(fieldNode.second.as<glm::vec2>());
+											break;
+										case ScriptFieldType::Vector3:
+											fieldInstance.SetValue(fieldNode.second.as<glm::vec3>());
+											break;
+										case ScriptFieldType::Vector4:
+											fieldInstance.SetValue(fieldNode.second.as<glm::vec4>());
+											break;
+									}
+								}
+							}
+						}
+					}
 				}
 
 				auto circleRendererComponent = entity["CircleRendererComponent"];

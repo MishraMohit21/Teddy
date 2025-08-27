@@ -191,15 +191,15 @@ namespace Teddy {
 
 	void ScriptingEngine::ShutdownMono()
 	{
-		// NOTE(Yan): mono is a little confusing to shutdown, so maybe come back to this
+		// NOTE(Mohit): mono is a little confusing to shutdown, so maybe come back to this
 
-		if (s_Data->AppDomain)
-			mono_domain_unload(s_Data->AppDomain);
-		s_Data->AppDomain = nullptr;
+		//if (s_Data->AppDomain)
+		//	mono_domain_unload(s_Data->AppDomain);
+		//s_Data->AppDomain = nullptr;
 
-		if (s_Data->RootDomain)
-			mono_jit_cleanup(s_Data->RootDomain);
-		s_Data->RootDomain = nullptr;
+		///*if (s_Data->RootDomain)*/
+		//	// mono_jit_cleanup(s_Data->RootDomain);
+		//s_Data->RootDomain = nullptr;
 	}
 
 	void ScriptingEngine::LoadAssembly(const std::filesystem::path& filepath)
@@ -224,16 +224,23 @@ namespace Teddy {
 		return s_Data->EntityClasses.find(fullClassName) != s_Data->EntityClasses.end();
 	}
 
-	void ScriptingEngine::OnCreateEntity(Entity entity)
-	{
-		const auto& sc = entity.GetComponent<ScriptComponent>();
-		if (ScriptingEngine::EntityClassExists(sc.ClassName))
+			void ScriptingEngine::OnCreateEntity(Entity entity)
 		{
-			Ref<ScriptInstance> instance = CreateRef<ScriptInstance>(s_Data->EntityClasses[sc.ClassName], entity);
-			s_Data->EntityInstances[entity.GetComponent<UUIDComponent>().id] = instance;
-			instance->InvokeOnCreate();
+			const auto& sc = entity.GetComponent<ScriptComponent>();
+			if (ScriptingEngine::EntityClassExists(sc.ClassName))
+			{
+				Ref<ScriptInstance> instance = CreateRef<ScriptInstance>(s_Data->EntityClasses[sc.ClassName], entity);
+				s_Data->EntityInstances[entity.GetComponent<UUIDComponent>().id] = instance;
+
+				// Apply editor field values
+				for (const auto& [name, fieldInstance] : sc.FieldInstances)
+				{
+					instance->SetFieldValueInternal(name, fieldInstance.m_Buffer);
+				}
+
+				instance->InvokeOnCreate();
+			}
 		}
-	}
 
 	void ScriptingEngine::OnUpdateEntity(Entity entity, Timestep ts)
 	{
@@ -354,6 +361,9 @@ namespace Teddy {
 	{
 		m_MonoClass = mono_class_from_name(s_Data->CoreAssemblyImage, classNamespace.c_str(), className.c_str());
 
+		// Create a dummy instance to get default values
+		MonoObject* dummyInstance = ScriptingEngine::InstantiateClass(m_MonoClass);
+
 		// Get ShowInEditor attribute class
 		MonoClass* showInEditorAttr = mono_class_from_name(s_Data->CoreAssemblyImage, "Teddy", "ShowInEditorAttribute");
 
@@ -373,7 +383,14 @@ namespace Teddy {
 					{
 						MonoType* monoType = mono_field_get_type(field);
 						ScriptFieldType fieldType = Utils::MonoTypeToScriptFieldType(monoType);
-						m_Fields[fieldName] = { fieldType, fieldName, field };
+						
+						ScriptField& scriptField = m_Fields[fieldName];
+						scriptField.Type = fieldType;
+						scriptField.Name = fieldName;
+						scriptField.ClassField = field;
+
+						// Get and store the default value
+						mono_field_get_value(dummyInstance, field, scriptField.m_DefaultValueBuffer);
 					}
 				}
 			}
@@ -484,3 +501,5 @@ namespace Teddy {
 	}
 
 }
+
+

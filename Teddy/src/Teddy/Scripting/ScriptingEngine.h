@@ -34,8 +34,17 @@ namespace Teddy {
 	{
 		ScriptFieldType Type;
 		std::string Name;
-
 		MonoClassField* ClassField;
+
+		// A buffer to store the default value of this field
+		uint8_t m_DefaultValueBuffer[16] = { 0 };
+
+		template<typename T>
+		T GetDefaultValue() const
+		{
+			static_assert(sizeof(T) <= 16, "Type too large!");
+			return *(T*)m_DefaultValueBuffer;
+		}
 	};
 
 	class ScriptClass
@@ -85,7 +94,7 @@ namespace Teddy {
 		{
 			SetFieldValueInternal(name, &value);
 		}
-	private:
+	
 		void GetFieldValueInternal(const std::string& name, void* buffer);
 		void SetFieldValueInternal(const std::string& name, const void* value);
 
