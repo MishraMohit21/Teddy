@@ -1,6 +1,7 @@
 #include "SceneHeirarchyPanel.h"
 #include "Teddy/Scene/Component.h"
 #include "Teddy/Scripting/ScriptingEngine.h"
+#include "UIUtils.h"
 
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
@@ -18,121 +19,6 @@
 namespace Teddy
 {
 	extern const std::filesystem::path g_AssetPath;
-
-	template<typename T, typename UIFunction>
-	static void DrawComponent(const std::string& name, Entity& entity, UIFunction uiFunction)
-	{
-		const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_FramePadding;
-
-		if (entity.HasComponent<T>())
-		{
-
-			auto& component = entity.GetComponent<T>();
-			ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
-
-			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
-			float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
-			bool open = ImGui::TreeNodeEx((void*)typeid(T).hash_code(), treeNodeFlags, name.c_str());
-
-			ImGui::SameLine(contentRegionAvailable.x - lineHeight * 0.5f);
-			
-			if (ImGui::Button("-", ImVec2{ lineHeight + 5.0f, lineHeight }))
-			{
-				ImGui::OpenPopup("Component Settings");
-			}
-			ImGui::PopStyleVar();
-
-			bool removeComponent = false;
-			if (ImGui::BeginPopup("Component Settings"))
-			{
-				if (ImGui::MenuItem("Remove component"))
-					removeComponent = true;
-
-				ImGui::EndPopup();
-			}
-
-			ImGui::Spacing();
-			ImGui::Spacing();	
-
-			if (open)
-			{
-				auto& src = entity.GetComponent<T>();
-				uiFunction(component);
-				ImGui::TreePop();
-			}
-
-			if (removeComponent)
-				entity.RemoveComponent<T>();
-
-			ImGui::Spacing();
-			ImGui::Spacing();
-			ImGui::Separator();
-			ImGui::Spacing();
-			ImGui::Spacing();
-		}
-	}
-
-	static void DrawVec3Control(const std::string& label, glm::vec3& values, float resetValue = 0.0f, float columnWidth = 100.0f)
-	{
-		ImGui::PushID(label.c_str());
-
-		float dragFloatWidth = 75.0f;
-
-		ImGui::Columns(2);
-		ImGui::SetColumnWidth(0, columnWidth);
-		ImGui::Text(label.c_str());
-		ImGui::NextColumn();
-
-		ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
-		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 0 });
-
-		float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
-		ImVec2 buttonSize = { 3.0f, lineHeight };
-
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-		if (ImGui::Button("", buttonSize))
-			values.x = resetValue;
-		ImGui::PopStyleColor(3);
-
-		ImGui::SameLine();
-		ImGui::SetNextItemWidth(dragFloatWidth);
-		ImGui::DragFloat("##X", &values.x, 0.1f, 0.0f, 0.0f, "%.2f");
-		ImGui::PopItemWidth();
-		ImGui::SameLine();
-
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-		if (ImGui::Button("Y", buttonSize))
-			values.y = resetValue;
-		ImGui::PopStyleColor(3);
-
-		ImGui::SameLine();
-		ImGui::SetNextItemWidth(dragFloatWidth);
-		ImGui::DragFloat("##Y", &values.y, 0.1f, 0.0f, 0.0f, "%.2f");
-		ImGui::PopItemWidth();
-		ImGui::SameLine();
-
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
-		if (ImGui::Button("Z", buttonSize))
-			values.z = resetValue;
-		ImGui::PopStyleColor(3);
-
-		ImGui::SameLine();
-		ImGui::SetNextItemWidth(dragFloatWidth);
-		ImGui::DragFloat("##Z", &values.z, 0.1f, 0.0f, 0.0f, "%.2f");
-		ImGui::PopItemWidth();
-
-		ImGui::PopStyleVar();
-
-		ImGui::Columns(1);
-
-		ImGui::PopID();
-	}
 
 
 
@@ -513,13 +399,8 @@ namespace Teddy
 						{
 							case ScriptFieldType::Float:
 							{
-								float value;
-								if (sceneIsRunning)
-									value = scriptInstance->GetFieldValue<float>(name);
-								else
-									value = component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<float>() : field.GetDefaultValue<float>();
-								
-								if (ImGui::DragFloat(name.c_str(), &value, 0.1f))
+								float value = sceneIsRunning ? scriptInstance->GetFieldValue<float>(name) : component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<float>() : field.GetDefaultValue<float>();
+								if (DrawFloatScriptField(name, value, field.GetDefaultValue<float>()))
 								{
 									if (sceneIsRunning)
 										scriptInstance->SetFieldValue(name, value);
@@ -530,13 +411,8 @@ namespace Teddy
 							}
 							case ScriptFieldType::Double:
 							{
-								double value;
-								if (sceneIsRunning)
-									value = scriptInstance->GetFieldValue<double>(name);
-								else
-									value = component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<double>() : field.GetDefaultValue<double>();
-
-								if (ImGui::DragScalar(name.c_str(), ImGuiDataType_Double, &value, 0.1f))
+								double value = sceneIsRunning ? scriptInstance->GetFieldValue<double>(name) : component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<double>() : field.GetDefaultValue<double>();
+								if (DrawDoubleScriptField(name, value, field.GetDefaultValue<double>()))
 								{
 									if (sceneIsRunning)
 										scriptInstance->SetFieldValue(name, value);
@@ -547,13 +423,8 @@ namespace Teddy
 							}
 							case ScriptFieldType::Bool:
 							{
-								bool value;
-								if (sceneIsRunning)
-									value = scriptInstance->GetFieldValue<bool>(name);
-								else
-									value = component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<bool>() : field.GetDefaultValue<bool>();
-
-								if (ImGui::Checkbox(name.c_str(), &value))
+								bool value = sceneIsRunning ? scriptInstance->GetFieldValue<bool>(name) : component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<bool>() : field.GetDefaultValue<bool>();
+								if (DrawBoolScriptField(name, value, field.GetDefaultValue<bool>()))
 								{
 									if (sceneIsRunning)
 										scriptInstance->SetFieldValue(name, value);
@@ -572,14 +443,8 @@ namespace Teddy
 							case ScriptFieldType::UInt:
 							case ScriptFieldType::ULong:
 							{
-								// NOTE: We are using DragInt for all integer types
-								int value;
-								if (sceneIsRunning)
-									value = scriptInstance->GetFieldValue<int>(name);
-								else
-									value = component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<int>() : field.GetDefaultValue<int>();
-								
-								if (ImGui::DragInt(name.c_str(), &value))
+								int value = sceneIsRunning ? scriptInstance->GetFieldValue<int>(name) : component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<int>() : field.GetDefaultValue<int>();
+								if (DrawIntScriptField(name, value, field.GetDefaultValue<int>()))
 								{
 									if (sceneIsRunning)
 										scriptInstance->SetFieldValue(name, value);
@@ -590,13 +455,8 @@ namespace Teddy
 							}
 							case ScriptFieldType::Vector2:
 							{
-								glm::vec2 value;
-								if (sceneIsRunning)
-									value = scriptInstance->GetFieldValue<glm::vec2>(name);
-								else
-									value = component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<glm::vec2>() : field.GetDefaultValue<glm::vec2>();
-
-								if (ImGui::DragFloat2(name.c_str(), glm::value_ptr(value), 0.1f))
+								glm::vec2 value = sceneIsRunning ? scriptInstance->GetFieldValue<glm::vec2>(name) : component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<glm::vec2>() : field.GetDefaultValue<glm::vec2>();
+								if (DrawVec2ScriptField(name, value, field.GetDefaultValue<glm::vec2>()))
 								{
 									if (sceneIsRunning)
 										scriptInstance->SetFieldValue(name, value);
@@ -607,13 +467,8 @@ namespace Teddy
 							}
 							case ScriptFieldType::Vector3:
 							{
-								glm::vec3 value;
-								if (sceneIsRunning)
-									value = scriptInstance->GetFieldValue<glm::vec3>(name);
-								else
-									value = component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<glm::vec3>() : field.GetDefaultValue<glm::vec3>();
-
-								if (ImGui::DragFloat3(name.c_str(), glm::value_ptr(value), 0.1f))
+								glm::vec3 value = sceneIsRunning ? scriptInstance->GetFieldValue<glm::vec3>(name) : component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<glm::vec3>() : field.GetDefaultValue<glm::vec3>();
+								if (DrawVec3ScriptField(name, value, field.GetDefaultValue<glm::vec3>()))
 								{
 									if (sceneIsRunning)
 										scriptInstance->SetFieldValue(name, value);
@@ -624,13 +479,8 @@ namespace Teddy
 							}
 							case ScriptFieldType::Vector4:
 							{
-								glm::vec4 value;
-								if (sceneIsRunning)
-									value = scriptInstance->GetFieldValue<glm::vec4>(name);
-								else
-									value = component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<glm::vec4>() : field.GetDefaultValue<glm::vec4>();
-
-								if (ImGui::DragFloat4(name.c_str(), glm::value_ptr(value), 0.1f))
+								glm::vec4 value = sceneIsRunning ? scriptInstance->GetFieldValue<glm::vec4>(name) : component.FieldInstances.count(name) ? component.FieldInstances.at(name).GetValue<glm::vec4>() : field.GetDefaultValue<glm::vec4>();
+								if (DrawVec4ScriptField(name, value, field.GetDefaultValue<glm::vec4>()))
 								{
 									if (sceneIsRunning)
 										scriptInstance->SetFieldValue(name, value);
