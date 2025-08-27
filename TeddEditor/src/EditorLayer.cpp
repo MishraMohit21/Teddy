@@ -442,7 +442,9 @@ namespace Teddy {
 
 	void EditorLayer::OnNewScene()
 	{
-
+		m_Elements.clear();
+		Renderer2D::Shutdown();
+		Renderer2D::Init();
 		m_ActiveScene = CreateRef<Scene>("NewScene");
 
 		m_ActiveScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
@@ -525,18 +527,20 @@ namespace Teddy {
 				return;
 			}
 
-			OnNewScene();
+			m_Elements.clear();
+			Renderer2D::Shutdown();
+			Renderer2D::Init();
 
 			Ref<Scene> newScene = CreateRef<Scene>();
 			SceneSerializer serializer(newScene);
 
 			if (serializer.DeSerialize(path.string()))
 			{
-				m_EditorScene = newScene;
-				m_EditorScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-				m_SceneHierarchyPanel.SetContext(m_EditorScene);
+				m_ActiveScene = newScene;
+				m_EditorScene = m_ActiveScene;
 
-				m_ActiveScene = m_EditorScene;
+				m_ActiveScene->OnVeiwportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+				m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 				m_EditorScenePath = path;
 
 				TD_CORE_INFO("Scene loaded successfully from {0}", path.string());
@@ -550,7 +554,6 @@ namespace Teddy {
 		{
 			TD_CORE_ERROR("Error opening scene: {0}", e.what());
 		}
-
 	}
 
 	void EditorLayer::OnSaveSceneAs()
