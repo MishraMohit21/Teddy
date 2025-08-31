@@ -15,7 +15,7 @@
 #include <unordered_set>
 
 #include "Teddy/Core/Log.h"
-
+#include "Teddy/Project/Project.h"
 #include "Teddy/Debug/Instrumentor.h"
 
 #ifdef TD_PLATFORM_WINDOWS

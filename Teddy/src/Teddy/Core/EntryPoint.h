@@ -14,6 +14,8 @@ int main(int argc, char** argv)
 	auto app = Teddy::CreateApplication({argc, argv});
 	TD_PROFILE_END_SESSION();
 
+	
+
 	TD_PROFILE_BEGIN_SESSION("Runtime", "Profiles/TeddyProfile-Runtime.json");
 	app->Run();
 	TD_PROFILE_END_SESSION();

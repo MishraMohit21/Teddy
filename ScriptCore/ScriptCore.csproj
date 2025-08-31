@@ -21,8 +21,7 @@
     <OutputPath>$(SolutionDir)TeddEditor\Resources\Scripts\</OutputPath>
     <BaseIntermediateOutputPath>$(SolutionDir)TeddEditor\Resources\Scripts\Intermediates\Debug\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -34,8 +33,7 @@
     <OutputPath>$(SolutionDir)TeddEditor\Resources\Scripts\</OutputPath>
     <BaseIntermediateOutputPath>$(SolutionDir)TeddEditor\Resources\Scripts\Intermediates\Release\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -47,8 +45,7 @@
     <OutputPath>$(SolutionDir)TeddEditor\Resources\Scripts\</OutputPath>
     <BaseIntermediateOutputPath>$(SolutionDir)TeddEditor\Resources\Scripts\Intermediates\Dist\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -59,19 +56,6 @@
   <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Dist|x64' ">
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Source\Camera.cs" />
-    <Compile Include="Source\Player.cs" />
-    <Compile Include="Source\Teddy\Attributes.cs" />
-    <Compile Include="Source\Teddy\Input.cs" />
-    <Compile Include="Source\Teddy\InternalCalls.cs" />
-    <Compile Include="Source\Teddy\KeyCodes.cs" />
-    <Compile Include="Source\Teddy\Scene\Components.cs" />
-    <Compile Include="Source\Teddy\Scene\Entity.cs" />
-    <Compile Include="Source\Teddy\Scene\Scene.cs" />
-    <Compile Include="Source\Teddy\ScriptRegistry.cs" />
-    <Compile Include="Source\Teddy\Vector2.cs" />
-    <Compile Include="Source\Teddy\Vector3.cs" />
-    <Compile Include="Source\Teddy\Vector4.cs" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

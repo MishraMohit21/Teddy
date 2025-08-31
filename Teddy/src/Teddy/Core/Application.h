@@ -39,6 +39,9 @@ namespace Teddy {
 
 		void Close();
 
+		void NewProject(const std::filesystem::path& path);
+		void OpenProject(const std::filesystem::path& path);
+
 		ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
 
 		inline Window& GetWindow() { return *m_Window; }

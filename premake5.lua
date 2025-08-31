@@ -127,6 +127,7 @@ project "Teddy"
 		"ImGui",
 		"yaml-cpp",
 		"opengl32.lib",
+		"ScriptCore",
 		"%{Library.mono}",
 
 	}

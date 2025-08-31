@@ -142,7 +142,7 @@ namespace Teddy
 	struct Rigid2DBodyComponent
 	{
 
-		static enum class BodyType { Static = 0, Dynamic, Kinematic };
+		enum class BodyType { Static = 0, Dynamic, Kinematic };
 		BodyType Type = BodyType::Static;
 		bool fixedRotation = false;
 		void* RunTimeBody = nullptr;

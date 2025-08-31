@@ -128,7 +128,7 @@ namespace Teddy {
         Scene* scene = ScriptingEngine::GetSceneContext();
         Entity entity = scene->GetEntityByUUID(entityID);
         auto& sc = entity.GetComponent<ScriptComponent>();
-        return mono_string_new(ScriptingEngine::GetAppDomain(), sc.ClassName.c_str());
+        return mono_string_new(ScriptingEngine::GetCoreAppDomain(), sc.ClassName.c_str());
     }
 
     // Rigid2DBodyComponent

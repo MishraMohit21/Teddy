@@ -1329,6 +1329,8 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\Teddy\Project\Project.h" />
+    <ClInclude Include="src\Teddy\Project\ProjectSerializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1460,5 +1462,7 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="src\Teddy\Project\Project.cpp" />
+    <ClCompile Include="src\Teddy\Project\ProjectSerializer.cpp" />
   </ItemGroup>
 </Project>

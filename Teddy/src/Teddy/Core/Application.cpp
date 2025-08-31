@@ -1,14 +1,14 @@
 #include "tdpch.h"
 #include "Teddy/Core/Application.h"
-
 #include "Teddy/Core/Log.h"
-
 #include "Teddy/Renderer/Renderer.h"
-
 #include "Teddy/Core/Input.h"
 #include "Teddy/Scripting/ScriptingEngine.h"
+#include "Teddy/Project/Project.h"
+#include "Teddy/Project/ProjectSerializer.h"
 
 #include <glfw/glfw3.h>
+#include <fstream>
 
 namespace Teddy {
 
@@ -31,8 +31,77 @@ namespace Teddy {
 		Renderer::Init();
  		ScriptingEngine::Init();
 
+		if (m_CommandLineArgs.Count > 1)
+		{
+			std::string command = m_CommandLineArgs[1];
+			if (command == "--new" && m_CommandLineArgs.Count > 2)
+			{
+				NewProject(m_CommandLineArgs[2]);
+			}
+			else
+			{
+				OpenProject(m_CommandLineArgs[1]);
+			}
+		}
+
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
+	}
+
+	void Application::NewProject(const std::filesystem::path& path)
+	{
+		TD_CORE_INFO("Creating new project at: {}", path.string());
+
+		Ref<Project> project = CreateRef<Project>();
+		project->SetName(path.stem().string());
+		project->SetProjectDirectory(path);
+		project->SetProjectFilePath(path / (path.stem().string() + ".teddyproj"));
+
+		std::filesystem::create_directory(path);
+		std::filesystem::create_directory(path / "Assets");
+		std::filesystem::create_directory(path / "Assets" / "Scenes");
+		std::filesystem::create_directory(path / "Scripts");
+		std::filesystem::create_directory(path / "Binaries");
+
+		std::ofstream mainScene(path / "Assets" / "Scenes" / "main.teddy");
+		mainScene << "# Teddy Scene File";
+		mainScene.close();
+
+		std::ofstream csproj(path / "Scripts" / "GameAssembly.csproj");
+		csproj << R"(<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ScriptCore.dll">
+      <HintPath>..\Binaries\ScriptCore\ScriptCore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>)";
+		csproj.close();
+
+		project->SetMainScenePath("Assets/Scenes/main.teddy");
+		project->SetScriptCorePath("Binaries/ScriptCore/ScriptCore.dll");
+		project->SetGameAssemblyPath("Binaries/GameAssembly.dll");
+
+		ProjectSerializer serializer(project);
+		serializer.Serialize(project->GetProjectFilePath());
+
+		Project::SetActive(project);
+		ScriptingEngine::LoadAssemblies(project->GetScriptCorePath(), project->GetGameAssemblyPath());
+	}
+
+	void Application::OpenProject(const std::filesystem::path& path)
+	{
+		TD_CORE_INFO("Opening project: {}", path.string());
+		Ref<Project> project = CreateRef<Project>();
+		ProjectSerializer serializer(project);
+		if (serializer.Deserialize(path))
+		{
+			Project::SetActive(project);
+			ScriptingEngine::LoadAssemblies(project->GetScriptCorePath(), project->GetGameAssemblyPath());
+		}
 	}
 
 	Application::~Application()

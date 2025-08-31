@@ -114,7 +114,10 @@ namespace Teddy {
 		static void Init();
 		static void Shutdown();
 
-		static void LoadAssembly(const std::filesystem::path& filepath);
+		static void LoadAssemblies(const std::filesystem::path& corePath, const std::filesystem::path& gamePath);
+		static void ReloadGameAssembly();
+		static void UnloadGameAssembly();
+		static bool IsGameAssemblyLoaded();
 
 		static void OnRuntimeStart(Scene* scene);
 		static void OnRuntimeStop();
@@ -127,20 +130,69 @@ namespace Teddy {
 		static Ref<ScriptInstance> GetEntityScriptInstance(UUID entityID);
 		static std::unordered_map<std::string, Ref<ScriptClass>> GetEntityClasses();
 
-		static void PrintAssemblyTypes();
-
 		static MonoImage* GetCoreAssemblyImage();
-		static MonoDomain* GetAppDomain();
+		static MonoDomain* GetCoreAppDomain();
 	private:
 		static void InitMono();
 		static void ShutdownMono();
 
-		static MonoObject* InstantiateClass(MonoClass* monoClass);
+		static MonoAssembly* LoadAssembly(const std::filesystem::path& filepath);
 		static void LoadAssemblyClasses(MonoAssembly* assembly);
+
+		static MonoObject* InstantiateClass(MonoClass* monoClass);
 
 		friend class ScriptClass;
 		friend class ScriptGlue;
 	};
 
 
+}
+
+namespace Utils {
+	inline const char* ScriptFieldTypeToString(Teddy::ScriptFieldType type)
+	{
+		switch (type)
+		{
+		case Teddy::ScriptFieldType::None:    return "None";
+		case Teddy::ScriptFieldType::Float:   return "Float";
+		case Teddy::ScriptFieldType::Double:  return "Double";
+		case Teddy::ScriptFieldType::Bool:    return "Bool";
+		case Teddy::ScriptFieldType::Char:    return "Char";
+		case Teddy::ScriptFieldType::Byte:    return "Byte";
+		case Teddy::ScriptFieldType::Short:   return "Short";
+		case Teddy::ScriptFieldType::Int:     return "Int";
+		case Teddy::ScriptFieldType::Long:    return "Long";
+		case Teddy::ScriptFieldType::UByte:   return "UByte";
+		case Teddy::ScriptFieldType::UShort:  return "UShort";
+		case Teddy::ScriptFieldType::UInt:    return "UInt";
+		case Teddy::ScriptFieldType::ULong:   return "ULong";
+		case Teddy::ScriptFieldType::Vector2: return "Vector2";
+		case Teddy::ScriptFieldType::Vector3: return "Vector3";
+		case Teddy::ScriptFieldType::Vector4: return "Vector4";
+		case Teddy::ScriptFieldType::Entity:  return "Entity";
+		}
+		return "Unknown";
+	}
+
+	inline Teddy::ScriptFieldType ScriptFieldTypeFromString(std::string_view str)
+	{
+		if (str == "None")    return Teddy::ScriptFieldType::None;
+		if (str == "Float")   return Teddy::ScriptFieldType::Float;
+		if (str == "Double")  return Teddy::ScriptFieldType::Double;
+		if (str == "Bool")    return Teddy::ScriptFieldType::Bool;
+		if (str == "Char")    return Teddy::ScriptFieldType::Char;
+		if (str == "Byte")    return Teddy::ScriptFieldType::Byte;
+		if (str == "Short")   return Teddy::ScriptFieldType::Short;
+		if (str == "Int")     return Teddy::ScriptFieldType::Int;
+		if (str == "Long")    return Teddy::ScriptFieldType::Long;
+		if (str == "UByte")   return Teddy::ScriptFieldType::UByte;
+		if (str == "UShort")  return Teddy::ScriptFieldType::UShort;
+		if (str == "UInt")    return Teddy::ScriptFieldType::UInt;
+		if (str == "ULong")   return Teddy::ScriptFieldType::ULong;
+		if (str == "Vector2") return Teddy::ScriptFieldType::Vector2;
+		if (str == "Vector3") return Teddy::ScriptFieldType::Vector3;
+		if (str == "Vector4") return Teddy::ScriptFieldType::Vector4;
+		if (str == "Entity")  return Teddy::ScriptFieldType::Entity;
+		return Teddy::ScriptFieldType::None;
+	}
 }
