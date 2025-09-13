@@ -1,3 +1,5 @@
+using System;
+
 namespace Teddy
 {
     public struct Vector2
@@ -26,6 +28,21 @@ namespace Teddy
         public static Vector2 operator *(Vector2 vector, float scalar)
         {
             return new Vector2(vector.X * scalar, vector.Y * scalar);
+        }
+
+        public float Length()
+        {
+            return (float)Math.Sqrt(X * X + Y * Y);
+        }
+
+        public void Normalize()
+        {
+            float length = Length();
+            if (length > 0)
+            {
+                X /= length;
+                Y /= length;
+            }
         }
 
     }

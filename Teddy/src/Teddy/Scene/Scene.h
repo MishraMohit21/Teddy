@@ -68,6 +68,11 @@ namespace Teddy
 		uint32_t viewportWidth = 0, viewportHeight = 0 ;
 
 		b2World* m_PhysicsWorld = nullptr;
+		float m_PhysicsAccumulator = 0.0f;
+		const float m_PhysicsTimeStep = 1.0f / 60.0f;
+		const int32_t m_VelocityIterations = 8;
+		const int32_t m_PositionIterations = 3;
+
 		std::unordered_map<UUID, entt::entity> m_EntityMap;
 
 		friend class Entity;

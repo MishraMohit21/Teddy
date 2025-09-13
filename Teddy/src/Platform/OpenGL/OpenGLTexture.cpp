@@ -33,8 +33,9 @@ namespace Teddy {
 		stbi_uc* data = nullptr;
 		{
 			TD_PROFILE_SCOPE("stbi_load - OpenGLTexture2D::OpenGLTexture2D(const std:string&)");
-			data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+			data = stbi_load(path.c_str(), &width, &height, &channels, STBI_rgb_alpha);
 		}
+		if (!data) TD_CORE_ERROR("Failed to load image: {0}, Reason: {1}", path, stbi_failure_reason());
 		TD_CORE_ASSERT(data, "Failed to load image!");
 		m_Width = width;
 		m_Height = height;

@@ -35,6 +35,9 @@ namespace Teddy
 
 	void SceneCamera::RecalculateProjection()
 	{
+		if (m_AspectRatio == 0.0f)
+			return;
+
 		if (m_ProjectionType == ProjectionType::Perspective)
 		{
 			m_Projection = glm::perspective(m_PerspectiveFOV, m_AspectRatio, m_PerspectiveNear, m_PerspectiveFar);

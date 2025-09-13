@@ -3,6 +3,7 @@
 #include "Teddy.h"
 #include "./Panels/SceneHeirarchyPanel.h"
 #include "Panels/ContentBrowser.h"
+#include "Panels/ProjectBrowser.h"
 
 
 namespace Teddy {
@@ -32,6 +33,11 @@ namespace Teddy {
 		void OnSaveSceneAs();
 		void OnDuplicateEntity();
 
+		void OnNewProject();
+		void OnOpenProject();
+	private:
+		void LoadProject(const std::filesystem::path& path);
+
 		//void OnSelectAll();'
 
 		void OnScenePlay();
@@ -41,7 +47,7 @@ namespace Teddy {
 
 	// UI Controls
 	private:
-		void ViewportRender();
+				void ViewportRender();
 		void ShowSettings();
 		void UI_Toolbar();
 		ImFont* myFont;
@@ -53,6 +59,11 @@ namespace Teddy {
 		void SerializeScene(Ref<Scene> scene, const std::filesystem::path& path);
 
 	private:
+		enum class EditorState
+		{
+			Welcome = 0, Editor = 1
+		};
+		EditorState m_EditorState = EditorState::Welcome;
 
 		OrthographicCameraController m_CameraController;
 		// Temp
@@ -71,11 +82,16 @@ namespace Teddy {
 		EditorCamera m_EditorCamera;
 		int m_GizmoType = -1;
 		bool m_ShowPhysicsColliders = false;
+
+		// Panels
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 		ContentBrowser m_ContentBrowser;
+		ProjectBrowser m_ProjectBrowser;
+
 		bool m_ShowContentBrowser = true;
 		bool m_ShowViewport = true;
 		bool m_ShowSettingpanel = true;
+		bool m_ShowProjectBrowser = true;
 
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 		glm::vec2 m_ViewportSize = { 1240.0f, 720.0f };

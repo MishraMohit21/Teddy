@@ -6,6 +6,7 @@
 #include "Teddy/Scripting/ScriptingEngine.h"
 #include "Teddy/Project/Project.h"
 #include "Teddy/Project/ProjectSerializer.h"
+#include "Teddy/Scripting/ScriptCompiler.h"
 
 #include <glfw/glfw3.h>
 #include <fstream>
@@ -61,46 +62,104 @@ namespace Teddy {
 		std::filesystem::create_directory(path / "Assets");
 		std::filesystem::create_directory(path / "Assets" / "Scenes");
 		std::filesystem::create_directory(path / "Scripts");
-		std::filesystem::create_directory(path / "Binaries");
+		std::filesystem::path scriptCoreDestDir = path / "Binaries" / "ScriptCore";
+		std::filesystem::create_directories(scriptCoreDestDir);
 
-		std::ofstream mainScene(path / "Assets" / "Scenes" / "main.teddy");
-		mainScene << "# Teddy Scene File";
+		std::filesystem::path scriptCoreSource = "Resources/Scripts/ScriptCore.dll";
+		if (std::filesystem::exists(scriptCoreSource))
+			std::filesystem::copy(scriptCoreSource, scriptCoreDestDir / "ScriptCore.dll");
+		else
+			TD_CORE_ERROR("Could not find ScriptCore.dll at {}", scriptCoreSource.string());
+
+		std::filesystem::path scriptCorePDB_Source = "Resources/Scripts/ScriptCore.pdb";
+		if (std::filesystem::exists(scriptCorePDB_Source))
+			std::filesystem::copy(scriptCorePDB_Source, scriptCoreDestDir / "ScriptCore.pdb");
+		else
+			TD_CORE_ERROR("Could not find ScriptCore.pdb at {}", scriptCorePDB_Source.string());
+
+		const char* defaultSceneContent = R"(Scene: main
+Entities:
+  - EntityId: 499784567368447835
+    TagComponent:
+      Tag: Square
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      TintColor: [0.400000006, 0.899999976, 0.699999988, 1]
+      TextureFile: 0
+      TilingFactor: 1
+  - EntityId: 17551659058006136178
+    TagComponent:
+      Tag: Camera
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        PerspectiveNearClip: 0.00999999978
+        PerspectiveFarClip: 1000
+        OrthographicSize: 10
+        OrthographicNearClip: -1
+        OrthographicFarClip: 1
+      Primary: true
+      FixedAspectRatio: false
+)";
+		std::ofstream mainScene(path / "Assets" / "Scenes" / "main.tddy");
+		mainScene << defaultSceneContent;
 		mainScene.close();
 
-		std::ofstream csproj(path / "Scripts" / "GameAssembly.csproj");
-		csproj << R"(<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="ScriptCore.dll">
-      <HintPath>..\Binaries\ScriptCore\ScriptCore.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-</Project>)";
-		csproj.close();
+		// Configure the project properties
+				mainScene.close();
 
-		project->SetMainScenePath("Assets/Scenes/main.teddy");
+		// Configure the project properties
+		project->SetMainScenePath("Assets/Scenes/main.tddy");
 		project->SetScriptCorePath("Binaries/ScriptCore/ScriptCore.dll");
 		project->SetGameAssemblyPath("Binaries/GameAssembly.dll");
+		project->SetAssetDirectory("Assets");
+		project->SetReloadAssemblyOnPlay(true);
+		project->AddSceneToList("Assets/Scenes/main.tddy");
 
+		// Save the project file. This is important so the compiler can read it.
 		ProjectSerializer serializer(project);
 		serializer.Serialize(project->GetProjectFilePath());
 
+		// Generate solution and compile scripts
+		ScriptCompiler::Compile(project);
+
+		// Set the new project as the active one
 		Project::SetActive(project);
-		ScriptingEngine::LoadAssemblies(project->GetScriptCorePath(), project->GetGameAssemblyPath());
+		
+		// Load the brand new assemblies
+		ScriptingEngine::LoadAssemblies(
+			project->GetAbsolute(project->GetScriptCorePath()),
+			project->GetAbsolute(project->GetGameAssemblyPath())
+		);
 	}
+	
 
 	void Application::OpenProject(const std::filesystem::path& path)
 	{
 		TD_CORE_INFO("Opening project: {}", path.string());
 		Ref<Project> project = CreateRef<Project>();
 		ProjectSerializer serializer(project);
-		if (serializer.Deserialize(path))
+		if (serializer.Deserialize(path)) // This sets the project's directory correctly
 		{
+			TD_CORE_INFO("Project deserialized successfully: {}", path.string());
 			Project::SetActive(project);
-			ScriptingEngine::LoadAssemblies(project->GetScriptCorePath(), project->GetGameAssemblyPath());
+
+			ScriptingEngine::LoadAssemblies(
+				project->GetAbsolute(project->GetScriptCorePath()),
+				project->GetAbsolute(project->GetGameAssemblyPath())
+			);
+		}
+		else
+		{
+			TD_CORE_ERROR("Failed to deserialize project: {}", path.string());
 		}
 	}
 

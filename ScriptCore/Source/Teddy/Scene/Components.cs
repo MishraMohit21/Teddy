@@ -134,6 +134,25 @@ namespace Teddy
         {
             InternalCalls.Rigid2DBodyComponent_ApplyLinearImpulseToCenter(Entity.ID, ref impulse, wake);
         }
+
+        public Vector2 LinearVelocity
+        {
+            get
+            {
+                InternalCalls.Rigid2DBodyComponent_GetLinearVelocity(Entity.ID, out Vector2 velocity);
+                return velocity;
+            }
+        }
+
+        public void ApplyForce(Vector2 force, Vector2 worldPosition, bool wake)
+        {
+            InternalCalls.Rigid2DBodyComponent_ApplyForce(Entity.ID, ref force, ref worldPosition, wake);
+        }
+
+        public void ApplyForceToCenter(Vector2 force, bool wake)
+        {
+            InternalCalls.Rigid2DBodyComponent_ApplyForceToCenter(Entity.ID, ref force, wake);
+        }
     }
 
     public class Box2DColliderComponent : Component

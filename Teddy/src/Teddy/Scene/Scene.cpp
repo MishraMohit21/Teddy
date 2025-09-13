@@ -31,6 +31,19 @@ namespace Utils
 namespace Teddy
 {
 
+	static b2BodyType Rigidbody2DTypeToBox2DBody(Rigid2DBodyComponent::BodyType bodyType)
+	{
+		switch (bodyType)
+		{
+		case Rigid2DBodyComponent::BodyType::Static:    return b2_staticBody;
+		case Rigid2DBodyComponent::BodyType::Dynamic:   return b2_dynamicBody;
+		case Rigid2DBodyComponent::BodyType::Kinematic: return b2_kinematicBody;
+		}
+		TD_CORE_ASSERT(false, "Unknown body type");
+		return b2_staticBody;
+	}
+
+
 	template<typename Component>
 	static void CopyComponent(entt::registry& dst, entt::registry& src, const std::unordered_map<UUID, entt::entity>& enttMap)
 	{
@@ -100,29 +113,81 @@ namespace Teddy
 	template<>
 	void Scene::OnComponentAdded<Rigid2DBodyComponent>(Entity entity, Rigid2DBodyComponent& component)
 	{
+		if (!m_PhysicsWorld)
+			return;
+
+		auto& transform = entity.GetComponent<TransformComponent>();
+
+		b2BodyDef bodyDef;
+		bodyDef.type = Rigidbody2DTypeToBox2DBody(component.Type);
+		bodyDef.position.Set(transform.Translation.x, transform.Translation.y);
+		bodyDef.angle = transform.Rotation.z;
+		bodyDef.linearDamping = component.LinearDamping;
+		bodyDef.angularDamping = component.AngularDamping;
+		bodyDef.gravityScale = component.GravityScale;
+		bodyDef.fixedRotation = component.FixedRotation;
+		bodyDef.awake = component.IsAwake;
+		bodyDef.enabled = component.Enabled;
+		bodyDef.bullet = component.IsContinuous;
+
+		component.RuntimeBody = m_PhysicsWorld->CreateBody(&bodyDef);
 	}
 
 	template<>
 	void Scene::OnComponentAdded<Box2DColliderComponent>(Entity entity, Box2DColliderComponent& component)
 	{
+		if (!m_PhysicsWorld)
+			return;
+
+		auto& transform = entity.GetComponent<TransformComponent>();
+		auto& rb2d = entity.GetComponent<Rigid2DBodyComponent>();
+		TD_CORE_ASSERT(rb2d.RuntimeBody, "RigidBody2DComponent does not have a runtime body!");
+		b2Body* body = (b2Body*)rb2d.RuntimeBody;
+
+		b2PolygonShape boxShape;
+		boxShape.SetAsBox(component.Size.x * transform.Scale.x, component.Size.y * transform.Scale.y, Utils::Convert(component.Offset), 0.0f);
+
+		b2FixtureDef fixtureDef;
+		fixtureDef.shape = &boxShape;
+		fixtureDef.density = component.Density;
+		fixtureDef.friction = component.Friction;
+		fixtureDef.restitution = component.Restitution;
+		fixtureDef.restitutionThreshold = component.RestitutionThreshold;
+		fixtureDef.isSensor = component.IsSensor;
+		fixtureDef.filter.categoryBits = component.CategoryBits;
+		fixtureDef.filter.maskBits = component.MaskBits;
+		fixtureDef.filter.groupIndex = component.GroupIndex;
+		component.RuntimeFixture = body->CreateFixture(&fixtureDef);
 	}
 
 	template<>
 	void Scene::OnComponentAdded<Circle2DColliderComponent>(Entity entity, Circle2DColliderComponent& component)
 	{
+		if (!m_PhysicsWorld)
+			return;
+
+		auto& transform = entity.GetComponent<TransformComponent>();
+		auto& rb2d = entity.GetComponent<Rigid2DBodyComponent>();
+		TD_CORE_ASSERT(rb2d.RuntimeBody, "RigidBody2DComponent does not have a runtime body!");
+		b2Body* body = (b2Body*)rb2d.RuntimeBody;
+
+		b2CircleShape circleShape;
+		circleShape.m_p.Set(component.Offset.x, component.Offset.y);
+		circleShape.m_radius = component.Radius * transform.Scale.x;
+
+		b2FixtureDef fixtureDef;
+		fixtureDef.shape = &circleShape;
+		fixtureDef.density = component.Density;
+		fixtureDef.friction = component.Friction;
+		fixtureDef.restitution = component.Restitution;
+		fixtureDef.restitutionThreshold = component.RestitutionThreshold;
+		fixtureDef.isSensor = component.IsSensor;
+		fixtureDef.filter.categoryBits = component.CategoryBits;
+		fixtureDef.filter.maskBits = component.MaskBits;
+		fixtureDef.filter.groupIndex = component.GroupIndex;
+		component.RuntimeFixture = body->CreateFixture(&fixtureDef);
 	}
 
-	static b2BodyType Rigidbody2DTypeToBox2DBody(Rigid2DBodyComponent::BodyType bodyType)
-	{
-		switch (bodyType)
-		{
-		case Rigid2DBodyComponent::BodyType::Static:    return b2_staticBody;
-		case Rigid2DBodyComponent::BodyType::Dynamic:   return b2_dynamicBody;
-		case Rigid2DBodyComponent::BodyType::Kinematic: return b2_kinematicBody;
-		}
-		TD_CORE_ASSERT(false, "Unknown body type");
-		return b2_staticBody;
-	}
 
 	Scene::Scene()
 		:m_SceneName("Untitiled")
@@ -211,8 +276,8 @@ namespace Teddy
 	void Scene::DestroyEntity(Entity& entity)
 	{
 		TD_CORE_WARN("Deleting the entity properly");
-		m_Registry.destroy(entity);
 		m_EntityMap.erase(entity.GetComponent<UUIDComponent>().id);
+		m_Registry.destroy(entity);
 	}
 
 	void Scene::OnRuntimeStart()
@@ -266,28 +331,35 @@ namespace Teddy
 	void Scene::OnUpdateSimuation(Timestep ts, EditorCamera& cam)
 	{
 		{
-			const int32_t velocityIterations = 6;
-			const int32_t positionIterations = 2;
-			m_PhysicsWorld->Step(ts, velocityIterations, positionIterations);
-
-			// Retrieve transform from Box2D
-			auto view = m_Registry.view<Rigid2DBodyComponent>();
+			auto view = m_Registry.view<ScriptComponent>();
 			for (auto e : view)
 			{
 				Entity entity = { e, this };
-				auto& transform = entity.GetComponent<TransformComponent>();
-				auto& rb2d = entity.GetComponent<Rigid2DBodyComponent>();
-
-				b2Body* body = (b2Body*)rb2d.RunTimeBody;
-				const auto& position = body->GetPosition();
-				/*b2Vec2 linearVel = { rb2d.linearVelocity.x, rb2d.linearVelocity.y };
-				body->SetLinearVelocity(linearVel);
-				body->ApplyForceToCenter(Utils::Convert(rb2d.forceValue), true);*/
-
-				transform.Translation.x = position.x;
-				transform.Translation.y = position.y;
-				transform.Rotation.z = body->GetAngle();
+				ScriptingEngine::OnUpdateEntity(entity, ts);
 			}
+		}
+
+		m_PhysicsAccumulator += ts;
+		while (m_PhysicsAccumulator >= m_PhysicsTimeStep)
+		{
+			m_PhysicsWorld->Step(m_PhysicsTimeStep, m_VelocityIterations, m_PositionIterations);
+			m_PhysicsAccumulator -= m_PhysicsTimeStep;
+		}
+
+		// Retrieve transform from Box2D
+		auto view = m_Registry.view<Rigid2DBodyComponent>();
+		for (auto e : view)
+		{
+			Entity entity = { e, this };
+			auto& transform = entity.GetComponent<TransformComponent>();
+			auto& rb2d = entity.GetComponent<Rigid2DBodyComponent>();
+
+			b2Body* body = (b2Body*)rb2d.RuntimeBody;
+			const auto& position = body->GetPosition();
+
+			transform.Translation.x = position.x;
+			transform.Translation.y = position.y;
+			transform.Rotation.z = body->GetAngle();
 		}
 
 		RenderScene(cam);
@@ -296,26 +368,22 @@ namespace Teddy
 
 	void Scene::OnUpdateRuntime(Timestep ts)
 	{
-
-
 		{
-
 			auto view = m_Registry.view<ScriptComponent>();
 			for (auto e : view)
 			{
 				Entity entity = { e, this };
 				ScriptingEngine::OnUpdateEntity(entity, ts);
 			}
-
-
-	
 		}
-
-
+		// Physics
 		{
-			const int32_t velocityIterations = 6;
-			const int32_t positionIterations = 2;
-			m_PhysicsWorld->Step(ts, velocityIterations, positionIterations);
+			m_PhysicsAccumulator += ts;
+			while (m_PhysicsAccumulator >= m_PhysicsTimeStep)
+			{
+				m_PhysicsWorld->Step(m_PhysicsTimeStep, m_VelocityIterations, m_PositionIterations);
+				m_PhysicsAccumulator -= m_PhysicsTimeStep;
+			}
 
 			// Retrieve transform from Box2D
 			auto view = m_Registry.view<Rigid2DBodyComponent>();
@@ -325,7 +393,7 @@ namespace Teddy
 				auto& transform = entity.GetComponent<TransformComponent>();
 				auto& rb2d = entity.GetComponent<Rigid2DBodyComponent>();
 
-				b2Body* body = (b2Body*)rb2d.RunTimeBody;
+				b2Body* body = (b2Body*)rb2d.RuntimeBody;
 				const auto& position = body->GetPosition();
 				
 				transform.Translation.x = position.x;
@@ -336,21 +404,20 @@ namespace Teddy
 			}
 		}
 
-
-		Camera* mainCamera = nullptr;
-		
+		Camera* mainCamera = nullptr;		
 
 		glm::mat4 cameraTransform;
 		{
 			auto view = m_Registry.view<TransformComponent, CameraComponent>();
+			//TD_CORE_WARN("Searching for primary camera in {} entities...", view.size_hint());
 			for (auto entity : view)
 			{
 				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
-
 				if (camera.Primary)
 				{
 					mainCamera = &camera.Camera;
 					cameraTransform = transform.GetTransform();
+					//TD_CORE_WARN("Found primary camera on entity {0}!", (uint32_t)entity);
 					break;
 				}
 			}
@@ -358,12 +425,19 @@ namespace Teddy
 
 		if (mainCamera)
 		{
+			//TD_CORE_WARN("Primary camera found! Rendering scene...");
+			//TD_CORE_WARN("  Camera Transform: [{}, {}, {}]", cameraTransform[3][0], cameraTransform[3][1], cameraTransform[3][2]);
+
 			Renderer2D::BeginScene(mainCamera->GetProjection(), cameraTransform);
 			{
 				auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+				//TD_CORE_WARN("  Found {} sprites to render.", group.size());
 				for (auto entity : group)
 				{
 					auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+					
+					glm::mat4 spriteTransform = transform.GetTransform();
+					//TD_CORE_WARN("    - Drawing sprite at: [{}, {}, {}]", spriteTransform[3][0], spriteTransform[3][1], spriteTransform[3][2]);
 
 					if (sprite.c_texture)
 						Renderer2D::DrawQuad(transform.GetTransform(), sprite.c_texture, sprite.c_tilingFactor, sprite.Color, int(entity));
@@ -389,7 +463,7 @@ namespace Teddy
 		viewportHeight = height;
 		viewportWidth = width;
 
-			auto view = m_Registry.view<CameraComponent>();
+		auto view = m_Registry.view<CameraComponent>();
 		for (auto& entity : view)
 		{
 			auto& cameraComponent = view.get<CameraComponent>(entity);
@@ -439,6 +513,9 @@ namespace Teddy
 
 	void Scene::OnPhysics2DStart()
 	{
+
+		
+
 		m_PhysicsWorld = new b2World({ 0.0f, -9.8f });
 
 		auto view = m_Registry.view<Rigid2DBodyComponent>();
@@ -452,17 +529,23 @@ namespace Teddy
 			bodyDef.type = Rigidbody2DTypeToBox2DBody(rb2d.Type);
 			bodyDef.position.Set(transform.Translation.x, transform.Translation.y);
 			bodyDef.angle = transform.Rotation.z;
+			bodyDef.linearDamping = rb2d.LinearDamping;
+			bodyDef.angularDamping = rb2d.AngularDamping;
+			bodyDef.gravityScale = rb2d.GravityScale;
+			bodyDef.fixedRotation = rb2d.FixedRotation;
+			bodyDef.awake = rb2d.IsAwake;
+			bodyDef.enabled = rb2d.Enabled;
+			bodyDef.bullet = rb2d.IsContinuous;
 
 			b2Body* body = m_PhysicsWorld->CreateBody(&bodyDef);
-			body->SetFixedRotation(rb2d.fixedRotation);
-			rb2d.RunTimeBody = body;
+			rb2d.RuntimeBody = body;
 
 			if (entity.HasComponent<Box2DColliderComponent>())
 			{
 				auto& bc2d = entity.GetComponent<Box2DColliderComponent>();
 
 				b2PolygonShape boxShape;
-				boxShape.SetAsBox(bc2d.Size.x * transform.Scale.x, bc2d.Size.y * transform.Scale.y);
+				boxShape.SetAsBox(bc2d.Size.x * transform.Scale.x, bc2d.Size.y * transform.Scale.y, Utils::Convert(bc2d.Offset), 0.0f);
 
 				b2FixtureDef fixtureDef;
 				fixtureDef.shape = &boxShape;
@@ -470,7 +553,11 @@ namespace Teddy
 				fixtureDef.friction = bc2d.Friction;
 				fixtureDef.restitution = bc2d.Restitution;
 				fixtureDef.restitutionThreshold = bc2d.RestitutionThreshold;
-				body->CreateFixture(&fixtureDef);
+				fixtureDef.isSensor = bc2d.IsSensor;
+				fixtureDef.filter.categoryBits = bc2d.CategoryBits;
+				fixtureDef.filter.maskBits = bc2d.MaskBits;
+				fixtureDef.filter.groupIndex = bc2d.GroupIndex;
+				bc2d.RuntimeFixture = body->CreateFixture(&fixtureDef);
 			}
 
 			if (entity.HasComponent<Circle2DColliderComponent>())
@@ -487,7 +574,11 @@ namespace Teddy
 				fixtureDef.friction = cc2d.Friction;
 				fixtureDef.restitution = cc2d.Restitution;
 				fixtureDef.restitutionThreshold = cc2d.RestitutionThreshold;
-				body->CreateFixture(&fixtureDef);
+				fixtureDef.isSensor = cc2d.IsSensor;
+				fixtureDef.filter.categoryBits = cc2d.CategoryBits;
+				fixtureDef.filter.maskBits = cc2d.MaskBits;
+				fixtureDef.filter.groupIndex = cc2d.GroupIndex;
+				cc2d.RuntimeFixture = body->CreateFixture(&fixtureDef);
 			}
 		}
 	}

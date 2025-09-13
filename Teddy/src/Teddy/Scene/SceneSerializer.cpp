@@ -299,7 +299,13 @@ namespace Teddy
 			out << YAML::BeginMap; // Rigid2DBodyComponent
 			auto& rb2dComponent = entity.GetComponent<Rigid2DBodyComponent>();
 			out << YAML::Key << "BodyType" << YAML::Value << RigidBody2DBodyTypeToString(rb2dComponent.Type);
-			out << YAML::Key << "FixedRotation" << YAML::Value << rb2dComponent.fixedRotation;
+			out << YAML::Key << "FixedRotation" << YAML::Value << rb2dComponent.FixedRotation;
+			out << YAML::Key << "LinearDamping" << YAML::Value << rb2dComponent.LinearDamping;
+			out << YAML::Key << "AngularDamping" << YAML::Value << rb2dComponent.AngularDamping;
+			out << YAML::Key << "GravityScale" << YAML::Value << rb2dComponent.GravityScale;
+			out << YAML::Key << "IsContinuous" << YAML::Value << rb2dComponent.IsContinuous;
+			out << YAML::Key << "IsAwake" << YAML::Value << rb2dComponent.IsAwake;
+			out << YAML::Key << "Enabled" << YAML::Value << rb2dComponent.Enabled;
 			out << YAML::EndMap; // Rigid2DBodyComponent
 		}
 		if (entity.HasComponent<Box2DColliderComponent>())
@@ -313,6 +319,10 @@ namespace Teddy
 			out << YAML::Key << "Friction" << YAML::Value << bc2dComponent.Friction;
 			out << YAML::Key << "Restitution" << YAML::Value << bc2dComponent.Restitution;
 			out << YAML::Key << "RestitutionThreshold" << YAML::Value << bc2dComponent.RestitutionThreshold;
+			out << YAML::Key << "IsSensor" << YAML::Value << bc2dComponent.IsSensor;
+			out << YAML::Key << "CategoryBits" << YAML::Value << bc2dComponent.CategoryBits;
+			out << YAML::Key << "MaskBits" << YAML::Value << bc2dComponent.MaskBits;
+			out << YAML::Key << "GroupIndex" << YAML::Value << bc2dComponent.GroupIndex;
 			out << YAML::EndMap; // Box2DColliderComponent
 		}
 
@@ -327,6 +337,10 @@ namespace Teddy
 			out << YAML::Key << "Friction" << YAML::Value << cc2dComponent.Friction;
 			out << YAML::Key << "Restitution" << YAML::Value << cc2dComponent.Restitution;
 			out << YAML::Key << "RestitutionThreshold" << YAML::Value << cc2dComponent.RestitutionThreshold;
+			out << YAML::Key << "IsSensor" << YAML::Value << cc2dComponent.IsSensor;
+			out << YAML::Key << "CategoryBits" << YAML::Value << cc2dComponent.CategoryBits;
+			out << YAML::Key << "MaskBits" << YAML::Value << cc2dComponent.MaskBits;
+			out << YAML::Key << "GroupIndex" << YAML::Value << cc2dComponent.GroupIndex;
 			out << YAML::EndMap; // CircleCollider2DComponent
 		}
 
@@ -540,7 +554,13 @@ namespace Teddy
 				{
 					auto& rb2d = deserializedEntity.AddComponent<Rigid2DBodyComponent>();
 					rb2d.Type = RigidBody2DBodyTypeFromString(rigidbody2DComponent["BodyType"].as<std::string>());
-					rb2d.fixedRotation = rigidbody2DComponent["FixedRotation"].as<bool>();
+					rb2d.FixedRotation = rigidbody2DComponent["FixedRotation"].as<bool>();
+					rb2d.LinearDamping = rigidbody2DComponent["LinearDamping"].as<float>();
+					rb2d.AngularDamping = rigidbody2DComponent["AngularDamping"].as<float>();
+					rb2d.GravityScale = rigidbody2DComponent["GravityScale"].as<float>();
+					rb2d.IsContinuous = rigidbody2DComponent["IsContinuous"].as<bool>();
+					rb2d.IsAwake = rigidbody2DComponent["IsAwake"].as<bool>();
+					rb2d.Enabled = rigidbody2DComponent["Enabled"].as<bool>();
 				}
 				auto boxCollider2DComponent = entity["Box2DColliderComponent"];
 				if (boxCollider2DComponent)
@@ -552,6 +572,10 @@ namespace Teddy
 					bc2d.Friction = boxCollider2DComponent["Friction"].as<float>();
 					bc2d.Restitution = boxCollider2DComponent["Restitution"].as<float>();
 					bc2d.RestitutionThreshold = boxCollider2DComponent["RestitutionThreshold"].as<float>();
+					bc2d.IsSensor = boxCollider2DComponent["IsSensor"].as<bool>();
+					bc2d.CategoryBits = boxCollider2DComponent["CategoryBits"].as<uint16_t>();
+					bc2d.MaskBits = boxCollider2DComponent["MaskBits"].as<uint16_t>();
+					bc2d.GroupIndex = boxCollider2DComponent["GroupIndex"].as<int16_t>();
 				}
 
 				auto circleCollider2DComponent = entity["CircleCollider2DComponent"];
@@ -564,6 +588,10 @@ namespace Teddy
 					cc2d.Friction = circleCollider2DComponent["Friction"].as<float>();
 					cc2d.Restitution = circleCollider2DComponent["Restitution"].as<float>();
 					cc2d.RestitutionThreshold = circleCollider2DComponent["RestitutionThreshold"].as<float>();
+					cc2d.IsSensor = circleCollider2DComponent["IsSensor"].as<bool>();
+					cc2d.CategoryBits = circleCollider2DComponent["CategoryBits"].as<uint16_t>();
+					cc2d.MaskBits = circleCollider2DComponent["MaskBits"].as<uint16_t>();
+					cc2d.GroupIndex = circleCollider2DComponent["GroupIndex"].as<int16_t>();
 				}
 
 			}

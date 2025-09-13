@@ -23,6 +23,7 @@ namespace Teddy {
         const std::filesystem::path& GetAssetRegistryPath() const { return m_AssetRegistryPath; }
         const std::filesystem::path& GetMainScenePath() const { return m_MainScenePath; }
         const std::vector<std::filesystem::path>& GetSceneList() const { return m_SceneList; }
+        const std::filesystem::path& GetMSBuildPath() const { return m_MSBuildPath; }
 
 
         std::filesystem::path GetAbsolute(const std::filesystem::path& relative) const;
@@ -64,7 +65,10 @@ namespace Teddy {
         // Runtime Settings
         std::filesystem::path m_ScriptCorePath;
         std::filesystem::path m_GameAssemblyPath;
+        std::filesystem::path m_MSBuildPath;
         bool m_ReloadAssemblyOnPlay = true;
     };
 
 }
+// Add this method to the Project class, near other getters
+

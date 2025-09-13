@@ -147,8 +147,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Teddy\Project\ProjectSerializer.h" />
-    <ClInclude Include="src\Teddy\Project\Project.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
@@ -180,6 +178,8 @@
     <ClInclude Include="src\Teddy\Events\MouseEvent.h" />
     <ClInclude Include="src\Teddy\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Teddy\Math\Math.h" />
+    <ClInclude Include="src\Teddy\Project\Project.h" />
+    <ClInclude Include="src\Teddy\Project\ProjectSerializer.h" />
     <ClInclude Include="src\Teddy\Renderer\Buffer.h" />
     <ClInclude Include="src\Teddy\Renderer\Camera.h" />
     <ClInclude Include="src\Teddy\Renderer\EditorCamera.h" />
@@ -200,6 +200,7 @@
     <ClInclude Include="src\Teddy\Scene\Scene.h" />
     <ClInclude Include="src\Teddy\Scene\SceneCamera.h" />
     <ClInclude Include="src\Teddy\Scene\SceneSerializer.h" />
+    <ClInclude Include="src\Teddy\Scripting\ScriptCompiler.h" />
     <ClInclude Include="src\Teddy\Scripting\ScriptGlue.h" />
     <ClInclude Include="src\Teddy\Scripting\ScriptingEngine.h" />
     <ClInclude Include="src\Teddy\Utils\PlatformUtils.h" />
@@ -570,8 +571,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Teddy\Project\ProjectSerializer.cpp" />
-    <ClCompile Include="src\Teddy\Project\Project.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
@@ -592,6 +591,8 @@
     <ClCompile Include="src\Teddy\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Teddy\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Teddy\Math\Math.cpp" />
+    <ClCompile Include="src\Teddy\Project\Project.cpp" />
+    <ClCompile Include="src\Teddy\Project\ProjectSerializer.cpp" />
     <ClCompile Include="src\Teddy\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Teddy\Renderer\EditorCamera.cpp" />
     <ClCompile Include="src\Teddy\Renderer\FrameBuffer.cpp" />
@@ -610,6 +611,7 @@
     <ClCompile Include="src\Teddy\Scene\Scene.cpp" />
     <ClCompile Include="src\Teddy\Scene\SceneCamera.cpp" />
     <ClCompile Include="src\Teddy\Scene\SceneSerializer.cpp" />
+    <ClCompile Include="src\Teddy\Scripting\ScriptCompiler.cpp" />
     <ClCompile Include="src\Teddy\Scripting\ScriptGlue.cpp" />
     <ClCompile Include="src\Teddy\Scripting\ScriptingEngine.cpp" />
     <ClCompile Include="src\tdpch.cpp">
@@ -635,6 +637,9 @@
     </ProjectReference>
     <ProjectReference Include="vendor\yaml-cpp\yaml-cpp.vcxproj">
       <Project>{88F1A057-74BE-FB62-9DD7-E90A890331F1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ScriptCore\ScriptCore.csproj">
+      <Project>{43DDC966-2F95-0BB4-989C-E40F8473A6A4}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,6 +2,7 @@
 #include "Teddy/Scene/Component.h"
 #include "Teddy/Scripting/ScriptingEngine.h"
 #include "UIUtils.h"
+#include "Teddy/Project/Project.h"
 
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
@@ -18,7 +19,7 @@
 
 namespace Teddy
 {
-	extern const std::filesystem::path g_AssetPath;
+	
 
 
 
@@ -171,7 +172,7 @@ namespace Teddy
 
 			char buffer[256];
 			memset(buffer, 0, sizeof(buffer));
-			std::strncpy(buffer, tag.c_str(), sizeof(buffer));
+			                        strncpy_s(buffer, sizeof(buffer), tag.c_str(), sizeof(buffer));
 			if (ImGui::InputText("##Tag", buffer, sizeof(buffer)))
 			{
 				tag = std::string(buffer);
@@ -211,8 +212,8 @@ namespace Teddy
 			DisplayAddComponentEntry<ScriptComponent>("Script");
 
 			DisplayAddComponentEntry<Rigid2DBodyComponent>("RigidBody 2D");
-			DisplayAddComponentEntry<CameraComponent>("BoxCollider 2D");
-			DisplayAddComponentEntry<CameraComponent>("CircleCollider 2D");
+			DisplayAddComponentEntry<Box2DColliderComponent>("BoxCollider 2D");
+			DisplayAddComponentEntry<Circle2DColliderComponent>("CircleCollider 2D");
 
 			ImGui::EndPopup();
 		}
@@ -305,7 +306,7 @@ namespace Teddy
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
 				{
 					const wchar_t* path = (const wchar_t*)payload->Data;
-					std::filesystem::path texturePath = std::filesystem::path(g_AssetPath) / path;
+					std::filesystem::path texturePath = Project::GetActive()->GetAssetDirectory() / path;
 					component.c_texture = Texture2D::Create(texturePath.string());
 				}
 				ImGui::EndDragDropTarget();
@@ -346,6 +347,12 @@ namespace Teddy
 		DrawComponent<ScriptComponent>("Script", entity, [&](auto& component)
 			{
 				auto scriptClasses = ScriptingEngine::GetEntityClasses();
+
+				if (scriptClasses.empty())
+				{
+					ImGui::Text("No script classes found.");
+					return;
+				}
 
 				// Convert map keys to a vector of strings for easier handling
 				std::vector<std::string> classNames;
@@ -513,7 +520,7 @@ namespace Teddy
 				const char* currentBodyTypeString = bodyTypeStrings[(int)component.Type];
 				if (ImGui::BeginCombo("Body Type", currentBodyTypeString))
 				{
-					for (int i = 0; i < 2; i++)
+					for (int i = 0; i < 3; i++)
 					{
 						bool isSelected = currentBodyTypeString == bodyTypeStrings[i];
 						if (ImGui::Selectable(bodyTypeStrings[i], isSelected))
@@ -526,18 +533,16 @@ namespace Teddy
 					}
 					ImGui::EndCombo();
 				}
-				ImGui::DragFloat2("Linear Velocity", glm::value_ptr(component.linearVelocity));
-				ImGui::DragFloat2("Force Value", glm::value_ptr(component.forceValue));
-				if (ImGui::Button("ApplyForce"))
-				{
-					component.ApplyForcebool = true;
-				}
-				else
-				{
-					component.ApplyForcebool = false;
-				}
-				ImGui::Checkbox("Fixed Rotation", &component.fixedRotation);
+
+				ImGui::Checkbox("Fixed Rotation", &component.FixedRotation);
+				ImGui::DragFloat("Linear Damping", &component.LinearDamping, 0.01f, 0.0f, 100.0f);
+				ImGui::DragFloat("Angular Damping", &component.AngularDamping, 0.01f, 0.0f, 100.0f);
+				ImGui::DragFloat("Gravity Scale", &component.GravityScale, 0.01f, -100.0f, 100.0f);
+				ImGui::Checkbox("Is Continuous", &component.IsContinuous);
+				ImGui::Checkbox("Is Awake", &component.IsAwake);
+				ImGui::Checkbox("Enabled", &component.Enabled);
 			});
+
 		DrawComponent<Box2DColliderComponent>("Box Collider 2D", entity, [](auto& component)
 			{
 				ImGui::DragFloat2("Offset", glm::value_ptr(component.Offset));
@@ -546,6 +551,10 @@ namespace Teddy
 				ImGui::DragFloat("Friction", &component.Friction, 0.01f, 0.0f, 1.0f);
 				ImGui::DragFloat("Restitution", &component.Restitution, 0.01f, 0.0f, 1.0f);
 				ImGui::DragFloat("Restitution Threshold", &component.RestitutionThreshold, 0.01f, 0.0f);
+				ImGui::Checkbox("Is Sensor", &component.IsSensor);
+				ImGui::InputScalar("Category Bits", ImGuiDataType_U16, &component.CategoryBits);
+				ImGui::InputScalar("Mask Bits", ImGuiDataType_U16, &component.MaskBits);
+				ImGui::InputScalar("Group Index", ImGuiDataType_S16, &component.GroupIndex);
 			});
 
 		DrawComponent<Circle2DColliderComponent>("Circle Collider 2D", entity, [](auto& component)
@@ -556,6 +565,10 @@ namespace Teddy
 				ImGui::DragFloat("Friction", &component.Friction, 0.01f, 0.0f, 1.0f);
 				ImGui::DragFloat("Restitution", &component.Restitution, 0.01f, 0.0f, 1.0f);
 				ImGui::DragFloat("Restitution Threshold", &component.RestitutionThreshold, 0.01f, 0.0f);
+				ImGui::Checkbox("Is Sensor", &component.IsSensor);
+				ImGui::InputScalar("Category Bits", ImGuiDataType_U16, &component.CategoryBits);
+				ImGui::InputScalar("Mask Bits", ImGuiDataType_U16, &component.MaskBits);
+				ImGui::InputScalar("Group Index", ImGuiDataType_S16, &component.GroupIndex);
 			});
 
 

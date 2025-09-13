@@ -1,18 +1,23 @@
 #include "tdpch.h"
 #include "Project.h"
 
-namespace Teddy {
+#include "ProjectSerializer.h"
 
-    Ref<Project>& Project::GetActive() {
-        return s_Active;
-    }
+namespace Teddy
+{
+	Ref<Project>& Project::GetActive()
+	{
+		return s_Active;
+	}
 
-    void Project::SetActive(const Ref<Project>& project) {
-        s_Active = project;
-    }
+	void Project::SetActive(const Ref<Project>& project)
+	{
+		s_Active = project;
+	}
 
-    std::filesystem::path Project::GetAbsolute(const std::filesystem::path& relative) const {
-        return m_ProjectDirectory / relative;
-    }
-
+	
+	std::filesystem::path Project::GetAbsolute(const std::filesystem::path& relative) const
+	{
+		return m_ProjectDirectory / relative;
+	}
 }

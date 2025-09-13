@@ -5,75 +5,49 @@ namespace Sandbox
 {
     public class Player : Entity
     {
-        private TransformComponent m_Transform;
         private Rigid2DBodyComponent m_Rigidbody;
-        private SpriteRendererComponent m_SpriteRenderer;
 
         [ShowInEditor]
-        public float Speed = 1.5f;
+        public float MovementForce = 10.0f;
 
         [ShowInEditor]
-        public float Radius = 5.0f;
-
-        // --- Member variables for motion ---
-        private float angle = 0.0f;
+        public float MaxSpeed = 5.0f;
 
         public void OnCreate()
         {
-            Console.WriteLine($"Player.OnCreate - {ID}");
-
-            m_Transform = GetComponent<TransformComponent>();
             m_Rigidbody = GetComponent<Rigid2DBodyComponent>();
-            m_SpriteRenderer = GetComponent<SpriteRendererComponent>();
         }
 
         public void OnUpdate(float ts)
         {
-            // --- 1. Circular Motion Logic ---
-            angle += Speed * ts;
+            if (m_Rigidbody == null)
+                return;
 
-            float x = (float)Math.Cos(angle) * Radius;
-            float y = (float)Math.Sin(angle) * Radius;
+            Vector2 moveDirection = Vector2.Zero;
 
-            m_Transform.Translation = new Vector3(x, y, m_Transform.Translation.Z);
-
-            // --- 2. Rainbow Color Logic (Synchronized with Angle) ---
-            // The angle is in radians (0 to 2*PI). We normalize this to a 0-1 range
-            // to use as the 'Hue' for the color.
-            float hue = (angle % (2.0f * (float)Math.PI)) / (2.0f * (float)Math.PI);
-
-            // Convert the Hue to an RGB color and apply it.
-            // Saturation and Value are set to 1.0f for the brightest, most vibrant colors.
-            m_SpriteRenderer.Color = HsvToRgb(hue, 1.0f, 1.0f);
-        }
-
-        /// <summary>
-        /// Converts an HSV color value to an RGB value.
-        /// </summary>
-        /// <param name="h">Hue (0.0 to 1.0)</param>
-        /// <param name="s">Saturation (0.0 to 1.0)</param>
-        /// <param name="v">Value (0.0 to 1.0)</param>
-        /// <returns>A Vector4 representing the RGBA color (0 to 255).</returns>
-        public static Vector4 HsvToRgb(float h, float s, float v)
-        {
-            int i = (int)Math.Floor(h * 6);
-            float f = h * 6 - i;
-            float p = v * (1 - s);
-            float q = v * (1 - f * s);
-            float t = v * (1 - (1 - f) * s);
-
-            float r = 0, g = 0, b = 0;
-            switch (i % 6)
+            if (Input.IsKeyDown(KeyCode.W))
             {
-                case 0: r = v; g = t; b = p; break;
-                case 1: r = q; g = v; b = p; break;
-                case 2: r = p; g = v; b = t; break;
-                case 3: r = p; g = q; b = v; break;
-                case 4: r = t; g = p; b = v; break;
-                case 5: r = v; g = p; b = q; break;
-            }
+                moveDirection.Y = 1.0f;
 
-            return new Vector4(r * 255, g * 255, b * 255, 255);
+            }
+            if (Input.IsKeyDown(KeyCode.S))
+                moveDirection.Y = -1.0f;
+            if (Input.IsKeyDown(KeyCode.A))
+                moveDirection.X = -1.0f;
+            if (Input.IsKeyDown(KeyCode.D))
+                moveDirection.X = 1.0f;
+
+            if (moveDirection.Length() > 0.0f)
+            {
+                moveDirection.Normalize();
+
+                Vector2 currentVelocity = m_Rigidbody.LinearVelocity;
+                if (currentVelocity.Length() < MaxSpeed)
+                {
+                    Vector2 force = moveDirection * MovementForce;
+                    m_Rigidbody.ApplyForceToCenter(force, true);
+                }
+            }
         }
     }
 }

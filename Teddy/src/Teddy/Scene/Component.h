@@ -144,16 +144,18 @@ namespace Teddy
 
 		enum class BodyType { Static = 0, Dynamic, Kinematic };
 		BodyType Type = BodyType::Static;
-		bool fixedRotation = false;
-		void* RunTimeBody = nullptr;
+		bool FixedRotation = false;
+		float LinearDamping = 0.0f;
+		float AngularDamping = 0.0f;
+		float GravityScale = 1.0f;
+		bool IsContinuous = false;
+		bool IsAwake = true;
+		bool Enabled = true;
 
-		glm::vec2 linearVelocity = glm::vec2(0);
-		glm::vec2 forceValue = glm::vec2(0);
-		bool ApplyForcebool = false;
+		void* RuntimeBody = nullptr;
 
 		Rigid2DBodyComponent() = default;
 		Rigid2DBodyComponent(const Rigid2DBodyComponent&) = default;
-			
 	};
 
 	struct Box2DColliderComponent
@@ -166,20 +168,31 @@ namespace Teddy
 		float Restitution = 0.0f;
 		float RestitutionThreshold = 0.5f;
 
+		bool IsSensor = false;
+		uint16_t CategoryBits = 0x0001;
+		uint16_t MaskBits = 0xFFFF;
+		int16_t GroupIndex = 0;
+
 		void* RuntimeFixture = nullptr;
 
 		Box2DColliderComponent() = default;
-		Box2DColliderComponent(const Box2DColliderComponent&) = default;	
+		Box2DColliderComponent(const Box2DColliderComponent&) = default;
 	};
-	
+
 	struct Circle2DColliderComponent
 	{
 		glm::vec2 Offset = { 0.0f, 0.0f };
 		float Radius = 0.5f;
+
 		float Density = 1.0f;
 		float Friction = 0.5f;
 		float Restitution = 0.0f;
 		float RestitutionThreshold = 0.5f;
+
+		bool IsSensor = false;
+		uint16_t CategoryBits = 0x0001;
+		uint16_t MaskBits = 0xFFFF;
+		int16_t GroupIndex = 0;
 
 		void* RuntimeFixture = nullptr;
 

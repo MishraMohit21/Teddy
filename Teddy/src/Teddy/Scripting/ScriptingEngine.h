@@ -57,7 +57,11 @@ namespace Teddy {
 		MonoMethod* GetMethod(const std::string& name, int parameterCount);
 		MonoObject* InvokeMethod(MonoObject* instance, MonoMethod* method, void** params = nullptr, MonoObject** exc = nullptr);
 
+		MonoClass* GetMonoClass() const { return m_MonoClass; }
+
 		const std::unordered_map<std::string, ScriptField>& GetFields() const { return m_Fields; }
+
+		const std::string& GetClassName() const { return m_ClassName; }
 	private:
 		std::string m_ClassNamespace;
 		std::string m_ClassName;

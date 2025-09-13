@@ -31,6 +31,9 @@
     <Filter Include="src\Teddy\Math">
       <UniqueIdentifier>{6F2C7A2E-5BFA-6D34-448E-DE5A30FB4999}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Teddy\Project">
+      <UniqueIdentifier>{1C4CD67A-8862-D410-D1D9-5F323D2FA598}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Teddy\Renderer">
       <UniqueIdentifier>{3CE6ACC2-28CA-6D18-912A-686B7D2D589A}</UniqueIdentifier>
     </Filter>
@@ -164,6 +167,12 @@
     </ClInclude>
     <ClInclude Include="src\Teddy\Math\Math.h">
       <Filter>src\Teddy\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Project\Project.h">
+      <Filter>src\Teddy\Project</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Project\ProjectSerializer.h">
+      <Filter>src\Teddy\Project</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Renderer\Buffer.h">
       <Filter>src\Teddy\Renderer</Filter>
@@ -1329,8 +1338,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Teddy\Project\Project.h" />
-    <ClInclude Include="src\Teddy\Project\ProjectSerializer.h" />
+    <ClInclude Include="src\Teddy\Scripting\ScriptCompiler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1392,6 +1400,12 @@
     </ClCompile>
     <ClCompile Include="src\Teddy\Math\Math.cpp">
       <Filter>src\Teddy\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Project\Project.cpp">
+      <Filter>src\Teddy\Project</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Project\ProjectSerializer.cpp">
+      <Filter>src\Teddy\Project</Filter>
     </ClCompile>
     <ClCompile Include="src\Teddy\Renderer\Buffer.cpp">
       <Filter>src\Teddy\Renderer</Filter>
@@ -1462,7 +1476,6 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Teddy\Project\Project.cpp" />
-    <ClCompile Include="src\Teddy\Project\ProjectSerializer.cpp" />
+    <ClCompile Include="src\Teddy\Scripting\ScriptCompiler.cpp" />
   </ItemGroup>
 </Project>

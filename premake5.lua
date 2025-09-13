@@ -201,8 +201,8 @@ project "ScriptCore"
 		
 		files
 		{
-		    "ScriptCore/Source/ **. cs",
-		    "ScriptCore/Properties/ **. cs"
+		    "ScriptCore/Source/**. cs",
+		    "ScriptCore/Properties/**. cs"
     	}
 		
 		filter "configurations:Debug"

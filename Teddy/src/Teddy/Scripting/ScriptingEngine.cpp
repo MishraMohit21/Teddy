@@ -132,45 +132,43 @@ namespace Teddy {
 		Scene* SceneContext = nullptr;
 	};
 
-	static std::unique_ptr<ScriptEngineData> s_Data;
+	static std::unique_ptr<ScriptEngineData> s_ScriptingData;
 
 	void ScriptingEngine::Init()
 	{
-		s_Data = std::make_unique<ScriptEngineData>();
+		s_ScriptingData = std::make_unique<ScriptEngineData>();
 		InitMono();
 	}
 
 	void ScriptingEngine::Shutdown()
 	{
 		ShutdownMono();
-		s_Data.reset();
+		s_ScriptingData.reset();
 	}
 
 	void ScriptingEngine::LoadAssemblies(const std::filesystem::path& corePath, const std::filesystem::path& gamePath)
 	{
-		s_Data->CoreAppDomain = mono_domain_create_appdomain("TeddyScriptRuntime", nullptr);
-		mono_domain_set(s_Data->CoreAppDomain, true);
+		TD_CORE_INFO("Game DLL: {}, ScriptCore: {}", gamePath, corePath);
+		s_ScriptingData->CoreAppDomain = mono_domain_create_appdomain("TeddyScriptRuntime", nullptr);
+		mono_domain_set(s_ScriptingData->CoreAppDomain, true);
 
-		s_Data->CoreAssembly = Utils::LoadMonoAssembly(corePath, true);
-		s_Data->CoreAssemblyImage = mono_assembly_get_image(s_Data->CoreAssembly);
+		s_ScriptingData->CoreAssembly = Utils::LoadMonoAssembly(corePath, true);
+		s_ScriptingData->CoreAssemblyImage = mono_assembly_get_image(s_ScriptingData->CoreAssembly);
 
-		s_Data->GameAssemblyPath = gamePath;
-		if (std::filesystem::exists(s_Data->GameAssemblyPath))
+		s_ScriptingData->GameAssemblyPath = gamePath;
+		if (std::filesystem::exists(s_ScriptingData->GameAssemblyPath))
 		{
-			s_Data->GameAppDomain = mono_domain_create_appdomain("TeddyGameRuntime", nullptr);
-			mono_domain_set(s_Data->GameAppDomain, true);
-			s_Data->GameAssembly = Utils::LoadMonoAssembly(gamePath, true);
-			s_Data->GameAssemblyImage = mono_assembly_get_image(s_Data->GameAssembly);
-			LoadAssemblyClasses(s_Data->GameAssembly);
-			mono_domain_set(s_Data->CoreAppDomain, true);
+			s_ScriptingData->GameAssembly = Utils::LoadMonoAssembly(gamePath, true);
+			s_ScriptingData->GameAssemblyImage = mono_assembly_get_image(s_ScriptingData->GameAssembly);
+			LoadAssemblyClasses(s_ScriptingData->GameAssembly);
 		}
 
-		LoadAssemblyClasses(s_Data->CoreAssembly);
+		LoadAssemblyClasses(s_ScriptingData->CoreAssembly);
 
 		ScriptGlue::RegisterComponents();
 		ScriptGlue::RegisterFunctions();
 
-		s_Data->EntityClass = ScriptClass("Teddy", "Entity");
+		s_ScriptingData->EntityClass = ScriptClass("Teddy", "Entity");
 	}
 
 	void ScriptingEngine::ReloadGameAssembly()
@@ -180,67 +178,93 @@ namespace Teddy {
 
 		UnloadGameAssembly();
 
-		s_Data->GameAppDomain = mono_domain_create_appdomain("TeddyGameRuntime", nullptr);
-		mono_domain_set(s_Data->GameAppDomain, true);
-		s_Data->GameAssembly = Utils::LoadMonoAssembly(s_Data->GameAssemblyPath, true);
-		s_Data->GameAssemblyImage = mono_assembly_get_image(s_Data->GameAssembly);
-		LoadAssemblyClasses(s_Data->GameAssembly);
-		mono_domain_set(s_Data->CoreAppDomain, true);
+		// Create a fresh Game domain for the new assembly
+		s_ScriptingData->GameAppDomain = mono_domain_create_appdomain("TeddyGameRuntime", nullptr);
+		mono_domain_set(s_ScriptingData->GameAppDomain, true);
+
+		// Load the Game assembly inside the new domain
+		s_ScriptingData->GameAssembly = Utils::LoadMonoAssembly(s_ScriptingData->GameAssemblyPath, true);
+		s_ScriptingData->GameAssemblyImage = mono_assembly_get_image(s_ScriptingData->GameAssembly);
+
+		// ?? Re-resolve EntityClass in the new domain before scanning for subclasses
+		s_ScriptingData->EntityClass = ScriptClass("Teddy", "Entity");
+
+		// Load classes while GameAppDomain is active
+		LoadAssemblyClasses(s_ScriptingData->GameAssembly);
+
+		// Re-register glue inside the Game domain if needed
+		ScriptGlue::RegisterComponents();
+		ScriptGlue::RegisterFunctions();
+
+		// Switch back to Core domain for editor/runtime control
+		if (s_ScriptingData->CoreAppDomain)
+			mono_domain_set(s_ScriptingData->CoreAppDomain, true);
+
+		TD_CORE_TRACE("Reloaded Game Assembly into new GameAppDomain");
 	}
+
+
+
 
 	void ScriptingEngine::UnloadGameAssembly()
 	{
 		if (!IsGameAssemblyLoaded())
 			return;
 
-		s_Data->EntityClasses.clear();
-		s_Data->EntityInstances.clear();
+		s_ScriptingData->EntityClasses.clear();
+		s_ScriptingData->EntityInstances.clear();
 
-		mono_domain_set(s_Data->RootDomain, false);
-		mono_domain_unload(s_Data->GameAppDomain);
+		// Ensure we are not inside the GameAppDomain when unloading it
+		if (s_ScriptingData->RootDomain)
+			mono_domain_set(s_ScriptingData->RootDomain, false);
 
-		s_Data->GameAssembly = nullptr;
-		s_Data->GameAssemblyImage = nullptr;
-		s_Data->GameAppDomain = nullptr;
+		if (s_ScriptingData->GameAppDomain)
+		{
+			mono_domain_unload(s_ScriptingData->GameAppDomain);
+		}
+
+		s_ScriptingData->GameAssembly = nullptr;
+		s_ScriptingData->GameAssemblyImage = nullptr;
+		s_ScriptingData->GameAppDomain = nullptr;
 	}
 
 	bool ScriptingEngine::IsGameAssemblyLoaded()
 	{
-		return s_Data->GameAssembly != nullptr;
+		return s_ScriptingData->GameAssembly != nullptr;
 	}
 
 	void ScriptingEngine::InitMono()
 	{
 		mono_set_assemblies_path("mono/lib");
 
-		s_Data->RootDomain = mono_jit_init("TeddyJITRuntime");
+		s_ScriptingData->RootDomain = mono_jit_init("TeddyJITRuntime");
 	}
 
 	void ScriptingEngine::ShutdownMono()
 	{
 		UnloadGameAssembly();
 
-		if (s_Data->CoreAppDomain)
+		if (s_ScriptingData->CoreAppDomain)
 		{
-			mono_domain_set(s_Data->RootDomain, false);
-			mono_domain_unload(s_Data->CoreAppDomain);
+			mono_domain_set(s_ScriptingData->RootDomain, false);
+			mono_domain_unload(s_ScriptingData->CoreAppDomain);
 		}
 
-		if (s_Data->RootDomain)
-			mono_jit_cleanup(s_Data->RootDomain);
+		if (s_ScriptingData->RootDomain)
+			mono_jit_cleanup(s_ScriptingData->RootDomain);
 
-		s_Data->CoreAppDomain = nullptr;
-		s_Data->RootDomain = nullptr;
+		s_ScriptingData->CoreAppDomain = nullptr;
+		s_ScriptingData->RootDomain = nullptr;
 	}
 
 	void ScriptingEngine::OnRuntimeStart(Scene* scene)
 	{
-		s_Data->SceneContext = scene;
+		s_ScriptingData->SceneContext = scene;
 	}
 
 	bool ScriptingEngine::EntityClassExists(const std::string& fullClassName)
 	{
-		return s_Data->EntityClasses.find(fullClassName) != s_Data->EntityClasses.end();
+		return s_ScriptingData->EntityClasses.find(fullClassName) != s_ScriptingData->EntityClasses.end();
 	}
 
 	void ScriptingEngine::OnCreateEntity(Entity entity)
@@ -248,8 +272,8 @@ namespace Teddy {
 		const auto& sc = entity.GetComponent<ScriptComponent>();
 		if (ScriptingEngine::EntityClassExists(sc.ClassName))
 		{
-			Ref<ScriptInstance> instance = CreateRef<ScriptInstance>(s_Data->EntityClasses[sc.ClassName], entity);
-			s_Data->EntityInstances[entity.GetComponent<UUIDComponent>().id] = instance;
+			Ref<ScriptInstance> instance = CreateRef<ScriptInstance>(s_ScriptingData->EntityClasses[sc.ClassName], entity);
+			s_ScriptingData->EntityInstances[entity.GetComponent<UUIDComponent>().id] = instance;
 
 			for (const auto& [name, fieldInstance] : sc.FieldInstances)
 			{
@@ -263,41 +287,69 @@ namespace Teddy {
 	void ScriptingEngine::OnUpdateEntity(Entity entity, Timestep ts)
 	{
 		UUID entityUUID = entity.GetComponent<UUIDComponent>().id;
-		if (s_Data->EntityInstances.find(entityUUID) != s_Data->EntityInstances.end())
+		if (s_ScriptingData->EntityInstances.find(entityUUID) != s_ScriptingData->EntityInstances.end())
 		{
-			Ref<ScriptInstance> instance = s_Data->EntityInstances[entityUUID];
+			Ref<ScriptInstance> instance = s_ScriptingData->EntityInstances[entityUUID];
 			instance->InvokeOnUpdate((float)ts);
 		}
 	}
 
 	Scene* ScriptingEngine::GetSceneContext()
 	{
-		return s_Data->SceneContext;
+		return s_ScriptingData->SceneContext;
 	}
 
 	void ScriptingEngine::OnRuntimeStop()
 	{
-		s_Data->SceneContext = nullptr;
-		s_Data->EntityInstances.clear();
+		s_ScriptingData->SceneContext = nullptr;
+		s_ScriptingData->EntityInstances.clear();
 	}
 
 	std::unordered_map<std::string, Ref<ScriptClass>> ScriptingEngine::GetEntityClasses()
 	{
-		return s_Data->EntityClasses;
+		return s_ScriptingData->EntityClasses;
 	}
 
 	void ScriptingEngine::LoadAssemblyClasses(MonoAssembly* assembly)
 	{
-		MonoImage* image = mono_assembly_get_image(assembly);
-		const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(image, MONO_TABLE_TYPEDEF);
-		int32_t numTypes = mono_table_info_get_rows(typeDefinitionsTable);
-		MonoClass* entityClass = mono_class_from_name(s_Data->CoreAssemblyImage, "Teddy", "Entity");
+		if (!assembly)
+		{
+			TD_CORE_ERROR("LoadAssemblyClasses called with null assembly");
+			return;
+		}
 
+		MonoImage* image = mono_assembly_get_image(assembly);
+		const char* assemblyName = mono_image_get_name(image);
+		TD_CORE_INFO("Loading classes from assembly: {}", assemblyName);
+
+		// Set domain to the domain that owns this assembly
+		if (s_ScriptingData->GameAssembly && assembly == s_ScriptingData->GameAssembly)
+		{
+			// ensure we are in GameAppDomain while inspecting game assembly
+			if (s_ScriptingData->GameAppDomain)
+				mono_domain_set(s_ScriptingData->GameAppDomain, true);
+		}
+		else
+		{
+			// Core assembly (or any other) should use CoreAppDomain
+			if (s_ScriptingData->CoreAppDomain)
+				mono_domain_set(s_ScriptingData->CoreAppDomain, true);
+		}
+
+		// Re-fetch Teddy.Entity inside the currently active domain (important)
+		MonoClass* entityClass = mono_class_from_name(s_ScriptingData->CoreAssemblyImage, "Teddy", "Entity");
 		if (entityClass == nullptr)
 		{
 			TD_CORE_ERROR("Could not find Teddy.Entity class in ScriptCore assembly!");
 			return;
 		}
+
+		const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(image, MONO_TABLE_TYPEDEF);
+		int32_t numTypes = mono_table_info_get_rows(typeDefinitionsTable);
+		TD_CORE_INFO("Found {} types.", numTypes);
+
+		int foundEntityClasses = 0;
+		s_ScriptingData->EntityClasses.clear(); // rebuild registry
 
 		for (int32_t i = 0; i < numTypes; i++)
 		{
@@ -306,52 +358,114 @@ namespace Teddy {
 
 			const char* nameSpace = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
 			const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
+
 			std::string fullName;
-			if (strlen(nameSpace) != 0)
+			if (nameSpace && strlen(nameSpace) != 0)
 				fullName = fmt::format("{}.{}", nameSpace, name);
 			else
 				fullName = name;
 
 			MonoClass* monoClass = mono_class_from_name(image, nameSpace, name);
-
 			if (monoClass == nullptr)
 				continue;
 
+			// ignore the base Entity itself
 			if (monoClass == entityClass)
 				continue;
 
-			bool isEntity = mono_class_is_subclass_of(monoClass, entityClass, false);
+			TD_CORE_INFO("  Checking inheritance for class: {}", fullName);
+			bool isEntity = false;
+            MonoClass* parentClass = mono_class_get_parent(monoClass);
+            while (parentClass != nullptr)
+            {
+                const char* parentName = mono_class_get_name(parentClass);
+                const char* parentNamespace = mono_class_get_namespace(parentClass);
+                if (strcmp(parentName, "Entity") == 0 && strcmp(parentNamespace, "Teddy") == 0)
+                {
+                    isEntity = true;
+                    break;
+                }
+                parentClass = mono_class_get_parent(parentClass);
+            }
+
 			if (isEntity)
-				s_Data->EntityClasses[fullName] = CreateRef<ScriptClass>(nameSpace, name);
+			{
+				TD_CORE_INFO("  Found Entity Class: {}", fullName);
+				// create a ScriptClass pointing to the class *in the correct domain*.
+				// Note: ScriptClass constructor will try the Game image first (if game loaded).
+				s_ScriptingData->EntityClasses[fullName] = CreateRef<ScriptClass>(std::string(nameSpace ? nameSpace : ""), std::string(name ? name : ""));
+				foundEntityClasses++;
+			}
 		}
+
+		TD_CORE_INFO("Found and registered {} entity classes from {}.", foundEntityClasses, assemblyName);
 	}
+
 
 	MonoImage* ScriptingEngine::GetCoreAssemblyImage()
 	{
-		return s_Data->CoreAssemblyImage;
+		return s_ScriptingData->CoreAssemblyImage;
 	}
 
 	MonoDomain* ScriptingEngine::GetCoreAppDomain()
 	{
-		return s_Data->CoreAppDomain;
+		return s_ScriptingData->CoreAppDomain;
 	}
 
 	MonoObject* ScriptingEngine::InstantiateClass(MonoClass* monoClass)
 	{
-		MonoObject* instance = mono_object_new(s_Data->CoreAppDomain, monoClass);
+		if (!monoClass)
+			return nullptr;
+
+		// Determine which image the class belongs to and set the domain accordingly
+		MonoImage* classImage = mono_class_get_image(monoClass);
+
+		if (s_ScriptingData->GameAssemblyImage && classImage == s_ScriptingData->GameAssemblyImage)
+		{
+			if (s_ScriptingData->GameAppDomain)
+				mono_domain_set(s_ScriptingData->GameAppDomain, true);
+		}
+		else
+		{
+			if (s_ScriptingData->CoreAppDomain)
+				mono_domain_set(s_ScriptingData->CoreAppDomain, true);
+		}
+
+		MonoObject* instance = mono_object_new(monoClass ? mono_domain_get() : nullptr, monoClass);
 		if (!instance)
-			instance = mono_object_new(s_Data->GameAppDomain, monoClass);
+		{
+			// fallback: try creating in core domain explicitly
+			if (s_ScriptingData->CoreAppDomain)
+				mono_domain_set(s_ScriptingData->CoreAppDomain, true);
+			instance = mono_object_new(s_ScriptingData->CoreAppDomain, monoClass);
+		}
 
 		mono_runtime_object_init(instance);
 		return instance;
 	}
 
+
 	ScriptClass::ScriptClass(const std::string& classNamespace, const std::string& className)
 		: m_ClassNamespace(classNamespace), m_ClassName(className)
 	{
-		m_MonoClass = mono_class_from_name(s_Data->GameAssemblyImage, classNamespace.c_str(), className.c_str());
+		// Prefer Game assembly class if game assembly is loaded and its domain is active
+		if (ScriptingEngine::IsGameAssemblyLoaded() && s_ScriptingData->GameAssemblyImage)
+		{
+			// ensure we are in game domain when trying to lookup game types
+			if (s_ScriptingData->GameAppDomain)
+				mono_domain_set(s_ScriptingData->GameAppDomain, true);
+
+			m_MonoClass = mono_class_from_name(s_ScriptingData->GameAssemblyImage, classNamespace.c_str(), className.c_str());
+		}
+
+		// If not found in game assembly, try core assembly (switch to core domain)
 		if (!m_MonoClass)
-			m_MonoClass = mono_class_from_name(s_Data->CoreAssemblyImage, classNamespace.c_str(), className.c_str());
+		{
+			if (s_ScriptingData->CoreAppDomain)
+				mono_domain_set(s_ScriptingData->CoreAppDomain, true);
+
+			m_MonoClass = mono_class_from_name(s_ScriptingData->CoreAssemblyImage, classNamespace.c_str(), className.c_str());
+		}
 
 		if (!m_MonoClass)
 		{
@@ -359,6 +473,7 @@ namespace Teddy {
 			return;
 		}
 
+		// Create a temporary instance to read default field values (instantiate in the domain owning the class)
 		MonoObject* dummyInstance = Instantiate();
 
 		void* iter = nullptr;
@@ -370,16 +485,19 @@ namespace Teddy {
 			{
 				MonoType* monoType = mono_field_get_type(field);
 				ScriptFieldType fieldType = Utils::MonoTypeToScriptFieldType(monoType);
-						
+
 				ScriptField& scriptField = m_Fields[fieldName];
 				scriptField.Type = fieldType;
 				scriptField.Name = fieldName;
 				scriptField.ClassField = field;
 
-				mono_field_get_value(dummyInstance, field, scriptField.m_DefaultValueBuffer);
+				// read default value into buffer
+				if (dummyInstance)
+					mono_field_get_value(dummyInstance, field, scriptField.m_DefaultValueBuffer);
 			}
 		}
 	}
+
 
 	MonoObject* ScriptClass::Instantiate()
 	{
@@ -402,7 +520,10 @@ namespace Teddy {
 		m_Instance = scriptClass->Instantiate();
 		m_GCHandle = mono_gchandle_new(m_Instance, false);
 
-		m_Constructor = s_Data->EntityClass.GetMethod(".ctor", 1);
+		MonoClass* parentClass = mono_class_get_parent(scriptClass->GetMonoClass());
+		m_Constructor = mono_class_get_method_from_name(parentClass, ".ctor", 1);
+		if (m_Constructor == nullptr)
+			TD_CORE_ERROR("Failed to find Entity base constructor for script {}", scriptClass->GetClassName());
 		m_OnCreateMethod = scriptClass->GetMethod("OnCreate", 0);
 		m_OnUpdateMethod = scriptClass->GetMethod("OnUpdate", 1);
 
@@ -474,8 +595,8 @@ namespace Teddy {
 
 	Ref<ScriptInstance> ScriptingEngine::GetEntityScriptInstance(UUID entityID)
 	{
-		auto it = s_Data->EntityInstances.find(entityID);
-		if (it == s_Data->EntityInstances.end())
+		auto it = s_ScriptingData->EntityInstances.find(entityID);
+		if (it == s_ScriptingData->EntityInstances.end())
 			return nullptr;
 
 		return it->second;

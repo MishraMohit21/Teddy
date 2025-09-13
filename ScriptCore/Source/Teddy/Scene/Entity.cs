@@ -38,6 +38,20 @@ namespace Teddy
             return InternalCalls.Entity_HasComponent(ID, componentType);
         }
 
+        public T AddComponent<T>() where T : Component, new()
+        {
+            Type componentType = typeof(T);
+
+            if (HasComponent<T>())
+                return GetComponent<T>();
+
+            InternalCalls.Entity_AddComponent(ID, componentType);
+
+            T newComponent = new T() { Entity = this };
+            m_ComponentCache.Add(componentType, newComponent);
+            return newComponent;
+        }
+
         public T GetComponent<T>() where T : Component, new()
         {
             Type componentType = typeof(T);
@@ -51,6 +65,11 @@ namespace Teddy
                 return newComponent;
             }
             return null;
+        }
+
+        public void Destroy()
+        {
+            InternalCalls.Scene_DestroyEntity(ID);
         }
 
     }
