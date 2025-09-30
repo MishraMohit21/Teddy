@@ -215,6 +215,9 @@ namespace Teddy
 			DisplayAddComponentEntry<Box2DColliderComponent>("BoxCollider 2D");
 			DisplayAddComponentEntry<Circle2DColliderComponent>("CircleCollider 2D");
 
+			ImGui::Separator();
+			DisplayAddComponentEntry<AudioSourceComponent>("Audio Source");
+
 			ImGui::EndPopup();
 		}
 
@@ -342,6 +345,32 @@ namespace Teddy
 				ImGui::Text("Current Texture: None");
 			}
 
+		});
+
+		DrawComponent<AudioSourceComponent>("Audio Source", entity, [](auto& component)
+		{
+			ImGui::Text("Audio File");
+			ImGui::SameLine();
+
+			// Display the file path (read-only)
+			ImGui::InputText("##AudioFilePath", (char*)component.FilePath.c_str(), component.FilePath.size(), ImGuiInputTextFlags_ReadOnly);
+
+			// Drag-drop target for audio files
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+				{
+					const wchar_t* path = (const wchar_t*)payload->Data;
+					                    std::filesystem::path audioPath = Project::GetActive()->GetAssetDirectory() / path;						// TODO: check file extension is a valid audio type
+					component.FilePath = audioPath.string();
+				}
+				ImGui::EndDragDropTarget();
+			}
+
+			ImGui::DragFloat("Volume", &component.Volume, 0.01f, 0.0f, 1.0f);
+			ImGui::DragFloat("Pitch", &component.Pitch, 0.01f, 0.0f, 10.0f);
+			ImGui::Checkbox("Loop", &component.bLoop);
+			ImGui::Checkbox("Play On Awake", &component.bPlayOnAwake);
 		});
 
 		DrawComponent<ScriptComponent>("Script", entity, [&](auto& component)

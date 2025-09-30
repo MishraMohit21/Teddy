@@ -59,6 +59,10 @@ namespace Teddy
 		void OnPhysics2DStart();
 		void OnPhysics2DStop();
 
+		void OnAudioStart();
+		void OnAudioUpdate(Timestep ts);
+		void OnAudioStop();
+
 
 		void RenderScene(EditorCamera& cam);
 

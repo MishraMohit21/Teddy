@@ -13,9 +13,13 @@ namespace Sandbox
         [ShowInEditor]
         public float MaxSpeed = 5.0f;
 
+        private AudioSourceComponent m_AudioSource;
+        private bool m_JumpKeyPressedLastFrame = false;
+
         public void OnCreate()
         {
             m_Rigidbody = GetComponent<Rigid2DBodyComponent>();
+            m_AudioSource = GetComponent<AudioSourceComponent>();
         }
 
         public void OnUpdate(float ts)
@@ -48,6 +52,18 @@ namespace Sandbox
                     m_Rigidbody.ApplyForceToCenter(force, true);
                 }
             }
+
+            // Jump
+            bool jumpKeyPressedThisFrame = Input.IsKeyDown(KeyCode.Space);
+            if (jumpKeyPressedThisFrame && !m_JumpKeyPressedLastFrame)
+            {
+                m_Rigidbody.ApplyLinearImpulse(new Vector2(0.0f, 20.0f), true);
+                if (m_AudioSource != null)
+                    m_AudioSource.Play();
+                else
+                    Console.WriteLine("Player has no AudioSourceComponent for jumping!");
+            }
+            m_JumpKeyPressedLastFrame = jumpKeyPressedThisFrame;
         }
     }
 }

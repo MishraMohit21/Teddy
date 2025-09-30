@@ -195,6 +195,19 @@ namespace Teddy
 				out << YAML::Key << "TilingFactor" << YAML::Value << src.c_tilingFactor;
 			out << YAML::EndMap;
 		}
+
+		if (entity.HasComponent<AudioSourceComponent>())
+		{
+			out << YAML::Key << "AudioSourceComponent";
+			out << YAML::BeginMap;
+			auto& asc = entity.GetComponent<AudioSourceComponent>();
+			out << YAML::Key << "FilePath" << YAML::Value << asc.FilePath;
+			out << YAML::Key << "Volume" << YAML::Value << asc.Volume;
+			out << YAML::Key << "Pitch" << YAML::Value << asc.Pitch;
+			out << YAML::Key << "Loop" << YAML::Value << asc.bLoop;
+			out << YAML::Key << "PlayOnAwake" << YAML::Value << asc.bPlayOnAwake;
+			out << YAML::EndMap;
+		}
 		
 		if (entity.HasComponent<ScriptComponent>())
 		{
@@ -436,6 +449,17 @@ namespace Teddy
 						src.c_texture = Texture2D::Create(path);
 					}
 					src.c_tilingFactor = spriteRendererComponent["TilingFactor"].as<float>();
+				}
+
+				auto audioSourceComponent = entity["AudioSourceComponent"];
+				if (audioSourceComponent)
+				{
+					auto& asc = deserializedEntity.AddComponent<AudioSourceComponent>();
+					asc.FilePath = audioSourceComponent["FilePath"].as<std::string>();
+					asc.Volume = audioSourceComponent["Volume"].as<float>();
+					asc.Pitch = audioSourceComponent["Pitch"].as<float>();
+					asc.bLoop = audioSourceComponent["Loop"].as<bool>();
+					asc.bPlayOnAwake = audioSourceComponent["PlayOnAwake"].as<bool>();
 				}
 
 				auto scriptComponent = entity["ScriptComponent"];

@@ -13,6 +13,7 @@
 #include "box2d/b2_circle_shape.h"
 
 #include "Teddy/Scripting/ScriptingEngine.h"
+#include "Teddy/Audio/AudioSystem.h"
 
 #include "Entity.h"
 #include <glm/glm.hpp>
@@ -107,6 +108,11 @@ namespace Teddy
 
 	template<>
 	void Scene::OnComponentAdded<ScriptComponent>(Entity entity, ScriptComponent& component)
+	{
+	}
+
+	template<>
+	void Scene::OnComponentAdded<AudioSourceComponent>(Entity entity, AudioSourceComponent& component)
 	{
 	}
 
@@ -236,8 +242,8 @@ namespace Teddy
 
 		CopyComponent<Rigid2DBodyComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<Box2DColliderComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
-		CopyComponent<Circle2DColliderComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
-
+		        CopyComponent<Circle2DColliderComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+				CopyComponent<AudioSourceComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		return newScene;
 	}
 
@@ -284,6 +290,7 @@ namespace Teddy
 	{
 
 		OnPhysics2DStart();
+		OnAudioStart();
 
 		{
 
@@ -308,6 +315,7 @@ namespace Teddy
 	void Scene::OnRuntimeStop()
 	{
 		OnPhysics2DStop();
+		OnAudioStop();
 
 		ScriptingEngine::OnRuntimeStop();
 	}
@@ -315,21 +323,24 @@ namespace Teddy
 	void Scene::OnSimulationStart()
 	{
 		OnPhysics2DStart();
+		OnAudioStart();
 	}
-
 	void Scene::OnSimulationStop()
 	{
 		OnPhysics2DStop();
+		OnAudioStop();
 	}
-
 
 	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& cam	)
 	{
+		OnAudioUpdate(ts);
 		RenderScene(cam);
 	}
 
 	void Scene::OnUpdateSimuation(Timestep ts, EditorCamera& cam)
 	{
+		OnAudioUpdate(ts);
+
 		{
 			auto view = m_Registry.view<ScriptComponent>();
 			for (auto e : view)
@@ -368,6 +379,8 @@ namespace Teddy
 
 	void Scene::OnUpdateRuntime(Timestep ts)
 	{
+		OnAudioUpdate(ts);
+
 		{
 			auto view = m_Registry.view<ScriptComponent>();
 			for (auto e : view)
@@ -500,6 +513,35 @@ namespace Teddy
 		CopyComponentIfExists<Rigid2DBodyComponent>(newEntity, entity);
 		CopyComponentIfExists<Box2DColliderComponent>(newEntity, entity);
 		CopyComponentIfExists<Circle2DColliderComponent>(newEntity, entity);
+	}
+
+	void Scene::OnAudioStart()
+	{
+		TD_CORE_TRACE("Scene::OnAudioStart");
+		auto view = m_Registry.view<AudioSourceComponent>();
+		for (auto e : view)
+		{
+			Entity entity = { e, this };
+			if (entity.GetComponent<AudioSourceComponent>().bPlayOnAwake)
+				AudioSystem::Play(entity);
+		}
+	}
+
+	void Scene::OnAudioUpdate(Timestep ts)
+	{
+		// TD_CORE_TRACE("Scene::OnAudioUpdate"); // This is too noisy
+		AudioSystem::OnUpdate(this, ts);
+	}
+
+	void Scene::OnAudioStop()
+	{
+		TD_CORE_TRACE("Scene::OnAudioStop");
+		auto view = m_Registry.view<AudioSourceComponent>();
+		for (auto e : view)
+		{
+			Entity entity = { e, this };
+			AudioSystem::Stop(entity);
+		}
 	}
 
 	Entity Scene::GetEntityByUUID(UUID uuid)

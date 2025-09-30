@@ -16,6 +16,9 @@
     <Filter Include="src\Teddy">
       <UniqueIdentifier>{D631E5B3-429C-992A-8BDA-4AD0F783777F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Teddy\Audio">
+      <UniqueIdentifier>{5748F1FC-C3D3-5EC1-CCE4-E1B538EFBAC1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Teddy\Core">
       <UniqueIdentifier>{EEEB742E-DAB9-6834-C34D-D95AAFBA4499}</UniqueIdentifier>
     </Filter>
@@ -104,6 +107,15 @@
     </ClInclude>
     <ClInclude Include="src\Teddy.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Audio\AudioSystem.h">
+      <Filter>src\Teddy\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Audio\SoLoudSound.h">
+      <Filter>src\Teddy\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Audio\Sound.h">
+      <Filter>src\Teddy\Audio</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Core\Application.h">
       <Filter>src\Teddy\Core</Filter>
@@ -233,6 +245,9 @@
     </ClInclude>
     <ClInclude Include="src\Teddy\Scene\SceneSerializer.h">
       <Filter>src\Teddy\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teddy\Scripting\ScriptCompiler.h">
+      <Filter>src\Teddy\Scripting</Filter>
     </ClInclude>
     <ClInclude Include="src\Teddy\Scripting\ScriptGlue.h">
       <Filter>src\Teddy\Scripting</Filter>
@@ -1338,7 +1353,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Teddy\Scripting\ScriptCompiler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1373,6 +1387,12 @@
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Audio\AudioSystem.cpp">
+      <Filter>src\Teddy\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teddy\Audio\SoLoudSound.cpp">
+      <Filter>src\Teddy\Audio</Filter>
     </ClCompile>
     <ClCompile Include="src\Teddy\Core\Application.cpp">
       <Filter>src\Teddy\Core</Filter>
@@ -1461,6 +1481,9 @@
     <ClCompile Include="src\Teddy\Scene\SceneSerializer.cpp">
       <Filter>src\Teddy\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\Teddy\Scripting\ScriptCompiler.cpp">
+      <Filter>src\Teddy\Scripting</Filter>
+    </ClCompile>
     <ClCompile Include="src\Teddy\Scripting\ScriptGlue.cpp">
       <Filter>src\Teddy\Scripting</Filter>
     </ClCompile>
@@ -1476,6 +1499,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Teddy\Scripting\ScriptCompiler.cpp" />
   </ItemGroup>
 </Project>

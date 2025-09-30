@@ -255,6 +255,40 @@ namespace Teddy
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static ulong Scene_FindEntityByName(string name);
 
+        #region AudioSource
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static string AudioSource_GetFilePath(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void AudioSource_SetFilePath(ulong entityID, string filePath);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float AudioSource_GetVolume(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void AudioSource_SetVolume(ulong entityID, float volume);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float AudioSource_GetPitch(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void AudioSource_SetPitch(ulong entityID, float pitch);
+		
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static bool AudioSource_GetLoop(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void AudioSource_SetLoop(ulong entityID, bool loop);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static bool AudioSource_GetPlayOnAwake(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void AudioSource_SetPlayOnAwake(ulong entityID, bool playOnAwake);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void AudioSource_Play(ulong entityID);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void AudioSource_Stop(ulong entityID);
+        #endregion
+
+
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void ScriptRegistry_RegisterScripts();
     }

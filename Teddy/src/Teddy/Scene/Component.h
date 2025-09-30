@@ -200,15 +200,35 @@ namespace Teddy
 		Circle2DColliderComponent(const Circle2DColliderComponent&) = default;
 	};
 
+	struct AudioSourceComponent
+	{
+		        std::string FilePath;
+		// Configuration
+		float Volume = 1.0f;
+		float Pitch = 1.0f;
+		bool bLoop = false;
+		bool bPlayOnAwake = true;
+
+		// --- Runtime State (Managed by AudioSystem) ---
+		enum class State { Stopped, Playing, Paused };
+		State CurrentState = State::Stopped;
+
+		// Handle from the audio backend (SoLoud) for the active sound
+		unsigned int RuntimeHandle = 0;
+
+		AudioSourceComponent() = default;
+		AudioSourceComponent(const AudioSourceComponent&) = default;
+	};
+
 	template<typename... Component>
 	struct ComponentGroup
 	{
 	};
 
 	using AllComponents =
-		ComponentGroup < TransformComponent, SpriteRendererComponent,
+		ComponentGroup<TransformComponent, SpriteRendererComponent,
 		CircleRendererComponent, CameraComponent, ScriptComponent,
 		Rigid2DBodyComponent, Box2DColliderComponent,
-		Circle2DColliderComponent > ;
+		Circle2DColliderComponent, AudioSourceComponent>;
 
 }

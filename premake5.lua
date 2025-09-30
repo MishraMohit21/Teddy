@@ -30,6 +30,7 @@ IncludeDir["yaml_cpp"] = "vendor/yaml-cpp/include"
 IncludeDir["Box2D"] = "vendor/Box2D/include"
 IncludeDir["mono"] = "vendor/mono/include"
 IncludeDir["ImGuizmo"] = "vendor/ImGuizmo"
+IncludeDir["SoLoud"] = "vendor/soloud/include"
 IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
 
 LibraryDir = {}
@@ -63,8 +64,7 @@ group "Dependencies"
 	include "Teddy/vendor/imgui"
 	include "Teddy/vendor/yaml-cpp"
 	include "Teddy/vendor/Box2D"
-	
-
+	include "Teddy/vendor/soloud"
 group ""
 
 
@@ -113,6 +113,7 @@ project "Teddy"
 		"$(ProjectDir)%{IncludeDir.entt}",
 		"$(ProjectDir)%{IncludeDir.mono}",
 		"$(ProjectDir)%{IncludeDir.ImGuizmo}",
+		"$(ProjectDir)%{IncludeDir.SoLoud}",
 		"$(ProjectDir)%{IncludeDir.Box2D}",
 		"$(ProjectDir)%{IncludeDir.yaml_cpp}",
 		"$(ProjectDir)%{IncludeDir.VulkanSDK}",
@@ -125,6 +126,7 @@ project "Teddy"
 		"Glad",
 		"Box2D",
 		"ImGui",
+		"SoLoud",
 		"yaml-cpp",
 		"opengl32.lib",
 		"ScriptCore",
@@ -201,8 +203,8 @@ project "ScriptCore"
 		
 		files
 		{
-		    "ScriptCore/Source/**. cs",
-		    "ScriptCore/Properties/**. cs"
+		    "ScriptCore/Source/**.cs",
+		    "ScriptCore/Properties/**.cs"
     	}
 		
 		filter "configurations:Debug"
@@ -245,6 +247,7 @@ project "Sandbox"
 		"Teddy/%{IncludeDir.glm}",
 		"Teddy/%{IncludeDir.yaml_cpp}",
 		"Teddy/%{IncludeDir.ImGuizmo}",
+		"$(ProjectDir)%{IncludeDir.SoLoud}",
 		"Teddy/%{IncludeDir.entt}"
 
 	}
@@ -305,6 +308,7 @@ project "TeddEditor"
 		"Teddy/%{IncludeDir.glm}",
 		"Teddy/%{IncludeDir.yaml_cpp}",
 		"Teddy/%{IncludeDir.ImGuizmo}",	
+		"Teddy/%{IncludeDir.SoLoud}",
 		"Teddy/%{IncludeDir.Box2D}",
 		"Teddy/%{IncludeDir.entt}"
 	}

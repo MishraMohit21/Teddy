@@ -4,6 +4,7 @@
 #include "Teddy/Renderer/Renderer.h"
 #include "Teddy/Core/Input.h"
 #include "Teddy/Scripting/ScriptingEngine.h"
+#include "Teddy/Audio/AudioSystem.h"
 #include "Teddy/Project/Project.h"
 #include "Teddy/Project/ProjectSerializer.h"
 #include "Teddy/Scripting/ScriptCompiler.h"
@@ -31,6 +32,7 @@ namespace Teddy {
 
 		Renderer::Init();
  		ScriptingEngine::Init();
+		AudioSystem::Init();
 
 		if (m_CommandLineArgs.Count > 1)
 		{
@@ -170,6 +172,7 @@ Entities:
 		m_LayerStack.reset();
 
 		ScriptingEngine::Shutdown();
+		AudioSystem::Shutdown();
 		Renderer::Shutdown();
 	}
 

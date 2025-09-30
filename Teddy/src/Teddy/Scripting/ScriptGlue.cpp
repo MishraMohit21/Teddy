@@ -9,6 +9,8 @@
 #include "Teddy/Scene/Scene.h"
 #include "Teddy/Scene/Entity.h"
 
+#include "Teddy/Audio/AudioSystem.h"
+
 #include "mono/metadata/object.h"
 #include "mono/metadata/reflection.h"
 
@@ -573,6 +575,96 @@ namespace Teddy {
         entity.GetComponent<Circle2DColliderComponent>().GroupIndex = groupIndex;
     }
 
+    // AudioSourceComponent
+    static MonoString* AudioSource_GetFilePath(UUID entityID)
+    {
+        Scene* scene = ScriptingEngine::GetSceneContext();
+        Entity entity = scene->GetEntityByUUID(entityID);
+        const auto& component = entity.GetComponent<AudioSourceComponent>();
+        return mono_string_new(ScriptingEngine::GetCoreAppDomain(), component.FilePath.c_str());
+    }
+
+    static void AudioSource_SetFilePath(UUID entityID, MonoString* filePath)
+    {
+        Scene* scene = ScriptingEngine::GetSceneContext();
+        Entity entity = scene->GetEntityByUUID(entityID);
+        auto& component = entity.GetComponent<AudioSourceComponent>();
+        char* cStr = mono_string_to_utf8(filePath);
+        component.FilePath = cStr;
+        mono_free(cStr);
+    }
+
+    static float AudioSource_GetVolume(UUID entityID)
+    {
+        Scene* scene = ScriptingEngine::GetSceneContext();
+        Entity entity = scene->GetEntityByUUID(entityID);
+        return entity.GetComponent<AudioSourceComponent>().Volume;
+    }
+
+    static void AudioSource_SetVolume(UUID entityID, float volume)
+    {
+        Scene* scene = ScriptingEngine::GetSceneContext();
+        Entity entity = scene->GetEntityByUUID(entityID);
+        entity.GetComponent<AudioSourceComponent>().Volume = volume;
+    }
+
+    static float AudioSource_GetPitch(UUID entityID)
+    {
+        Scene* scene = ScriptingEngine::GetSceneContext();
+        Entity entity = scene->GetEntityByUUID(entityID);
+        return entity.GetComponent<AudioSourceComponent>().Pitch;
+    }
+
+    static void AudioSource_SetPitch(UUID entityID, float pitch)
+    {
+        Scene* scene = ScriptingEngine::GetSceneContext();
+        Entity entity = scene->GetEntityByUUID(entityID);
+        entity.GetComponent<AudioSourceComponent>().Pitch = pitch;
+    }
+
+    static bool AudioSource_GetLoop(UUID entityID)
+    {
+        Scene* scene = ScriptingEngine::GetSceneContext();
+        Entity entity = scene->GetEntityByUUID(entityID);
+        return entity.GetComponent<AudioSourceComponent>().bLoop;
+    }
+
+    static void AudioSource_SetLoop(UUID entityID, bool loop)
+    {
+        Scene* scene = ScriptingEngine::GetSceneContext();
+        Entity entity = scene->GetEntityByUUID(entityID);
+        entity.GetComponent<AudioSourceComponent>().bLoop = loop;
+    }
+
+    static bool AudioSource_GetPlayOnAwake(UUID entityID)
+    {
+        Scene* scene = ScriptingEngine::GetSceneContext();
+        Entity entity = scene->GetEntityByUUID(entityID);
+        return entity.GetComponent<AudioSourceComponent>().bPlayOnAwake;
+    }
+
+    static void AudioSource_SetPlayOnAwake(UUID entityID, bool playOnAwake)
+    {
+        Scene* scene = ScriptingEngine::GetSceneContext();
+        Entity entity = scene->GetEntityByUUID(entityID);
+        entity.GetComponent<AudioSourceComponent>().bPlayOnAwake = playOnAwake;
+    }
+
+    static void AudioSource_Play(UUID entityID)
+    {
+        TD_CORE_TRACE("AudioSource_Play called from C# for entity {0}", entityID);
+        Scene* scene = ScriptingEngine::GetSceneContext();
+        Entity entity = scene->GetEntityByUUID(entityID);
+        AudioSystem::Play(entity);
+    }
+
+    static void AudioSource_Stop(UUID entityID)
+    {
+        Scene* scene = ScriptingEngine::GetSceneContext();
+        Entity entity = scene->GetEntityByUUID(entityID);
+        AudioSystem::Stop(entity);
+    }
+
     static bool Entity_HasComponent(UUID entityID, MonoReflectionType* componentType)
     {
         Scene* scene = ScriptingEngine::GetSceneContext();
@@ -687,6 +779,8 @@ namespace Teddy {
                 size_t pos = typeName.find_last_of(':');
                 std::string_view structName = typeName.substr(pos + 1);
                 std::string managedTypename = fmt::format("Teddy.{}", structName);
+
+                TD_CORE_TRACE("Registering component type: {}", managedTypename);
 
                 MonoType* managedType = mono_reflection_type_from_name(managedTypename.data(), ScriptingEngine::GetCoreAssemblyImage());
                 if (!managedType)
@@ -805,5 +899,18 @@ namespace Teddy {
         TD_ADD_INTERNAL_CALL(Scene_DestroyEntity);
         TD_ADD_INTERNAL_CALL(Scene_GetPrimaryCameraEntity);
         TD_ADD_INTERNAL_CALL(Scene_FindEntityByName);
+
+        TD_ADD_INTERNAL_CALL(AudioSource_GetFilePath);
+        TD_ADD_INTERNAL_CALL(AudioSource_SetFilePath);
+        TD_ADD_INTERNAL_CALL(AudioSource_GetVolume);
+        TD_ADD_INTERNAL_CALL(AudioSource_SetVolume);
+        TD_ADD_INTERNAL_CALL(AudioSource_GetPitch);
+        TD_ADD_INTERNAL_CALL(AudioSource_SetPitch);
+        TD_ADD_INTERNAL_CALL(AudioSource_GetLoop);
+        TD_ADD_INTERNAL_CALL(AudioSource_SetLoop);
+        TD_ADD_INTERNAL_CALL(AudioSource_GetPlayOnAwake);
+        TD_ADD_INTERNAL_CALL(AudioSource_SetPlayOnAwake);
+        TD_ADD_INTERNAL_CALL(AudioSource_Play);
+        TD_ADD_INTERNAL_CALL(AudioSource_Stop);
     }
 }
