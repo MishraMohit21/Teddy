@@ -36,18 +36,9 @@ namespace Teddy {
 			ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
 
 			ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2{ 4, 4 });
-			ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 6.0f);
-			ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
-
-			ImGui::PushStyleColor(ImGuiCol_Header, ImVec4{ 0.2f, 0.25f, 0.33f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4{ 0.3f, 0.35f, 0.43f, 1.0f });
-			ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4{ 0.15f, 0.20f, 0.28f, 1.0f });
-
 			float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
 			bool open = ImGui::TreeNodeEx((void*)typeid(T).hash_code(), treeNodeFlags, name.c_str());
-
-			ImGui::PopStyleVar(3);
-			ImGui::PopStyleColor(3);
+			ImGui::PopStyleVar();
 
 			ImGui::SameLine(contentRegionAvailable.x - lineHeight * 0.5f);
 
@@ -105,8 +96,6 @@ namespace Teddy {
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(dragFloatWidth);
 		ImGui::DragFloat("##X", &values.x, 0.1f, 0.0f, 0.0f, "%.2f");
-		if (ImGui::IsItemFocused())
-			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
 		ImGui::PopItemWidth();
 		ImGui::SameLine();
 
@@ -120,8 +109,6 @@ namespace Teddy {
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(dragFloatWidth);
 		ImGui::DragFloat("##Y", &values.y, 0.1f, 0.0f, 0.0f, "%.2f");
-		if (ImGui::IsItemFocused())
-			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
 		ImGui::PopItemWidth();
 		ImGui::SameLine();
 
@@ -135,8 +122,6 @@ namespace Teddy {
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(dragFloatWidth);
 		ImGui::DragFloat("##Z", &values.z, 0.1f, 0.0f, 0.0f, "%.2f");
-		if (ImGui::IsItemFocused())
-			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
 		ImGui::PopItemWidth();
 
 		ImGui::PopStyleVar();
@@ -235,48 +220,44 @@ namespace Teddy {
 		ImGui::Text(label.c_str());
 		ImGui::NextColumn();
 
-		        ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
-		        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 0 });
-		
-		        float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
-		        ImVec2 buttonSize = { 20.0f, lineHeight };
-		
-		        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-		        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
-		        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
-		        if (ImGui::Button("X", buttonSize))
-		        {
-		            values.x = resetValue.x;
-		            modified = true;
-		        }
-		        ImGui::PopStyleColor(3);
-		
-		        ImGui::SameLine();
-		        ImGui::SetNextItemWidth(dragFloatWidth);
-		        if (ImGui::DragFloat("##X", &values.x, 0.1f, 0.0f, 0.0f, "%.2f"))
-		            modified = true;
-		        if (ImGui::IsItemFocused())
-		            ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
-		        ImGui::PopItemWidth();
-		        ImGui::SameLine();
-		
-		        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-		        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
-		        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
-		        if (ImGui::Button("Y", buttonSize))
-		        {
-		            values.y = resetValue.y;
-		            modified = true;
-		        }
-		        ImGui::PopStyleColor(3);
-		
-		        ImGui::SameLine();
-		        ImGui::SetNextItemWidth(dragFloatWidth);
-		        if (ImGui::DragFloat("##Y", &values.y, 0.1f, 0.0f, 0.0f, "%.2f"))
-		            modified = true;
-		        if (ImGui::IsItemFocused())
-		            ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
-		        ImGui::PopItemWidth();
+		ImGui::PushMultiItemsWidths(2, ImGui::CalcItemWidth());
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 0 });
+
+		float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+		ImVec2 buttonSize = { 20.0f, lineHeight };
+
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
+		if (ImGui::Button("X", buttonSize))
+		{
+			values.x = resetValue.x;
+			modified = true;
+		}
+		ImGui::PopStyleColor(3);
+
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(dragFloatWidth);
+		if (ImGui::DragFloat("##X", &values.x, 0.1f, 0.0f, 0.0f, "%.2f"))
+			modified = true;
+		ImGui::PopItemWidth();
+		ImGui::SameLine();
+
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
+		if (ImGui::Button("Y", buttonSize))
+		{
+			values.y = resetValue.y;
+			modified = true;
+		}
+		ImGui::PopStyleColor(3);
+
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(dragFloatWidth);
+		if (ImGui::DragFloat("##Y", &values.y, 0.1f, 0.0f, 0.0f, "%.2f"))
+			modified = true;
+		ImGui::PopItemWidth();
 		ImGui::PopStyleVar();
 
 		ImGui::Columns(1);
@@ -318,8 +299,6 @@ namespace Teddy {
 		ImGui::SetNextItemWidth(dragFloatWidth);
 		if (ImGui::DragFloat("##X", &values.x, 0.1f, 0.0f, 0.0f, "%.2f"))
 			modified = true;
-		if (ImGui::IsItemFocused())
-			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
 		ImGui::PopItemWidth();
 		ImGui::SameLine();
 
@@ -337,8 +316,6 @@ namespace Teddy {
 		ImGui::SetNextItemWidth(dragFloatWidth);
 		if (ImGui::DragFloat("##Y", &values.y, 0.1f, 0.0f, 0.0f, "%.2f"))
 			modified = true;
-		if (ImGui::IsItemFocused())
-			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
 		ImGui::PopItemWidth();
 		ImGui::SameLine();
 
@@ -356,8 +333,6 @@ namespace Teddy {
 		ImGui::SetNextItemWidth(dragFloatWidth);
 		if (ImGui::DragFloat("##Z", &values.z, 0.1f, 0.0f, 0.0f, "%.2f"))
 			modified = true;
-		if (ImGui::IsItemFocused())
-			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
 		ImGui::PopItemWidth();
 		ImGui::SameLine();
 
@@ -375,8 +350,6 @@ namespace Teddy {
 		ImGui::SetNextItemWidth(dragFloatWidth);
 		if (ImGui::DragFloat("##W", &values.w, 0.1f, 0.0f, 0.0f, "%.2f"))
 			modified = true;
-		if (ImGui::IsItemFocused())
-			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
 		ImGui::PopItemWidth();
 
 		ImGui::PopStyleVar();
@@ -408,8 +381,6 @@ namespace Teddy {
 		ImGui::PushItemWidth(-1);
 		if (ImGui::DragFloat("##Value", &value, 0.1f))
 			modified = true;
-		if (ImGui::IsItemFocused())
-			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
 		ImGui::PopItemWidth();
 
 		ImGui::Columns(1);
@@ -437,8 +408,6 @@ namespace Teddy {
 		ImGui::PushItemWidth(-1);
 		if (ImGui::DragScalar("##Value", ImGuiDataType_Double, &value, 0.1f))
 			modified = true;
-		if (ImGui::IsItemFocused())
-			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
 		ImGui::PopItemWidth();
 
 		ImGui::Columns(1);
@@ -466,8 +435,6 @@ namespace Teddy {
 		ImGui::PushItemWidth(-1);
 		if (ImGui::DragInt("##Value", &value, 0.1f))
 			modified = true;
-		if (ImGui::IsItemFocused())
-			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
 		ImGui::PopItemWidth();
 
 		ImGui::Columns(1);
@@ -494,8 +461,6 @@ namespace Teddy {
 		ImGui::SameLine();
 		if (ImGui::Checkbox("##Value", &value))
 			modified = true;
-		if (ImGui::IsItemFocused())
-			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
 
 		ImGui::Columns(1);
 		ImGui::PopID();

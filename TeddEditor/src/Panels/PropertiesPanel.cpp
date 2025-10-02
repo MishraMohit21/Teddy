@@ -46,34 +46,20 @@ namespace Teddy
 
 	    void PropertiesPanel::DrawComponents(Entity entity)
 	    {		if (entity.HasComponent<TagComponent>())
-		{
-			auto& tag = entity.GetComponent<TagComponent>().Tag;
-
-			char buffer[256];
-			memset(buffer, 0, sizeof(buffer));
-			strncpy_s(buffer, sizeof(buffer), tag.c_str(), sizeof(buffer));
-			if (ImGui::InputText("##Tag", buffer, sizeof(buffer)))
 			{
-				tag = std::string(buffer);
+				auto& tag = entity.GetComponent<TagComponent>().Tag;
+
+				char buffer[256];
+				memset(buffer, 0, sizeof(buffer));
+				strncpy_s(buffer, sizeof(buffer), tag.c_str(), sizeof(buffer));
+				if (ImGui::InputText("##Tag", buffer, sizeof(buffer)))
+				{
+					tag = std::string(buffer);
+				}
 			}
-		}
-
 		ImGui::SameLine();
-		ImGui::PushItemWidth(-1);
-
-		float buttonWidth = ImGui::GetContentRegionAvail().x;
-
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.13f, 0.83f, 0.93f, 1.0f });
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.23f, 0.93f, 1.0f, 1.0f });
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.08f, 0.78f, 0.88f, 1.0f });
-		ImGui::PushStyleColor(ImGuiCol_Text, ImVec4{ 0.06f, 0.09f, 0.16f, 1.0f });
-		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 4.0f);
-
-		if (ImGui::Button("Add Component", ImVec2{ buttonWidth, 0 }))
+			if (ImGui::Button("Add Component"))
 			ImGui::OpenPopup("AddComponent");
-
-		ImGui::PopStyleColor(4);
-		ImGui::PopStyleVar();
 
 		if (ImGui::BeginPopup("AddComponent"))
 		{
@@ -110,8 +96,6 @@ namespace Teddy
 
 			ImGui::EndPopup();
 		}
-
-		ImGui::PopItemWidth();
 
 
 		DrawComponent<TransformComponent>("Transform Component", entity, [](auto& component) {

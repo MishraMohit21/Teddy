@@ -25,46 +25,46 @@ namespace Teddy {
 		auto& style = ImGui::GetStyle();
 		auto& colors = ImGui::GetStyle().Colors;
 
-		// Tech Futurist Palette
-		colors[ImGuiCol_WindowBg] = ImVec4{ 0.0588f, 0.0902f, 0.1647f, 1.0f };    // #0F172A (Base Background)
-		colors[ImGuiCol_ChildBg] = ImVec4{ 0.1176f, 0.1608f, 0.2314f, 1.0f };    // #1E293B (Primary Surface)
-		colors[ImGuiCol_PopupBg] = ImVec4{ 0.2f, 0.2549f, 0.3333f, 1.0f };        // #334155 (Elevated Surface)
-		colors[ImGuiCol_Border] = ImVec4{ 0.2f, 0.2549f, 0.3333f, 1.0f };        // #334155 (Borders/Dividers)
+		// Gilded Navy Theme
+		colors[ImGuiCol_WindowBg] = ImVec4{ 0.0f, 0.0f, 0.133f, 1.0f };      // #000022 (Base Background)
+		colors[ImGuiCol_ChildBg] = ImVec4{ 0.0f, 0.0f, 0.133f, 1.0f };      // #000022 (Primary Surface)
+		colors[ImGuiCol_PopupBg] = ImVec4{ 0.110f, 0.110f, 0.314f, 1.0f };      // #1C1C50 (Elevated Surface)
+		colors[ImGuiCol_Border] = ImVec4{ 0.110f, 0.110f, 0.314f, 1.0f };        // #1C1C50 (Borders/Dividers)
 
-		colors[ImGuiCol_Header] = ImVec4{ 0.2f, 0.2549f, 0.3333f, 1.0f };        // #334155 (Elevated for Headers)
-		colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.2784f, 0.3333f, 0.4118f, 1.0f }; // #475569 (Hover/Active)
-		colors[ImGuiCol_HeaderActive] = ImVec4{ 0.1333f, 0.7961f, 0.9333f, 1.0f };   // #22D3EE (Accent for active states)
+		colors[ImGuiCol_Header] = ImVec4{ 0.110f, 0.110f, 0.314f, 1.0f };        // #1C1C50 (Elevated for Headers)
+		colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.173f, 0.173f, 0.408f, 1.0f }; // #2C2C68 (Hover/Active)
+		colors[ImGuiCol_HeaderActive] = ImVec4{ 0.831f, 0.608f, 0.0f, 1.0f };   // #D49B00 (Accent for active states)
 
-		colors[ImGuiCol_Button] = ImVec4{ 0.2f, 0.2549f, 0.3333f, 1.0f };        // #334155 (Elevated for Buttons)
-		colors[ImGuiCol_ButtonHovered] = ImVec4{ 0.2784f, 0.3333f, 0.4118f, 1.0f }; // #475569 (Hover/Active)
-		colors[ImGuiCol_ButtonActive] = ImVec4{ 0.1333f, 0.7961f, 0.9333f, 1.0f };   // #22D3EE (Accent for active states)
+		colors[ImGuiCol_Button] = ImVec4{ 0.110f, 0.110f, 0.314f, 1.0f };        // #1C1C50 (Elevated for Buttons)
+		colors[ImGuiCol_ButtonHovered] = ImVec4{ 0.173f, 0.173f, 0.408f, 1.0f }; // #2C2C68 (Hover/Active)
+		colors[ImGuiCol_ButtonActive] = ImVec4{ 0.831f, 0.608f, 0.0f, 1.0f };   // #D49B00 (Accent for active states)
 
-		colors[ImGuiCol_FrameBg] = ImVec4{ 0.0588f, 0.0902f, 0.1647f, 1.0f };    // #0F172A (Base for input fields)
-		colors[ImGuiCol_FrameBgHovered] = ImVec4{ 0.1176f, 0.1608f, 0.2314f, 1.0f }; // #1E293B (Primary Surface on hover)
-		colors[ImGuiCol_FrameBgActive] = ImVec4{ 0.1176f, 0.1608f, 0.2314f, 1.0f }; // #1E293B
+		colors[ImGuiCol_FrameBg] = ImVec4{ 0.063f, 0.063f, 0.227f, 1.0f };      // #10103A (Input fields)
+		colors[ImGuiCol_FrameBgHovered] = ImVec4{ 0.173f, 0.173f, 0.408f, 1.0f }; // #2C2C68 (Hover/Active)
+		colors[ImGuiCol_FrameBgActive] = ImVec4{ 0.173f, 0.173f, 0.408f, 1.0f }; // #2C2C68
 
-		colors[ImGuiCol_Tab] = ImVec4{ 0.1176f, 0.1608f, 0.2314f, 1.0f };        // #1E293B
-		colors[ImGuiCol_TabHovered] = ImVec4{ 0.2784f, 0.3333f, 0.4118f, 1.0f }; // #475569
-		colors[ImGuiCol_TabActive] = ImGui::GetStyleColorVec4(ImGuiCol_HeaderActive);
-		colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.1176f, 0.1608f, 0.2314f, 1.0f };
-		colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.2f, 0.2549f, 0.3333f, 1.0f };
+		colors[ImGuiCol_Tab] = ImVec4{ 0.063f, 0.063f, 0.227f, 1.0f };        // #10103A
+		colors[ImGuiCol_TabHovered] = ImVec4{ 0.173f, 0.173f, 0.408f, 1.0f }; // #2C2C68
+		colors[ImGuiCol_TabActive] = ImVec4{ 0.831f, 0.608f, 0.0f, 1.0f };
+		colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.063f, 0.063f, 0.227f, 1.0f };
+		colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.110f, 0.110f, 0.314f, 1.0f };
 
-		colors[ImGuiCol_TitleBg] = ImVec4{ 0.0588f, 0.0902f, 0.1647f, 1.0f };    // #0F172A
-		colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.0588f, 0.0902f, 0.1647f, 1.0f };
-		colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.0588f, 0.0902f, 0.1647f, 1.0f };
+		colors[ImGuiCol_TitleBg] = ImVec4{ 0.0f, 0.0f, 0.133f, 1.0f };    // #000022
+		colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.0f, 0.0f, 0.133f, 1.0f };
+		colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.0f, 0.0f, 0.133f, 1.0f };
 
-		colors[ImGuiCol_Separator] = ImVec4{ 0.2f, 0.2549f, 0.3333f, 1.0f }; // #334155
-		colors[ImGuiCol_SeparatorHovered] = ImVec4(0.1333f, 0.7961f, 0.9333f, 1.0f); // #22D3EE
-		colors[ImGuiCol_SeparatorActive] = ImVec4(0.1333f, 0.7961f, 0.9333f, 1.0f); // #22D3EE
+		colors[ImGuiCol_Separator] = ImVec4{ 0.110f, 0.110f, 0.314f, 1.0f }; // #1C1C50
+		colors[ImGuiCol_SeparatorHovered] = ImVec4(1.0f, 0.702f, 0.0f, 1.0f); // #FFB300
+		colors[ImGuiCol_SeparatorActive] = ImVec4(1.0f, 0.792f, 0.157f, 1.0f); // #FFCA28
 
-		colors[ImGuiCol_Text] = ImVec4{ 0.8863f, 0.9098f, 0.9412f, 1.0f };      // #E2E8F0 (High-Emphasis)
-		colors[ImGuiCol_TextDisabled] = ImVec4{ 0.5804f, 0.6392f, 0.7216f, 1.0f }; // #94A3B8 (Medium-Emphasis)
+		colors[ImGuiCol_Text] = ImVec4{ 0.878f, 0.902f, 0.945f, 1.0f };      // #E0E6F1 (High-Emphasis)
+		colors[ImGuiCol_TextDisabled] = ImVec4{ 0.533f, 0.573f, 0.690f, 1.0f }; // #8892B0 (Medium-Emphasis)
 
-		colors[ImGuiCol_CheckMark] = ImVec4{ 0.1333f, 0.7961f, 0.9333f, 1.0f };   // #22D3EE
-		colors[ImGuiCol_SliderGrab] = ImVec4{ 0.1333f, 0.7961f, 0.9333f, 1.0f };  // #22D3EE
-		colors[ImGuiCol_SliderGrabActive] = ImVec4{ 0.0549f, 0.4549f, 0.5647f, 1.0f }; // #0E7490 (Muted Accent)
+		colors[ImGuiCol_CheckMark] = ImVec4{ 1.0f, 0.702f, 0.0f, 1.0f };   // #FFB300
+		colors[ImGuiCol_SliderGrab] = ImVec4{ 1.0f, 0.702f, 0.0f, 1.0f };  // #FFB300
+		colors[ImGuiCol_SliderGrabActive] = ImVec4{ 1.0f, 0.792f, 0.157f, 1.0f }; // #FFCA28
 
-		colors[ImGuiCol_MenuBarBg] = ImVec4{ 0.1176f, 0.1608f, 0.2314f, 1.0f };    // #1E293B
+		colors[ImGuiCol_MenuBarBg] = ImVec4{ 0.063f, 0.063f, 0.227f, 1.0f };    // #10103A
 
 		// Structure & Form
 		style.WindowRounding = 8.0f;
@@ -107,7 +107,7 @@ namespace Teddy {
 			style.AntiAliasedFill = true;
 			style.AntiAliasedLines = true;
 			style.AntiAliasedLinesUseTex = true;   style.WindowPadding = ImVec2(12, 12);
-			style.FramePadding = ImVec2(6, 6);
+			style.FramePadding = ImVec2(6, 4);
 			//style.P = ImVec2(12, 6);
 			style.ItemSpacing = ImVec2(6, 6);
 			style.ItemInnerSpacing = ImVec2(6, 6);

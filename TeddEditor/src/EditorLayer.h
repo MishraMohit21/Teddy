@@ -54,9 +54,6 @@ namespace Teddy {
 		void UI_Toolbar();
 		ImFont* myFont;
 
-	private:
-		void SetDarkThemeColors();
-		void SetLightThemeColors();
 
 		void SerializeScene(Ref<Scene> scene, const std::filesystem::path& path);
 
