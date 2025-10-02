@@ -44,9 +44,8 @@ namespace Teddy
 		}
 	}
 
-	void PropertiesPanel::DrawComponents(Entity entity)
-	{
-		if (entity.HasComponent<TagComponent>())
+	    void PropertiesPanel::DrawComponents(Entity entity)
+	    {		if (entity.HasComponent<TagComponent>())
 		{
 			auto& tag = entity.GetComponent<TagComponent>().Tag;
 
@@ -62,8 +61,19 @@ namespace Teddy
 		ImGui::SameLine();
 		ImGui::PushItemWidth(-1);
 
-		if (ImGui::Button("Add Component"))
+		float buttonWidth = ImGui::GetContentRegionAvail().x;
+
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.13f, 0.83f, 0.93f, 1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.23f, 0.93f, 1.0f, 1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.08f, 0.78f, 0.88f, 1.0f });
+		ImGui::PushStyleColor(ImGuiCol_Text, ImVec4{ 0.06f, 0.09f, 0.16f, 1.0f });
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 4.0f);
+
+		if (ImGui::Button("Add Component", ImVec2{ buttonWidth, 0 }))
 			ImGui::OpenPopup("AddComponent");
+
+		ImGui::PopStyleColor(4);
+		ImGui::PopStyleVar();
 
 		if (ImGui::BeginPopup("AddComponent"))
 		{
@@ -417,6 +427,6 @@ namespace Teddy
 						UI::DrawCheckbox("Is Sensor", component.IsSensor);
 						UI::DrawInputScalar("Category Bits", ImGuiDataType_U16, &component.CategoryBits);
 						UI::DrawInputScalar("Mask Bits", ImGuiDataType_U16, &component.MaskBits);
-						UI::DrawInputScalar("Group Index", ImGuiDataType_S16, &component.GroupIndex);
-					});	}
-}
+						        UI::DrawInputScalar("Group Index", ImGuiDataType_S16, &component.GroupIndex);
+						    });
+						}}

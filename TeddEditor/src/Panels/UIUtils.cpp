@@ -13,8 +13,12 @@ namespace Teddy::UI {
         ImGui::Text(label.c_str());
         ImGui::NextColumn();
 
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 4.0f);
         if (ImGui::Checkbox("##Value", &value))
             modified = true;
+		if (ImGui::IsItemFocused())
+			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
+		ImGui::PopStyleVar();
 
         ImGui::Columns(1);
         ImGui::PopID();
@@ -31,8 +35,12 @@ namespace Teddy::UI {
         ImGui::Text(label.c_str());
         ImGui::NextColumn();
 
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 4.0f);
         if (ImGui::ColorEdit4("##Value", glm::value_ptr(value)))
             modified = true;
+		if (ImGui::IsItemFocused())
+			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
+		ImGui::PopStyleVar();
 
         ImGui::Columns(1);
         ImGui::PopID();
@@ -50,8 +58,12 @@ namespace Teddy::UI {
         ImGui::NextColumn();
 
         ImGui::PushItemWidth(-1);
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 4.0f);
         if (ImGui::SliderFloat("##Value", &value, min, max))
             modified = true;
+		if (ImGui::IsItemFocused())
+			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
+		ImGui::PopStyleVar();
         ImGui::PopItemWidth();
 
         ImGui::Columns(1);
@@ -70,8 +82,12 @@ namespace Teddy::UI {
         ImGui::NextColumn();
 
         ImGui::PushItemWidth(-1);
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 4.0f);
         if (ImGui::DragFloat("##Value", &value, speed, min, max))
             modified = true;
+		if (ImGui::IsItemFocused())
+			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
+		ImGui::PopStyleVar();
         ImGui::PopItemWidth();
 
         ImGui::Columns(1);
@@ -91,8 +107,12 @@ namespace Teddy::UI {
         ImGui::NextColumn();
 
         ImGui::PushItemWidth(-1);
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 4.0f);
         if (ImGui::DragFloat2("##Value", ::glm::value_ptr(value), speed, min, max))
             modified = true;
+		if (ImGui::IsItemFocused())
+			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
+		ImGui::PopStyleVar();
         ImGui::PopItemWidth();
 
         ImGui::Columns(1);
@@ -111,8 +131,12 @@ namespace Teddy::UI {
         ImGui::NextColumn();
 
         ImGui::PushItemWidth(-1);
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 4.0f);
         if (ImGui::Combo("##Value", &currentItem, items, items_count))
             modified = true;
+		if (ImGui::IsItemFocused())
+			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
+		ImGui::PopStyleVar();
         ImGui::PopItemWidth();
 
         ImGui::Columns(1);
@@ -131,8 +155,12 @@ namespace Teddy::UI {
         ImGui::NextColumn();
 
         ImGui::PushItemWidth(-1);
+		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 4.0f);
         if (ImGui::InputScalar("##Value", data_type, p_data, p_step, p_step_fast, format))
             modified = true;
+		if (ImGui::IsItemFocused())
+			ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax(), IM_COL32(34, 211, 238, 255));
+		ImGui::PopStyleVar();
         ImGui::PopItemWidth();
 
         ImGui::Columns(1);

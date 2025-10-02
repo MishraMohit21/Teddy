@@ -22,71 +22,56 @@ namespace Teddy {
 
 	void ImGuiLayer::SetDarkThemeColors()
 	{
+		auto& style = ImGui::GetStyle();
 		auto& colors = ImGui::GetStyle().Colors;
 
-		// --- Dark Mode ---
+		// Tech Futurist Palette
+		colors[ImGuiCol_WindowBg] = ImVec4{ 0.0588f, 0.0902f, 0.1647f, 1.0f };    // #0F172A (Base Background)
+		colors[ImGuiCol_ChildBg] = ImVec4{ 0.1176f, 0.1608f, 0.2314f, 1.0f };    // #1E293B (Primary Surface)
+		colors[ImGuiCol_PopupBg] = ImVec4{ 0.2f, 0.2549f, 0.3333f, 1.0f };        // #334155 (Elevated Surface)
+		colors[ImGuiCol_Border] = ImVec4{ 0.2f, 0.2549f, 0.3333f, 1.0f };        // #334155 (Borders/Dividers)
 
-		// Base: Deep space black with a hint of blue for depth
-		colors[ImGuiCol_WindowBg] = ImVec4{ 0.03f, 0.03f, 0.04f, 1.0f };
+		colors[ImGuiCol_Header] = ImVec4{ 0.2f, 0.2549f, 0.3333f, 1.0f };        // #334155 (Elevated for Headers)
+		colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.2784f, 0.3333f, 0.4118f, 1.0f }; // #475569 (Hover/Active)
+		colors[ImGuiCol_HeaderActive] = ImVec4{ 0.1333f, 0.7961f, 0.9333f, 1.0f };   // #22D3EE (Accent for active states)
 
-		// Headers: Subtle blue undertone for a futuristic feel
-		colors[ImGuiCol_Header] = ImVec4{ 0.08f, 0.08f, 0.1f, 1.0f };
-		colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.12f, 0.12f, 0.15f, 1.0f };
-		colors[ImGuiCol_HeaderActive] = ImVec4{ 0.05f, 0.05f, 0.07f, 1.0f };
+		colors[ImGuiCol_Button] = ImVec4{ 0.2f, 0.2549f, 0.3333f, 1.0f };        // #334155 (Elevated for Buttons)
+		colors[ImGuiCol_ButtonHovered] = ImVec4{ 0.2784f, 0.3333f, 0.4118f, 1.0f }; // #475569 (Hover/Active)
+		colors[ImGuiCol_ButtonActive] = ImVec4{ 0.1333f, 0.7961f, 0.9333f, 1.0f };   // #22D3EE (Accent for active states)
 
-		// Buttons: Introducing a vibrant blue accent
-		colors[ImGuiCol_Button] = ImVec4{ 0.1f, 0.1f, 0.12f, 1.0f };
-		colors[ImGuiCol_ButtonHovered] = ImVec4{ 0.0f, 0.2f, 0.4f, 1.0f }; // Electric blue
-		colors[ImGuiCol_ButtonActive] = ImVec4{ 0.0f, 0.15f, 0.3f, 1.0f }; // Deeper blue
+		colors[ImGuiCol_FrameBg] = ImVec4{ 0.0588f, 0.0902f, 0.1647f, 1.0f };    // #0F172A (Base for input fields)
+		colors[ImGuiCol_FrameBgHovered] = ImVec4{ 0.1176f, 0.1608f, 0.2314f, 1.0f }; // #1E293B (Primary Surface on hover)
+		colors[ImGuiCol_FrameBgActive] = ImVec4{ 0.1176f, 0.1608f, 0.2314f, 1.0f }; // #1E293B
 
-		// Frame BG: Blends with the background
-		colors[ImGuiCol_FrameBg] = ImVec4{ 0.08f, 0.08f, 0.1f, 1.0f };
-		colors[ImGuiCol_FrameBgHovered] = ImVec4{ 0.15f, 0.15f, 0.2f, 1.0f };
-		colors[ImGuiCol_FrameBgActive] = ImVec4{ 0.05f, 0.05f, 0.07f, 1.0f };
+		colors[ImGuiCol_Tab] = ImVec4{ 0.1176f, 0.1608f, 0.2314f, 1.0f };        // #1E293B
+		colors[ImGuiCol_TabHovered] = ImVec4{ 0.2784f, 0.3333f, 0.4118f, 1.0f }; // #475569
+		colors[ImGuiCol_TabActive] = ImGui::GetStyleColorVec4(ImGuiCol_HeaderActive);
+		colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.1176f, 0.1608f, 0.2314f, 1.0f };
+		colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.2f, 0.2549f, 0.3333f, 1.0f };
 
-		// Tabs:  Using a contrasting purple accent
-		colors[ImGuiCol_Tab] = ImVec4{ 0.07f, 0.07f, 0.09f, 1.0f };
-		colors[ImGuiCol_TabHovered] = ImVec4{ 0.3f, 0.1f, 0.4f, 1.0f }; // Vivid purple
-		colors[ImGuiCol_TabActive] = ImVec4{ 0.2f, 0.05f, 0.3f, 1.0f }; // Deeper purple
-		colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.04f, 0.04f, 0.05f, 1.0f };
-		colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.08f, 0.08f, 0.1f, 1.0f };
+		colors[ImGuiCol_TitleBg] = ImVec4{ 0.0588f, 0.0902f, 0.1647f, 1.0f };    // #0F172A
+		colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.0588f, 0.0902f, 0.1647f, 1.0f };
+		colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.0588f, 0.0902f, 0.1647f, 1.0f };
 
-		colors[ImGuiCol_Separator] = colors[ImGuiCol_Border];
-		colors[ImGuiCol_SeparatorHovered] = ImVec4(0.10f, 0.40f, 0.75f, 0.78f);
-		colors[ImGuiCol_SeparatorActive] = ImVec4(0.10f, 0.40f, 0.75f, 1.00f);
+		colors[ImGuiCol_Separator] = ImVec4{ 0.2f, 0.2549f, 0.3333f, 1.0f }; // #334155
+		colors[ImGuiCol_SeparatorHovered] = ImVec4(0.1333f, 0.7961f, 0.9333f, 1.0f); // #22D3EE
+		colors[ImGuiCol_SeparatorActive] = ImVec4(0.1333f, 0.7961f, 0.9333f, 1.0f); // #22D3EE
 
-		// Title: Subtle and unobtrusive
-		colors[ImGuiCol_TitleBg] = ImVec4{ 0.07f, 0.07f, 0.09f, 1.0f };
-		colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.07f, 0.07f, 0.09f, 1.0f };
-		colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.04f, 0.04f, 0.05f, 1.0f };
+		colors[ImGuiCol_Text] = ImVec4{ 0.8863f, 0.9098f, 0.9412f, 1.0f };      // #E2E8F0 (High-Emphasis)
+		colors[ImGuiCol_TextDisabled] = ImVec4{ 0.5804f, 0.6392f, 0.7216f, 1.0f }; // #94A3B8 (Medium-Emphasis)
 
-		// --- Accent Colors ---
-		colors[ImGuiCol_Text] = ImVec4{ 0.8f, 0.8f, 0.82f, 1.0f }; // Slightly off-white for readability
-		colors[ImGuiCol_CheckMark] = ImVec4{ 0.0f, 0.6f, 1.0f, 1.0f }; // Bright cyan for checkmarks
-		colors[ImGuiCol_SliderGrab] = ImVec4{ 0.0f, 0.4f, 0.8f, 1.0f }; // Blue slider grab
-		colors[ImGuiCol_SliderGrabActive] = ImVec4{ 0.0f, 0.3f, 0.7f, 1.0f }; // Slightly darker when active
+		colors[ImGuiCol_CheckMark] = ImVec4{ 0.1333f, 0.7961f, 0.9333f, 1.0f };   // #22D3EE
+		colors[ImGuiCol_SliderGrab] = ImVec4{ 0.1333f, 0.7961f, 0.9333f, 1.0f };  // #22D3EE
+		colors[ImGuiCol_SliderGrabActive] = ImVec4{ 0.0549f, 0.4549f, 0.5647f, 1.0f }; // #0E7490 (Muted Accent)
 
-		// Assuming your menu bar uses these ImGui elements:
-		colors[ImGuiCol_MenuBarBg] = ImVec4{ 0.13f, 0.13f, 0.14f, 1.0f }; // Match the main window background
-		//colors[/*ImGuiCol_MenuBarItem*/] = ImVec4{ 0.8f, 0.8f, 0.82f, 1.0f }; // Slightly off-white for menu items
+		colors[ImGuiCol_MenuBarBg] = ImVec4{ 0.1176f, 0.1608f, 0.2314f, 1.0f };    // #1E293B
 
-		// If you have a border around your menu bar:
-		colors[ImGuiCol_Border] = ImVec4{ 0.1f, 0.1f, 0.12f, 1.0f }; // Subtle blue tint
-
-		// --- Additional Styling ---
-
-		// Rounding: Slightly rounded corners for a softer look
-		ImGui::GetStyle().WindowRounding = 3.0f;
-		ImGui::GetStyle().FrameRounding = 2.0f;
-		ImGui::GetStyle().GrabRounding = 2.0f;
-
-		// Window Padding: A bit more breathing room
-		ImGui::GetStyle().WindowPadding = ImVec2(8.0f, 8.0f);
-
-		// Frame Padding: Adjust for better element spacing
-		ImGui::GetStyle().FramePadding = ImVec2(5.0f, 3.0f);
-
-		
+		// Structure & Form
+		style.WindowRounding = 8.0f;
+		style.FrameRounding = 4.0f;
+		style.ChildRounding = 8.0f;
+		style.PopupRounding = 8.0f;
+		style.GrabRounding = 4.0f;
 	}
 
 	void ImGuiLayer::OnAttach()
