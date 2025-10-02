@@ -1,9 +1,28 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
 #include <Teddy/Scene/Entity.h>
-#include <tdpch.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Teddy {
+
+	namespace UI {
+		bool DrawCheckbox(const std::string& label, bool& value, float columnWidth = 100.0f);
+		bool DrawColorEdit4(const std::string& label, glm::vec4& value, float columnWidth = 100.0f);
+		bool DrawSliderFloat(const std::string& label, float& value, float min, float max, float columnWidth = 100.0f);
+		bool DrawDragFloat(const std::string& label, float& value, float speed = 0.1f, float min = 0.0f, float max = 0.0f, float columnWidth = 100.0f);
+		bool DrawDragFloat2(const std::string& label, glm::vec2& value, float speed = 0.1f, float min = 0.0f, float max = 0.0f, float columnWidth = 100.0f);
+		bool DrawCombo(const std::string& label, int& currentItem, const char* const items[], int items_count, float columnWidth = 100.0f);
+		bool DrawInputScalar(const std::string& label, ImGuiDataType data_type, void* p_data, const void* p_step = NULL, const void* p_step_fast = NULL, const char* format = NULL, float columnWidth = 100.0f);
+
+		bool DrawVec3ScriptField(const std::string& label, glm::vec3& values, const glm::vec3& resetValue, float columnWidth = 100.0f);
+		bool DrawVec2ScriptField(const std::string& label, glm::vec2& values, const glm::vec2& resetValue, float columnWidth = 100.0f);
+		bool DrawVec4ScriptField(const std::string& label, glm::vec4& values, const glm::vec4& resetValue, float columnWidth = 100.0f);
+		bool DrawFloatScriptField(const std::string& label, float& value, float resetValue, float columnWidth = 100.0f);
+		bool DrawDoubleScriptField(const std::string& label, double& value, double resetValue, float columnWidth = 100.0f);
+		bool DrawIntScriptField(const std::string& label, int& value, int resetValue, float columnWidth = 100.0f);
+		bool DrawBoolScriptField(const std::string& label, bool& value, bool resetValue, float columnWidth = 100.0f);
+	}
 
 
 	template<typename T, typename UIFunction>
@@ -457,6 +476,4 @@ namespace Teddy {
 		ImGui::PopID();
 		return modified;
 	}
-
-
 }

@@ -1,0 +1,1436 @@
+Build started at 23:51...
+1>------ Build started: Project: TeddEditor, Configuration: Debug x64 ------
+1>PropertiesPanel.cpp
+1>SceneHeirarchyPanel.cpp
+1>UIUtils.cpp
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996: 'stdext::checked_array_iterator<T*>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>(compiling source file 'src/Panels/PropertiesPanel.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+1>    see declaration of 'stdext::checked_array_iterator'
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,8):
+1>        while compiling class template 'fmt::v5::internal::checked'
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(413,1): warning C4996: 'stdext::checked_array_iterator<T*>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>(compiling source file 'src/Panels/PropertiesPanel.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+1>    see declaration of 'stdext::checked_array_iterator'
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996: 'stdext::checked_array_iterator<T*>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+1>    see declaration of 'stdext::checked_array_iterator'
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,8):
+1>        while compiling class template 'fmt::v5::internal::checked'
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(413,1): warning C4996: 'stdext::checked_array_iterator<T*>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+1>    see declaration of 'stdext::checked_array_iterator'
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996: 'stdext::checked_array_iterator<T *>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:             T=char
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+1>    see declaration of 'stdext::checked_array_iterator'
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3342,28):
+1>        see reference to class template instantiation 'fmt::v5::arg_formatter<fmt::v5::vformat_to::range>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2308,51):
+1>        see reference to class template instantiation 'fmt::v5::internal::arg_formatter_base<Range>' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1434,15):
+1>        see reference to class template instantiation 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+1>        see reference to function template instantiation 'std::enable_if<fmt::v5::is_contiguous<Container>::value,checked<Container::value_type>::type>::type fmt::v5::internal::reserve(std::back_insert_iterator<_Container> &,size_t)' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+1>        see reference to class template instantiation 'fmt::v5::internal::checked<T>' being compiled
+1>        with
+1>        [
+1>            T=char
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996: 'stdext::checked_array_iterator<T *>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:             T=char
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         ]
+1>(compiling source file 'src/Panels/PropertiesPanel.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+1>    see declaration of 'stdext::checked_array_iterator'
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3342,28):
+1>        see reference to class template instantiation 'fmt::v5::arg_formatter<fmt::v5::vformat_to::range>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2308,51):
+1>        see reference to class template instantiation 'fmt::v5::internal::arg_formatter_base<Range>' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1434,15):
+1>        see reference to class template instantiation 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+1>        see reference to function template instantiation 'std::enable_if<fmt::v5::is_contiguous<Container>::value,checked<Container::value_type>::type>::type fmt::v5::internal::reserve(std::back_insert_iterator<_Container> &,size_t)' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+1>        see reference to class template instantiation 'fmt::v5::internal::checked<T>' being compiled
+1>        with
+1>        [
+1>            T=char
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996: 'stdext::checked_array_iterator<T *>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+1>    see declaration of 'stdext::checked_array_iterator'
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3342,28):
+1>        see reference to class template instantiation 'fmt::v5::arg_formatter<fmt::v5::vformat_to::range>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2308,51):
+1>        see reference to class template instantiation 'fmt::v5::internal::arg_formatter_base<Range>' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1434,15):
+1>        see reference to class template instantiation 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+1>        see reference to function template instantiation 'std::enable_if<fmt::v5::is_contiguous<Container>::value,checked<Container::value_type>::type>::type fmt::v5::internal::reserve(std::back_insert_iterator<_Container> &,size_t)' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+1>        see reference to class template instantiation 'fmt::v5::internal::checked<T>' being compiled
+1>        with
+1>        [
+1>            T=wchar_t
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996: 'stdext::checked_array_iterator<T *>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         ]
+1>(compiling source file 'src/Panels/PropertiesPanel.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+1>    see declaration of 'stdext::checked_array_iterator'
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3342,28):
+1>        see reference to class template instantiation 'fmt::v5::arg_formatter<fmt::v5::vformat_to::range>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2308,51):
+1>        see reference to class template instantiation 'fmt::v5::internal::arg_formatter_base<Range>' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1434,15):
+1>        see reference to class template instantiation 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+1>        see reference to function template instantiation 'std::enable_if<fmt::v5::is_contiguous<Container>::value,checked<Container::value_type>::type>::type fmt::v5::internal::reserve(std::back_insert_iterator<_Container> &,size_t)' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+1>        see reference to class template instantiation 'fmt::v5::internal::checked<T>' being compiled
+1>        with
+1>        [
+1>            T=wchar_t
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996: 'stdext::checked_array_iterator<T*>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+1>    see declaration of 'stdext::checked_array_iterator'
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,8):
+1>        while compiling class template 'fmt::v5::internal::checked'
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(413,1): warning C4996: 'stdext::checked_array_iterator<T*>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+1>    see declaration of 'stdext::checked_array_iterator'
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996: 'stdext::checked_array_iterator<T *>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:             T=char
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+1>    see declaration of 'stdext::checked_array_iterator'
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3342,28):
+1>        see reference to class template instantiation 'fmt::v5::arg_formatter<fmt::v5::vformat_to::range>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2308,51):
+1>        see reference to class template instantiation 'fmt::v5::internal::arg_formatter_base<Range>' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1434,15):
+1>        see reference to class template instantiation 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+1>        see reference to function template instantiation 'std::enable_if<fmt::v5::is_contiguous<Container>::value,checked<Container::value_type>::type>::type fmt::v5::internal::reserve(std::back_insert_iterator<_Container> &,size_t)' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+1>        see reference to class template instantiation 'fmt::v5::internal::checked<T>' being compiled
+1>        with
+1>        [
+1>            T=char
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996: 'stdext::checked_array_iterator<T *>': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\iterator(1483,35):
+1>    see declaration of 'stdext::checked_array_iterator'
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(409,18):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3342,28):
+1>        see reference to class template instantiation 'fmt::v5::arg_formatter<fmt::v5::vformat_to::range>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2308,51):
+1>        see reference to class template instantiation 'fmt::v5::internal::arg_formatter_base<Range>' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1434,15):
+1>        see reference to class template instantiation 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+1>        see reference to function template instantiation 'std::enable_if<fmt::v5::is_contiguous<Container>::value,checked<Container::value_type>::type>::type fmt::v5::internal::reserve(std::back_insert_iterator<_Container> &,size_t)' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2424,53):
+1>        see reference to class template instantiation 'fmt::v5::internal::checked<T>' being compiled
+1>        with
+1>        [
+1>            T=wchar_t
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Debug\Instrumentor.h(113,22): warning C4267: 'initializing': conversion from 'size_t' to 'uint32_t', possible loss of data
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Debug\Instrumentor.h(113,22): warning C4267: 'initializing': conversion from 'size_t' to 'uint32_t', possible loss of data
+1>(compiling source file 'src/Panels/PropertiesPanel.cpp')
+1>C:\Dev\Teddy\Teddy\Teddy\src\Teddy\Debug\Instrumentor.h(113,22): warning C4267: 'initializing': conversion from 'size_t' to 'uint32_t', possible loss of data
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996: 'stdext::checked_array_iterator<T *>::operator +': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996:             T=char
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\details\pattern_formatter.h(41,21):
+1>        see reference to function template instantiation 'void spdlog::details::fmt_helper::append_string_view<500>(spdlog::string_view_t,fmt::v5::basic_memory_buffer<char,500,std::allocator<char>> &)' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\details\fmt_helper.h(33,14):
+1>        see reference to function template instantiation 'void fmt::v5::internal::basic_buffer<char>::append<_Elem>(const U *,const U *)' being compiled
+1>        with
+1>        [
+1>            _Elem=char,
+1>            U=char
+1>        ]
+1>C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(249,89): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+1>    C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(249,89):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(218,5):
+1>        see reference to function template instantiation 'void Teddy::DrawComponent<Teddy::ScriptComponent,Teddy::PropertiesPanel::DrawComponents::<lambda_2e09771951b9efa83b809f9afc4ff36a>>(const std::string &,Teddy::Entity &,UIFunction)' being compiled
+1>        with
+1>        [
+1>            UIFunction=Teddy::PropertiesPanel::DrawComponents::<lambda_2e09771951b9efa83b809f9afc4ff36a>
+1>        ]
+1>        C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\UIUtils.h(58,5):
+1>        see reference to function template instantiation 'void Teddy::PropertiesPanel::DrawComponents::<lambda_2e09771951b9efa83b809f9afc4ff36a>::operator ()<T>(T &) const' being compiled
+1>        with
+1>        [
+1>            T=Teddy::ScriptComponent
+1>        ]
+1>C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(269,41): error C2660: 'Teddy::DrawFloatScriptField': function does not take 5 arguments
+1>    C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\UIUtils.h(366,14):
+1>    see declaration of 'Teddy::DrawFloatScriptField'
+1>    C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(269,41):
+1>    while trying to match the argument list '(const std::basic_string<char,std::char_traits<char>,std::allocator<char>>, T, std::shared_ptr<Teddy::ScriptInstance>, const Teddy::ScriptField, bool)'
+1>        with
+1>        [
+1>            T=Teddy::ScriptComponent
+1>        ]
+1>C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(270,42): error C2660: 'Teddy::DrawDoubleScriptField': function does not take 5 arguments
+1>    C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\UIUtils.h(393,14):
+1>    see declaration of 'Teddy::DrawDoubleScriptField'
+1>    C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(270,42):
+1>    while trying to match the argument list '(const std::basic_string<char,std::char_traits<char>,std::allocator<char>>, T, std::shared_ptr<Teddy::ScriptInstance>, const Teddy::ScriptField, bool)'
+1>        with
+1>        [
+1>            T=Teddy::ScriptComponent
+1>        ]
+1>C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(271,40): error C2660: 'Teddy::DrawBoolScriptField': function does not take 5 arguments
+1>    C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\UIUtils.h(447,14):
+1>    see declaration of 'Teddy::DrawBoolScriptField'
+1>    C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(271,40):
+1>    while trying to match the argument list '(const std::basic_string<char,std::char_traits<char>,std::allocator<char>>, T, std::shared_ptr<Teddy::ScriptInstance>, const Teddy::ScriptField, bool)'
+1>        with
+1>        [
+1>            T=Teddy::ScriptComponent
+1>        ]
+1>C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(272,268): error C2660: 'Teddy::DrawIntScriptField': function does not take 5 arguments
+1>    C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\UIUtils.h(420,14):
+1>    see declaration of 'Teddy::DrawIntScriptField'
+1>    C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(272,268):
+1>    while trying to match the argument list '(const std::basic_string<char,std::char_traits<char>,std::allocator<char>>, T, std::shared_ptr<Teddy::ScriptInstance>, const Teddy::ScriptField, bool)'
+1>        with
+1>        [
+1>            T=Teddy::ScriptComponent
+1>        ]
+1>C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(273,43): error C2660: 'Teddy::DrawVec2ScriptField': function does not take 5 arguments
+1>    C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\UIUtils.h(212,14):
+1>    see declaration of 'Teddy::DrawVec2ScriptField'
+1>    C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(273,43):
+1>    while trying to match the argument list '(const std::basic_string<char,std::char_traits<char>,std::allocator<char>>, T, std::shared_ptr<Teddy::ScriptInstance>, const Teddy::ScriptField, bool)'
+1>        with
+1>        [
+1>            T=Teddy::ScriptComponent
+1>        ]
+1>C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(274,43): error C2660: 'Teddy::DrawVec3ScriptField': function does not take 5 arguments
+1>    C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\UIUtils.h(135,14):
+1>    see declaration of 'Teddy::DrawVec3ScriptField'
+1>    C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(274,43):
+1>    while trying to match the argument list '(const std::basic_string<char,std::char_traits<char>,std::allocator<char>>, T, std::shared_ptr<Teddy::ScriptInstance>, const Teddy::ScriptField, bool)'
+1>        with
+1>        [
+1>            T=Teddy::ScriptComponent
+1>        ]
+1>C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(275,43): error C2660: 'Teddy::DrawVec4ScriptField': function does not take 5 arguments
+1>    C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\UIUtils.h(272,14):
+1>    see declaration of 'Teddy::DrawVec4ScriptField'
+1>    C:\Dev\Teddy\Teddy\TeddEditor\src\Panels\PropertiesPanel.cpp(275,43):
+1>    while trying to match the argument list '(const std::basic_string<char,std::char_traits<char>,std::allocator<char>>, T, std::shared_ptr<Teddy::ScriptInstance>, const Teddy::ScriptField, bool)'
+1>        with
+1>        [
+1>            T=Teddy::ScriptComponent
+1>        ]
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996: 'stdext::checked_array_iterator<T *>::_Verify_offset': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996:         with
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996:         [
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996:             T=char
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3342,28):
+1>        see reference to class template instantiation 'fmt::v5::arg_formatter<fmt::v5::vformat_to::range>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2308,51):
+1>        see reference to class template instantiation 'fmt::v5::internal::arg_formatter_base<Range>' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1434,15):
+1>        see reference to class template instantiation 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2754,8):
+1>        while compiling class template member function 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write(fmt::v5::string_view)'
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format-inl.h(176,12):
+1>            see the first reference to 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write' in 'fmt::v5::`anonymous-namespace'::format_error_code'
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2756,15):
+1>        see reference to function template instantiation '_OutIt std::copy<const char*,stdext::checked_array_iterator<T *>>(_InIt,_InIt,_OutIt)' being compiled
+1>        with
+1>        [
+1>            _OutIt=stdext::checked_array_iterator<char *>,
+1>            T=char,
+1>            _InIt=const char *
+1>        ]
+1>        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(4864,31):
+1>        see reference to function template instantiation '_Ptr *std::_Get_unwrapped_n<stdext::checked_array_iterator<_Ptr>,__int64>(_Iter &&,const _Diff)' being compiled
+1>        with
+1>        [
+1>            _Ptr=char *,
+1>            _Iter=stdext::checked_array_iterator<char *>,
+1>            _Diff=__int64
+1>        ]
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996: 'stdext::checked_array_iterator<T *>::_Unwrapped': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996:         with
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996:         [
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996:             T=char
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996:             T=char
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2704,8):
+1>        while compiling class template member function 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write(int)'
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format-inl.h(180,10):
+1>            see the first reference to 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write' in 'fmt::v5::`anonymous-namespace'::format_error_code'
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2704,27):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write_decimal<int>(Int)' being compiled
+1>        with
+1>        [
+1>            Int=int
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996: 'stdext::checked_array_iterator<T *>::operator +': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996:             T=char
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\details\pattern_formatter.h(41,21):
+1>        see reference to function template instantiation 'void spdlog::details::fmt_helper::append_string_view<500>(spdlog::string_view_t,fmt::v5::basic_memory_buffer<char,500,std::allocator<char>> &)' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\details\fmt_helper.h(33,14):
+1>        see reference to function template instantiation 'void fmt::v5::internal::basic_buffer<char>::append<_Elem>(const U *,const U *)' being compiled
+1>        with
+1>        [
+1>            _Elem=char,
+1>            U=char
+1>        ]
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996: 'stdext::checked_array_iterator<T *>::_Verify_offset': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996:         with
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996:         [
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996:             T=char
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3342,28):
+1>        see reference to class template instantiation 'fmt::v5::arg_formatter<fmt::v5::vformat_to::range>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2308,51):
+1>        see reference to class template instantiation 'fmt::v5::internal::arg_formatter_base<Range>' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1434,15):
+1>        see reference to class template instantiation 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2754,8):
+1>        while compiling class template member function 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write(fmt::v5::string_view)'
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format-inl.h(176,12):
+1>            see the first reference to 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write' in 'fmt::v5::`anonymous-namespace'::format_error_code'
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2756,15):
+1>        see reference to function template instantiation '_OutIt std::copy<const char*,stdext::checked_array_iterator<T *>>(_InIt,_InIt,_OutIt)' being compiled
+1>        with
+1>        [
+1>            _OutIt=stdext::checked_array_iterator<char *>,
+1>            T=char,
+1>            _InIt=const char *
+1>        ]
+1>        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(4864,31):
+1>        see reference to function template instantiation '_Ptr *std::_Get_unwrapped_n<stdext::checked_array_iterator<_Ptr>,__int64>(_Iter &&,const _Diff)' being compiled
+1>        with
+1>        [
+1>            _Ptr=char *,
+1>            _Iter=stdext::checked_array_iterator<char *>,
+1>            _Diff=__int64
+1>        ]
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996: 'stdext::checked_array_iterator<T *>::_Unwrapped': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996:         with
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996:         [
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996:             T=char
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996:             T=char
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2704,8):
+1>        while compiling class template member function 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write(int)'
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format-inl.h(180,10):
+1>            see the first reference to 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write' in 'fmt::v5::`anonymous-namespace'::format_error_code'
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2704,27):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write_decimal<int>(Int)' being compiled
+1>        with
+1>        [
+1>            Int=int
+1>        ]
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996: 'stdext::checked_array_iterator<T *>::_Verify_offset': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996:         with
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996:         [
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996:             T=wchar_t
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3457,10):
+1>        see reference to function template instantiation 'OutputIt fmt::v5::vformat_to<fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,wchar_t,fmt::v5::wformat_context>(fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>,fmt::v5::basic_string_view<wchar_t>,fmt::v5::basic_format_args<fmt::v5::wformat_context>)' being compiled
+1>        with
+1>        [
+1>            OutputIt=std::back_insert_iterator<fmt::v5::internal::basic_buffer<wchar_t>>
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3345,47):
+1>        see reference to class template instantiation 'fmt::v5::format_handler<ArgFormatter,Char,Context>' being compiled
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3296,8):
+1>        while compiling class template member function 'void fmt::v5::format_handler<ArgFormatter,Char,Context>::on_text(const Char *,const Char *)'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2155,11):
+1>            see the first reference to 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_text' in 'fmt::v5::internal::parse_format_string::writer::operator ()'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3300,15):
+1>        see reference to function template instantiation '_OutIt std::copy_n<const Char*,unsigned __int64,stdext::checked_array_iterator<T *>>(_InIt,_Diff,_OutIt)' being compiled
+1>        with
+1>        [
+1>            _OutIt=stdext::checked_array_iterator<wchar_t *>,
+1>            Char=wchar_t,
+1>            T=wchar_t,
+1>            _InIt=const wchar_t *,
+1>            _Diff=unsigned __int64
+1>        ]
+1>        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5040,33):
+1>        see reference to function template instantiation '_Ptr *std::_Get_unwrapped_n<_OutIt&,unsigned __int64>(_Iter,const _Diff)' being compiled
+1>        with
+1>        [
+1>            _Ptr=wchar_t *,
+1>            _OutIt=stdext::checked_array_iterator<wchar_t *>,
+1>            _Iter=stdext::checked_array_iterator<wchar_t *> &,
+1>            _Diff=unsigned __int64
+1>        ]
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996: 'stdext::checked_array_iterator<T *>::_Unwrapped': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996:         with
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996:         [
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996:             T=wchar_t
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1479,13): warning C4996: 'stdext::checked_array_iterator<T *>::_Seek_to': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1479,13): warning C4996:         with
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1479,13): warning C4996:         [
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1479,13): warning C4996:             T=wchar_t
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1479,13): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1479,13):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3300,15):
+1>        see reference to function template instantiation '_OutIt std::copy_n<const Char*,unsigned __int64,stdext::checked_array_iterator<T *>>(_InIt,_Diff,_OutIt)' being compiled
+1>        with
+1>        [
+1>            _OutIt=stdext::checked_array_iterator<wchar_t *>,
+1>            Char=wchar_t,
+1>            T=wchar_t,
+1>            _InIt=const wchar_t *,
+1>            _Diff=unsigned __int64
+1>        ]
+1>        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5047,26):
+1>        see reference to function template instantiation 'void std::_Seek_wrapped<_OutIt,_Ptr&>(_Iter &,_UIter)' being compiled
+1>        with
+1>        [
+1>            _OutIt=stdext::checked_array_iterator<wchar_t *>,
+1>            _Ptr=wchar_t *,
+1>            _Iter=stdext::checked_array_iterator<wchar_t *>,
+1>            _UIter=wchar_t *&
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2910,7): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2910,7): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2910,7): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2910,7): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2910,7): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2910,7):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3319,12):
+1>        while compiling class template member function 'fmt::v5::internal::null_terminating_iterator<Char> fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs(fmt::v5::internal::null_terminating_iterator<Char>)'
+1>        with
+1>        [
+1>            Char=wchar_t,
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2188,12):
+1>            see the first reference to 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs' in 'fmt::v5::internal::parse_format_string'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3346,13):
+1>            see the first reference to 'fmt::v5::internal::parse_format_string' in 'fmt::v5::vformat_to'
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3332,29):
+1>        see reference to function template instantiation 'std::back_insert_iterator<fmt::v5::internal::basic_buffer<wchar_t>> fmt::v5::visit<ArgFormatter,Context>(Visitor &&,const fmt::v5::basic_format_arg<Context> &)' being compiled
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Context=fmt::v5::wformat_context,
+1>            Visitor=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\core.h(803,12):
+1>        see reference to function template instantiation 'std::back_insert_iterator<fmt::v5::internal::basic_buffer<wchar_t>> fmt::v5::internal::arg_formatter_base<Range>::operator ()<double>(T)' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range,
+1>            T=double
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1504,13):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write_double<T>(T,const fmt::v5::basic_format_specs<wchar_t> &)' being compiled
+1>        with
+1>        [
+1>            T=double
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2746,5): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2746,5): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2746,5): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2746,5): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2746,5): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2746,5):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3342,28):
+1>        see reference to class template instantiation 'fmt::v5::arg_formatter<fmt::v5::vformat_to::range>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2308,51):
+1>        see reference to class template instantiation 'fmt::v5::internal::arg_formatter_base<Range>' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1434,15):
+1>        see reference to class template instantiation 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2744,8):
+1>        while compiling class template member function 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write(wchar_t)'
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1496,14):
+1>            see the first reference to 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write' in 'fmt::v5::internal::arg_formatter_base<Range>::operator ()'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\core.h(801,5):
+1>            see the first reference to 'fmt::v5::internal::arg_formatter_base<Range>::operator ()' in 'fmt::v5::visit'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3332,29):
+1>            see the first reference to 'fmt::v5::visit' in 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2188,12):
+1>            see the first reference to 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs' in 'fmt::v5::internal::parse_format_string'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3346,13):
+1>            see the first reference to 'fmt::v5::internal::parse_format_string' in 'fmt::v5::vformat_to'
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2741,5): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2741,5): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2741,5): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2741,5): warning C4996:             T=char
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2741,5): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2741,5):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2740,8):
+1>        while compiling class template member function 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write(char)'
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1496,14):
+1>            see the first reference to 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write' in 'fmt::v5::internal::arg_formatter_base<Range>::operator ()'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\core.h(801,5):
+1>            see the first reference to 'fmt::v5::internal::arg_formatter_base<Range>::operator ()' in 'fmt::v5::visit'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3332,29):
+1>            see the first reference to 'fmt::v5::visit' in 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=char,
+1>            Context=fmt::v5::format_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2188,12):
+1>            see the first reference to 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs' in 'fmt::v5::internal::parse_format_string'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=char,
+1>            Context=fmt::v5::format_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3346,13):
+1>            see the first reference to 'fmt::v5::internal::parse_format_string' in 'fmt::v5::vformat_to'
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996: 'stdext::checked_array_iterator<T *>::operator +': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1504,13):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write_double<T>(T,const fmt::v5::basic_format_specs<wchar_t> &)' being compiled
+1>        with
+1>        [
+1>            T=double
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2899,12):
+1>        see reference to function template instantiation 'void fmt::v5::internal::basic_buffer<wchar_t>::append<char>(const U *,const U *)' being compiled
+1>        with
+1>        [
+1>            U=char
+1>        ]
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996: 'stdext::checked_array_iterator<T *>::_Verify_offset': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996:         with
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996:         [
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996:             T=wchar_t
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1457,13):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3457,10):
+1>        see reference to function template instantiation 'OutputIt fmt::v5::vformat_to<fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,wchar_t,fmt::v5::wformat_context>(fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>,fmt::v5::basic_string_view<wchar_t>,fmt::v5::basic_format_args<fmt::v5::wformat_context>)' being compiled
+1>        with
+1>        [
+1>            OutputIt=std::back_insert_iterator<fmt::v5::internal::basic_buffer<wchar_t>>
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3345,47):
+1>        see reference to class template instantiation 'fmt::v5::format_handler<ArgFormatter,Char,Context>' being compiled
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3296,8):
+1>        while compiling class template member function 'void fmt::v5::format_handler<ArgFormatter,Char,Context>::on_text(const Char *,const Char *)'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2155,11):
+1>            see the first reference to 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_text' in 'fmt::v5::internal::parse_format_string::writer::operator ()'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3300,15):
+1>        see reference to function template instantiation '_OutIt std::copy_n<const Char*,unsigned __int64,stdext::checked_array_iterator<T *>>(_InIt,_Diff,_OutIt)' being compiled
+1>        with
+1>        [
+1>            _OutIt=stdext::checked_array_iterator<wchar_t *>,
+1>            Char=wchar_t,
+1>            T=wchar_t,
+1>            _InIt=const wchar_t *,
+1>            _Diff=unsigned __int64
+1>        ]
+1>        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5040,33):
+1>        see reference to function template instantiation '_Ptr *std::_Get_unwrapped_n<_OutIt&,unsigned __int64>(_Iter,const _Diff)' being compiled
+1>        with
+1>        [
+1>            _Ptr=wchar_t *,
+1>            _OutIt=stdext::checked_array_iterator<wchar_t *>,
+1>            _Iter=stdext::checked_array_iterator<wchar_t *> &,
+1>            _Diff=unsigned __int64
+1>        ]
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996: 'stdext::checked_array_iterator<T *>::_Unwrapped': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996:         with
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996:         [
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996:             T=wchar_t
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1458,42): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2710,8):
+1>        while compiling class template member function 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write(unsigned __int64)'
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1496,14):
+1>            see the first reference to 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write' in 'fmt::v5::internal::arg_formatter_base<Range>::operator ()'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\core.h(797,5):
+1>            see the first reference to 'fmt::v5::internal::arg_formatter_base<Range>::operator ()' in 'fmt::v5::visit'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3332,29):
+1>            see the first reference to 'fmt::v5::visit' in 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2188,12):
+1>            see the first reference to 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs' in 'fmt::v5::internal::parse_format_string'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3346,13):
+1>            see the first reference to 'fmt::v5::internal::parse_format_string' in 'fmt::v5::vformat_to'
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2710,42):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write_decimal<unsigned __int64>(Int)' being compiled
+1>        with
+1>        [
+1>            Int=unsigned __int64
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2877,14):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write_padded<fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::inf_or_nan_writer>(size_t,const fmt::v5::align_spec &,F &&)' being compiled
+1>        with
+1>        [
+1>            F=fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::inf_or_nan_writer
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2877,26):
+1>            see the first reference to 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write_padded' in 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write_double::write_inf_or_nan_t::operator ()'
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2786,12):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::inf_or_nan_writer::operator ()<stdext::checked_array_iterator<T *>>(It &&) const' being compiled
+1>        with
+1>        [
+1>            T=wchar_t,
+1>            It=stdext::checked_array_iterator<wchar_t *>
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2922,3):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write_padded<fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::double_writer>(size_t,const fmt::v5::align_spec &,F &&)' being compiled
+1>        with
+1>        [
+1>            F=fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::double_writer
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2786,12):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::double_writer::operator ()<stdext::checked_array_iterator<T *>>(It &&)' being compiled
+1>        with
+1>        [
+1>            T=wchar_t,
+1>            It=stdext::checked_array_iterator<wchar_t *>
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996:             T=char
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3319,12):
+1>        while compiling class template member function 'fmt::v5::internal::null_terminating_iterator<Char> fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs(fmt::v5::internal::null_terminating_iterator<Char>)'
+1>        with
+1>        [
+1>            Char=char,
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Context=fmt::v5::format_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2188,12):
+1>            see the first reference to 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs' in 'fmt::v5::internal::parse_format_string'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=char,
+1>            Context=fmt::v5::format_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3346,13):
+1>            see the first reference to 'fmt::v5::internal::parse_format_string' in 'fmt::v5::vformat_to'
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3332,29):
+1>        see reference to function template instantiation 'std::back_insert_iterator<fmt::v5::internal::basic_buffer<char>> fmt::v5::visit<ArgFormatter,Context>(Visitor &&,const fmt::v5::basic_format_arg<Context> &)' being compiled
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Context=fmt::v5::format_context,
+1>            Visitor=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\core.h(803,12):
+1>        see reference to function template instantiation 'std::back_insert_iterator<fmt::v5::internal::basic_buffer<char>> fmt::v5::internal::arg_formatter_base<Range>::operator ()<double>(T)' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range,
+1>            T=double
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1504,13):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write_double<T>(T,const fmt::v5::basic_format_specs<char> &)' being compiled
+1>        with
+1>        [
+1>            T=double
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2877,14):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write_padded<fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::inf_or_nan_writer>(size_t,const fmt::v5::align_spec &,F &&)' being compiled
+1>        with
+1>        [
+1>            F=fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::inf_or_nan_writer
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2877,26):
+1>            see the first reference to 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write_padded' in 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write_double::write_inf_or_nan_t::operator ()'
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2786,12):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::inf_or_nan_writer::operator ()<stdext::checked_array_iterator<T *>>(It &&) const' being compiled
+1>        with
+1>        [
+1>            T=char,
+1>            It=stdext::checked_array_iterator<char *>
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996:             T=char
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2922,3):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write_padded<fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::double_writer>(size_t,const fmt::v5::align_spec &,F &&)' being compiled
+1>        with
+1>        [
+1>            F=fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::double_writer
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2786,12):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::double_writer::operator ()<stdext::checked_array_iterator<T *>>(It &&)' being compiled
+1>        with
+1>        [
+1>            T=char,
+1>            It=stdext::checked_array_iterator<char *>
+1>        ]
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1479,13): warning C4996: 'stdext::checked_array_iterator<T *>::_Seek_to': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1479,13): warning C4996:         with
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1479,13): warning C4996:         [
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1479,13): warning C4996:             T=wchar_t
+1>C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1479,13): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(1479,13):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3300,15):
+1>        see reference to function template instantiation '_OutIt std::copy_n<const Char*,unsigned __int64,stdext::checked_array_iterator<T *>>(_InIt,_Diff,_OutIt)' being compiled
+1>        with
+1>        [
+1>            _OutIt=stdext::checked_array_iterator<wchar_t *>,
+1>            Char=wchar_t,
+1>            T=wchar_t,
+1>            _InIt=const wchar_t *,
+1>            _Diff=unsigned __int64
+1>        ]
+1>        C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(5047,26):
+1>        see reference to function template instantiation 'void std::_Seek_wrapped<_OutIt,_Ptr&>(_Iter &,_UIter)' being compiled
+1>        with
+1>        [
+1>            _OutIt=stdext::checked_array_iterator<wchar_t *>,
+1>            _Ptr=wchar_t *,
+1>            _Iter=stdext::checked_array_iterator<wchar_t *>,
+1>            _UIter=wchar_t *&
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2910,7): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2910,7): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2910,7): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2910,7): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2910,7): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2910,7):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3319,12):
+1>        while compiling class template member function 'fmt::v5::internal::null_terminating_iterator<Char> fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs(fmt::v5::internal::null_terminating_iterator<Char>)'
+1>        with
+1>        [
+1>            Char=wchar_t,
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2188,12):
+1>            see the first reference to 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs' in 'fmt::v5::internal::parse_format_string'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3346,13):
+1>            see the first reference to 'fmt::v5::internal::parse_format_string' in 'fmt::v5::vformat_to'
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3332,29):
+1>        see reference to function template instantiation 'std::back_insert_iterator<fmt::v5::internal::basic_buffer<wchar_t>> fmt::v5::visit<ArgFormatter,Context>(Visitor &&,const fmt::v5::basic_format_arg<Context> &)' being compiled
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Context=fmt::v5::wformat_context,
+1>            Visitor=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\core.h(803,12):
+1>        see reference to function template instantiation 'std::back_insert_iterator<fmt::v5::internal::basic_buffer<wchar_t>> fmt::v5::internal::arg_formatter_base<Range>::operator ()<double>(T)' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range,
+1>            T=double
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1504,13):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write_double<T>(T,const fmt::v5::basic_format_specs<wchar_t> &)' being compiled
+1>        with
+1>        [
+1>            T=double
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1440,38): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1440,38): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1440,38): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1440,38): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1440,38): warning C4996:         ]
+1>(compiling source file 'src/Panels/UIUtils.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1440,38):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1443,8):
+1>        while compiling class template member function 'void fmt::v5::internal::arg_formatter_base<Range>::write_char(wchar_t)'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1521,42):
+1>            see the first reference to 'fmt::v5::internal::arg_formatter_base<Range>::write_char' in 'fmt::v5::internal::arg_formatter_base<Range>::char_spec_handler::on_char'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1306,15):
+1>            see the first reference to 'fmt::v5::internal::arg_formatter_base<Range>::char_spec_handler::on_char' in 'fmt::v5::internal::handle_char_specs'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1493,17):
+1>            see the first reference to 'fmt::v5::internal::handle_char_specs' in 'fmt::v5::internal::arg_formatter_base<Range>::operator ()'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\core.h(791,5):
+1>            see the first reference to 'fmt::v5::internal::arg_formatter_base<Range>::operator ()' in 'fmt::v5::visit'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3332,29):
+1>            see the first reference to 'fmt::v5::visit' in 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2188,12):
+1>            see the first reference to 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs' in 'fmt::v5::internal::parse_format_string'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3346,13):
+1>            see the first reference to 'fmt::v5::internal::parse_format_string' in 'fmt::v5::vformat_to'
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1445,15):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write_padded<fmt::v5::internal::arg_formatter_base<Range>::char_writer>(size_t,const fmt::v5::align_spec &,F &&)' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range,
+1>            F=fmt::v5::internal::arg_formatter_base<fmt::v5::vformat_to::range>::char_writer
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2786,12):
+1>        see reference to function template instantiation 'void fmt::v5::internal::arg_formatter_base<Range>::char_writer::operator ()<stdext::checked_array_iterator<T *>>(It &&) const' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range,
+1>            T=wchar_t,
+1>            It=stdext::checked_array_iterator<wchar_t *>
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2746,5): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2746,5): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2746,5): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2746,5): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2746,5): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2746,5):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3342,28):
+1>        see reference to class template instantiation 'fmt::v5::arg_formatter<fmt::v5::vformat_to::range>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2308,51):
+1>        see reference to class template instantiation 'fmt::v5::internal::arg_formatter_base<Range>' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1434,15):
+1>        see reference to class template instantiation 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>' being compiled
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2744,8):
+1>        while compiling class template member function 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write(wchar_t)'
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1496,14):
+1>            see the first reference to 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write' in 'fmt::v5::internal::arg_formatter_base<Range>::operator ()'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\core.h(801,5):
+1>            see the first reference to 'fmt::v5::internal::arg_formatter_base<Range>::operator ()' in 'fmt::v5::visit'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3332,29):
+1>            see the first reference to 'fmt::v5::visit' in 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2188,12):
+1>            see the first reference to 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs' in 'fmt::v5::internal::parse_format_string'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3346,13):
+1>            see the first reference to 'fmt::v5::internal::parse_format_string' in 'fmt::v5::vformat_to'
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2741,5): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2741,5): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2741,5): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2741,5): warning C4996:             T=char
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2741,5): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2741,5):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2740,8):
+1>        while compiling class template member function 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write(char)'
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1496,14):
+1>            see the first reference to 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write' in 'fmt::v5::internal::arg_formatter_base<Range>::operator ()'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\core.h(801,5):
+1>            see the first reference to 'fmt::v5::internal::arg_formatter_base<Range>::operator ()' in 'fmt::v5::visit'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3332,29):
+1>            see the first reference to 'fmt::v5::visit' in 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=char,
+1>            Context=fmt::v5::format_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2188,12):
+1>            see the first reference to 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs' in 'fmt::v5::internal::parse_format_string'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=char,
+1>            Context=fmt::v5::format_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3346,13):
+1>            see the first reference to 'fmt::v5::internal::parse_format_string' in 'fmt::v5::vformat_to'
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996: 'stdext::checked_array_iterator<T *>::operator +': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(429,67):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1504,13):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write_double<T>(T,const fmt::v5::basic_format_specs<wchar_t> &)' being compiled
+1>        with
+1>        [
+1>            T=double
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2899,12):
+1>        see reference to function template instantiation 'void fmt::v5::internal::basic_buffer<wchar_t>::append<char>(const U *,const U *)' being compiled
+1>        with
+1>        [
+1>            U=char
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2486,7):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2710,8):
+1>        while compiling class template member function 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write(unsigned __int64)'
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1496,14):
+1>            see the first reference to 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write' in 'fmt::v5::internal::arg_formatter_base<Range>::operator ()'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\core.h(797,5):
+1>            see the first reference to 'fmt::v5::internal::arg_formatter_base<Range>::operator ()' in 'fmt::v5::visit'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3332,29):
+1>            see the first reference to 'fmt::v5::visit' in 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2188,12):
+1>            see the first reference to 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs' in 'fmt::v5::internal::parse_format_string'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3346,13):
+1>            see the first reference to 'fmt::v5::internal::parse_format_string' in 'fmt::v5::vformat_to'
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2710,42):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write_decimal<unsigned __int64>(Int)' being compiled
+1>        with
+1>        [
+1>            Int=unsigned __int64
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2877,14):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write_padded<fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::inf_or_nan_writer>(size_t,const fmt::v5::align_spec &,F &&)' being compiled
+1>        with
+1>        [
+1>            F=fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::inf_or_nan_writer
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2877,26):
+1>            see the first reference to 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write_padded' in 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write_double::write_inf_or_nan_t::operator ()'
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2786,12):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::inf_or_nan_writer::operator ()<stdext::checked_array_iterator<T *>>(It &&) const' being compiled
+1>        with
+1>        [
+1>            T=wchar_t,
+1>            It=stdext::checked_array_iterator<wchar_t *>
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2922,3):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write_padded<fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::double_writer>(size_t,const fmt::v5::align_spec &,F &&)' being compiled
+1>        with
+1>        [
+1>            F=fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::double_writer
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2786,12):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::double_writer::operator ()<stdext::checked_array_iterator<T *>>(It &&)' being compiled
+1>        with
+1>        [
+1>            T=wchar_t,
+1>            It=stdext::checked_array_iterator<wchar_t *>
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996:             T=char
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2641,9):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3319,12):
+1>        while compiling class template member function 'fmt::v5::internal::null_terminating_iterator<Char> fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs(fmt::v5::internal::null_terminating_iterator<Char>)'
+1>        with
+1>        [
+1>            Char=char,
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Context=fmt::v5::format_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2188,12):
+1>            see the first reference to 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs' in 'fmt::v5::internal::parse_format_string'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=char,
+1>            Context=fmt::v5::format_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3346,13):
+1>            see the first reference to 'fmt::v5::internal::parse_format_string' in 'fmt::v5::vformat_to'
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3332,29):
+1>        see reference to function template instantiation 'std::back_insert_iterator<fmt::v5::internal::basic_buffer<char>> fmt::v5::visit<ArgFormatter,Context>(Visitor &&,const fmt::v5::basic_format_arg<Context> &)' being compiled
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Context=fmt::v5::format_context,
+1>            Visitor=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\core.h(803,12):
+1>        see reference to function template instantiation 'std::back_insert_iterator<fmt::v5::internal::basic_buffer<char>> fmt::v5::internal::arg_formatter_base<Range>::operator ()<double>(T)' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range,
+1>            T=double
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1504,13):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write_double<T>(T,const fmt::v5::basic_format_specs<char> &)' being compiled
+1>        with
+1>        [
+1>            T=double
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2877,14):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write_padded<fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::inf_or_nan_writer>(size_t,const fmt::v5::align_spec &,F &&)' being compiled
+1>        with
+1>        [
+1>            F=fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::inf_or_nan_writer
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2877,26):
+1>            see the first reference to 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write_padded' in 'fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write_double::write_inf_or_nan_t::operator ()'
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2786,12):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::inf_or_nan_writer::operator ()<stdext::checked_array_iterator<T *>>(It &&) const' being compiled
+1>        with
+1>        [
+1>            T=char,
+1>            It=stdext::checked_array_iterator<char *>
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996:             T=char
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2654,9):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2922,3):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::write_padded<fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::double_writer>(size_t,const fmt::v5::align_spec &,F &&)' being compiled
+1>        with
+1>        [
+1>            F=fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::double_writer
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2786,12):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::buffer>>::double_writer::operator ()<stdext::checked_array_iterator<T *>>(It &&)' being compiled
+1>        with
+1>        [
+1>            T=char,
+1>            It=stdext::checked_array_iterator<char *>
+1>        ]
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1440,38): warning C4996: 'stdext::checked_array_iterator<T *>::operator *': warning STL4043: stdext::checked_array_iterator, stdext::unchecked_array_iterator, and related factory functions are non-Standard extensions and will be removed in the future. std::span (since C++20) and gsl::span can be used instead. You can define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING or _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS to suppress this warning.
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1440,38): warning C4996:         with
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1440,38): warning C4996:         [
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1440,38): warning C4996:             T=wchar_t
+1>C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1440,38): warning C4996:         ]
+1>(compiling source file 'src/Panels/SceneHeirarchyPanel.cpp')
+1>    C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1440,38):
+1>    the template instantiation context (the oldest one first) is
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1443,8):
+1>        while compiling class template member function 'void fmt::v5::internal::arg_formatter_base<Range>::write_char(wchar_t)'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1521,42):
+1>            see the first reference to 'fmt::v5::internal::arg_formatter_base<Range>::write_char' in 'fmt::v5::internal::arg_formatter_base<Range>::char_spec_handler::on_char'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1306,15):
+1>            see the first reference to 'fmt::v5::internal::arg_formatter_base<Range>::char_spec_handler::on_char' in 'fmt::v5::internal::handle_char_specs'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1493,17):
+1>            see the first reference to 'fmt::v5::internal::handle_char_specs' in 'fmt::v5::internal::arg_formatter_base<Range>::operator ()'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\core.h(791,5):
+1>            see the first reference to 'fmt::v5::internal::arg_formatter_base<Range>::operator ()' in 'fmt::v5::visit'
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3332,29):
+1>            see the first reference to 'fmt::v5::visit' in 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2188,12):
+1>            see the first reference to 'fmt::v5::format_handler<ArgFormatter,Char,Context>::on_format_specs' in 'fmt::v5::internal::parse_format_string'
+1>        with
+1>        [
+1>            ArgFormatter=fmt::v5::arg_formatter<fmt::v5::vformat_to::range>,
+1>            Char=wchar_t,
+1>            Context=fmt::v5::wformat_context
+1>        ]
+1>            C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(3346,13):
+1>            see the first reference to 'fmt::v5::internal::parse_format_string' in 'fmt::v5::vformat_to'
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(1445,15):
+1>        see reference to function template instantiation 'void fmt::v5::basic_writer<fmt::v5::back_insert_range<fmt::v5::internal::wbuffer>>::write_padded<fmt::v5::internal::arg_formatter_base<Range>::char_writer>(size_t,const fmt::v5::align_spec &,F &&)' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range,
+1>            F=fmt::v5::internal::arg_formatter_base<fmt::v5::vformat_to::range>::char_writer
+1>        ]
+1>        C:\Dev\Teddy\Teddy\Teddy\vendor\spdlog\include\spdlog\fmt\bundled\format.h(2786,12):
+1>        see reference to function template instantiation 'void fmt::v5::internal::arg_formatter_base<Range>::char_writer::operator ()<stdext::checked_array_iterator<T *>>(It &&) const' being compiled
+1>        with
+1>        [
+1>            Range=fmt::v5::vformat_to::range,
+1>            T=wchar_t,
+1>            It=stdext::checked_array_iterator<wchar_t *>
+1>        ]
+1>Done building project "TeddEditor.vcxproj" -- FAILED.
+========== Build: 0 succeeded, 1 failed, 8 up-to-date, 0 skipped ==========
+========== Build completed at 23:51 and took 03.388 seconds ==========

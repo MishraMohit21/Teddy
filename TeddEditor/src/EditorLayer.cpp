@@ -1,6 +1,7 @@
 #include "EditorLayer.h"
 #include "Panels/ProjectBrowser.h"
 #include "Teddy/Project/Project.h"
+#include "Teddy/Project/ProjectSerializer.h"
 #include "Teddy/Scripting/ScriptCompiler.h"
 #include <imgui/imgui.h>
 
@@ -239,6 +240,8 @@ namespace Teddy {
 
 			ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
 			m_SceneHierarchyPanel.OnImGuiRender();
+			m_PropertiesPanel.SetContext(m_SceneHierarchyPanel.GetSelectedEntity());
+			m_PropertiesPanel.OnImGuiRender();
 			if (m_ShowContentBrowser)
 				m_ContentBrowser.OnImGuiRender(m_ShowContentBrowser);
 
@@ -479,10 +482,47 @@ namespace Teddy {
 
 			SerializeScene(m_ActiveScene, m_EditorScenePath);
 			TD_CORE_INFO("Scene saved successfully to {0}", m_EditorScenePath.string());
+
+			RegisterSceneInProject(m_EditorScenePath);
 		}
 		catch (const std::exception& e)
 		{
 			TD_CORE_ERROR("Failed to save scene: {0}", e.what());
+		}
+	}
+
+	void EditorLayer::RegisterSceneInProject(const std::filesystem::path& scenePath)
+	{
+		auto project = Project::GetActive();
+		if (!project)
+			return;
+
+		std::filesystem::path relativeScenePath = std::filesystem::relative(scenePath, project->GetProjectDirectory());
+
+		// Disallow saving scenes outside of the project directory
+		if (relativeScenePath.string().find("..") != std::string::npos)
+		{
+			TD_CORE_ERROR("Scene must be saved inside the project directory!");
+			return;
+		}
+
+		const auto& sceneList = project->GetSceneList();
+		bool sceneExists = false;
+		for (const auto& existingScene : sceneList)
+		{
+			if (existingScene == relativeScenePath)
+			{
+				sceneExists = true;
+				break;
+			}
+		}
+
+		if (!sceneExists)
+		{
+			project->AddSceneToList(relativeScenePath);
+			ProjectSerializer projectSerializer(project);
+			projectSerializer.Serialize(project->GetProjectFilePath());
+			TD_CORE_INFO("Added new scene '{0}' to project.", relativeScenePath.string());
 		}
 	}
 
@@ -561,11 +601,12 @@ namespace Teddy {
 					scenePath += ".tddy";
 				}
 
-				SceneSerializer serializer(m_ActiveScene);
-				serializer.Serialize(scenePath.string());
+				SerializeScene(m_ActiveScene, scenePath);
 
 				m_EditorScenePath = scenePath;
 				TD_CORE_INFO("Scene saved successfully to {0}", scenePath.string());
+
+				RegisterSceneInProject(scenePath);
 			}
 		}
 		catch (const std::exception& e)

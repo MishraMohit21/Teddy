@@ -3,6 +3,7 @@
 #include "Teddy.h"
 #include "./Panels/SceneHeirarchyPanel.h"
 #include "Panels/ContentBrowser.h"
+#include "Panels/PropertiesPanel.h"
 #include "Panels/ProjectBrowser.h"
 
 
@@ -37,6 +38,7 @@ namespace Teddy {
 		void OnOpenProject();
 	private:
 		void LoadProject(const std::filesystem::path& path);
+		void RegisterSceneInProject(const std::filesystem::path& scenePath);
 
 		//void OnSelectAll();'
 
@@ -85,6 +87,7 @@ namespace Teddy {
 
 		// Panels
 		SceneHierarchyPanel m_SceneHierarchyPanel;
+		PropertiesPanel m_PropertiesPanel;
 		ContentBrowser m_ContentBrowser;
 		ProjectBrowser m_ProjectBrowser;
 
