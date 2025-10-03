@@ -68,7 +68,32 @@ namespace Teddy
 
 			ImGui::PushID(filenameString.c_str());
 
-			Ref<Texture2D> icon = directoryEntry.is_directory() ? m_DirectoryIcon : m_FileIcon;
+			Ref<Texture2D> icon;
+			if (directoryEntry.is_directory())
+			{
+				icon = m_DirectoryIcon;
+			}
+			else
+			{
+				std::string extension = relativePath.extension().string();
+				if (extension == ".png" || extension == ".jpg" || extension == ".jpeg")
+				{
+					if (m_ThumbnailCache.find(path.string()) != m_ThumbnailCache.end())
+					{
+						icon = m_ThumbnailCache[path.string()];
+					}
+					else
+					{
+						icon = Texture2D::Create(path.string());
+						m_ThumbnailCache[path.string()] = icon;
+					}
+				}
+				else
+				{
+					icon = m_FileIcon;
+				}
+			}
+
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 			ImGui::ImageButton((ImTextureID)icon->GetRendererID(), { thumbnailSize, thumbnailSize }, { 0, 1 }, { 1, 0 });
 

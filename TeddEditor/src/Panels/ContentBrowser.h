@@ -22,6 +22,7 @@ namespace Teddy
 		std::filesystem::path m_CurrentDirectory;
 
 		Ref<Texture2D> m_DirectoryIcon, m_FileIcon;
+		std::unordered_map<std::string, Ref<Texture2D>> m_ThumbnailCache;
 
 		char m_NewFolderName[256];
 		char m_NewScriptName[256];
