@@ -31,13 +31,15 @@ IncludeDir["Box2D"] = "vendor/Box2D/include"
 IncludeDir["mono"] = "vendor/mono/include"
 IncludeDir["ImGuizmo"] = "vendor/ImGuizmo"
 IncludeDir["SoLoud"] = "vendor/soloud/include"
+IncludeDir["Trex"] = "vendor/trex/include"
+IncludeDir["Freetype"] = "vendor/freetype/include"
+IncludeDir["HarfBuzz"] = "vendor/harfbuzz/include"
 IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
 
 LibraryDir = {}
 LibraryDir["VulkanSDK"] = "%{VULKAN_SDK}/Lib"
 LibraryDir["VulkanSDK_Debug"] = "%{VULKAN_SDK}/Lib"
 LibraryDir["mono"] = "$(SolutionDir)Teddy/vendor/mono/lib/%{cfg.buildcfg}"
-
 
 Library = {}
 Library["mono"] = "%{LibraryDir.mono}/libmono-static-sgen.lib"
@@ -50,41 +52,73 @@ Library["SPIRV_Tools_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/SPIRV-Toolsd.lib"
 Library["ShaderC_Release"] = "%{LibraryDir.VulkanSDK}/shaderc_shared.lib"
 Library["SPIRV_Cross_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-core.lib"
 Library["SPIRV_Cross_GLSL_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-glsl.lib"
-
-
 Library["WinSock"] = "Ws2_32.lib"
 Library["WinMM"] = "Winmm.lib"
 Library["WinVersion"] = "Version.lib"
 Library["BCrypt"] = "Bcrypt.lib"
 
-
+-- ============================================================================
+-- DEPENDENCY PROJECTS (Build Order: 1)
+-- ============================================================================
 group "Dependencies"
-	include "Teddy/vendor/GLFW"
-	include "Teddy/vendor/Glad"
-	include "Teddy/vendor/imgui"
-	include "Teddy/vendor/yaml-cpp"
-	include "Teddy/vendor/Box2D"
-	include "Teddy/vendor/soloud"
+    include "Teddy/vendor/GLFW"
+    include "Teddy/vendor/Glad"
+    include "Teddy/vendor/imgui"
+    include "Teddy/vendor/yaml-cpp"
+    include "Teddy/vendor/Box2D"
+    include "Teddy/vendor/soloud"
+    include "Teddy/vendor/freetype"
+    include "Teddy/vendor/harfbuzz"
+    include "Teddy/vendor/trex"
 group ""
 
+-- ============================================================================
+-- CORE RUNTIME (Build Order: 2)
+-- ============================================================================
+group "Core"
 
-group "Main"
- 
+project "ScriptCore"
+    location "ScriptCore"
+    kind "SharedLib"
+    language "C#"
+    dotnetframework "4.7.2"
+    
+    targetdir ("TeddEditor/Resources/Scripts")
+    objdir ("TeddEditor/Resources/Scripts/Intermediates")
+    
+    files
+    {
+        "%{prj.name}/Source/**.cs",
+        "%{prj.name}/Properties/**.cs"
+    }
+    
+    filter "configurations:Debug"
+        optimize "Off"
+        symbols "Default"
+    
+    filter "configurations:Release"
+        optimize "On"
+        symbols "Default"
+    
+    filter "configurations:Dist"
+        optimize "Full"
+        symbols "Off"
+
 project "Teddy"
-	location "Teddy"
-	kind "StaticLib"
-	language "C++"
-	cppdialect "C++17"
-	staticruntime "off"
+    location "Teddy"
+    kind "StaticLib"
+    language "C++"
+    cppdialect "C++20"
+    staticruntime "off"
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-	pchheader "tdpch.h"
-	pchsource "Teddy/src/tdpch.cpp"
+    pchheader "tdpch.h"
+    pchsource "Teddy/src/tdpch.cpp"
 
-	files
-	{
+    files
+    {
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/vendor/stb_image/**.h",
@@ -94,15 +128,15 @@ project "Teddy"
 
 		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
 		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp"
-	}
+    }
 
-	defines
-	{
-		"_CRT_SECURE_NO_WARNINGS"
-	}
+    defines
+    {
+        "_CRT_SECURE_NO_WARNINGS"
+    }
 
-	includedirs
-	{
+    includedirs
+    {
 		"$(ProjectDir)src",
 		"$(ProjectDir)vendor/spdlog/include",
 		"$(ProjectDir)%{IncludeDir.GLFW}",
@@ -117,226 +151,149 @@ project "Teddy"
 		"$(ProjectDir)%{IncludeDir.Box2D}",
 		"$(ProjectDir)%{IncludeDir.yaml_cpp}",
 		"$(ProjectDir)%{IncludeDir.VulkanSDK}",
+		"$(ProjectDir)%{IncludeDir.Trex}",
+		"$(ProjectDir)%{IncludeDir.Freetype}",
+		"$(ProjectDir)%{IncludeDir.HarfBuzz}"
+    }
 
-	}
-
-	links 
-	{ 
-		"GLFW",
-		"Glad",
-		"Box2D",
-		"ImGui",
-		"SoLoud",
-		"yaml-cpp",
-		"opengl32.lib",
-		"ScriptCore",
-		"%{Library.mono}",
-
-	}
+    links 
+    { 
+        "GLFW",
+        "Glad",
+        "Box2D",
+        "ImGui",
+        "SoLoud",
+        "yaml-cpp",
+        "Freetype",
+        "HarfBuzz",
+        "Trex",
+        "opengl32.lib"
+    }
 
 	filter "files:Teddy/vendor/ImGuizmo/**.cpp"
 	flags { "NoPCH" }
 
-	filter "system:windows"
-		systemversion "latest"
+    filter "system:windows"
+        systemversion "latest"
 
-		defines
-		{
-			"TD_PLATFORM_WINDOWS",
-			"TD_BUILD_DLL",
-			"GLFW_INCLUDE_NONE"
-		}
+        defines
+        {
+            "TD_PLATFORM_WINDOWS",
+            "TD_BUILD_DLL",
+            "GLFW_INCLUDE_NONE"
+        }
 
-		links
-		{
-    		"%{Library.WinSock}",
-			"%{Library.WinMM}",
-			"%{Library.WinVersion}",
-			"%{Library.BCrypt}",
-		}
+        links
+        {
+            "%{Library.WinSock}",
+            "%{Library.WinMM}",
+            "%{Library.WinVersion}",
+            "%{Library.BCrypt}",
+            "%{Library.mono}"
+        }
 
-	filter "configurations:Debug"
-		defines "TD_DEBUG"
-		runtime "Debug"
-		symbols "on"
+    filter "configurations:Debug"
+        defines "TD_DEBUG"
+        runtime "Debug"
+        symbols "on"
 
-		links
-		{
-			"%{Library.ShaderC_Debug}",
-			"%{Library.SPIRV_Cross_Debug}",
-			"%{Library.SPIRV_Cross_GLSL_Debug}"
-		}
+        links
+        {
+            "%{Library.ShaderC_Debug}",
+            "%{Library.SPIRV_Cross_Debug}",
+            "%{Library.SPIRV_Cross_GLSL_Debug}"
+        }
 
-	filter "configurations:Release"
-		defines "TD_RELEASE"
-		runtime "Release"
-		optimize "on"
+    filter "configurations:Release"
+        defines "TD_RELEASE"
+        runtime "Release"
+        optimize "on"
 
-		links
-		{
-			"%{Library.ShaderC_Release}",
-			"%{Library.SPIRV_Cross_Release}",
-			"%{Library.SPIRV_Cross_GLSL_Release}"
-		}
+        links
+        {
+            "%{Library.ShaderC_Release}",
+            "%{Library.SPIRV_Cross_Release}",
+            "%{Library.SPIRV_Cross_GLSL_Release}"
+        }
 
-	filter "configurations:Dist"
-		defines "TD_DIST"
-		runtime "Release"
-		optimize "on"
+    filter "configurations:Dist"
+        defines "TD_DIST"
+        runtime "Release"
+        optimize "on"
 
-		links
-		{
-			"%{Library.ShaderC_Release}",
-			"%{Library.SPIRV_Cross_Release}",
-			"%{Library.SPIRV_Cross_GLSL_Release}"
-		}
-
-
-project "ScriptCore"
-		location "ScriptCore"
-		kind "SharedLib"
-		language "C#"
-		dotnetframework "4.7.2"
-		
-		targetdir ("$(SolutionDir)TeddEditor/Resources/Scripts")
-		objdir ("$(SolutionDir)TeddEditor/Resources/Scripts/Intermediates")
-		
-		files
-		{
-		    "ScriptCore/Source/**.cs",
-		    "ScriptCore/Properties/**.cs"
-    	}
-		
-		filter "configurations:Debug"
-		optimize "Off"
-		symbols "Default"
-		
-		filter "configurations:Release"
-		optimize "On"
-		symbols "Default"
-		
-		filter "configurations:Dist"
-		optimize "Full"
-		symbols "Off"
+        links
+        {
+            "%{Library.ShaderC_Release}",
+            "%{Library.SPIRV_Cross_Release}",
+            "%{Library.SPIRV_Cross_GLSL_Release}"
+        }
 
 group ""
 
-group "Misc"	
-
-project "Sandbox"
-	location "Sandbox"
-	kind "ConsoleApp"
-	language "C++"
-	cppdialect "C++17"
-	staticruntime "on"
-
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
-	}
-
-	includedirs
-	{
-		"Teddy/vendor/spdlog/include",
-		"Teddy/src",
-		"Teddy/vendor",
-		"Teddy/%{IncludeDir.glm}",
-		"Teddy/%{IncludeDir.yaml_cpp}",
-		"Teddy/%{IncludeDir.ImGuizmo}",
-		"$(ProjectDir)%{IncludeDir.SoLoud}",
-		"Teddy/%{IncludeDir.entt}"
-
-	}
-
-	links
-	{
-		"Teddy"
-	}
-
-	filter "system:windows"
-		systemversion "latest"
-
-		defines
-		{
-			"TD_PLATFORM_WINDOWS"
-		}
-
-	filter "configurations:Debug"
-		defines "TD_DEBUG"
-		runtime "Debug"
-		symbols "on"
-
-	filter "configurations:Release"
-		defines "TD_RELEASE"
-		runtime "Release"
-		optimize "on"
-
-	filter "configurations:Dist"
-		defines "TD_DIST"
-		runtime "Release"
-		optimize "on"
-
-group ""
-
-group "Editor"
+-- ============================================================================
+-- APPLICATIONS (Build Order: 3)
+-- ============================================================================
+group "Applications"
 
 project "TeddEditor"
-	location "TeddEditor"
-	kind "ConsoleApp"
-	language "C++"
-	cppdialect "C++17"
-	staticruntime "off"
-	
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp",
-		"%{prj.name}/Panels/**.h",
-		"%{prj.name}/Panels/**.cpp",
-	}
-	includedirs
-	{
-		"Teddy/vendor/spdlog/include",
-		"Teddy/src",
-		"Teddy/vendor",
-		"Teddy/%{IncludeDir.glm}",
-		"Teddy/%{IncludeDir.yaml_cpp}",
-		"Teddy/%{IncludeDir.ImGuizmo}",	
-		"Teddy/%{IncludeDir.SoLoud}",
-		"Teddy/%{IncludeDir.Box2D}",
-		"Teddy/%{IncludeDir.entt}"
-	}
-	-- In your TeddEditor project
-	postbuildcommands
-	{
-		'{COPY} "%{wks.location}/TeddEditor/mono/lib" "%{cfg.targetdir}/../lib/mono"',
-		-- '{COPY} "%{wks.location}/TeddEditor/mono/etc" "%{cfg.targetdir}/etc"' -- Comment out or delete this line
-	}
-	links
-	{
-		"Teddy"
-	}
-	filter "system:windows"
-		systemversion "latest"
-		
-	filter "configurations:Debug"
-		defines "TD_DEBUG"
-		runtime "Debug"
-		symbols "on"
-	filter "configurations:Release"
-		defines "TD_RELEASE"
-		runtime "Release"
-		optimize "on"
-	filter "configurations:Dist"
-		defines "TD_DIST"
-		runtime "Release"
-		optimize "on"
+    location "TeddEditor"
+    kind "ConsoleApp"
+    language "C++"
+    cppdialect "C++20"
+    staticruntime "off"
+    
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+    
+    files
+    {
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/Panels/**.h",
+        "%{prj.name}/Panels/**.cpp"
+    }
+    
+    includedirs
+    {
+        "Teddy/src",
+        "Teddy/vendor",
+        "Teddy/%{IncludeDir.glm}",
+        "Teddy/%{IncludeDir.yaml_cpp}",
+        "Teddy/%{IncludeDir.ImGuizmo}",
+        "Teddy/%{IncludeDir.SoLoud}",
+        "Teddy/%{IncludeDir.Box2D}",
+		"Teddy/%{IncludeDir.Trex}",
+        "Teddy/%{IncludeDir.entt}"
 
+    }
+    
+    links
+    {
+        "Teddy"
+    }
+    
+    postbuildcommands
+    {
+        '{COPY} "%{wks.location}TeddEditor/mono/lib" "%{cfg.targetdir}/../lib/mono"'
+    }
+    
+    filter "system:windows"
+        systemversion "latest"
+        defines "TD_PLATFORM_WINDOWS"
+        
+    filter "configurations:Debug"
+        defines "TD_DEBUG"
+        runtime "Debug"
+        symbols "on"
+        
+    filter "configurations:Release"
+        defines "TD_RELEASE"
+        runtime "Release"
+        optimize "on"
+        
+    filter "configurations:Dist"
+        defines "TD_DIST"
+        runtime "Release"
+        optimize "on"
 
 group ""

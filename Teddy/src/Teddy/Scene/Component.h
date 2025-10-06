@@ -6,8 +6,9 @@
 
 
 #include <Teddy/Renderer/RenderCommand.h>
-#include "Teddy/Renderer/Renderer2D.h"
+#include "Teddy/Renderer/Texture.h"
 #include "Teddy/Core/UUID.h"
+#include <Trex/Font.hpp>
 
 #include <type_traits>
 
@@ -220,6 +221,20 @@ namespace Teddy
 		AudioSourceComponent(const AudioSourceComponent&) = default;
 	};
 
+	struct TextComponent
+	{
+		std::string TextString;
+		Ref<Trex::Font> FontAsset;
+		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
+		float Kerning = 0.0f;
+		float LineSpacing = 0.0f;
+
+		TextComponent() = default;
+		TextComponent(const TextComponent&) = default;
+		TextComponent(const std::string& text)
+			: TextString(text) {}
+	};
+
 	template<typename... Component>
 	struct ComponentGroup
 	{
@@ -229,6 +244,6 @@ namespace Teddy
 		ComponentGroup<TransformComponent, SpriteRendererComponent,
 		CircleRendererComponent, CameraComponent, ScriptComponent,
 		Rigid2DBodyComponent, Box2DColliderComponent,
-		Circle2DColliderComponent, AudioSourceComponent>;
+		Circle2DColliderComponent, AudioSourceComponent, TextComponent>;
 
 }

@@ -77,13 +77,13 @@
       <PrecompiledHeaderFile>tdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;TD_BUILD_DLL;GLFW_INCLUDE_NONE;TD_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vendor\spdlog\include;$(ProjectDir)vendor\GLFW\include;$(ProjectDir)vendor\Glad\include;$(ProjectDir)vendor\imgui;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb_image;$(ProjectDir)vendor\entt;$(ProjectDir)vendor\mono\include;$(ProjectDir)vendor\ImGuizmo;$(ProjectDir)vendor\soloud\include;$(ProjectDir)vendor\Box2D\include;$(ProjectDir)vendor\yaml-cpp\include;C:\VulkanSDK\1.4.321.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vendor\spdlog\include;$(ProjectDir)vendor\GLFW\include;$(ProjectDir)vendor\Glad\include;$(ProjectDir)vendor\imgui;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb_image;$(ProjectDir)vendor\entt;$(ProjectDir)vendor\mono\include;$(ProjectDir)vendor\ImGuizmo;$(ProjectDir)vendor\soloud\include;$(ProjectDir)vendor\Box2D\include;$(ProjectDir)vendor\yaml-cpp\include;C:\VulkanSDK\1.4.321.1\Include;$(ProjectDir)vendor\trex\include;$(ProjectDir)vendor\freetype\include;$(ProjectDir)vendor\harfbuzz\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
@@ -91,7 +91,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;$(SolutionDir)Teddy\vendor\mono\lib\Debug\libmono-static-sgen.lib;Ws2_32.lib;Winmm.lib;Version.lib;Bcrypt.lib;C:\VulkanSDK\1.4.321.1\Lib\shaderc_sharedd.lib;C:\VulkanSDK\1.4.321.1\Lib\spirv-cross-cored.lib;C:\VulkanSDK\1.4.321.1\Lib\spirv-cross-glsld.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;Ws2_32.lib;Winmm.lib;Version.lib;Bcrypt.lib;$(SolutionDir)Teddy\vendor\mono\lib\Debug\libmono-static-sgen.lib;C:\VulkanSDK\1.4.321.1\Lib\shaderc_sharedd.lib;C:\VulkanSDK\1.4.321.1\Lib\spirv-cross-cored.lib;C:\VulkanSDK\1.4.321.1\Lib\spirv-cross-glsld.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -100,7 +100,7 @@
       <PrecompiledHeaderFile>tdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;TD_BUILD_DLL;GLFW_INCLUDE_NONE;TD_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vendor\spdlog\include;$(ProjectDir)vendor\GLFW\include;$(ProjectDir)vendor\Glad\include;$(ProjectDir)vendor\imgui;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb_image;$(ProjectDir)vendor\entt;$(ProjectDir)vendor\mono\include;$(ProjectDir)vendor\ImGuizmo;$(ProjectDir)vendor\soloud\include;$(ProjectDir)vendor\Box2D\include;$(ProjectDir)vendor\yaml-cpp\include;C:\VulkanSDK\1.4.321.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vendor\spdlog\include;$(ProjectDir)vendor\GLFW\include;$(ProjectDir)vendor\Glad\include;$(ProjectDir)vendor\imgui;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb_image;$(ProjectDir)vendor\entt;$(ProjectDir)vendor\mono\include;$(ProjectDir)vendor\ImGuizmo;$(ProjectDir)vendor\soloud\include;$(ProjectDir)vendor\Box2D\include;$(ProjectDir)vendor\yaml-cpp\include;C:\VulkanSDK\1.4.321.1\Include;$(ProjectDir)vendor\trex\include;$(ProjectDir)vendor\freetype\include;$(ProjectDir)vendor\harfbuzz\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -108,7 +108,7 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
@@ -117,7 +117,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;$(SolutionDir)Teddy\vendor\mono\lib\Release\libmono-static-sgen.lib;Ws2_32.lib;Winmm.lib;Version.lib;Bcrypt.lib;C:\VulkanSDK\1.4.321.1\Lib\shaderc_shared.lib;C:\VulkanSDK\1.4.321.1\Lib\spirv-cross-core.lib;C:\VulkanSDK\1.4.321.1\Lib\spirv-cross-glsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;Ws2_32.lib;Winmm.lib;Version.lib;Bcrypt.lib;$(SolutionDir)Teddy\vendor\mono\lib\Release\libmono-static-sgen.lib;C:\VulkanSDK\1.4.321.1\Lib\shaderc_shared.lib;C:\VulkanSDK\1.4.321.1\Lib\spirv-cross-core.lib;C:\VulkanSDK\1.4.321.1\Lib\spirv-cross-glsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -126,7 +126,7 @@
       <PrecompiledHeaderFile>tdpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;TD_PLATFORM_WINDOWS;TD_BUILD_DLL;GLFW_INCLUDE_NONE;TD_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vendor\spdlog\include;$(ProjectDir)vendor\GLFW\include;$(ProjectDir)vendor\Glad\include;$(ProjectDir)vendor\imgui;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb_image;$(ProjectDir)vendor\entt;$(ProjectDir)vendor\mono\include;$(ProjectDir)vendor\ImGuizmo;$(ProjectDir)vendor\soloud\include;$(ProjectDir)vendor\Box2D\include;$(ProjectDir)vendor\yaml-cpp\include;C:\VulkanSDK\1.4.321.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)vendor\spdlog\include;$(ProjectDir)vendor\GLFW\include;$(ProjectDir)vendor\Glad\include;$(ProjectDir)vendor\imgui;$(ProjectDir)vendor\glm;$(ProjectDir)vendor\stb_image;$(ProjectDir)vendor\entt;$(ProjectDir)vendor\mono\include;$(ProjectDir)vendor\ImGuizmo;$(ProjectDir)vendor\soloud\include;$(ProjectDir)vendor\Box2D\include;$(ProjectDir)vendor\yaml-cpp\include;C:\VulkanSDK\1.4.321.1\Include;$(ProjectDir)vendor\trex\include;$(ProjectDir)vendor\freetype\include;$(ProjectDir)vendor\harfbuzz\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -134,7 +134,7 @@
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
@@ -143,7 +143,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>opengl32.lib;$(SolutionDir)Teddy\vendor\mono\lib\Dist\libmono-static-sgen.lib;Ws2_32.lib;Winmm.lib;Version.lib;Bcrypt.lib;C:\VulkanSDK\1.4.321.1\Lib\shaderc_shared.lib;C:\VulkanSDK\1.4.321.1\Lib\spirv-cross-core.lib;C:\VulkanSDK\1.4.321.1\Lib\spirv-cross-glsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;Ws2_32.lib;Winmm.lib;Version.lib;Bcrypt.lib;$(SolutionDir)Teddy\vendor\mono\lib\Dist\libmono-static-sgen.lib;C:\VulkanSDK\1.4.321.1\Lib\shaderc_shared.lib;C:\VulkanSDK\1.4.321.1\Lib\spirv-cross-core.lib;C:\VulkanSDK\1.4.321.1\Lib\spirv-cross-glsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -646,8 +646,14 @@
     <ProjectReference Include="vendor\yaml-cpp\yaml-cpp.vcxproj">
       <Project>{88F1A057-74BE-FB62-9DD7-E90A890331F1}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\ScriptCore\ScriptCore.csproj">
-      <Project>{43DDC966-2F95-0BB4-989C-E40F8473A6A4}</Project>
+    <ProjectReference Include="vendor\freetype\FreeType.vcxproj">
+      <Project>{49610F50-352E-6A5B-5E47-58034A739FE9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\harfbuzz\HarfBuzz.vcxproj">
+      <Project>{713C502A-5D09-AB35-8622-99DD724EE0C3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\trex\Trex.vcxproj">
+      <Project>{C8118D7C-B448-8E0D-5D35-7410494B0A0F}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

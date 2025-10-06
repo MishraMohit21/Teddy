@@ -1,5 +1,6 @@
 #pragma once
 #include <xhash>
+#include <format>
 
 namespace Teddy {
 	class UUID
@@ -22,6 +23,13 @@ namespace std {
 		std::size_t operator()(const Teddy::UUID& uuid) const
 		{
 			return hash<uint64_t>()((uint64_t)uuid);
+		}
+	};
+
+	template<>
+	struct formatter<Teddy::UUID> : formatter<uint64_t> {
+		auto format(Teddy::UUID uuid, format_context& ctx) const {
+			return formatter<uint64_t>::format(static_cast<uint64_t>(uuid), ctx);
 		}
 	};
 }

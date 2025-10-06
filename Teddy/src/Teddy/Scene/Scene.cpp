@@ -117,6 +117,11 @@ namespace Teddy
 	}
 
 	template<>
+	void Scene::OnComponentAdded<TextComponent>(Entity entity, TextComponent& component)
+	{
+	}
+
+	template<>
 	void Scene::OnComponentAdded<Rigid2DBodyComponent>(Entity entity, Rigid2DBodyComponent& component)
 	{
 		if (!m_PhysicsWorld)
@@ -244,6 +249,7 @@ namespace Teddy
 		CopyComponent<Box2DColliderComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		        CopyComponent<Circle2DColliderComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 				CopyComponent<AudioSourceComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<TextComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		return newScene;
 	}
 
@@ -296,7 +302,7 @@ namespace Teddy
 
 			ScriptingEngine::OnRuntimeStart(this);
 
-			auto& view = m_Registry.view<ScriptComponent>();
+			auto view = m_Registry.view<ScriptComponent>();
 
 			// Add this logging
 			TD_CORE_TRACE("Found {} entities with ScriptComponent", view.size());
@@ -468,6 +474,17 @@ namespace Teddy
 					Renderer2D::DrawCircle(transform.GetTransform(), circle.Color, circle.Thickness, circle.Fade, (int)entity);
 				}
 			}
+
+			// Text Rendering
+			{
+				auto view = m_Registry.view<TransformComponent, TextComponent>();
+				for (auto entity : view)
+				{
+					auto [transform, text] = view.get<TransformComponent, TextComponent>(entity);
+					Renderer2D::DrawString(transform.GetTransform(), text, (int)entity);
+				}
+			}
+
 			Renderer2D::EndScene();
 		}
 	}
@@ -513,6 +530,7 @@ namespace Teddy
 		CopyComponentIfExists<Rigid2DBodyComponent>(newEntity, entity);
 		CopyComponentIfExists<Box2DColliderComponent>(newEntity, entity);
 		CopyComponentIfExists<Circle2DColliderComponent>(newEntity, entity);
+		CopyComponentIfExists<TextComponent>(newEntity, entity);
 	}
 
 	void Scene::OnAudioStart()
@@ -652,6 +670,16 @@ namespace Teddy
 			{
 				auto [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
 				Renderer2D::DrawCircle(transform.GetTransform(), circle.Color, circle.Thickness, circle.Fade, (int)entity);
+			}
+		}
+
+		// Text Rendering
+		{
+			auto view = m_Registry.view<TransformComponent, TextComponent>();
+			for (auto entity : view)
+			{
+				auto [transform, text] = view.get<TransformComponent, TextComponent>(entity);
+				Renderer2D::DrawString(transform.GetTransform(), text, (int)entity);
 			}
 		}
 

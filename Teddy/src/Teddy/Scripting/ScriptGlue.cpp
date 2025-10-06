@@ -686,7 +686,7 @@ namespace Teddy {
 		MonoClass* klass = mono_type_get_class(managedType);
 		const char* nameSpace = mono_class_get_namespace(klass);
 		const char* className = mono_class_get_name(klass);
-		std::string fullTypeName = fmt::format("{}.{}", nameSpace, className);
+		std::string fullTypeName = std::format("{}.{}", nameSpace, className);
 
 		TD_CORE_WARN("Looking for component: {}", fullTypeName);
 
@@ -708,7 +708,7 @@ namespace Teddy {
         MonoClass* klass = mono_type_get_class(managedType);
         const char* nameSpace = mono_class_get_namespace(klass);
         const char* className = mono_class_get_name(klass);
-        std::string fullTypeName = fmt::format("{}.{}", nameSpace, className);
+        std::string fullTypeName = std::format("{}.{}", nameSpace, className);
 
         auto it = s_EntityAddComponentFuncs.find(fullTypeName);
         if (it == s_EntityAddComponentFuncs.end())
@@ -747,7 +747,7 @@ namespace Teddy {
     {
         Scene* scene = ScriptingEngine::GetSceneContext();
         Entity camera = scene->GetPrimarySceneCamera();
-        return camera ? camera.GetComponent<UUIDComponent>().id : 0;
+        return camera ? camera.GetComponent<UUIDComponent>().id : (UUID)0;
     }
 
     static uint64_t Scene_FindEntityByName(MonoString* name)
@@ -778,7 +778,7 @@ namespace Teddy {
                 std::string_view typeName = typeid(Component).name();
                 size_t pos = typeName.find_last_of(':');
                 std::string_view structName = typeName.substr(pos + 1);
-                std::string managedTypename = fmt::format("Teddy.{}", structName);
+                std::string managedTypename = std::format("Teddy.{}", structName);
 
                 TD_CORE_TRACE("Registering component type: {}", managedTypename);
 

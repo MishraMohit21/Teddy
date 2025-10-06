@@ -22,9 +22,9 @@ namespace Teddy {
 		TD_CORE_ASSERT(status, "Failed to initialize Glad!");
 
 		TD_CORE_INFO("OpenGL Info:");
-		TD_CORE_INFO("  Vendor: {0}", glGetString(GL_VENDOR));
-		TD_CORE_INFO("  Renderer: {0}", glGetString(GL_RENDERER));
-		TD_CORE_INFO("  Version: {0}", glGetString(GL_VERSION));
+		TD_CORE_INFO("  Vendor: {0}", (const char*)glGetString(GL_VENDOR));
+		TD_CORE_INFO("  Renderer: {0}", (const char*)glGetString(GL_RENDERER));
+		TD_CORE_INFO("  Version: {0}", (const char*)glGetString(GL_VERSION));
 
 	#ifdef TD_ENABLE_ASSERTS
 		int versionMajor;

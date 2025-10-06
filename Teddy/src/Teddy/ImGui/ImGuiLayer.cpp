@@ -25,53 +25,104 @@ namespace Teddy {
 		auto& style = ImGui::GetStyle();
 		auto& colors = ImGui::GetStyle().Colors;
 
-		// Gilded Navy Theme
-		colors[ImGuiCol_WindowBg] = ImVec4{ 0.0f, 0.0f, 0.133f, 1.0f };      // #000022 (Base Background)
-		colors[ImGuiCol_ChildBg] = ImVec4{ 0.0f, 0.0f, 0.133f, 1.0f };      // #000022 (Primary Surface)
-		colors[ImGuiCol_PopupBg] = ImVec4{ 0.110f, 0.110f, 0.314f, 1.0f };      // #1C1C50 (Elevated Surface)
-		colors[ImGuiCol_Border] = ImVec4{ 0.110f, 0.110f, 0.314f, 1.0f };        // #1C1C50 (Borders/Dividers)
+		// THEME: Midnight Cool v2
 
-		colors[ImGuiCol_Header] = ImVec4{ 0.110f, 0.110f, 0.314f, 1.0f };        // #1C1C50 (Elevated for Headers)
-		colors[ImGuiCol_HeaderHovered] = ImVec4{ 0.173f, 0.173f, 0.408f, 1.0f }; // #2C2C68 (Hover/Active)
-		colors[ImGuiCol_HeaderActive] = ImVec4{ 0.831f, 0.608f, 0.0f, 1.0f };   // #D49B00 (Accent for active states)
+		// CONSTANTS
+		const ImVec4 color_primary_surface = {0.047f, 0.090f, 0.137f, 1.0f}; // #0C1723
+		const ImVec4 color_secondary_surface = {0.078f, 0.129f, 0.188f, 1.0f}; // #142130
+		const ImVec4 color_panel_header = {0.118f, 0.184f, 0.271f, 1.0f}; // #1E2F45
+		const ImVec4 color_accent_cyan = {0.0f, 0.549f, 0.729f, 1.0f}; // #008CBA
+		const ImVec4 color_accent_cyan_hover = {0.0f, 0.663f, 0.878f, 1.0f}; // #00A9E0
+		const ImVec4 color_accent_cyan_active = {0.0f, 0.482f, 0.604f, 1.0f}; // #007B9A
+		const ImVec4 color_accent_magenta = {0.694f, 0.451f, 1.0f, 1.0f}; // #B173FF
+		const ImVec4 color_text_primary = {0.902f, 0.914f, 0.925f, 1.0f}; // #E6E9EC
+		const ImVec4 color_text_disabled = {0.431f, 0.482f, 0.533f, 1.0f}; // #6E7B88
+		const ImVec4 color_border = { 0.118f, 0.184f, 0.271f, 1.0f }; // #1E2F45
+		const ImVec4 color_frame_bg = { 0.1f, 0.15f, 0.2f, 1.0f }; // #1A2633
+		const ImVec4 color_frame_bg_hover = {0.118f, 0.184f, 0.271f, 0.8f};
+		const ImVec4 color_frame_bg_active = {0.118f, 0.184f, 0.271f, 1.0f};
 
-		colors[ImGuiCol_Button] = ImVec4{ 0.110f, 0.110f, 0.314f, 1.0f };        // #1C1C50 (Elevated for Buttons)
-		colors[ImGuiCol_ButtonHovered] = ImVec4{ 0.173f, 0.173f, 0.408f, 1.0f }; // #2C2C68 (Hover/Active)
-		colors[ImGuiCol_ButtonActive] = ImVec4{ 0.831f, 0.608f, 0.0f, 1.0f };   // #D49B00 (Accent for active states)
+		// STYLE
+		style.Alpha = 1.0f;
+		style.WindowPadding = ImVec2(10.0f, 10.0f);
+		style.WindowMinSize = ImVec2(32.0f, 32.0f);
+		style.WindowRounding = 6.0f;
+		style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
+		style.WindowMenuButtonPosition = ImGuiDir_Right;
+		style.ChildRounding = 6.0f;
+		style.ChildBorderSize = 1.0f;
+		style.PopupRounding = 6.0f;
+		style.PopupBorderSize = 1.0f;
+		style.FramePadding = ImVec2(8.0f, 6.0f);
+		style.FrameRounding = 6.0f;
+		style.FrameBorderSize = 1.0f;
+		style.ItemSpacing = ImVec2(8.0f, 8.0f);
+		style.ItemInnerSpacing = ImVec2(6.0f, 6.0f);
+		style.IndentSpacing = 25.0f;
+		style.ScrollbarSize = 12.0f;
+		style.ScrollbarRounding = 8.0f;
+		style.GrabMinSize = 12.0f;
+		style.GrabRounding = 6.0f;
+		style.TabRounding = 6.0f;
+		style.TabBorderSize = 1.0f;
+		style.TabMinWidthForUnselectedCloseButton = 0.0f;
+		style.ColorButtonPosition = ImGuiDir_Right;
+		style.ButtonTextAlign = ImVec2(0.5f, 0.5f);
+		style.SelectableTextAlign = ImVec2(0.0f, 0.0f);
+		style.AntiAliasedLines = true;
+		style.AntiAliasedFill = true;
+		style.CurveTessellationTol = 1.25f;
+		style.CircleSegmentMaxError = 1.6f;
 
-		colors[ImGuiCol_FrameBg] = ImVec4{ 0.063f, 0.063f, 0.227f, 1.0f };      // #10103A (Input fields)
-		colors[ImGuiCol_FrameBgHovered] = ImVec4{ 0.173f, 0.173f, 0.408f, 1.0f }; // #2C2C68 (Hover/Active)
-		colors[ImGuiCol_FrameBgActive] = ImVec4{ 0.173f, 0.173f, 0.408f, 1.0f }; // #2C2C68
-
-		colors[ImGuiCol_Tab] = ImVec4{ 0.063f, 0.063f, 0.227f, 1.0f };        // #10103A
-		colors[ImGuiCol_TabHovered] = ImVec4{ 0.173f, 0.173f, 0.408f, 1.0f }; // #2C2C68
-		colors[ImGuiCol_TabActive] = ImVec4{ 0.831f, 0.608f, 0.0f, 1.0f };
-		colors[ImGuiCol_TabUnfocused] = ImVec4{ 0.063f, 0.063f, 0.227f, 1.0f };
-		colors[ImGuiCol_TabUnfocusedActive] = ImVec4{ 0.110f, 0.110f, 0.314f, 1.0f };
-
-		colors[ImGuiCol_TitleBg] = ImVec4{ 0.0f, 0.0f, 0.133f, 1.0f };    // #000022
-		colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.0f, 0.0f, 0.133f, 1.0f };
-		colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.0f, 0.0f, 0.133f, 1.0f };
-
-		colors[ImGuiCol_Separator] = ImVec4{ 0.110f, 0.110f, 0.314f, 1.0f }; // #1C1C50
-		colors[ImGuiCol_SeparatorHovered] = ImVec4(1.0f, 0.702f, 0.0f, 1.0f); // #FFB300
-		colors[ImGuiCol_SeparatorActive] = ImVec4(1.0f, 0.792f, 0.157f, 1.0f); // #FFCA28
-
-		colors[ImGuiCol_Text] = ImVec4{ 0.878f, 0.902f, 0.945f, 1.0f };      // #E0E6F1 (High-Emphasis)
-		colors[ImGuiCol_TextDisabled] = ImVec4{ 0.533f, 0.573f, 0.690f, 1.0f }; // #8892B0 (Medium-Emphasis)
-
-		colors[ImGuiCol_CheckMark] = ImVec4{ 1.0f, 0.702f, 0.0f, 1.0f };   // #FFB300
-		colors[ImGuiCol_SliderGrab] = ImVec4{ 1.0f, 0.702f, 0.0f, 1.0f };  // #FFB300
-		colors[ImGuiCol_SliderGrabActive] = ImVec4{ 1.0f, 0.792f, 0.157f, 1.0f }; // #FFCA28
-
-		colors[ImGuiCol_MenuBarBg] = ImVec4{ 0.063f, 0.063f, 0.227f, 1.0f };    // #10103A
-
-		// Structure & Form
-		style.WindowRounding = 8.0f;
-		style.FrameRounding = 4.0f;
-		style.ChildRounding = 8.0f;
-		style.PopupRounding = 8.0f;
-		style.GrabRounding = 4.0f;
+		// COLORS
+		colors[ImGuiCol_Text] = color_text_primary;
+		colors[ImGuiCol_TextDisabled] = color_text_disabled;
+		colors[ImGuiCol_WindowBg] = color_primary_surface;
+		colors[ImGuiCol_ChildBg] = color_primary_surface;
+		colors[ImGuiCol_PopupBg] = color_secondary_surface;
+		colors[ImGuiCol_Border] = color_border;
+		colors[ImGuiCol_BorderShadow] = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
+		colors[ImGuiCol_FrameBg] = color_frame_bg;
+		colors[ImGuiCol_FrameBgHovered] = color_frame_bg_hover;
+		colors[ImGuiCol_FrameBgActive] = color_frame_bg_active;
+		colors[ImGuiCol_TitleBg] = color_primary_surface;
+		colors[ImGuiCol_TitleBgActive] = color_panel_header;
+		colors[ImGuiCol_TitleBgCollapsed] = color_primary_surface;
+		colors[ImGuiCol_MenuBarBg] = color_secondary_surface;
+		colors[ImGuiCol_ScrollbarBg] = color_secondary_surface;
+		colors[ImGuiCol_ScrollbarGrab] = color_panel_header;
+		colors[ImGuiCol_ScrollbarGrabHovered] = color_frame_bg_hover;
+		colors[ImGuiCol_ScrollbarGrabActive] = color_frame_bg_active;
+		colors[ImGuiCol_CheckMark] = color_accent_cyan;
+		colors[ImGuiCol_SliderGrab] = color_accent_magenta;
+		colors[ImGuiCol_SliderGrabActive] = color_accent_cyan_hover;
+		colors[ImGuiCol_Button] = color_accent_cyan;
+		colors[ImGuiCol_ButtonHovered] = color_accent_cyan_hover;
+		colors[ImGuiCol_ButtonActive] = color_accent_cyan_active;
+		colors[ImGuiCol_Header] = color_panel_header;
+		colors[ImGuiCol_HeaderHovered] = color_accent_cyan_hover;
+		colors[ImGuiCol_HeaderActive] = color_accent_cyan;
+		colors[ImGuiCol_Separator] = color_border;
+		colors[ImGuiCol_SeparatorHovered] = color_accent_cyan_hover;
+		colors[ImGuiCol_SeparatorActive] = color_accent_cyan_active;
+		colors[ImGuiCol_ResizeGrip] = color_accent_cyan;
+		colors[ImGuiCol_ResizeGripHovered] = color_accent_cyan_hover;
+		colors[ImGuiCol_ResizeGripActive] = color_accent_cyan_active;
+		colors[ImGuiCol_Tab] = color_panel_header;
+		colors[ImGuiCol_TabHovered] = color_accent_cyan_hover;
+		colors[ImGuiCol_TabActive] = color_accent_cyan;
+		colors[ImGuiCol_TabUnfocused] = color_panel_header;
+		colors[ImGuiCol_TabUnfocusedActive] = color_secondary_surface;
+		colors[ImGuiCol_PlotLines] = color_accent_cyan;
+		colors[ImGuiCol_PlotLinesHovered] = color_accent_cyan_hover;
+		colors[ImGuiCol_PlotHistogram] = color_accent_magenta;
+		colors[ImGuiCol_PlotHistogramHovered] = color_accent_cyan_hover;
+		colors[ImGuiCol_TextSelectedBg] = color_accent_cyan;
+		colors[ImGuiCol_DragDropTarget] = color_accent_cyan_hover;
+		colors[ImGuiCol_NavHighlight] = color_accent_cyan;
+		colors[ImGuiCol_NavWindowingHighlight] = color_accent_cyan_hover;
+		colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.2f, 0.2f, 0.2f, 0.2f);
+		colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.2f, 0.2f, 0.2f, 0.35f);
 	}
 
 	void ImGuiLayer::OnAttach()
@@ -92,60 +143,18 @@ namespace Teddy {
 		io.Fonts->AddFontFromFileTTF("assets/Fonts/openSans/OpenSans-Bold.ttf", 16.0f);
 		io.Fonts->AddFontFromFileTTF("assets/Fonts/openSans/OpenSans-Bold.ttf", 18.0f);
 
-		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/Fonts/openSans/OpenSans-Medium.ttf", 16.0f);
+		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/Fonts/openSans/OpenSans-Bold.ttf", 16.0f);
 
 		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();
-		//ImGui::StyleColorsClassic();
-		//ImGui::StyleColorsLight();
 
-		// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
-		ImGuiStyle& style = ImGui::GetStyle();
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
+			ImGuiStyle& style = ImGui::GetStyle();
 			style.WindowRounding = 0.0f;
-			style.AntiAliasedFill = true;
-			style.AntiAliasedLines = true;
-			style.AntiAliasedLinesUseTex = true;   style.WindowPadding = ImVec2(12, 12);
-			style.FramePadding = ImVec2(6, 4);
-			//style.P = ImVec2(12, 6);
-			style.ItemSpacing = ImVec2(6, 6);
-			style.ItemInnerSpacing = ImVec2(6, 6);
-			style.TouchExtraPadding = ImVec2(0, 0);
-			style.IndentSpacing = 25;
-			style.ScrollbarSize = 12;
-			style.GrabMinSize = 10;
-
-			// Borders
-			style.WindowBorderSize = 1;
-			style.ChildBorderSize = 1;
-			style.PopupBorderSize = 1;
-			style.FrameBorderSize = 1;
-			style.TabBorderSize = 1;
-
-			// Rounding
-			style.WindowRounding = 4;
-			style.ChildRounding = 4;
-			style.FrameRounding = 4;
-			style.PopupRounding = 4;
-			style.ScrollbarRounding = 4;
-			style.GrabRounding = 4;
-			style.TabRounding = 4;
-			//style.WindowMinSize.x = 10.0f;
-			// Alignment
-			style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
-			style.WindowMenuButtonPosition = ImGuiDir_Right;
-			style.ColorButtonPosition = ImGuiDir_Right;
-			style.ButtonTextAlign = ImVec2(0.5f, 0.5f);
-			style.SelectableTextAlign = ImVec2(0.0f, 0.0f);
-
-			// Anti-aliasing
-			style.AntiAliasedLines = true;
-			style.AntiAliasedFill = true;
-			//style.Colors[ImGuiCol_WindowBg].w = 0.1f;
+			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 		}
 
-		//ImGui::ShowDemoWindow();
 		SetDarkThemeColors();
 
 		Application& app = Application::Get();

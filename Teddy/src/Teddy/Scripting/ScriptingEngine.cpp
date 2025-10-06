@@ -148,8 +148,9 @@ namespace Teddy {
 
 	void ScriptingEngine::LoadAssemblies(const std::filesystem::path& corePath, const std::filesystem::path& gamePath)
 	{
-		TD_CORE_INFO("Game DLL: {}, ScriptCore: {}", gamePath, corePath);
-		s_ScriptingData->CoreAppDomain = mono_domain_create_appdomain("TeddyScriptRuntime", nullptr);
+		TD_CORE_INFO("Game DLL: {}, ScriptCore: {}", gamePath.string(), corePath.string());
+		char* runtimeName = (char*)"TeddyScriptRuntime";
+		s_ScriptingData->CoreAppDomain = mono_domain_create_appdomain(runtimeName, nullptr);
 		mono_domain_set(s_ScriptingData->CoreAppDomain, true);
 
 		s_ScriptingData->CoreAssembly = Utils::LoadMonoAssembly(corePath, true);
@@ -179,7 +180,7 @@ namespace Teddy {
 		UnloadGameAssembly();
 
 		// Create a fresh Game domain for the new assembly
-		s_ScriptingData->GameAppDomain = mono_domain_create_appdomain("TeddyGameRuntime", nullptr);
+		s_ScriptingData->GameAppDomain = mono_domain_create_appdomain((char*)"TeddyGameRuntime", nullptr);
 		mono_domain_set(s_ScriptingData->GameAppDomain, true);
 
 		// Load the Game assembly inside the new domain
@@ -361,7 +362,7 @@ namespace Teddy {
 
 			std::string fullName;
 			if (nameSpace && strlen(nameSpace) != 0)
-				fullName = fmt::format("{}.{}", nameSpace, name);
+				fullName = std::format("{}.{}", nameSpace, name);
 			else
 				fullName = name;
 

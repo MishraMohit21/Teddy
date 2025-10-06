@@ -4,3 +4,9 @@ C:\Dev\Teddy\TeddEditor\Resources\Scripts\Intermediates\Release\ScriptCore.dll
 C:\Dev\Teddy\TeddEditor\Resources\Scripts\Intermediates\Release\ScriptCore.pdb
 C:\Dev\Teddy\TeddEditor\Resources\Scripts\ScriptCore.dll
 C:\Dev\Teddy\TeddEditor\Resources\Scripts\ScriptCore.pdb
+C:\Dev\Teddy\Teddy\TeddEditor\Resources\Scripts\Intermediates\Release\ScriptCore.csproj.AssemblyReference.cache
+C:\Dev\Teddy\Teddy\TeddEditor\Resources\Scripts\Intermediates\Release\ScriptCore.csproj.CoreCompileInputs.cache
+C:\Dev\Teddy\Teddy\TeddEditor\Resources\Scripts\Intermediates\Release\ScriptCore.dll
+C:\Dev\Teddy\Teddy\TeddEditor\Resources\Scripts\Intermediates\Release\ScriptCore.pdb
+C:\Dev\Teddy\Teddy\TeddEditor\Resources\Scripts\ScriptCore.dll
+C:\Dev\Teddy\Teddy\TeddEditor\Resources\Scripts\ScriptCore.pdb

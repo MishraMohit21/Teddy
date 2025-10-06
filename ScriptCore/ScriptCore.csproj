@@ -18,8 +18,8 @@
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <Optimize>false</Optimize>
-    <OutputPath>$(SolutionDir)TeddEditor\Resources\Scripts\</OutputPath>
-    <BaseIntermediateOutputPath>$(SolutionDir)TeddEditor\Resources\Scripts\Intermediates\Debug\</BaseIntermediateOutputPath>
+    <OutputPath>..\TeddEditor\Resources\Scripts\</OutputPath>
+    <BaseIntermediateOutputPath>..\TeddEditor\Resources\Scripts\Intermediates\Debug\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
     <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -30,8 +30,8 @@
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <Optimize>true</Optimize>
-    <OutputPath>$(SolutionDir)TeddEditor\Resources\Scripts\</OutputPath>
-    <BaseIntermediateOutputPath>$(SolutionDir)TeddEditor\Resources\Scripts\Intermediates\Release\</BaseIntermediateOutputPath>
+    <OutputPath>..\TeddEditor\Resources\Scripts\</OutputPath>
+    <BaseIntermediateOutputPath>..\TeddEditor\Resources\Scripts\Intermediates\Release\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
     <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -42,8 +42,8 @@
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
     <Optimize>true</Optimize>
-    <OutputPath>$(SolutionDir)TeddEditor\Resources\Scripts\</OutputPath>
-    <BaseIntermediateOutputPath>$(SolutionDir)TeddEditor\Resources\Scripts\Intermediates\Dist\</BaseIntermediateOutputPath>
+    <OutputPath>..\TeddEditor\Resources\Scripts\</OutputPath>
+    <BaseIntermediateOutputPath>..\TeddEditor\Resources\Scripts\Intermediates\Dist\</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
     <DefineConstants></DefineConstants>
     <ErrorReport>prompt</ErrorReport>

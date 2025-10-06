@@ -1,12 +1,11 @@
+
 #pragma once
 
-#include "Teddy/Core/Core.h"
-
-#define GLM_ENABLE_EXPERIMENTAL
-#include "glm/gtx/string_cast.hpp"
-
-#include <spdlog/spdlog.h>
-#include <spdlog/fmt/ostr.h>
+#include "Core.h"
+#include <iostream>
+#include <string>
+#include <memory>
+#include <format>
 
 namespace Teddy {
 
@@ -15,58 +14,43 @@ namespace Teddy {
 	public:
 		static void Init();
 
-		inline static Ref<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
-		inline static Ref<spdlog::logger>& GetClientLogger() { return s_ClientLogger; }
-	private:
-		static Ref<spdlog::logger> s_CoreLogger;
-		static Ref<spdlog::logger> s_ClientLogger;
+		static void Print(const std::string& message);
+		static void Print(const char* message);
+
+		template<typename... Args>
+		static void Print(std::format_string<Args...> format, Args&&... args)
+		{
+			Print(std::format(format, std::forward<Args>(args)...));
+		}
 	};
 
 }
 
-
-template<typename OStream, glm::length_t L, typename T, glm::qualifier Q>
-inline OStream& operator<<(OStream& os, const glm::vec<L, T, Q>& vector)
-{
-	return os << glm::to_string(vector);
-}
-
-template<typename OStream, glm::length_t C, glm::length_t R, typename T, glm::qualifier Q>
-inline OStream& operator<<(OStream& os, const glm::mat<C, R, T, Q>& matrix)
-{
-	return os << glm::to_string(matrix);
-}
-
-template<typename OStream, typename T, glm::qualifier Q>
-inline OStream& operator<<(OStream& os, glm::qua<T, Q> quaternion)
-{
-	return os << glm::to_string(quaternion);
-}
-
 // Core log macros
-#define TD_CORE_TRACE(...)    ::Teddy::Log::GetCoreLogger()->trace(__VA_ARGS__)
-#define TD_CORE_INFO(...)     ::Teddy::Log::GetCoreLogger()->info(__VA_ARGS__)
-#define TD_CORE_WARN(...)     ::Teddy::Log::GetCoreLogger()->warn(__VA_ARGS__)
-#define TD_CORE_ERROR(...)    ::Teddy::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define TD_CORE_CRITICAL(...) ::Teddy::Log::GetCoreLogger()->critical(__VA_ARGS__)
+#define TD_CORE_TRACE(...)    ::Teddy::Log::Print(__VA_ARGS__)
+#define TD_CORE_INFO(...)     ::Teddy::Log::Print(__VA_ARGS__)
+#define TD_CORE_WARN(...)     ::Teddy::Log::Print(__VA_ARGS__)
+#define TD_CORE_ERROR(...)    ::Teddy::Log::Print(__VA_ARGS__)
+#define TD_CORE_FATAL(...)    ::Teddy::Log::Print(__VA_ARGS__)
+#define TD_CORE_LOG(...)      ::Teddy::Log::Print(__VA_ARGS__)
+#define TD_CORE_CRITICAL(...) ::Teddy::Log::Print(__VA_ARGS__)
+
 
 // Client log macros
-#define TD_TRACE(...)         ::Teddy::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define TD_INFO(...)          ::Teddy::Log::GetClientLogger()->info(__VA_ARGS__)
-#define TD_WARN(...)          ::Teddy::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define TD_ERROR(...)         ::Teddy::Log::GetClientLogger()->error(__VA_ARGS__)
-#define TD_CRITICAL(...)      ::Teddy::Log::GetClientLogger()->critical(__VA_ARGS__)
+#define TD_TRACE(...)         ::Teddy::Log::Print(__VA_ARGS__)
+#define TD_INFO(...)          ::Teddy::Log::Print(__VA_ARGS__)
+#define TD_WARN(...)          ::Teddy::Log::Print(__VA_ARGS__)
+#define TD_ERROR(...)         ::Teddy::Log::Print(__VA_ARGS__)
+#define TD_FATAL(...)         ::Teddy::Log::Print(__VA_ARGS__)
+#define TD_LOG(...)           ::Teddy::Log::Print(__VA_ARGS__)
+#define TD_CRITICAL(...)      ::Teddy::Log::Print(__VA_ARGS__)
 
 
-
-#ifdef TD_DEBUG
-#define TD_ENABLE_ASSERTS
-#endif
-
+// Assert macros
 #ifdef TD_ENABLE_ASSERTS
-#define TD_ASSERT(x, ...) { if(!(x)) { TD_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
-#define TD_CORE_ASSERT(x, ...) { if(!(x)) { TD_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	#define TD_ASSERT(x, ...) { if(!(x)) { TD_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	#define TD_CORE_ASSERT(x, ...) { if(!(x)) { TD_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
 #else
-#define TD_ASSERT(x, ...)
-#define TD_CORE_ASSERT(x, ...)
+	#define TD_ASSERT(x, ...)
+	#define TD_CORE_ASSERT(x, ...)
 #endif

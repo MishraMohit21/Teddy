@@ -1,4 +1,5 @@
 #pragma once
+#include "Teddy/Core/Core.h"
 
 namespace Teddy {
 

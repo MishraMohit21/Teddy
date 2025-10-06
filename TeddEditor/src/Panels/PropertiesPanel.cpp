@@ -85,6 +85,8 @@ namespace Teddy
 				ImGui::Separator();
 			}
 
+			DisplayAddComponentEntry<TextComponent>("Text Component");
+
 			DisplayAddComponentEntry<ScriptComponent>("Script");
 
 			DisplayAddComponentEntry<Rigid2DBodyComponent>("RigidBody 2D");
@@ -413,4 +415,18 @@ namespace Teddy
 						UI::DrawInputScalar("Mask Bits", ImGuiDataType_U16, &component.MaskBits);
 						        UI::DrawInputScalar("Group Index", ImGuiDataType_S16, &component.GroupIndex);
 						    });
+
+				DrawComponent<TextComponent>("Text Component", entity, [](auto& component) {
+					char buffer[256];
+					memset(buffer, 0, sizeof(buffer));
+					strncpy_s(buffer, sizeof(buffer), component.TextString.c_str(), sizeof(buffer));
+					if (ImGui::InputTextMultiline("Text", buffer, sizeof(buffer)))
+					{
+						component.TextString = std::string(buffer);
+					}
+
+					UI::DrawColorEdit4("Color", component.Color);
+					UI::DrawDragFloat("Kerning", component.Kerning, 0.025f);
+					UI::DrawDragFloat("Line Spacing", component.LineSpacing, 0.025f);
+				});
 						}}
