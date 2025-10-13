@@ -427,6 +427,6 @@ namespace Teddy
 
 					UI::DrawColorEdit4("Color", component.Color);
 					UI::DrawDragFloat("Kerning", component.Kerning, 0.025f);
-					UI::DrawDragFloat("Line Spacing", component.LineSpacing, 0.025f);
-				});
+					                    UI::DrawDragFloat("Line Spacing", component.LineSpacing, 0.025f);
+					                    UI::DrawDragFloat("Size", component.Size, 0.025f);				});
 						}}

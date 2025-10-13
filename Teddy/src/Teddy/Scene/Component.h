@@ -227,8 +227,8 @@ namespace Teddy
 		Ref<Trex::Font> FontAsset;
 		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
 		float Kerning = 0.0f;
-		float LineSpacing = 0.0f;
-
+		        float LineSpacing = 0.0f;
+		        float Size = 1.0f;
 		TextComponent() = default;
 		TextComponent(const TextComponent&) = default;
 		TextComponent(const std::string& text)

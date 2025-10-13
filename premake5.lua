@@ -138,7 +138,7 @@ project "Teddy"
     includedirs
     {
 		"$(ProjectDir)src",
-		"$(ProjectDir)vendor/spdlog/include",
+
 		"$(ProjectDir)%{IncludeDir.GLFW}",
 		"$(ProjectDir)%{IncludeDir.Glad}",
 		"$(ProjectDir)%{IncludeDir.ImGui}",

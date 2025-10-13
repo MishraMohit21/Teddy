@@ -10,6 +10,7 @@ namespace Teddy {
 	{
 	public:
 		OpenGLTexture2D(uint32_t width, uint32_t height);
+		OpenGLTexture2D(uint32_t width, uint32_t height, bool singleChannel);
 		OpenGLTexture2D(const std::string& path);
 		virtual ~OpenGLTexture2D();
 

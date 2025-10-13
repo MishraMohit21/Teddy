@@ -46,6 +46,16 @@ namespace Teddy {
 		int EntityID;
 	};
 
+	struct TextVertex
+	{
+		glm::vec3 Position;
+		glm::vec4 Color;
+		glm::vec2 TexCoord;
+
+		// Editor-only
+		int EntityID;
+	};
+
 	struct Renderer2DData
 	{
 		static const uint32_t MaxQuads = 20000;
@@ -81,6 +91,17 @@ namespace Teddy {
 		LineVertex* LineVertexBufferPtr = nullptr;
 		float LineWidth = 5.0f;
 
+		// Text Data
+		Ref<VertexArray> TextVertexArray;
+		Ref<VertexBuffer> TextVertexBuffer;
+		Ref<Shader> TextShader;
+		uint32_t TextIndexCount = 0;
+		TextVertex* TextVertexBufferBase = nullptr;
+		TextVertex* TextVertexBufferPtr = nullptr;
+
+		Ref<Trex::Atlas> FontAtlas;
+		Ref<Texture2D> FontAtlasTexture;
+
 		Ref<Texture2D> WhiteTexture;
 		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
 		uint32_t TextureSlotIndex = 1; // 0 = white texture
@@ -95,9 +116,6 @@ namespace Teddy {
 		};
 		CameraData CameraBuffer;
 		Ref<UniformBuffer> CameraUniformBuffer;
-
-		Ref<Trex::Atlas> FontAtlas;
-		Ref<Texture2D> FontAtlasTexture;
 	};
 
 	static Renderer2DData s_Data;
@@ -140,7 +158,7 @@ namespace Teddy {
 		Ref<IndexBuffer> quadIB = IndexBuffer::Create(quadIndices, s_Data.MaxIndices);
 		s_Data.QuadVertexArray->SetIndexBuffer(quadIB);
 		delete[] quadIndices;
-		
+
 		// Cirlces Data UploadSetup
 		s_Data.CircleVertexArray = VertexArray::Create();
 
@@ -169,6 +187,19 @@ namespace Teddy {
 		s_Data.LineVertexArray->AddVertexBuffer(s_Data.LineVertexBuffer);
 		s_Data.LineVertexBufferBase = new LineVertex[s_Data.MaxVertices];
 
+		// Text Data
+		s_Data.TextVertexArray = VertexArray::Create();
+		s_Data.TextVertexBuffer = VertexBuffer::Create(s_Data.MaxVertices * sizeof(TextVertex));
+		s_Data.TextVertexBuffer->SetLayout({
+			{ ShaderDataType::Float3, "a_Position"     },
+			{ ShaderDataType::Float4, "a_Color"        },
+			{ ShaderDataType::Float2, "a_TexCoord"     },
+			{ ShaderDataType::Int,    "a_EntityID"     }
+		});
+		s_Data.TextVertexArray->AddVertexBuffer(s_Data.TextVertexBuffer);
+		s_Data.TextVertexArray->SetIndexBuffer(quadIB); // Reuse quad index buffer
+		s_Data.TextVertexBufferBase = new TextVertex[s_Data.MaxVertices];
+
 
 		s_Data.WhiteTexture = Texture2D::Create(1, 1);
 		uint32_t whiteTextureData = 0xffffffff;
@@ -178,6 +209,7 @@ namespace Teddy {
 		for (uint32_t i = 0; i < s_Data.MaxTextureSlots; i++)
 			samplers[i] = i;
 
+		s_Data.TextShader = Shader::Create("assets/shaders/TextShader.glsl");
 		s_Data.QuadShader = Shader::Create("assets/shaders/QuadShader.glsl");
 		s_Data.CircleShader = Shader::Create("assets/shaders/CircleShader.glsl");
 		s_Data.LineShader = Shader::Create("assets/shaders/LineShader.glsl");
@@ -198,18 +230,11 @@ namespace Teddy {
 		uint32_t height = s_Data.FontAtlas->GetBitmap().Height();
 		auto& pixels = s_Data.FontAtlas->GetBitmap().Data();
 
-		s_Data.FontAtlasTexture = Texture2D::Create(width, height);
-		
-		std::vector<uint8_t> rgbaPixels;
-		rgbaPixels.resize(width * height * 4);
-		for (uint32_t i = 0; i < width * height; i++)
-		{
-			rgbaPixels[i * 4 + 0] = 255; // R
-			rgbaPixels[i * 4 + 1] = 255; // G
-			rgbaPixels[i * 4 + 2] = 255; // B
-			rgbaPixels[i * 4 + 3] = pixels[i]; // A
-		}
-		s_Data.FontAtlasTexture->SetData(rgbaPixels.data(), width * height * 4);
+		// Create single-channel texture
+		s_Data.FontAtlasTexture = Texture2D::Create(width, height, true);
+
+		// Upload single-channel data
+		s_Data.FontAtlasTexture->SetData(pixels.data(), width * height * 1);
 	}
 
 	void Renderer2D::Shutdown()
@@ -217,6 +242,7 @@ namespace Teddy {
 		TD_PROFILE_FUNCTION();
 
 		delete[] s_Data.QuadVertexBufferBase;
+		delete[] s_Data.TextVertexBufferBase;
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
@@ -267,26 +293,29 @@ namespace Teddy {
 		s_Data.LineVertexCount = 0;
 		s_Data.LineVertexBufferPtr = s_Data.LineVertexBufferBase;
 
+		s_Data.TextIndexCount = 0;
+		s_Data.TextVertexBufferPtr = s_Data.TextVertexBufferBase;
+
 		s_Data.TextureSlotIndex = 1;
 	}
 
 	void Renderer2D::Flush()
 	{
-		if (s_Data.QuadIndexCount) 
-		{  
-			uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.QuadVertexBufferPtr - (uint8_t*)s_Data.QuadVertexBufferBase); 
-			s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, dataSize); 
+		if (s_Data.QuadIndexCount)
+		{
+			uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.QuadVertexBufferPtr - (uint8_t*)s_Data.QuadVertexBufferBase);
+			s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, dataSize);
 
 			// Bind textures
-			for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++) 
+			for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
 				s_Data.TextureSlots[i]->Bind(i);
 
-			s_Data.QuadShader->Bind(); 
-			RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndexCount); 
+			s_Data.QuadShader->Bind();
+			RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
 			s_Data.Stats.DrawCalls++;
 
 		}
-		if (s_Data.CircleIndexCount) 
+		if (s_Data.CircleIndexCount)
 		{
 			uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.CircleVertexBufferPtr - (uint8_t*)s_Data.CircleVertexBufferBase);
 
@@ -294,7 +323,7 @@ namespace Teddy {
 
 			s_Data.CircleShader->Bind();
 
-			RenderCommand::DrawIndexed(s_Data.CircleVertexArray, s_Data.CircleIndexCount);   
+			RenderCommand::DrawIndexed(s_Data.CircleVertexArray, s_Data.CircleIndexCount);
 			s_Data.Stats.DrawCalls++;
 
 		}
@@ -306,6 +335,18 @@ namespace Teddy {
 			s_Data.LineShader->Bind();
 			RenderCommand::SetLineWidth(s_Data.LineWidth);
 			RenderCommand::DrawLines(s_Data.LineVertexArray, s_Data.LineVertexCount);
+			s_Data.Stats.DrawCalls++;
+		}
+
+		if (s_Data.TextIndexCount)
+		{
+			uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.TextVertexBufferPtr - (uint8_t*)s_Data.TextVertexBufferBase);
+			s_Data.TextVertexBuffer->SetData(s_Data.TextVertexBufferBase, dataSize);
+
+			s_Data.FontAtlasTexture->Bind(0);
+			s_Data.TextShader->Bind();
+			s_Data.TextShader->SetInt("u_FontAtlas", 0);
+			RenderCommand::DrawIndexed(s_Data.TextVertexArray, s_Data.TextIndexCount);
 			s_Data.Stats.DrawCalls++;
 		}
 	}
@@ -495,37 +536,119 @@ namespace Teddy {
 
 	void Renderer2D::DrawString(const glm::mat4& transform, const TextComponent& text, int entityID)
 	{
-	    Trex::TextShaper shaper(*s_Data.FontAtlas);
-	    Trex::ShapedGlyphs glyphs = shaper.ShapeUtf8({text.TextString.data(), text.TextString.size()});
-
-	    float cursorX = 0.0f;
-	    float cursorY = 0.0f;
-
-	    for (const Trex::ShapedGlyph& glyph : glyphs)
-	    {
-	        if (glyph.info.width > 0 && glyph.info.height > 0)
-	        {
-	            float x = cursorX + glyph.xOffset + glyph.info.bearingX;
-	            float y = cursorY + glyph.yOffset - glyph.info.bearingY;
-
-	            glm::vec2 texCoords[] = {
-	                { (float)glyph.info.x / s_Data.FontAtlas->GetBitmap().Width(), (float)(glyph.info.y + glyph.info.height) / s_Data.FontAtlas->GetBitmap().Height() },
-	                { (float)(glyph.info.x + glyph.info.width) / s_Data.FontAtlas->GetBitmap().Width(), (float)(glyph.info.y + glyph.info.height) / s_Data.FontAtlas->GetBitmap().Height() },
-	                { (float)(glyph.info.x + glyph.info.width) / s_Data.FontAtlas->GetBitmap().Width(), (float)glyph.info.y / s_Data.FontAtlas->GetBitmap().Height() },
-	                { (float)glyph.info.x / s_Data.FontAtlas->GetBitmap().Width(), (float)glyph.info.y / s_Data.FontAtlas->GetBitmap().Height() }
-	            };
-
-	            glm::mat4 glyphTransform = glm::translate(transform, { x, y, 0.0f })
-	                * glm::scale(glm::mat4(1.0f), { glyph.info.width, glyph.info.height, 1.0f });
-
-	            DrawQuad(glyphTransform, s_Data.FontAtlasTexture, texCoords, 1.0f, text.Color, entityID);
-	        }
-
-	        cursorX += glyph.xAdvance;
-	        cursorY += glyph.yAdvance;
-	    }
+		DrawString(transform, text.TextString, text.Color, text.Kerning, text.LineSpacing, text.Size, entityID);
 	}
 
+	void Renderer2D::DrawString(const glm::mat4& transform, const std::string& text, const glm::vec4& color, float kerning, float lineSpacing, float size, int entityID)
+	{
+		TD_PROFILE_FUNCTION();
+
+		if (text.empty() || !s_Data.FontAtlas)
+			return;
+
+		// Ensure there's room in the batch
+		if (s_Data.TextIndexCount >= Renderer2DData::MaxIndices)
+			NextBatch();
+
+		// Atlas / glyph accessors
+		auto& atlasBitmap = s_Data.FontAtlas->GetBitmap();
+		auto& glyphs = s_Data.FontAtlas->GetGlyphs();
+		auto fontPtr = s_Data.FontAtlas->GetFont(); // shared_ptr<const Font>
+		Trex::FontMetrics metrics = { 0,0,0 };
+		if (fontPtr)
+			metrics = fontPtr->GetMetrics();
+
+		float atlasW = (float)atlasBitmap.Width();
+		float atlasH = (float)atlasBitmap.Height();
+
+		// If font metrics are available, use them to scale; otherwise default to 1.0
+		float scale = 1.0f;
+		if (metrics.height > 0)
+			scale = size / (float)metrics.height;
+
+		// pen position in local text-space (pixels)
+		float penX = 0.0f;
+		float penY = 0.0f;
+
+		for (size_t i = 0; i < text.size(); ++i)
+		{
+			unsigned char ch = static_cast<unsigned char>(text[i]);
+
+			// newline handling
+			if (ch == '\n')
+			{
+				penX = 0.0f;
+				penY -= (metrics.height * scale) + lineSpacing;
+				continue;
+			}
+
+			// Get glyph from atlas (will return unknown glyph if not found)
+			const Trex::Glyph& glyph = glyphs.GetGlyphByCodepoint((uint32_t)ch);
+
+			// Glyph pixel metrics from the atlas
+			float gX = (float)glyph.x;
+			float gY = (float)glyph.y;
+			float gW = (float)glyph.width;
+			float gH = (float)glyph.height;
+			float bearingX = (float)glyph.bearingX;
+			float bearingY = (float)glyph.bearingY;
+
+			// Compute glyph quad in local text-space:
+			// xpos: move by pen + bearingX
+			// ypos: baseline adjustment (we put glyph so baseline aligns)
+			float xpos = penX + bearingX * scale;
+			float ypos = penY - (gH - bearingY) * scale;
+
+			// Build transform for this glyph quad
+			glm::mat4 glyphTransform = transform
+				* glm::translate(glm::mat4(1.0f), { xpos, ypos, 0.0f })
+				* glm::scale(glm::mat4(1.0f), { gW * scale, gH * scale, 1.0f });
+
+			// Normalized texture coordinates (atlas coordinates assumed top-left origin)
+			glm::vec2 texCoords[] = {
+				{ gX / atlasW,                 (gY + gH) / atlasH },
+				{ (gX + gW) / atlasW,          (gY + gH) / atlasH },
+				{ (gX + gW) / atlasW,          gY / atlasH },
+				{ gX / atlasW,                 gY / atlasH }
+			};
+
+			// Ensure batch capacity
+			if (s_Data.TextIndexCount >= Renderer2DData::MaxIndices)
+				NextBatch();
+
+			// Write 4 vertices
+			s_Data.TextVertexBufferPtr->Position = glyphTransform * s_Data.QuadVertexPositions[0];
+			s_Data.TextVertexBufferPtr->Color = color;
+			s_Data.TextVertexBufferPtr->TexCoord = texCoords[0];
+			s_Data.TextVertexBufferPtr->EntityID = entityID;
+			s_Data.TextVertexBufferPtr++;
+
+			s_Data.TextVertexBufferPtr->Position = glyphTransform * s_Data.QuadVertexPositions[1];
+			s_Data.TextVertexBufferPtr->Color = color;
+			s_Data.TextVertexBufferPtr->TexCoord = texCoords[1];
+			s_Data.TextVertexBufferPtr->EntityID = entityID;
+			s_Data.TextVertexBufferPtr++;
+
+			s_Data.TextVertexBufferPtr->Position = glyphTransform * s_Data.QuadVertexPositions[2];
+			s_Data.TextVertexBufferPtr->Color = color;
+			s_Data.TextVertexBufferPtr->TexCoord = texCoords[2];
+			s_Data.TextVertexBufferPtr->EntityID = entityID;
+			s_Data.TextVertexBufferPtr++;
+
+			s_Data.TextVertexBufferPtr->Position = glyphTransform * s_Data.QuadVertexPositions[3];
+			s_Data.TextVertexBufferPtr->Color = color;
+			s_Data.TextVertexBufferPtr->TexCoord = texCoords[3];
+			s_Data.TextVertexBufferPtr->EntityID = entityID;
+			s_Data.TextVertexBufferPtr++;
+
+			s_Data.TextIndexCount += 6;
+			s_Data.Stats.QuadCount++;
+
+			// Advance pen: atlas doesn't expose xadvance in Glyph, so use width + bearing as an approximation
+			float advance = (bearingX + gW) * scale;
+			penX += advance + kerning;
+		}
+	}
 
 
 	void Renderer2D::DrawSprite(const glm::mat4& transform, glm::vec4& src, int entityID)

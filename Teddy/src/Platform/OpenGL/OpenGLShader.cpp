@@ -185,6 +185,8 @@ namespace Teddy {
 			pos = source.find(typeToken, nextLinePos); //Start of next shader type declaration line
 
 			shaderSources[Utils::ShaderTypeFromString(type)] = (pos == std::string::npos) ? source.substr(nextLinePos) : source.substr(nextLinePos, pos - nextLinePos);
+			TD_CORE_TRACE("Shader type: {0}", type);
+			TD_CORE_TRACE("Shader source:\n{0}", shaderSources[Utils::ShaderTypeFromString(type)]);
 		}
 
 		return shaderSources;
@@ -223,15 +225,50 @@ namespace Teddy {
 			}
 			else
 			{
-				shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(source, Utils::GLShaderStageToShaderC(stage), m_FilePath.c_str(), options);
+				TD_CORE_TRACE("Compiling shader stage: {0} for {1}, size: {2}",
+					Utils::GLShaderStageToString(stage), m_FilePath, source.size());
+
+				// Print first 200 chars of source for debugging
+				TD_CORE_TRACE("Source preview: {0}", source.substr(0, std::min(size_t(200), source.size())));
+
+				shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(
+					source,
+					Utils::GLShaderStageToShaderC(stage),
+					m_FilePath.c_str(),
+					options
+				);
+
+				// Log compilation status
+				TD_CORE_TRACE("Compilation status: {0}", (int)module.GetCompilationStatus());
+				TD_CORE_TRACE("Number of errors: {0}", module.GetNumErrors());
+				TD_CORE_TRACE("Number of warnings: {0}", module.GetNumWarnings());
+
 				if (module.GetCompilationStatus() != shaderc_compilation_status_success)
 				{
-					TD_CORE_ERROR(module.GetErrorMessage());
-					//(false);
+					TD_CORE_ERROR("Shader compilation failed for {0} stage of {1}:",
+						Utils::GLShaderStageToString(stage), m_FilePath);
+					TD_CORE_ERROR("{0}", module.GetErrorMessage());
+					continue; // IMPORTANT: Skip this stage
 				}
 
-				shaderData[stage] = std::vector<uint32_t>(module.cbegin(), module.cend());
+				size_t spirvSize = module.cend() - module.cbegin();
+				TD_CORE_TRACE("Shader compilation successful for {0} stage of {1}. SPIRV size: {2} uint32_t values ({3} bytes)",
+					Utils::GLShaderStageToString(stage), m_FilePath, spirvSize, spirvSize * sizeof(uint32_t));
 
+				if (module.cend() == module.cbegin())
+				{
+					TD_CORE_ERROR("Shader compilation resulted in an empty binary for {0} stage of {1}.",
+						Utils::GLShaderStageToString(stage), m_FilePath);
+					TD_CORE_ERROR("This usually means the compilation failed but didn't report an error.");
+					continue; // IMPORTANT: Skip this stage
+				}
+
+				// Store the compiled SPIRV
+				shaderData[stage] = std::vector<uint32_t>(module.cbegin(), module.cend());
+				TD_CORE_TRACE("Successfully stored {0} uint32_t values in shaderData[{1}]",
+					shaderData[stage].size(), Utils::GLShaderStageToString(stage));
+
+				// Cache the binary
 				std::ofstream out(cachedPath, std::ios::out | std::ios::binary);
 				if (out.is_open())
 				{
@@ -239,12 +276,23 @@ namespace Teddy {
 					out.write((char*)data.data(), data.size() * sizeof(uint32_t));
 					out.flush();
 					out.close();
+					TD_CORE_TRACE("Cached to: {0}", cachedPath.string());
 				}
 			}
 		}
 
 		for (auto&& [stage, data] : shaderData)
-			Reflect(stage, data);
+		{
+			if (!data.empty() && data.size() >= 5)
+			{
+				Reflect(stage, data);
+			}
+			else
+			{
+				TD_CORE_WARN("Skipping reflection for {0} - invalid data (size: {1})",
+					Utils::GLShaderStageToString(stage), data.size());
+			}
+		}
 	}
 
 	void OpenGLShader::CompileOrGetOpenGLBinaries()
@@ -348,25 +396,67 @@ namespace Teddy {
 
 	void OpenGLShader::Reflect(GLenum stage, const std::vector<uint32_t>& shaderData)
 	{
-		spirv_cross::Compiler compiler(shaderData);
-		spirv_cross::ShaderResources resources = compiler.get_shader_resources();
-
-		TD_CORE_TRACE("OpenGLShader::Reflect - {0} {1}", Utils::GLShaderStageToString(stage), m_FilePath);
-		TD_CORE_TRACE("    {0} uniform buffers", resources.uniform_buffers.size());
-		TD_CORE_TRACE("    {0} resources", resources.sampled_images.size());
-
-		TD_CORE_TRACE("Uniform buffers:");
-		for (const auto& resource : resources.uniform_buffers)
+		// Validate the data BEFORE trying to use it
+		if (shaderData.empty())
 		{
-			const auto& bufferType = compiler.get_type(resource.base_type_id);
-			uint32_t bufferSize = compiler.get_declared_struct_size(bufferType);
-			uint32_t binding = compiler.get_decoration(resource.id, spv::DecorationBinding);
-			int memberCount = bufferType.member_types.size();
+			TD_CORE_ERROR("Reflect() called with EMPTY shaderData for {0} stage",
+				Utils::GLShaderStageToString(stage));
+			return;
+		}
 
-			TD_CORE_TRACE("  {0}", resource.name);
-			TD_CORE_TRACE("    Size = {0}", bufferSize);
-			TD_CORE_TRACE("    Binding = {0}", binding);
-			TD_CORE_TRACE("    Members = {0}", memberCount);
+		if (shaderData.size() < 5)
+		{
+			TD_CORE_ERROR("Reflect() called with insufficient data for {0} stage. Size: {1} uint32_t (minimum 5 required)",
+				Utils::GLShaderStageToString(stage), shaderData.size());
+			return;
+		}
+
+		// Check SPIRV magic number (0x07230203)
+		if (shaderData[0] != 0x07230203)
+		{
+			TD_CORE_ERROR("Invalid SPIRV magic number for {0} stage: 0x{1:X} (expected 0x07230203)",
+				Utils::GLShaderStageToString(stage), shaderData[0]);
+			TD_CORE_ERROR("First 4 values: 0x{0:X}, 0x{1:X}, 0x{2:X}, 0x{3:X}",
+				shaderData[0],
+				shaderData.size() > 1 ? shaderData[1] : 0,
+				shaderData.size() > 2 ? shaderData[2] : 0,
+				shaderData.size() > 3 ? shaderData[3] : 0);
+			return;
+		}
+
+		try
+		{
+			spirv_cross::Compiler compiler(shaderData);
+			spirv_cross::ShaderResources resources = compiler.get_shader_resources();
+
+			TD_CORE_TRACE("OpenGLShader::Reflect - {0} {1}", Utils::GLShaderStageToString(stage), m_FilePath);
+			TD_CORE_TRACE("    {0} uniform buffers", resources.uniform_buffers.size());
+			TD_CORE_TRACE("    {0} resources", resources.sampled_images.size());
+
+			TD_CORE_TRACE("Uniform buffers:");
+			for (const auto& resource : resources.uniform_buffers)
+			{
+				const auto& bufferType = compiler.get_type(resource.base_type_id);
+				uint32_t bufferSize = compiler.get_declared_struct_size(bufferType);
+				uint32_t binding = compiler.get_decoration(resource.id, spv::DecorationBinding);
+				int memberCount = bufferType.member_types.size();
+
+				TD_CORE_TRACE("  {0}", resource.name);
+				TD_CORE_TRACE("    Size = {0}", bufferSize);
+				TD_CORE_TRACE("    Binding = {0}", binding);
+				TD_CORE_TRACE("    Members = {0}", memberCount);
+			}
+		}
+		catch (const spirv_cross::CompilerError& e)
+		{
+			TD_CORE_ERROR("SPIRV-Cross reflection error for {0} stage: {1}",
+				Utils::GLShaderStageToString(stage), e.what());
+			TD_CORE_ERROR("ShaderData size was: {0} uint32_t values", shaderData.size());
+		}
+		catch (const std::exception& e)
+		{
+			TD_CORE_ERROR("Unexpected exception during reflection for {0} stage: {1}",
+				Utils::GLShaderStageToString(stage), e.what());
 		}
 	}
 

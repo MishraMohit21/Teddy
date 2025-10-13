@@ -23,6 +23,34 @@ namespace Teddy {
 		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	}
 
+	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height, bool singleChannel)
+		: m_Width(width), m_Height(height)
+	{
+		TD_PROFILE_FUNCTION();
+
+		if (singleChannel) {
+			m_InternalFormat = GL_R8;
+			m_DataFormat = GL_RED;
+		}
+		else {
+			m_InternalFormat = GL_RGBA8;
+			m_DataFormat = GL_RGBA;
+		}
+
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
+		glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);
+
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		if (singleChannel) {
+			GLint swizzle[] = { GL_RED, GL_RED, GL_RED, GL_ONE };
+			glTextureParameteriv(m_RendererID, GL_TEXTURE_SWIZZLE_RGBA, swizzle);
+		}
+	}
+
 	OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
 		: m_Path(path)
 	{
@@ -82,7 +110,10 @@ namespace Teddy {
 	{
 		TD_PROFILE_FUNCTION();
 
-		uint32_t bpp = m_DataFormat == GL_RGBA ? 4 : 3;
+		uint32_t bpp = (m_DataFormat == GL_RGBA) ? 4 :
+			(m_DataFormat == GL_RGB) ? 3 :
+			(m_DataFormat == GL_RED) ? 1 : 0;
+		
 		TD_CORE_ASSERT(size == m_Width * m_Height * bpp, "Data must be entire texture!");
 		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
 	}
