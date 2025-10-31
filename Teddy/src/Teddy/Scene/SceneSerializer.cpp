@@ -357,6 +357,20 @@ namespace Teddy
 			out << YAML::EndMap; // CircleCollider2DComponent
 		}
 
+		if (entity.HasComponent<TextComponent>())
+		{
+			out << YAML::Key << "TextComponent";
+			out << YAML::BeginMap; // TextComponent
+			auto& textComponent = entity.GetComponent<TextComponent>();
+			out << YAML::Key << "TextString" << YAML::Value << textComponent.TextString;
+			out << YAML::Key << "FontPath" << YAML::Value << textComponent.FontPath;
+			out << YAML::Key << "Color" << YAML::Value << textComponent.Color;
+			out << YAML::Key << "Kerning" << YAML::Value << textComponent.Kerning;
+			out << YAML::Key << "LineSpacing" << YAML::Value << textComponent.LineSpacing;
+			out << YAML::Key << "Size" << YAML::Value << textComponent.Size;
+			out << YAML::EndMap; // TextComponent
+		}
+
 		out << YAML::EndMap;
 	}
 
@@ -616,6 +630,18 @@ namespace Teddy
 					cc2d.CategoryBits = circleCollider2DComponent["CategoryBits"].as<uint16_t>();
 					cc2d.MaskBits = circleCollider2DComponent["MaskBits"].as<uint16_t>();
 					cc2d.GroupIndex = circleCollider2DComponent["GroupIndex"].as<int16_t>();
+				}
+
+				auto textComponent = entity["TextComponent"];
+				if (textComponent)
+				{
+					auto& tc = deserializedEntity.AddComponent<TextComponent>();
+					tc.TextString = textComponent["TextString"].as<std::string>();
+					tc.FontPath = textComponent["FontPath"].as<std::string>();
+					tc.Color = textComponent["Color"].as<glm::vec4>();
+					tc.Kerning = textComponent["Kerning"].as<float>();
+					tc.LineSpacing = textComponent["LineSpacing"].as<float>();
+					tc.Size = textComponent["Size"].as<float>();
 				}
 
 			}

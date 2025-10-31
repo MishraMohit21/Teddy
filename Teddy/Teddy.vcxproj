@@ -186,6 +186,7 @@
     <ClInclude Include="src\Teddy\Renderer\Buffer.h" />
     <ClInclude Include="src\Teddy\Renderer\Camera.h" />
     <ClInclude Include="src\Teddy\Renderer\EditorCamera.h" />
+    <ClInclude Include="src\Teddy\Renderer\Font.h" />
     <ClInclude Include="src\Teddy\Renderer\FrameBuffer.h" />
     <ClInclude Include="src\Teddy\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Teddy\Renderer\OrthographicCamera.h" />
@@ -600,6 +601,7 @@
     <ClCompile Include="src\Teddy\Project\ProjectSerializer.cpp" />
     <ClCompile Include="src\Teddy\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Teddy\Renderer\EditorCamera.cpp" />
+    <ClCompile Include="src\Teddy\Renderer\Font.cpp" />
     <ClCompile Include="src\Teddy\Renderer\FrameBuffer.cpp" />
     <ClCompile Include="src\Teddy\Renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\Teddy\Renderer\OrthographicCamera.cpp" />

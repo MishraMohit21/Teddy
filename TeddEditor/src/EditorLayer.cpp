@@ -15,6 +15,9 @@
 #include <filesystem>
 #include <Teddy/Scripting/ScriptingEngine.h>
 
+#include <Trex/TextShaper.hpp>
+#include <Trex/Atlas.hpp>
+#include <Trex/Font.hpp>
 namespace Teddy {
 
 	EditorLayer::EditorLayer()
@@ -241,6 +244,7 @@ namespace Teddy {
 			ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
 			m_SceneHierarchyPanel.OnImGuiRender();
 			m_PropertiesPanel.SetContext(m_SceneHierarchyPanel.GetSelectedEntity());
+			m_PropertiesPanel.SetFocusTextEditor(m_FocusTextEditor);
 			m_PropertiesPanel.OnImGuiRender();
 			if (m_ShowContentBrowser)
 				m_ContentBrowser.OnImGuiRender(m_ShowContentBrowser);
@@ -397,14 +401,24 @@ namespace Teddy {
 		if (e.GetMouseButton() == (int)Mouse::ButtonLeft)
 		{
 			if (m_ViewportHovered && !ImGuizmo::IsOver() && !Input::IsKeyPressed(Key::LeftAlt))
-				m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
+			{
+				float now = ImGui::GetTime();
+				if (now - m_LastClickTime < 0.25f && m_HoveredEntity && m_HoveredEntity.HasComponent<TextComponent>())
+				{
+					m_FocusTextEditor = true;
+					m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
+				}
+				else
+				{
+					m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
+				}
+				m_LastClickTime = now;
+			}
 		}
 		return false;
-	}
-
-	void EditorLayer::OnNewProject()
+	}	void EditorLayer::OnNewProject()
 	{
-		// This will be handled by the project browser now
+		m_ProjectBrowser.OpenNewProjectModal();
 	}
 
 	void EditorLayer::OnOpenProject()
@@ -898,16 +912,57 @@ namespace Teddy {
 				}
 			}
 		}
-
+	
 		if (Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity()) {
 			TransformComponent transform = selectedEntity.GetComponent<TransformComponent>();
 			Renderer2D::SetLineWidth(4.0f);
 			Renderer2D::DrawRect(transform.GetTransform(), glm::vec4(1, 1, 1, 1));
-		}
-
-		Renderer2D::EndScene();
-	}
-
+	
+			if (selectedEntity.HasComponent<TextComponent>())
+			{
+				auto& tc = selectedEntity.GetComponent<TextComponent>();
+				Ref<Font> font = tc.FontAsset ? tc.FontAsset : Font::GetDefault();
+				if (font && !tc.TextString.empty())
+				{
+					auto atlas = font->GetAtlas();
+					Trex::TextShaper shaper(*atlas);
+					Trex::ShapedGlyphs shapedGlyphs = shaper.ShapeAscii(tc.TextString);
+					Trex::FontMetrics metrics = atlas->GetFont()->GetMetrics();
+					float scale = tc.Size / (float)metrics.height;
+	
+					float width = 0.0f;
+					float height = 0.0f;
+					float penX = 0.0f;
+					float penY = 0.0f;
+	
+					for (const auto& shapedGlyph : shapedGlyphs)
+					{
+						if (shapedGlyph.info.codepoint == '\n')
+						{
+							penX = 0.0f;
+							penY -= (metrics.height * scale) + tc.LineSpacing;
+							continue;
+						}
+						penX += (shapedGlyph.xAdvance * scale) + tc.Kerning;
+											width = std::max(width, (float)penX);
+											height = std::max(height, (float)(-penY + (metrics.height * scale)));					}
+	
+					glm::vec3 center = { width / 2.0f, -height / 2.0f, 0.0f };
+					glm::mat4 textTransform = glm::translate(transform.GetTransform(), center);
+									Renderer2D::DrawRect(glm::scale(textTransform, { width, height, 1.0f }), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f));
+								}
+							}
+						}
+					
+						auto view = m_ActiveScene->GetAllEntitiesWith<TransformComponent, TextComponent>();
+						for (auto entity : view)
+						{
+							auto [transform, text] = view.get<TransformComponent, TextComponent>(entity);
+							if (text.AlwaysOnTop)
+								Renderer2D::DrawString(transform.GetTransform(), text, (int)entity);
+						}
+					
+						Renderer2D::EndScene();	}
 
 
 }

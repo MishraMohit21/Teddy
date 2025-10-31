@@ -21,6 +21,7 @@ namespace Teddy {
 	private:
 		uint32_t m_RendererID;
 		BufferLayout m_Layout;
+		uint32_t m_Size;
 	};
 
 	class OpenGLIndexBuffer : public IndexBuffer

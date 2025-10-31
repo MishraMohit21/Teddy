@@ -1,10 +1,7 @@
 #include <Teddy.h>
 #include <Teddy/Core/EntryPoint.h>
 
-#include <imgui/imgui.h>
-
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "Teddy/Renderer/Font.h"
 
 #include "EditorLayer.h"
 
@@ -17,12 +14,13 @@ namespace Teddy
 		TeddEditor(ApplicationCommandLineArgs args)
 			: Application("Teddy Editor", args)
 		{
-			// PushLayer(new ExampleLayer());
+			Font::Init();
 			PushLayer(new (EditorLayer));
 		}
 
 		~TeddEditor()
 		{
+			Font::Shutdown();
 		}
 	};
 

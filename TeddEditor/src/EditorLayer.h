@@ -110,6 +110,8 @@ namespace Teddy {
 		ImVec2 m_cursoePosition;
 		Entity m_HoveredEntity;
 		int pixelData;
+		bool m_FocusTextEditor = false;
+		float m_LastClickTime = 0.0f;
 	};
 
 }

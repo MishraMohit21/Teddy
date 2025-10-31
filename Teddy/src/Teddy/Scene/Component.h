@@ -1,19 +1,16 @@
+// Teddy\src\Teddy\Scene\Component.h
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <type_traits>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
 
 #include <Teddy/Scene/SceneCamera.h>
-
-
 #include <Teddy/Renderer/RenderCommand.h>
 #include "Teddy/Renderer/Texture.h"
 #include "Teddy/Core/UUID.h"
-#include <Trex/Font.hpp>
-
-#include <type_traits>
-
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/quaternion.hpp>
+#include "Teddy/Renderer/Font.h"
 
 namespace Teddy
 {
@@ -224,11 +221,13 @@ namespace Teddy
 	struct TextComponent
 	{
 		std::string TextString;
-		Ref<Trex::Font> FontAsset;
+		std::string FontPath; // Added for dynamic font selection
+		Ref<Font> FontAsset;
 		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
 		float Kerning = 0.0f;
-		        float LineSpacing = 0.0f;
-		        float Size = 1.0f;
+		float LineSpacing = 0.0f;
+		float Size = 1.0f;
+		bool AlwaysOnTop = false;
 		TextComponent() = default;
 		TextComponent(const TextComponent&) = default;
 		TextComponent(const std::string& text)

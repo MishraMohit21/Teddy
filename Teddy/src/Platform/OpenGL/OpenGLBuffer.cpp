@@ -10,6 +10,7 @@ namespace Teddy {
 	/////////////////////////////////////////////////////////////////////////////
 
 	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size)
+		: m_Size(size)
 	{
 		TD_PROFILE_FUNCTION();
 
@@ -20,6 +21,7 @@ namespace Teddy {
 	}
 
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
+		: m_Size(size)
 	{
 		TD_PROFILE_FUNCTION();
 

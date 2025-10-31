@@ -481,7 +481,8 @@ namespace Teddy
 				for (auto entity : view)
 				{
 					auto [transform, text] = view.get<TransformComponent, TextComponent>(entity);
-					Renderer2D::DrawString(transform.GetTransform(), text, (int)entity);
+					if (!text.AlwaysOnTop)
+						Renderer2D::DrawString(transform.GetTransform(), text, (int)entity);
 				}
 			}
 
@@ -679,7 +680,8 @@ namespace Teddy
 			for (auto entity : view)
 			{
 				auto [transform, text] = view.get<TransformComponent, TextComponent>(entity);
-				Renderer2D::DrawString(transform.GetTransform(), text, (int)entity);
+				if (!text.AlwaysOnTop)
+					Renderer2D::DrawString(transform.GetTransform(), text, (int)entity);
 			}
 		}
 

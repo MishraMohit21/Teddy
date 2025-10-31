@@ -3,6 +3,7 @@
 #include "Teddy/Scripting/ScriptingEngine.h"
 #include "UIUtils.h"
 #include "Teddy/Project/Project.h"
+#include "Teddy/Renderer/Font.h"
 
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
@@ -39,6 +40,20 @@ namespace Teddy
 			if (ImGui::MenuItem(entryName.c_str()))
 			{
 				m_SelectionContext.AddComponent<T>();
+				ImGui::CloseCurrentPopup();
+			}
+		}
+	}
+
+	template<>
+	void PropertiesPanel::DisplayAddComponentEntry<TextComponent>(const std::string& entryName)
+	{
+		if (!m_SelectionContext.HasComponent<TextComponent>())
+		{
+			if (ImGui::MenuItem(entryName.c_str()))
+			{
+				auto& component = m_SelectionContext.AddComponent<TextComponent>();
+				component.FontAsset = Font::GetDefault();
 				ImGui::CloseCurrentPopup();
 			}
 		}
@@ -85,7 +100,7 @@ namespace Teddy
 				ImGui::Separator();
 			}
 
-			DisplayAddComponentEntry<TextComponent>("Text Component");
+						DisplayAddComponentEntry<TextComponent>("Text Component");
 
 			DisplayAddComponentEntry<ScriptComponent>("Script");
 
@@ -416,17 +431,56 @@ namespace Teddy
 						        UI::DrawInputScalar("Group Index", ImGuiDataType_S16, &component.GroupIndex);
 						    });
 
-				DrawComponent<TextComponent>("Text Component", entity, [](auto& component) {
+				DrawComponent<TextComponent>("Text Component", entity, [this](auto& component) {
+					ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 4.0f);
+					ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4, 4));
+
 					char buffer[256];
 					memset(buffer, 0, sizeof(buffer));
 					strncpy_s(buffer, sizeof(buffer), component.TextString.c_str(), sizeof(buffer));
-					if (ImGui::InputTextMultiline("Text", buffer, sizeof(buffer)))
+					if (m_FocusTextEditor)
+					{
+						ImGui::SetKeyboardFocusHere();
+						m_FocusTextEditor = false;
+					}
+					if (ImGui::InputTextMultiline("##TextString", buffer, sizeof(buffer)))
 					{
 						component.TextString = std::string(buffer);
 					}
 
+					ImGui::Button("Font", ImVec2(100.0f, 0.0f));
+					if (ImGui::BeginDragDropTarget())
+					{
+						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+						{
+							const wchar_t* path = (const wchar_t*)payload->Data;
+							std::filesystem::path fontPath = Project::GetActive()->GetAssetDirectory() / path;
+							component.FontAsset = Font::Create(fontPath.string());
+							component.FontPath = fontPath.string();
+						}
+						ImGui::EndDragDropTarget();
+					}
+
+					ImGui::SameLine();
+					if (!component.FontPath.empty())
+					{
+						if (ImGui::Button("Clear Font"))
+						{
+							component.FontAsset = Font::GetDefault();
+							component.FontPath = "";
+						}
+					}
+					else
+					{
+						ImGui::Text("Default Font");
+					}
+
 					UI::DrawColorEdit4("Color", component.Color);
 					UI::DrawDragFloat("Kerning", component.Kerning, 0.025f);
-					                    UI::DrawDragFloat("Line Spacing", component.LineSpacing, 0.025f);
-					                    UI::DrawDragFloat("Size", component.Size, 0.025f);				});
+					UI::DrawDragFloat("Line Spacing", component.LineSpacing, 0.025f);
+					UI::DrawDragFloat("Size", component.Size, 0.025f);
+					UI::DrawCheckbox("Always on Top", component.AlwaysOnTop);
+
+					ImGui::PopStyleVar(2);
+				});
 						}}

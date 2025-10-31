@@ -186,7 +186,7 @@ namespace Teddy {
 
 			shaderSources[Utils::ShaderTypeFromString(type)] = (pos == std::string::npos) ? source.substr(nextLinePos) : source.substr(nextLinePos, pos - nextLinePos);
 			TD_CORE_TRACE("Shader type: {0}", type);
-			TD_CORE_TRACE("Shader source:\n{0}", shaderSources[Utils::ShaderTypeFromString(type)]);
+			//TD_CORE_TRACE("Shader source:\n{0}", shaderSources[Utils::ShaderTypeFromString(type)]);	
 		}
 
 		return shaderSources;
@@ -225,11 +225,11 @@ namespace Teddy {
 			}
 			else
 			{
-				TD_CORE_TRACE("Compiling shader stage: {0} for {1}, size: {2}",
-					Utils::GLShaderStageToString(stage), m_FilePath, source.size());
+				//TD_CORE_TRACE("Compiling shader stage: {0} for {1}, size: {2}",
+					//Utils::GLShaderStageToString(stage), m_FilePath, source.size());
 
 				// Print first 200 chars of source for debugging
-				TD_CORE_TRACE("Source preview: {0}", source.substr(0, std::min(size_t(200), source.size())));
+				//TD_CORE_TRACE("Source preview: {0}", source.substr(0, std::min(size_t(200), source.size())));
 
 				shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(
 					source,
@@ -252,8 +252,8 @@ namespace Teddy {
 				}
 
 				size_t spirvSize = module.cend() - module.cbegin();
-				TD_CORE_TRACE("Shader compilation successful for {0} stage of {1}. SPIRV size: {2} uint32_t values ({3} bytes)",
-					Utils::GLShaderStageToString(stage), m_FilePath, spirvSize, spirvSize * sizeof(uint32_t));
+				//TD_CORE_TRACE("Shader compilation successful for {0} stage of {1}. SPIRV size: {2} uint32_t values ({3} bytes)",
+					//Utils::GLShaderStageToString(stage), m_FilePath, spirvSize, spirvSize * sizeof(uint32_t));
 
 				if (module.cend() == module.cbegin())
 				{

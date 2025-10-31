@@ -46,7 +46,7 @@ namespace Teddy {
 		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 		if (singleChannel) {
-			GLint swizzle[] = { GL_RED, GL_RED, GL_RED, GL_ONE };
+			GLint swizzle[] = { GL_ONE, GL_ONE, GL_ONE, GL_RED };
 			glTextureParameteriv(m_RendererID, GL_TEXTURE_SWIZZLE_RGBA, swizzle);
 		}
 	}
@@ -106,7 +106,7 @@ namespace Teddy {
 		glDeleteTextures(1, &m_RendererID);
 	}
 
-	void OpenGLTexture2D::SetData(void* data, uint32_t size)
+	void OpenGLTexture2D::SetData(const void* data, uint32_t size)
 	{
 		TD_PROFILE_FUNCTION();
 

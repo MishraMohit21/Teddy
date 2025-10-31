@@ -22,11 +22,19 @@ namespace Teddy
 		memset(m_NewProjectName, 0, sizeof(m_NewProjectName));
 	}
 
+	void ProjectBrowser::OpenNewProjectModal()
+	{
+		memset(m_NewProjectName, 0, sizeof(m_NewProjectName));
+		m_NewProjectLocation.clear();
+		ImGui::OpenPopup("NewProjectModal");
+	}
+
 	void ProjectBrowser::OnImGuiRender(bool* show)
 	{
 		if (show && !*show)
 			return;
 
+		bool openNewProjectModal = false;
 		ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoDocking;
 		ImVec2 center = ImGui::GetMainViewport()->GetCenter();
 		ImGui::SetNextWindowPos(center, ImGuiCond_Once, ImVec2(0.5f, 0.5f));
@@ -115,7 +123,7 @@ namespace Teddy
 		{
 			memset(m_NewProjectName, 0, sizeof(m_NewProjectName));
 			m_NewProjectLocation.clear();
-			ImGui::OpenPopup("NewProjectModal");
+			openNewProjectModal = true;
 		}
 
 		if (ImGui::Button("  Open Project", ImVec2(sidebarWidth - 40, 0)))
@@ -253,7 +261,7 @@ namespace Teddy
 		{
 			memset(m_NewProjectName, 0, sizeof(m_NewProjectName));
 			m_NewProjectLocation.clear();
-			ImGui::OpenPopup("NewProjectModal");
+			openNewProjectModal = true;
 		}
 
 		// Open Project Card
@@ -331,6 +339,9 @@ namespace Teddy
 		ImGui::EndGroup();
 
 		ImGui::EndChild();
+
+		if (openNewProjectModal)
+			ImGui::OpenPopup("NewProjectModal");
 
 		// === NEW PROJECT MODAL ===
 		ImVec2 modalSize = ImVec2(600, 400);
